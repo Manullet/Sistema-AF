@@ -5,65 +5,60 @@
         header("location: bienvenida.php");
     }
 
-
+ /*   session_start();
+if(!isset($_SESSION['usuario'])) {
+    header("Location:usuario.php");
+}
+*/
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login y Register</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-
-
-    <link rel="stylesheet" href="assets/css/estilos.css">
+    <title>Login Cambio Climatico</title>
+    <link rel="stylesheet" href="assets/css/CCestilos.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+    <div class="image-container">
+        <a><img src="assets/images/Recurso 2.png"></a>
+        <a><img src="assets/images/Recurso 3.png"></a>
+        <a><img src="assets/images/Recurso 5.png"></a>
+    </div>
 
-        <main>
-
-            <div class="contenedor__todo">
-                <div class="caja__trasera">
-                    <div class="caja__trasera-login">
-                        <h3>¿Ya tienes una cuenta?</h3>
-                        <p>Inicia sesión para entrar en la página</p>
-                        <button id="btn__iniciar-sesion">Iniciar Sesión</button>
-                    </div>
-                    <div class="caja__trasera-register">
-                        <h3>¿Aún no tienes una cuenta?</h3>
-                        <p>Regístrate para que puedas iniciar sesión</p>
-                        <button id="btn__registrarse">Regístrarse</button>
-                    </div>
-                </div>
-
-                <!--Formulario de Login y registro-->
-                <div class="contenedor__login-register">
-                    <!--Login-->
-                    <form action="/php/php/login_usuario_be.php" method="post" class="formulario__login">
-                        <h2>Iniciar Sesión</h2>
-                        <input type="text" placeholder="Correo Electronico" name="correo">
-                        <input type="password" placeholder="Contraseña" name="contrasena">
-                        <button>Entrar</button>
-                    </form>
-
-                    <!--Register-->
-                    <form action="/php/php/registro_usuario_be.php" method="post" class="formulario__register">
-                        <h2>Regístrarse</h2>
-                        <input type="text" placeholder="Nombre completo" name="nombre_completo">
-                        <input type="text" placeholder="Correo Electronico" name="correo">
-                        <input type="text" placeholder="Usuario"name="usuario">
-                        <input type="password" placeholder="Contraseña"name="contrasena">
-                        <button>Regístrarse</button>
-                    </form>
-                </div>
+    <div class="contenedor">
+        <form action="/SISTAMA-CC/php/login_usuario_be.php" method="post">
+            <h1>INICIAR SESIÓN</h1>
+            <div class="input-box">
+                <input type="text" placeholder="Usuario" name="correo">
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" placeholder="Contraseña" name="contrasena">
+                <i class='bx bxs-lock-alt'></i>
             </div>
 
-        </main>
+            <div class="recordar">
+                <label><input type="checkbox">Recordar Usuario</label>
+                <a href="../Sistama-CC/modelos/cambio_contrasena_respuesta_S.php">¿Olvidates tu contraseña?</a><!--cambiar la direcion para cambiar la contraseña -->
+            </div>
 
-        <script src="assets/js/script.js"></script>
+            <button type="submit" class="btn">INGRESAR</button>
+            <div class="link-registro">
+                <p>¿Aun no tienes una cuenta? 
+                    <a href="crearUsuario.php">Registrate</a>
+                </p>
+            </div>
+        </form>
+
+    </div>
+
+    <script src="assets/js/script.js"></script>
+
+
 </body>
 </html>
+

@@ -6,11 +6,11 @@ session_start();
     $correo = $_POST['correo'];
     $contrasena = $_POST['contrasena'];
     //encriptacion de contraseña
-    $contrasena = hash('sha512', $contrasena);
+   // $contrasena = hash('sha512', $contrasena);
 
     //validar correo y contraseña
     $validar_login = mysqli_query($conexion, "SELECT * FROM usuario WHERE 
-                    correo='$correo' and contrasena = '$contrasena'");
+                    Correo='$correo' and Contraseña = '$contrasena'");
 
     if(mysqli_num_rows($validar_login) > 0){
         //cookies cache
