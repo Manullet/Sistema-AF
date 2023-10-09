@@ -15,6 +15,10 @@
         <a class="btn btn-primary" href='modelos/agregar_mant.php' >Nuevo Objeto</a>
     </div>   
         </div><!-- /.row -->
+
+
+
+        
         <p></p>
         <form action='#' method='get'>
         <input  type='text' id='search' name='search' placeholder='Buscar Objeto'>
@@ -74,8 +78,8 @@
                         <td>{$row['Fecha_Actualizacon']}</td>
                         <td>{$row['Status']}</td>
                         <td>
-                            <a href='modelos/editar_mant.php?Id_objetos=".$row['Id_objetos']."'>EDITAR</a>
-                            <a href='modelos/eliminar_mant.php?Id_objetos=".$row['Id_objetos']."'>ELIMINAR</a>
+                            <a href='php/editar_obj.php?Id_objetos=".$row['Id_objetos']."'>EDITAR</a>
+                            <a href='php/eliminar_obj_be.php?Id_objetos=".$row['Id_objetos']."'>ELIMINAR</a>
                         </td>
                     </tr>";
             }

@@ -65,6 +65,16 @@
                         </p>
                     </a>
                 </li>
+                </li>
+                <li class="nav-item">
+                <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_roles.php','content-wrapper')">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Mantenimiento Roles
+                            <span class="right badge badge-danger"></span>
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -80,6 +90,13 @@
     </div>
 </aside>
 <!-- /.control-sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Mi Perfil</h5>
+      <a href="cambiar_contraseña.php">Cambiar Contraseña</a>
+    </div>
+  </aside>
 
 <script>
 

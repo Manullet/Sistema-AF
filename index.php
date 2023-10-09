@@ -30,7 +30,7 @@ if(!isset($_SESSION['usuario'])) {
     </div>
 
     <div class="contenedor">
-        <form action="/SISTAMA-CC/php/login_usuario_be.php" method="post">
+        <form action="../Sistema-AF/php/login_usuario_be.php" method="post">
             <h1>INICIAR SESIÓN</h1>
             <div class="input-box">
                 <input type="text" placeholder="Usuario" name="correo">
@@ -43,7 +43,7 @@ if(!isset($_SESSION['usuario'])) {
 
             <div class="recordar">
                 <label><input type="checkbox">Recordar Usuario</label>
-                <a href="../Sistama-CC/modelos/cambio_contrasena_respuesta_S.php">¿Olvidates tu contraseña?</a><!--cambiar la direcion para cambiar la contraseña -->
+                <a href="../Sistema-AF/modelos/cambio_contrasena_respuesta_S.php">¿Olvidates tu contraseña?</a><!--cambiar la direcion para cambiar la contraseña -->
             </div>
 
             <button type="submit" class="btn">INGRESAR</button>

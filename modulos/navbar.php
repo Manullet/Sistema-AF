@@ -10,7 +10,7 @@
                 Inicio</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/SISTAMA-CC/php/cerrar_sesion.php" class="nav-link">Cerrar Sesion</a> <!-- cambiar la direccion  -->
+            <a href="/sistema-af/php/cerrar_sesion.php" class="nav-link">Cerrar Sesion</a> <!-- cambiar la direccion  -->
         </li>
         <li class="nav-item d-none d-sm-inline-block">
         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_obejetos.php','content-wrapper')">
@@ -27,6 +27,10 @@
         <li class="nav-item d-none d-sm-inline-block">
         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_preguntas.php','content-wrapper')">
                 Mantenimiento Preguntas</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_roles.php','content-wrapper')">
+                Mantenimiento Roles</a>
         </li>
     </ul>
 

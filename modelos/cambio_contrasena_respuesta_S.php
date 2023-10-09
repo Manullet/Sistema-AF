@@ -20,7 +20,7 @@
                 
                 <h2>Recuperar Contraseña</h2>
                 <p></p>
-                <form action="/php/php/recuperar_contrasena_be.php" method="POST">
+                <form action="../php/recuperar_contrasena_be.php" method="POST">
                 
                     <label for="correo">Correo Electrónico:</label>
                     <input type="email" id="correo" name="correo" required><br><br>
