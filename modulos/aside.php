@@ -94,7 +94,7 @@
     <!-- Control sidebar content goes here -->
     <div class="p-3">
       <h5>Mi Perfil</h5>
-      <a href="cambiar_contraseña.php">Cambiar Contraseña</a>
+      <a href="C:\xampp\htdocs\Sistema-AF\modelos\cambio_contrasena_respuesta_S.php">Cambiar Contraseña</a>
     </div>
   </aside>
 

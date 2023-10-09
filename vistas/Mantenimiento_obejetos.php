@@ -97,6 +97,11 @@
         
         $conexion->close();
     ?>
+
+
+
+
+
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
