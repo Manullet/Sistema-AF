@@ -12,7 +12,7 @@
                 </ol>
             </div><!-- /.col -->   
     <div class="actions">
-        <a class="btn btn-primary" href='modelos/agregar_mant_permisos.php' >Nuevo Permiso</a>
+        <a class="btn btn-primary" href='../php/mantenimiento_permisos.php' >Nuevo Permiso</a>
     </div>   
         </div><!-- /.row -->
         <p></p>
