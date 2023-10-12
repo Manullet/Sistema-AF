@@ -14,7 +14,7 @@
 <body>
     <h1 class="text-center p-3">Usuarios</h1> 
     <div class="cl-2 p-1">
-        <a href="crear.php"><i class="btn btn btn-primary" style="color: #fafcff;">Crear</i></a>
+        <a href="/php/crear.php"><i class="btn btn btn-primary" style="color: #fafcff;">Crear</i></a>
 
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
@@ -40,16 +40,16 @@
                 </thead>
                 <tbody>
                     <?php
-                    include "Modelo/conexion.php";
-                    $sql = $conexion->query("SELECT * FROM usuarios");
+                    include "../php/conexion_be.php";
+                    $sql = $conexion->query("SELECT * FROM usuario");
                     while ($datos = $sql->fetch_object()) { ?>
                         <tr>
-                            <td><?= $datos->id ?></td>
-                            <td><?= $datos->nombre ?></td>
-                            <td><?= $datos->usuario ?></td>
-                            <td><?= $datos->contraseña ?></td>
-                            <td><?= $datos->correo ?></td>
-                            <td><?= $datos->estado ?></td>
+                            <td><?= $datos->Id_Usuario  ?></td>
+                            <td><?= $datos->Nombre ?></td>
+                            <td><?= $datos->Usuario ?></td>
+                            <td><?= $datos->Contraseña ?></td>
+                            <td><?= $datos->Correo ?></td>
+                            <td><?= $datos->Estado ?></td>
                             <td>
                                 <button class="btn btn-primary btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->id ?>', '<?= $datos->nombre ?>', '<?= $datos->usuario ?>', '<?= $datos->contraseña ?>', '<?= $datos->correo ?>', '<?= $datos->estado ?>')">Editar</button>
                                 <form method="POST" action="delete_usuario.php" style="display: inline;">

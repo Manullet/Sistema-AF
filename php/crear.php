@@ -11,8 +11,8 @@
     <form class="col-4 p-2 m-auto" method="POST">
         <h3 class="text-center alert alert-secondary p-3" >Crear Usuario</h3>
         <?php
-        include "Modelo/conexion.php";
-        include "Controlador/registro_usuario.php";
+        //include "php/conexion_be.php";
+        //include "php/registro_usuario_be.php";
       ?>
 
       
@@ -57,7 +57,7 @@
     <input type="text" class="form-control" name="estado">
   </div> -->
   <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
-  <a href="index.php"><i class="btn btn btn-danger" style="color: #fafcff;">Cancelar</i></a>
+  <a href="../index.php"><i class="btn btn btn-danger" style="color: #fafcff;">Cancelar</i></a>
 </form>
 </body>
     </html>
