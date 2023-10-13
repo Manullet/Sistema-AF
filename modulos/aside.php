@@ -33,7 +33,7 @@
                 <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_obejetos.php','content-wrapper')">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Mantenimiento Obejetos
+                            Mantenimiento Objetos
                             <span class="right badge badge-danger"></span>
                         </p>
                     </a>
@@ -94,7 +94,7 @@
     <!-- Control sidebar content goes here -->
     <div class="p-3">
       <h5>Mi Perfil</h5>
-      <a href="C:\xampp\htdocs\Sistema-AF\modelos\cambio_contrasena_respuesta_S.php">Cambiar Contraseña</a>
+      <a href="modelos\cambiar_contraseña.php">Cambiar Contraseña</a>
     </div>
   </aside>
 

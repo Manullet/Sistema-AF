@@ -1,4 +1,3 @@
-
 <?php
 // Incluye el archivo de conexión a la base de datos
 include '../php/conexion_be.php';
@@ -6,16 +5,16 @@ include '../php/conexion_be.php';
 // Verifica si se ha enviado un formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtiene los valores del formulario
-    //$Id_objetos = $_POST["Id_objetos"];
-    $Objeto = $_POST["Objeto"];
-    $Descripcion = $_POST["Descripcion"];
-    $Actualizado_Por = $_POST["Actualizado_Por"];
-    $Creado_Por = $_POST["Creado_Por"];
-    //$Status = $_POST["Status"];
-  
+    $Id_Permisos = $_POST["Id_Permisos"];
+    $Nombre = $_POST["Nombre"];
+    $Nombre_Guard = $_POST["Nombre_Guard"];
+    $Fecha_Creacion = $_POST["Fecha_Creacion"];
+    $Fecha_Actualizacion = $_POST["Fecha_Actualizacion"];
+    // Obtener la fecha y hora actual en el formato deseado (YYYY-MM-DD HH:MM:SS)
+  //  $Fecha_Actualizacion = date("Y-m-d H:i:s");
 
-    // Llama al procedimiento almacenado con 5 argumentos
-    $sql = "CALL InsertObejtos('$Objeto', '$Descripcion', '$Actualizado_Por', '$Creado_Por')";
+    // Llama al procedimiento almacenado con 4 argumentos
+    $sql = "CALL UpdatePermiso('$Nombre', '$Nombre_Guard', '$Fecha_Creacion', '$Fecha_Actualizacion')";
 
     if (mysqli_query($conexion, $sql)) {
         header("Location: ../bienvenida.php?success=true&message=El rol se actualizó correctamente");
@@ -26,4 +25,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($conexion);
 }
 ?>
-('$Id_objetos', '$Objeto', '$Descripcion', '$Actualizado_Por', '$Creado_Por', '$Status')";

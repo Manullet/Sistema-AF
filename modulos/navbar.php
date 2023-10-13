@@ -14,7 +14,7 @@
         </li>
         <li class="nav-item d-none d-sm-inline-block">
         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_obejetos.php','content-wrapper')">
-                Mantenimiento Obejetos</a>
+                Mantenimiento Objetos</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_usuarios.php','content-wrapper')">
