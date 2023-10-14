@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/1ce2b9e5a7.js" crossorigin="anonymous"></script>
     </head>
     <body>
-    <form class="col-4 p-2 m-auto" method="POST">
+    <form action="../modelos/registro_usuario.php" class="col-4 p-2 m-auto" method="POST">
         <h3 class="text-center alert alert-secondary p-3" >Crear Usuario</h3>
         <?php
         //include "php/conexion_be.php";
@@ -17,24 +17,24 @@
 
       
 <div class="form-floating mb-3">
-  <input type="text" class="form-control" name="nombre">
-  <label for="floatingInput">Email address</label>
+  <input type="text" class="form-control" name="Nombre">
+  <label for="floatingInput">nombre</label>
 </div>
 <div class="form-floating mb-3">
-  <input type="text" class="form-control" name="usuario">
-  <label for="floatingInput">Email address</label>
+  <input type="text" class="form-control" name="Correo">
+  <label for="floatingInput">usuario </label>
 </div>
 <div class="form-floating mb-3">
-  <input type="password" class="form-control" name="contraseña">
-  <label for="floatingPassword">Password</label>
+  <input type="password" class="form-control" name="Contraseña">
+  <label for="floatingPassword">contraseña</label>
 </div>
 <div class="form-floating mb-3">
-  <input type="text" class="form-control" name="correo">
-  <label for="floatingInput">Email address</label>
+  <input type="text" class="form-control" name="Usuario">
+  <label for="floatingInput">correo </label>
 </div>
 <div class="form-floating mb-3">
-  <input type="text" class="form-control" name="estado">
-  <label for="floatingInput">Email address</label>
+  <input type="text" class="form-control" name="Estado">
+  <label for="floatingInput">estado </label>
 </div>
 
   <!--<div class="mb-2">

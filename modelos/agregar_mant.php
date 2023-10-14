@@ -26,4 +26,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($conexion);
 }
 ?>
-('$Id_objetos', '$Objeto', '$Descripcion', '$Actualizado_Por', '$Creado_Por', '$Status')";

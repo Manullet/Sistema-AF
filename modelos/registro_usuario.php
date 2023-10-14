@@ -1,18 +1,18 @@
 <?php
 
-include "Modelo/conexion.php";
+include "../php/conexion_be.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre=$_POST["nombre"];
-    $usuario=$_POST["usuario"];
-    $contraseña=$_POST["contraseña"];
-    $correo=$_POST["correo"];
-    $estado=$_POST["estado"];
+    $Nombre=$_POST["Nombre"];
+    $Correo=$_POST["Correo"];
+    $Contraseña=$_POST["Contraseña"];
+    $Usuario=$_POST["Usuario"];
+    $Estado=$_POST["Estado"];
 
-    $sql = "CALL InsertUsuario('$nombre', '$usuario', '$contraseña', '$correo', $estado)";
+    $sql = "CALL InsertUsuario('$Nombre', '$Correo', '$Contraseña', '$Usuario', $Estado)";
 
     if (mysqli_query($conexion,$sql)) {
-        header("Location: crear.php?success=true");
+        header("Location: ../bienvenida.php?success=true");
         exit();
     } else {
         if (mysqli_errno($conexion) == 1062) {

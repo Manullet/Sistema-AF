@@ -1,19 +1,19 @@
 <?php
 
-include "Modelo/conexion.php";
+include "../php/conexion_be.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id=$_POST["id"];
-    $nombre=$_POST["nombre"];
-    $usuario=$_POST["usuario"];
-    $contraseña=$_POST["contraseña"];
-    $correo=$_POST["correo"];
-    $estado=$_POST["estado"];
+    $Id_Usuario =$_POST["Id_Usuario"];
+    $Nombre=$_POST["Nombre"];
+    $Correo=$_POST["Correo"];
+    $Contraseña=$_POST["Contraseña"];
+    $Usuario=$_POST["Usuario"];
+    $Estado=$_POST["Estado"];
 
-    $sql = "CALL UpdateUsuario($id,'$nombre', '$usuario', '$contraseña', '$correo', $estado)";
+    $sql = "CALL UpdateUsuario('$Id_Usuario','$Nombre', '$Correo',  '$Usuario', $Estado)";
 
     if (mysqli_query($conexion,$sql)) {
-        header("Location: Actualizar_Usuario.php?success=true&message= El Usuario Se Actualizo Correctamente");
+        header("Location: ../bienvenida.php?success=true&message= El Usuario Se Actualizo Correctamente");
         exit();
         } else {
             echo '<div class="alert alert-danger text-center">Error Al Actualizar El Usuario</div>';

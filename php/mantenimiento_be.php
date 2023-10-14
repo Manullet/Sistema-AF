@@ -35,7 +35,7 @@
     </head>
     <body>
     <form action="../modelos/agregar_mant.php" class="col-4 p-2 m-auto" method="POST">
-        <h3 class="text-center alert alert-secondary p-3" >Crear Permiso</h3>
+        <h3 class="text-center alert alert-secondary p-3" >Crear Objeto</h3>
       
 <div class="form-floating mb-3">
   <input type="text" class="form-control" name="Objeto">
