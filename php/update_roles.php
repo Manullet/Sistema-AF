@@ -1,6 +1,6 @@
 <?php
 // Incluye el archivo de conexión a la base de datos
-include 'php/conexion_be.php';
+include 'conexion_be.php';
 
 // Verifica si se ha enviado un formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "CALL UpdateRole('$Id_rol', '$Nombre', '$Status')";
 
     if (mysqli_query($conexion, $sql)) {
-        header("Location: roles.php?success=true&message=El rol se actualizó correctamente");
+        header("Location: ../vistas/Mantenimiento_roles.php?success=true&message=El rol se actualizó correctamente");
         exit(); // Detener la ejecución del script
     } else {
         echo "Error al actualizar el rol: " . mysqli_error($conexion);

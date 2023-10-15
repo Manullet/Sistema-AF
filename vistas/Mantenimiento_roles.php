@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roles</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="..\assets\css\roles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -84,7 +96,7 @@
                 ?>
                 </div>
                 <div class="modal-footer">
-                <a href="roles.php" class="btn btn-primary">Aceptar</a>
+                <a href="Mantenimiento_roles.php" class="btn btn-primary">Aceptar</a>
                 </div>
             </div>  
         </div>
@@ -130,11 +142,13 @@
             <td><?= $row['Fecha_Creacion'] ?></td>
             <td><?= $row['Fecha_Actualizacion'] ?></td>
             <td>
-              <button class="btn btn-primary btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $row['Id_rol'] ?>', '<?= $row['Nombre'] ?>', '<?= $row['STATUS'] ?>')">Editar</button>
-              <form method="POST" action="delete_roles.php" style="display: inline;">
+            <button class="btn btn-primary btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $row['Id_rol'] ?>', '<?= $row['Nombre'] ?>', '<?= $row['STATUS'] ?>')">Editar</button>
+            <form method="POST" action="../php/delete_roles.php" style="display: inline;">
                 <input type="hidden" name="Id_rol" value="<?= $row['Id_rol'] ?>">
                 <button type="submit" class="btn btn-danger btn-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este rol?')">Eliminar</button>
-              </form>
+            </form>
+
+
             </td>
           </tr>
           <?php }?>
@@ -150,43 +164,45 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formularioEditar" method="POST" action="/php/update_roles.php">
+            <form id="formularioEditar" method="POST" action="../php/update_roles.php">
                     <div class="form-group">
-                        <label for="Id_rolEditar">ID del Rol:</label>
-                        <input type="text" class="form-control" id="Id_rolEditar" name="Id_rol" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="NombreEditar">Nombre:</label>
-                        <input type="text" class="form-control" id="NombreEditar" name="Nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="StatusEditar">Status:</label>
-                        <select class="form-control" id="StatusEditar" name="Status">
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
-                    </div>
-                </form>
+                            <label for="Id_rolEditar">ID del Rol:</label>
+                            <input type="text" class="form-control" id="Id_rolEditar" name="Id_rol" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="NombreEditar">Nombre:</label>
+                            <input type="text" class="form-control" id="NombreEditar" name="Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="StatusEditar">Status:</label>
+                            <select class="form-control" id="StatusEditar" name="Status">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- JavaScript para manejar la edición de roles -->
-<script>
-    // Función para abrir el modal de edición
-    function abrirModalEditar(id, nombre, status) {
-        document.getElementById("Id_rolEditar").value = id;
-        document.getElementById("NombreEditar").value = nombre;
-        // Seleccionar la opción correcta en el campo "Status"
-        document.getElementById("StatusEditar").value = status;
-        $('#modalEditar').modal('show'); // Mostrar el modal de edición
-    }
-</script>
+    <!-- JavaScript para manejar la edición de roles -->
+    <script>
+        // Función para abrir el modal de edición
+        function abrirModalEditar(id, nombre, status) {
+            document.getElementById("Id_rolEditar").value = id;
+            document.getElementById("NombreEditar").value = nombre;
+            // Seleccionar la opción correcta en el campo "Status"
+            document.getElementById("StatusEditar").value = status;
+            $('#modalEditar').modal('show'); // Mostrar el modal de edición
+        }
+    </script>
+    
+    
           <!-- Agrega más filas aquí si es necesario -->
         </tbody>
       </table>
@@ -222,11 +238,7 @@
           }
         });
       </script>
-
-
-
-
-
+    
 
 
 
@@ -241,3 +253,4 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
+</html>

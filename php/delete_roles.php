@@ -1,6 +1,5 @@
 <?php
-
-include 'php/conexion_be.php';
+include 'conexion_be.php';
 
 // Verifica si se ha enviado un formulario y si se proporcionó un ID de rol válido
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Id_rol"])) {
@@ -12,16 +11,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Id_rol"])) {
     
     if (mysqli_query($conexion, $delete_query)) {
         // Éxito en la eliminación
-        header("Location: bienvenida.php?success=true&message=El rol se eliminó correctamente");
+        header("Location: ../vistas/Mantenimiento_roles.php?success=true&message=El rol se eliminó correctamente");
         exit();
     } else {
         // Error en la eliminación
-        header("Location: bienvenida.php?success=false&message=Hubo un error al eliminar el rol");
+        header("Location: ../vistas/Mantenimiento_roles.php?success=false&message=Hubo un error al eliminar el rol");
         exit();
     }
-} else {
-    // Si no se proporcionó un ID de rol válido o no se envió un formulario, redirige a la página roles.php
-    header("Location: roles.php");
-    exit();
 }
 ?>
