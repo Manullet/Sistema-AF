@@ -62,7 +62,8 @@
                             <td><?= $datos->Fecha_Actualizacon ?></td>
                             <td><?= $datos->Status ?></td>
                             <td>
-                                <button class="btn btn-primary btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_objetos ?>', '<?= $datos->Objeto ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Actualizado_Por ?>', '<?= $datos->Creado_Por ?>', '<?= $datos->Status ?>')">Editar</button>
+                                <button class="btn btn-primary btn-editar" data-toggle="modal" data-target="#modalEditar"
+                                 onclick="abrirModalEditar('<?= $datos->Id_objetos ?>', '<?= $datos->Objeto ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Actualizado_Por ?>', '<?= $datos->Creado_Por ?>', '<?= $datos->Status ?>')">Editar</button>
                                 <form method="POST" action="modelos/delete_objeto.php" style="display: inline;">
                                 <input type="hidden" name="Id_objetos" value="<?= $datos->Id_objetos?>">
                                 <button type="submit" class="btn btn-danger btn-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este objeto?')">Eliminar</button>

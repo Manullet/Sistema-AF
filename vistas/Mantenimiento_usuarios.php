@@ -96,7 +96,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form id="formularioEditar" method="POST" action="/modelos/update_usuario.php">
+                        <form id="formularioEditar" method="POST" action="modelos/update_usuario.php">
                             <div class="form-group">
                                 <label for="Id_Usuario">Id_Usuario:</label>
                                 <input type="text" class="form-control" id="Id_Usuario" name="Id_Usuario" readonly>
