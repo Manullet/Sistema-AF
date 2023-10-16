@@ -1,0 +1,79 @@
+.modal-content {
+    background-color: #f2f2f2; /* Cambia este valor al color que desees */
+}
+
+#comboEliminar {
+    margin-top: 10px; /* Margen superior */
+    margin-left: 30px;/* Margen izquierda */
+    margin-bottom: 15px; /* Margen inferior */
+}
+
+#comboActualizar {
+    margin-top: 10px; /* Margen superior */
+    margin-left: 30px;/* Margen izquierda */
+    margin-bottom: 15px; /* Margen inferior */
+}
+
+#comboAgregar {
+    margin-top: 10px; /* Margen superior */
+    margin-left: 40px;/* Margen izquierda */
+    margin-bottom: 15px; /* Margen inferior */
+}
+
+#comboConsultar {
+    margin-top: 10px; /* Margen superior */
+    margin-left: 20px;/* Margen izquierda */
+    margin-right: 15px;
+    margin-bottom: 15px; /* Margen inferior */
+}
+
+.custom-search-container {
+    margin-bottom: 10px; /* Espacio inferior */
+    width: 150px;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.custom-search-input {
+    font-size: 14px; /* Tamaño de fuente */
+    padding: 5px 10px; /* Espaciado interno */
+}
+
+
+.paginator {
+text-align: center;
+margin-top: 20px; /* margen superior*/
+margin-left: 70%; /* margen a la izquierda*/
+}
+
+.paginator ul {
+list-style-type: none;
+padding: 0;
+display: inline-block;
+}
+
+.paginator li {
+display: inline;
+margin-right: 10px;
+}
+
+.paginator a {
+text-decoration: none;
+padding: 5px 10px;
+background-color: #007bff;
+color: #fff;
+border-radius: 3px;
+}
+
+.paginator a:hover {
+background-color: #0056b3;
+}
+
+#tabla-datos {
+display: none;
+}
+
+.btn-editar,
+.btn-eliminar {
+display: none;
+}
