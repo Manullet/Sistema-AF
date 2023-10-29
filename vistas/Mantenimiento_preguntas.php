@@ -60,13 +60,10 @@
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form method="POST" action="modelos/delete_objeto.php" style="display: inline;">
+                            <<form method="POST" action="modelos/delete_preg.php" style="display: inline;"> 
                                 <input type="hidden" name="Id_pregunta" value="<?= $datos->Id_pregunta ?>">
-                                <button type="button" class="btn btn-danger btn-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta pregunta?')">
-                                    <i class="bi bi-trash"></i>
-                                    Eliminar
-                                </button>
-                            </form>
+                                <button type="submit" class="btn btn-danger btn-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta Pregunta?')">Eliminar</button>
+                                </form>
                         </td>
                     </tr>
                 <?php }

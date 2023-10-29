@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Id_pregunta"])) {
     $Id_pregunta = $_POST["Id_pregunta"];
 
     // Crea una consulta SQL para eliminar el objeto con el ID proporcionado
-    $sql = "DELETE FROM Preguntas WHERE Id_pregunta = '$Id_pregunta'";
+    $sql = "DELETE FROM preguntas WHERE Id_pregunta = '$Id_pregunta'";
     
     if (mysqli_query($conexion, $sql)) {
         // Éxito en la eliminación
