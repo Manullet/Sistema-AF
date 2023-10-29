@@ -11,11 +11,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Id_rol"])) {
     
     if (mysqli_query($conexion, $delete_query)) {
         // Éxito en la eliminación
-        header("Location: ../vistas/Mantenimiento_roles.php?success=true&message=El rol se eliminó correctamente");
+        header("Location: ../../Sistema-AF/bienvenida.php?success=true&message=El rol se eliminó correctamente");
+
         exit();
     } else {
         // Error en la eliminación
-        header("Location: ../vistas/Mantenimiento_roles.php?success=false&message=Hubo un error al eliminar el rol");
+        header("../../Sistema-AF/bienvenida.php?success=false&message=Hubo un error al eliminar el rol");
         exit();
     }
 }
