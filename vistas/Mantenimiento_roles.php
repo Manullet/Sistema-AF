@@ -41,8 +41,8 @@
                             <input type="text" class="form-control" id="Nombre" name="Nombre" required>
                         </div>
                         <div class="form-group">
-                            <label for="Nombre_Guard">Nombre guardo rol:</label>
-                            <input type="text" class="form-control" id="Nombre_Guard" name="Nombre_Guard" required>
+                            <label for="Descripcion">Descripcion:</label>
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -57,13 +57,12 @@
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
-                <tr>
-                    <th scope="col">ID ROL</th>
-                    <th scope="col">NOMBRE</th>
-                    <th scope="col">CREADO POR</th>
-                    <th scope="col">FECHA CREACIÓN</th> 
-                    <th scope="col">FECHA ACTUALIZACIÓN</th>
-                    <th scope="col">ESTADO</th>
+            <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -74,30 +73,15 @@
                     <tr>
                         <td><?= $datos->Id_rol ?></td>
                         <td><?= $datos->Nombre ?></td>
-                        <td><?= $datos->Nombre_Guard ?></td>
-                        <td><?= $datos->Fecha_Creacion ?></td>
-                        <td><?= $datos->Fecha_Actualizacion ?></td>
+                        <td><?= $datos->Descripcion ?></td>
                         <td><?= $datos->STATUS ?></td>
                         <td>
-                        <button class="btn btn-primary btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_rol ?>', '<?= $datos->Nombre ?>',  '<?= $datos->Nombre_Guard ?>', '<?= $datos->Fecha_Creacion ?>', '<?= $datos->Fecha_Actualizacion ?>', '<?= $datos->STATUS ?>')">Editar</button>
-                                <form method="POST" action="php/delete_roles.php" style="display: inline;">
+                        <button class="btn btn-primary btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_rol ?>', '<?= $datos->Nombre ?>', '<?= $datos->Descripcion ?>', '<?= $datos->STATUS ?>')">Editar</button>
+
+                                <form method="POST" action="php/delete_roles.php" style="display: inline;"> 
                                 <input type="hidden" name="Id_rol" value="<?= $datos->Id_rol ?>">
                                 <button type="submit" class="btn btn-danger btn-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este rol?')">Eliminar</button>
                                 </form>
-
-                          <!--  <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->Id_Rol ?>', '<?= $datos->Nombre ?>', '<?= $datos->STATUS ?>')">
-                                <i class="bi bi-pencil-square"></i>
-                                Editar
-                            </button>
-
-                            <form method="POST" action="../SISTEMA-AF/modelos/delete_permiso.php" style="display: inline;">
-                            <input type="hidden" name="Id_Permisos" value="<?= $datos->Id_Permisos ?>">
-                                <button type="button" class="btn btn-danger btn-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este permiso??')">
-                                    <i class="bi bi-trash"></i>
-                                    Eliminar
-                                </button>
-                            </form>      -->
 
                         </td>
                     </tr>
@@ -135,26 +119,30 @@
             <div class="modal-body">
                 <form id="formularioEditar" method="POST" action="php/update_roles.php">
                     <div class="form-group">
-                        <label for="Id_rol">ID del Permiso:</label>
-                        <input type="text" class="form-control" id="Id_rol" name="Id_rol" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="Nombre">Nombre</label>
-                        <input type="text" class="form-control" id="Nombre" name="Nombre" required>
-                    </div>
-                    <div class="form-group">
-                     <label for="STATUS">Estado:</label>
-                     <select class="form-control" id="STATUS" name="STATUS">
-                     <option value="Activo">Activo</option>
-                     <option value="Inactivo">Inactivo</option>
-                     </select>
-                   </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
-                    </div>
-                </form>
-            </div>
+                    <label for="Id_rol">ID del Rol:</label>
+                            <input type="text" class="form-control" id="Id_rol" name="Id_rol" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="Nombre">Nombre:</label>
+                            <input type="text" class="form-control" id="Nombre" name="Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="Descripcion">Descripcion:</label>
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="STATUS">Status:</label>
+                            <select class="form-control" id="STATUS" name="STATUS" required>
+                                <option value="ACTIVO">Activo</option>
+                                <option value="INACTIVO">Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
         </div>
     </div>
 </div>
@@ -182,9 +170,10 @@
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_rol, Nombre, STATUS) {
+    function abrirModalEditar(Id_rol, Nombre, Descripcion ,STATUS) {
         document.getElementById("Id_rol").value = Id_rol;
         document.getElementById("Nombre").value = Nombre;
+        document.getElementById("Descripcion").value = Descripcion;
         document.getElementById("STATUS").value = STATUS;
 
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
