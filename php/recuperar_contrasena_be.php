@@ -5,17 +5,17 @@ $correo = $_POST['correo'];
 $respuesta = $_POST['respuesta'];
 $contrasena =$_POST['contraseña'];
 
-$validar_correo = mysqli_query($conexion, "SELECT * FROM tbl_usuario WHERE 
+$validar_correo = mysqli_query($conexion, "SELECT * FROM usuario WHERE 
 correo='$correo'");
 
 
 if(mysqli_num_rows($validar_correo) > 0){
 
-   $validar_respuesta = mysqli_query($conexion, "SELECT * FROM tbl_respuestas WHERE respuesta='$respuesta'");
+   $validar_respuesta = mysqli_query($conexion, "SELECT * FROM preguntas_usuario WHERE Respuestas='$respuesta'");
 
    if (mysqli_num_rows($validar_respuesta)>0) {
 
-    $cambio_contraseña = mysqli_query($conexion, "UPDATE tbl_usuario SET contraseña='$contrasena'");
+    $cambio_contraseña = mysqli_query($conexion, "UPDATE usuario SET contraseña='$contrasena'");
     echo '
 
         <script>

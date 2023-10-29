@@ -18,26 +18,28 @@
       
 <div class="form-floating mb-3">
   <input type="text" class="form-control" name="Nombre">
-  <label for="floatingInput">nombre</label>
+  <label for="floatingInput">Nombre</label>
 </div>
 <div class="form-floating mb-3">
-  <input type="text" class="form-control" name="Correo">
-  <label for="floatingInput">usuario </label>
-</div>
-<div class="form-floating mb-3">
-  <input type="password" class="form-control" name="Contraseña">
-  <label for="floatingPassword">contraseña</label>
+  <input type="email" class="form-control" name="Correo">
+  <label for="floatingInput">Correo </label>
 </div>
 <div class="form-floating mb-3">
   <input type="text" class="form-control" name="Usuario">
-  <label for="floatingInput">correo </label>
+  <label for="floatingPassword">Usuario</label>
 </div>
 <div class="form-floating mb-3">
-  <input type="text" class="form-control" name="Estado">
-  <label for="floatingInput">estado </label>
+  <input type="password" class="form-control" name="Contraseña">
+  <label for="floatingInput">Contraseña </label>
 </div>
 
-  <!--<div class="mb-2">
+
+  <!--<div class="form-floating mb-3">
+  <input type="text" class="form-control" name="Estado">
+  <label for="floatingInput">estado </label>
+</div>  
+  
+  <div class="mb-2">
     <label for="exampleInputEmail1">Nombre</label>
     <input type="text" class="form-control" name="nombre">
   <div class="mb-2">

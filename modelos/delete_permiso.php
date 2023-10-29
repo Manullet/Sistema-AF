@@ -12,11 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Id_Permisos"])) {
     
     if (mysqli_query($conexion, $delete_query)) {
         // Éxito en la eliminación
-        header("Location: ../bienvenida.php?success=true&message=El rol se eliminó correctamente");
+        header("Location: ../bienvenida.php?success=true&message=El permiso se eliminó correctamente");
         exit();
     } else {
         // Error en la eliminación
-        header("Location: ../bienvenida.php?success=false&message=Hubo un error al eliminar el rol");
+        header("Location: ../bienvenida.php?success=false&message=Hubo un error al eliminar el permiso");
         exit();
     }
 } else {

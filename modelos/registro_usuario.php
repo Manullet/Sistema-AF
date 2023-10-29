@@ -5,11 +5,12 @@ include "../php/conexion_be.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Nombre=$_POST["Nombre"];
     $Correo=$_POST["Correo"];
-    $Contraseña=$_POST["Contraseña"];
     $Usuario=$_POST["Usuario"];
-    $Estado=$_POST["Estado"];
+    $Contraseña=$_POST["Contraseña"];
+ 
 
-    $sql = "CALL InsertUsuario('$Nombre', '$Correo', '$Contraseña', '$Usuario', $Estado)";
+
+    $sql = "CALL InsertUsuario('$Nombre', '$Correo', '$Usuario', '$Contraseña')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

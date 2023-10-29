@@ -38,12 +38,39 @@
         <h3 class="text-center alert alert-secondary p-3" >Crear Permiso</h3>
       
 <div class="form-floating mb-3">
-  <input type="text" class="form-control" name="Nombre">
-  <label for="floatingInput">Nombre</label>
+  <input type="text" class="form-control" id="Id_rol" name="Id_rol">
+  <label for="floatingInput">ROL</label>
 </div>
 <div class="form-floating mb-3">
-  <input type="text" class="form-control" name="Nombre_Guard">
-  <label for="floatingInput">Nombre Guardado</label>
+  <input type="text" class="form-control" id="Id_objetos" name="Id_objetos">
+  <label for="floatingInput">OBJETO</label>
+</div>
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="permiso_eliminacion" name="permiso_eliminacion">
+  <label for="floatingInput">PERMISO ELIMINACIÓN</label>
+</div>
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="permiso_actualizacion" name="permiso_actualizacion">
+  <label for="floatingInput">PERMISO ACTUALIZAR</label>
+</div>
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="permiso_consulta" name="permiso_consulta">
+  <label for="floatingInput">PERMISO CONSULTAR</label>
+</div>
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="permiso_insercion" name="permiso_insercion">
+  <label for="floatingInput">PERMISO INSERTAR</label>
+</div>
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="Creado_Por" name="Creado_Por">
+  <label for="floatingInput">CREADO POR</label>
+</div>
+<div class="form-group">
+  <label for="StatusEditar">Estado:</label>
+    <select class="form-control" id="Estado" name="Estado">
+    <option value="Activo">Activo</option>
+    <option value="Inactivo">Inactivo</option>
+  </select>
 </div>
 <!--<div class="form-floating mb-3">
   <input type="date" class="form-control" name="Fecha_Creacion">
@@ -55,7 +82,7 @@
 </div> -->
 
 <button href="../vistas/Mantenimiento_permisos.php" type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
-<a href="../vistas/Mantenimiento_permisos.php"><i class="btn btn btn-danger" style="color: #fafcff;">Cancelar</i></a>
+<a href="../bienvenida.php"><i class="btn btn btn-danger" style="color: #fafcff;">Cancelar</i></a>
 
 
 

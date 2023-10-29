@@ -10,6 +10,7 @@ contraseña='$contrasenaActual'");
 
 
 if(mysqli_num_rows($validar_contrasenaActual) > 0){
+   
 
    $validar_nuevaContrasena = mysqli_query($conexion, "SELECT * FROM usuario WHERE contraseña='$contrasenaActual'");
 

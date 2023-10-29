@@ -9,7 +9,7 @@
         <div>
             <h1 class="poppins-font mb-2">MANTENIMIENTO USUARIOS</h1>
             <br>
-            <a href="vistas\crear.php" class="btn btn-info">
+            <a href="php\crear.php" class="btn btn-info">
                 <i class="nav-icon bi bi-people-fill"></i> Crear usuario
             </a>
         </div>
@@ -36,9 +36,7 @@
                     <th scope="col">Usuario</th>
                     <th scope="col">Correo</th>
                     <th scope="col">Estado</th>
-                    <th scope="col">Rol</th>
-                    <th scope="col">Fecha Creación</th>
-                    <th scope="col">Vencimiento</th>
+
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
             </thead>
@@ -48,26 +46,20 @@
                 $sql = $conexion->query("SELECT * FROM usuario");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->Nombre ?></td>
                         <td><?= $datos->Id_Usuario ?></td>
-                        <td><?= $datos->Usuario ?></td>
-                        <td><?= $datos->Correo ?></td>
+                        <td><?= $datos-> Nombre ?></td>
+                        <td><?= $datos-> Usuario?></td>
+                        <td><?= $datos-> Correo ?></td>
                         <td><?= $datos->Estado ?></td>
-                        <td>"Pendiente"</td>
-                        <td>"Pendiente"</td>
-                        <td>"Pendiente"</td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar()">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_Usuario ?>', '<?= $datos->Nombre ?>', '<?= $datos->Usuario ?>', '<?= $datos->Correo ?>', '<?= $datos->Estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form method="POST" action="delete_usuario.php" style="display: inline;">
-                                <!--<input type="hidden" name="id" value="<?= $row['id'] ?>">-->
-                                <button type="button" class="btn btn-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?')">
-                                    <i class="bi bi-trash"></i>
-                                    Eliminar
-                                </button>
-                            </form>
+                            <form method="POST" action="modelos/delete_usuario.php" style="display: inline;"> 
+                                <input type="hidden" name="Id_Usuario" value="<?= $datos->Id_Usuario ?>">
+                                <button type="submit" class="btn btn-danger btn-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este objetos?')">Eliminar</button>
+                                </form>
                         </td>
                     </tr>
                 <?php }
@@ -102,30 +94,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formularioEditar" method="POST" action="Actualizar_Usuario.php">
+                <form id="formularioEditar" method="POST" action="php/Actualizar_Usuario.php">
                     <div class="form-group">
-                        <label for="id">ID del usuario:</label>
-                        <input type="text" class="form-control" id="id" name="id" readonly>
+                        <label for="Id_Usuario">ID del usuario:</label>
+                        <input type="text" class="form-control" id="Id_Usuario" name="Id_Usuario" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        <label for="Nombre">Nombre:</label>
+                        <input type="text" class="form-control" id="Nombre" name="Nombre" required>
                     </div>
                     <div class="form-group">
-                        <label for="usuario">Usuario:</label>
-                        <input type="text" class="form-control" id="usuario" name="usuario" required>
+                        <label for="Usuario">Usuario:</label>
+                        <input type="text" class="form-control" id="Usuario" name="Usuario" required>
                     </div>
                     <div class="form-group">
-                        <label for="contraseña">Contraseña:</label>
-                        <input type="text" class="form-control" id="contraseña" name="contraseña" required>
+                        <label for="Correo">Correo:</label>
+                        <input type="text" class="form-control" id="Correo" name="Correo" required>
                     </div>
                     <div class="form-group">
-                        <label for="correo">Correo:</label>
-                        <input type="text" class="form-control" id="correo" name="correo" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="estado">Estado:</label>
-                        <input type="text" class="form-control" id="estado" name="estado" required>
+                        <label for="Estado">Estado:</label>
+                        <input type="text" class="form-control" id="Estado" name="Estado" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -160,13 +148,12 @@
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id, nombre, usuario, contraseña, correo, estado) {
-        document.getElementById("id").value = id;
-        document.getElementById("nombre").value = nombre;
-        document.getElementById("usuario").value = usuario;
-        document.getElementById("contraseña").value = contraseña;
-        document.getElementById("correo").value = correo;
-        document.getElementById("estado").value = estado;
+    function abrirModalEditar(Id_Usuario, Nombre, Usuario, Correo, Estado) {
+        document.getElementById("Id_Usuario").value = Id_Usuario;
+        document.getElementById("Nombre").value = Nombre;
+        document.getElementById("Usuario").value = Usuario;
+        document.getElementById("Correo").value = Correo;
+        document.getElementById("Estado").value = Estado;
 
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
     }
