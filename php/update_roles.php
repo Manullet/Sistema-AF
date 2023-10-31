@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtiene los valores del formulario
     $Id_rol = $_POST["Id_rol"];
     $Nombre = $_POST["Nombre"];
-    $Nombre = $_POST["Descripcion"];
+    $Descripcion = $_POST["Descripcion"];
     $STATUS = $_POST["STATUS"];
     
 

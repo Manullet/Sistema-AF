@@ -6,7 +6,7 @@ include 'conexion_be.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtiene los valores del formulario
     $Nombre = $_POST["Nombre"];
-    $Nombre_Guard = $_POST["Descripcion"];
+    $Descripcion = $_POST["Descripcion"];
 
     // Llama al procedimiento almacenado
     $sql = "CALL InsertRoles('$Nombre', '$Descripcion')";
