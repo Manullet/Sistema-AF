@@ -49,6 +49,19 @@
                         <p>Roles</p>
                     </a>
                 </li>
+                <li class="nav-item nav-item-custom">
+                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Migracion.php','content-wrapper')">
+                        <i class="bi bi-airplane-fill"></i>
+                        <p>Motivos Migracion</p>
+                    </a>
+                </li>
+
+                <li class="nav-item nav-item-custom">
+                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Periodicidad.php','content-wrapper')">
+                        <i class="bi bi-balloon"></i>
+                        <p>Periodo</p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
