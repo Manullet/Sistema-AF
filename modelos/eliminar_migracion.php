@@ -13,11 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "DELETE FROM `tbl_motivos_migracion` WHERE Id_motivo = '$Id_motivo'";
     
     if (mysqli_query($conexion, $sql)) {
-        ob_end_flush(); // Limpia el almacenamiento en búfer y envía una respuesta de éxito
-        echo "success"; // Devuelve "success" como respuesta
+        ob_end_flush(); 
+        echo "success"; 
     } else {
-        ob_end_clean(); // Limpia el almacenamiento en búfer y descarta cualquier salida
-        echo "Error al cambiar el estado del usuario: " . mysqli_error($conexion);
+        ob_end_clean(); 
+        echo "Error al eliminar el PERIODO: " . mysqli_error($conexion);
     }
     
     mysqli_close($conexion);

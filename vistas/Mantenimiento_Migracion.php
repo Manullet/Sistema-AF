@@ -55,7 +55,13 @@
                         <td><?= $datos->Id_motivo ?></td>
                         <td><?= $datos->Motivo ?></td>
                         <td><?= $datos->Descripcion ?></td>
-                        <td><?= $datos->Estado ?></td>
+                        <td><?php
+                            if ($datos->Estado == "ACTIVO") {
+                                echo '<span class="badge bg-success">Activo</span>';
+                            } else {
+                                echo '<span class="badge bg-danger">Inactivo</span>';
+                            }
+                            ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->Id_motivo ?>', '<?= $datos->Motivo ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Estado ?>')">
@@ -130,6 +136,7 @@
                         <div class="form-group col-md-6">
                             <label for="Estado">Estado</label>
                             <select class="form-control" id="Estado" name="Estado" required>
+                            <option value="" disabled selected>Selecciona un estado</option>
                                 <option value="ACTIVO">Activo</option>
                                 <option value="iNACTIVO">Inactivo</option>
                             </select>

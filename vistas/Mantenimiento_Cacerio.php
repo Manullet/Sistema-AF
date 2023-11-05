@@ -11,10 +11,10 @@
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">MANTENIMIENTO USUARIOS</h1>
+            <h1 class="poppins-font mb-2">MANTENIMIENTO DEPARTAMENTOS</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-                <i class="nav-icon bi bi-people-fill"></i> Crear usuario
+                <i class="nav-icon bi bi-people-fill"></i> Crear Departamento
             </a>
         </div>
 
@@ -24,7 +24,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar usuarios..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar departamento..." aria-label="Search">
                 </div>
             </form>
         </div>
@@ -35,9 +35,11 @@
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">periodo</th>
-                    <th scope="col">descripcion</th>
+                <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Aldea</th>
+                    <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -46,27 +48,29 @@
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_periodicidad");
+                $sql = $conexion->query("SELECT * FROM tbl_cacerios");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->id_periodo ?></td>
-                        <td><?= $datos->periodo ?></td>
-                        <td><?= $datos->descripcion ?></td>
+                    <td><?= $datos->Id_Cacerio ?></td>
+                        <td><?= $datos->Nombre_Cacerio ?></td>
+                        <td><?= $datos->Descripcion ?></td>
+                        <td><?= $datos->Id_Aldea ?></td>
+                        <td><?= $datos->Fecha_Creacion ?></td>
                         <td><?php
-                            if ($datos->estado == "ACTIVO") {
+                            if ($datos->Estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_periodo ?>', '<?= $datos->periodo ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                        <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
+                            ('<?= $datos->Id_Cacerio ?>', '<?= $datos->Nombre_Cacerio ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Estado ?>', '<?= $datos->Id_Aldea ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="modelos/eliminar_periodicidad.php" style="display: inline;">
-                                <input type="hidden" name="id_periodo" value="<?= $datos->id_periodo ?>">
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_cacerio.php" style="display: inline;">
+                                <input type="hidden" name="Id_Cacerio" value="<?= $datos->Id_Cacerio ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -95,12 +99,12 @@
     </nav>
 </div>
 
-<!-- Modal para editar usuarios -->
+<!-- Modal para editar departamentos -->
 <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR USUARIOS</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR DEPARTAMENTOS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -110,32 +114,62 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="id_periodo">Nº periodo</label>
-                                <input type="text" class="form-control" id="id_periodo" name="id_periodo" readonly>
+                                <label for="Id_Cacerio">Id</label>
+                                <input type="text" class="form-control" id="Id_Cacerio" name="Id_Cacerio" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="periodo">periodo </label>
-                                <input type="text" class="form-control" id="periodo" name="periodo" required>
+                                <label for="Nombre_Cacerio"> Nombre </label>
+                                <input type="text" class="form-control" id="Nombre_Cacerio" name="Nombre_Cacerio" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="descripcion">descripcion</label>
-                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                                <label for="Descripcion">Descripcion</label>
+                                <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+    <label for="Id_Aldea">Aldea:</label>
+    <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
+        <?php
+        // Conexión a la base de datos
+        include '../php/conexion_be.php';
+
+        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+        $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
+
+        // Ejecutar la consulta
+        $result = mysqli_query($conexion, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
+            }
+        } else {
+            echo '<option value="">No hay aldeas disponibles</option>';
+        }
+
+        // Cierra la conexión a la base de datos
+        mysqli_close($conexion);
+        ?>
+    </select>
+</div>
+
+
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="estado">estado</label>
-                            <select class="form-control" id="estado" name="estado" required>
-                            <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                            <label for="Estado">Estado</label>
+                            <select class="form-control" id="Estado" name="Estado" required>
+                                <option value="A">ACTIVO</option>
+                                <option value="I">INACTIVO</option>
                             </select>
                         </div>
                     </div>
@@ -154,23 +188,52 @@
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">periodo </h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">Caceria</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_periodicidad.php" method="POST">
+                <form action="modelos/agregar_cacerio.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="periodo" class="form-label">periodo</label>
-                            <input type="text" class="form-control" id="periodo" name="periodo">
+                            <label for="Nombre_Cacerio" class="form-label">Nombre Caceria</label>
+                            <input type="text" class="form-control" id="Nombre_Cacerio" name="Nombre_Cacerio">
                         </div>
                         <div class="col">
-                            <label for="descripcion" class="form-label">descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                            <label for="Descripcion" class="form-label">Descripcion</label>
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion">
                         </div>
                     </div>
+
+                    <div class="form-group">
+    <label for="Id_Aldea">Aldea:</label>
+    <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
+        <?php
+        // Conexión a la base de datos
+        include '../php/conexion_be.php';
+
+        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+        $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
+
+        // Ejecutar la consulta
+        $result = mysqli_query($conexion, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
+            }
+        } else {
+            echo '<option value="">No hay aldeas disponibles</option>';
+        }
+
+        // Cierra la conexión a la base de datos
+        mysqli_close($conexion);
+        ?>
+    </select>
+</div>
+
                     
                     <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -183,31 +246,32 @@
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_periodo, periodo, descripcion, estado) {
-        document.getElementById("id_periodo").value = id_periodo;
-        document.getElementById("periodo").value = periodo;
-        document.getElementById("descripcion").value = descripcion;
-        document.getElementById("estado").value = estado;
+    function abrirModalEditar(Id_Cacerio, Nombre_Cacerio, Descripcion, Estado,Id_Aldea) {
+        document.getElementById("Id_Cacerio").value = Id_Cacerio;
+        document.getElementById("Nombre_Cacerio").value = Nombre_Cacerio;
+        document.getElementById("Descripcion").value = Descripcion;
+        document.getElementById("Estado").value = Estado;
+        document.getElementById("Id_Aldea").value = Id_Aldea;
 
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
     }
 </script>
 
-<!-- Script para mostrar el mensaje al momento de editar un usuario-->
+<!-- Script para mostrar el mensaje al momento de editar un departamento-->
 <script>
     $(document).ready(function() {
         $("#formularioEditar").on("submit", function(event) {
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_periodicidad.php",
+                url: "modelos/editar_cacerio.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {
                     if (response == "success") {
                         Swal.fire({
-                            title: "periodo actualizado correctamente",
-                            text: "El periodo se ha actualizado correctamente.",
+                            title: "Departamento actualizado correctamente",
+                            text: "El Departamento se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -218,7 +282,7 @@
                     } else {
                         Swal.fire({
                             title: "Error",
-                            text: "Hubo un problema al actualizar el periodo.",
+                            text: "Hubo un problema al actualizar el departamento.",
                             icon: "error",
                             confirmButtonText: "Cerrar"
                         }).then(function() {
@@ -231,7 +295,7 @@
     });
 </script>
 
-<!-- Script para mostrar el mensaje al momento de eliminar un usuario-->
+<!-- Script para mostrar el mensaje al momento de eliminar un departamento-->
 <script>
     $(document).ready(function() {
         $("form#deleteForm").on("submit", function(event) {
@@ -241,7 +305,7 @@
 
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "Esta acción eliminará el periodo. Esta acción no se puede deshacer.",
+                text: "Esta acción eliminará el departamento. Esta acción no se puede deshacer.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Sí, eliminar",
@@ -255,8 +319,8 @@
                         success: function(response) {
                             if (response == "success") {
                                 Swal.fire({
-                                    title: "periodo eliminado correctamente",
-                                    text: "El periodo se ha eliminado correctamente.",
+                                    title: "Departamento eliminado correctamente",
+                                    text: "El departamento se ha eliminado correctamente.",
                                     icon: "success",
                                     showCancelButton: false,
                                     confirmButtonText: "Cerrar"
@@ -266,7 +330,7 @@
                             } else {
                                 Swal.fire({
                                     title: "Error",
-                                    text: "Hubo un problema al eliminar el periodo.",
+                                    text: "Hubo un problema al eliminar el departamento.",
                                     icon: "error",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {

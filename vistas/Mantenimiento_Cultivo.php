@@ -36,7 +36,7 @@
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">periodo</th>
+                    <th scope="col">Cultivo</th>
                     <th scope="col">descripcion</th>
                     <th scope="col">Estado</th>
 
@@ -46,11 +46,11 @@
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_periodicidad");
+                $sql = $conexion->query("SELECT * FROM tbl_tipo_cultivo");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->id_periodo ?></td>
-                        <td><?= $datos->periodo ?></td>
+                        <td><?= $datos->id_tipo_cultivo  ?></td>
+                        <td><?= $datos->tipo_cultivo ?></td>
                         <td><?= $datos->descripcion ?></td>
                         <td><?php
                             if ($datos->estado == "ACTIVO") {
@@ -61,12 +61,12 @@
                             ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_periodo ?>', '<?= $datos->periodo ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                            ('<?= $datos->id_tipo_cultivo ?>', '<?= $datos->tipo_cultivo ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="modelos/eliminar_periodicidad.php" style="display: inline;">
-                                <input type="hidden" name="id_periodo" value="<?= $datos->id_periodo ?>">
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_cultivo.php" style="display: inline;">
+                                <input type="hidden" name="id_tipo_cultivo" value="<?= $datos->id_tipo_cultivo ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -100,7 +100,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR USUARIOS</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR Cultivo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -110,14 +110,14 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="id_periodo">Nº periodo</label>
-                                <input type="text" class="form-control" id="id_periodo" name="id_periodo" readonly>
+                                <label for="id_tipo_cultivo">Nº periodo</label>
+                                <input type="text" class="form-control" id="id_tipo_cultivo" name="id_tipo_cultivo" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="periodo">periodo </label>
-                                <input type="text" class="form-control" id="periodo" name="periodo" required>
+                                <label for="tipo_cultivo">Cultivo </label>
+                                <input type="text" class="form-control" id="tipo_cultivo" name="tipo_cultivo" required>
                             </div>
                         </div>
                     </div>
@@ -154,17 +154,17 @@
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">periodo </h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">Cultivo </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_periodicidad.php" method="POST">
+                <form action="modelos/agregar_cultivo.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="periodo" class="form-label">periodo</label>
-                            <input type="text" class="form-control" id="periodo" name="periodo">
+                            <label for="tipo_cultivo" class="form-label">Cultivo</label>
+                            <input type="text" class="form-control" id="tipo_cultivo" name="tipo_cultivo">
                         </div>
                         <div class="col">
                             <label for="descripcion" class="form-label">descripcion</label>
@@ -183,9 +183,9 @@
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_periodo, periodo, descripcion, estado) {
-        document.getElementById("id_periodo").value = id_periodo;
-        document.getElementById("periodo").value = periodo;
+    function abrirModalEditar(id_tipo_cultivo, tipo_cultivo, descripcion, estado) {
+        document.getElementById("id_tipo_cultivo").value = id_tipo_cultivo;
+        document.getElementById("tipo_cultivo").value = tipo_cultivo;
         document.getElementById("descripcion").value = descripcion;
         document.getElementById("estado").value = estado;
 
@@ -200,7 +200,7 @@
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_periodicidad.php",
+                url: "modelos/editar_cultivo.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {

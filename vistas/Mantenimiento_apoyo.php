@@ -11,10 +11,10 @@
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">MANTENIMIENTO USUARIOS</h1>
+            <h1 class="poppins-font mb-2">APOYO</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-                <i class="nav-icon bi bi-people-fill"></i> Crear usuario
+            <i class="bi bi-bar-chart-fill"></i> Crear apoyo
             </a>
         </div>
 
@@ -24,7 +24,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar usuarios..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar apoyos..." aria-label="Search">
                 </div>
             </form>
         </div>
@@ -35,9 +35,9 @@
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">periodo</th>
-                    <th scope="col">descripcion</th>
+                    <th scope="col">Código</th>
+                    <th scope="col">Apoyo</th>
+                    <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -46,11 +46,11 @@
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_periodicidad");
+                $sql = $conexion->query("SELECT * FROM tbl_apoyos");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->id_periodo ?></td>
-                        <td><?= $datos->periodo ?></td>
+                        <td><?= $datos->id_apoyo_produccion  ?></td>
+                        <td><?= $datos->tipo_apoyo_produccion ?></td>
                         <td><?= $datos->descripcion ?></td>
                         <td><?php
                             if ($datos->estado == "ACTIVO") {
@@ -61,12 +61,12 @@
                             ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_periodo ?>', '<?= $datos->periodo ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                            ('<?= $datos->id_apoyo_produccion ?>', '<?= $datos->tipo_apoyo_produccion ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="modelos/eliminar_periodicidad.php" style="display: inline;">
-                                <input type="hidden" name="id_periodo" value="<?= $datos->id_periodo ?>">
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_apoyos.php" style="display: inline;">
+                                <input type="hidden" name="id_apoyo_produccion" value="<?= $datos->id_apoyo_produccion ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -100,7 +100,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR USUARIOS</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR APOYOS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -110,28 +110,28 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="id_periodo">Nº periodo</label>
-                                <input type="text" class="form-control" id="id_periodo" name="id_periodo" readonly>
+                                <label for="id_apoyo_produccion">Código</label>
+                                <input type="text" class="form-control" id="id_apoyo_produccion" name="id_apoyo_produccion" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="periodo">periodo </label>
-                                <input type="text" class="form-control" id="periodo" name="periodo" required>
+                                <label for="tipo_apoyo_produccion">Tipo de apoyo producción</label>
+                                <input type="text" class="form-control" id="tipo_apoyo_produccion" name="tipo_apoyo_produccion" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="descripcion">descripcion</label>
+                                <label for="descripcion">Descripcion</label>
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="estado">estado</label>
+                            <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                             <option value="" disabled selected>Selecciona un estado</option>
                                 <option value="ACTIVO">Activo</option>
@@ -140,8 +140,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
                     </div>
                 </form>
             </div>
@@ -149,25 +149,25 @@
     </div>
 </div>
 
-<!-- Modal para crear usuarios -->
+<!-- Modal para crear apoyo -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">periodo </h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel"> CREAR APOYO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_periodicidad.php" method="POST">
+                <form action="modelos/agregar_apoyos.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="periodo" class="form-label">periodo</label>
-                            <input type="text" class="form-control" id="periodo" name="periodo">
+                            <label for="tipo_apoyo_produccion" class="form-label">Tipo de apoyo producción</label>
+                            <input type="text" class="form-control" id="tipo_apoyo_produccion" name="tipo_apoyo_produccion">
                         </div>
                         <div class="col">
-                            <label for="descripcion" class="form-label">descripcion</label>
+                            <label for="descripcion" class="form-label">Descripcion</label>
                             <input type="text" class="form-control" id="descripcion" name="descripcion">
                         </div>
                     </div>
@@ -180,12 +180,12 @@
     </div>
 </div>
 
-<!-- JavaScript para manejar la edición de usuarios -->
+<!-- JavaScript para manejar la edición de apoyo -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_periodo, periodo, descripcion, estado) {
-        document.getElementById("id_periodo").value = id_periodo;
-        document.getElementById("periodo").value = periodo;
+    function abrirModalEditar(id_apoyo_produccion, tipo_apoyo_produccion, descripcion, estado) {
+        document.getElementById("id_apoyo_produccion").value = id_apoyo_produccion;
+        document.getElementById("tipo_apoyo_produccion").value = tipo_apoyo_produccion;
         document.getElementById("descripcion").value = descripcion;
         document.getElementById("estado").value = estado;
 
@@ -193,21 +193,21 @@
     }
 </script>
 
-<!-- Script para mostrar el mensaje al momento de editar un usuario-->
+<!-- Script para mostrar el mensaje al momento de editar un apoyo-->
 <script>
     $(document).ready(function() {
         $("#formularioEditar").on("submit", function(event) {
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_periodicidad.php",
+                url: "modelos/editar_apoyos.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {
                     if (response == "success") {
                         Swal.fire({
-                            title: "periodo actualizado correctamente",
-                            text: "El periodo se ha actualizado correctamente.",
+                            title: "Apoyo actualizado correctamente",
+                            text: "El apoyo se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -218,7 +218,7 @@
                     } else {
                         Swal.fire({
                             title: "Error",
-                            text: "Hubo un problema al actualizar el periodo.",
+                            text: "Hubo un problema al actualizar el apoyo.",
                             icon: "error",
                             confirmButtonText: "Cerrar"
                         }).then(function() {
@@ -241,7 +241,7 @@
 
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "Esta acción eliminará el periodo. Esta acción no se puede deshacer.",
+                text: "Esta acción eliminará el apoyo. Esta acción no se puede deshacer.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Sí, eliminar",
@@ -255,8 +255,8 @@
                         success: function(response) {
                             if (response == "success") {
                                 Swal.fire({
-                                    title: "periodo eliminado correctamente",
-                                    text: "El periodo se ha eliminado correctamente.",
+                                    title: "Apoyo eliminado correctamente",
+                                    text: "El apoyo se ha eliminado correctamente.",
                                     icon: "success",
                                     showCancelButton: false,
                                     confirmButtonText: "Cerrar"
@@ -266,7 +266,7 @@
                             } else {
                                 Swal.fire({
                                     title: "Error",
-                                    text: "Hubo un problema al eliminar el periodo.",
+                                    text: "Hubo un problema al eliminar el apoyo.",
                                     icon: "error",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {

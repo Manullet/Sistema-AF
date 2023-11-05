@@ -36,7 +36,7 @@
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">periodo</th>
+                    <th scope="col">Tipo Practicas</th>
                     <th scope="col">descripcion</th>
                     <th scope="col">Estado</th>
 
@@ -46,11 +46,11 @@
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_periodicidad");
+                $sql = $conexion->query("SELECT * FROM tbl_tipo_practicas_productivas");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->id_periodo ?></td>
-                        <td><?= $datos->periodo ?></td>
+                        <td><?= $datos->id_tipo_practica ?></td>
+                        <td><?= $datos->tipo_practica ?></td>
                         <td><?= $datos->descripcion ?></td>
                         <td><?php
                             if ($datos->estado == "ACTIVO") {
@@ -61,12 +61,12 @@
                             ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_periodo ?>', '<?= $datos->periodo ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                            ('<?= $datos->id_tipo_practica ?>', '<?= $datos->tipo_practica ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="modelos/eliminar_periodicidad.php" style="display: inline;">
-                                <input type="hidden" name="id_periodo" value="<?= $datos->id_periodo ?>">
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_practicas_productivas.php" style="display: inline;">
+                                <input type="hidden" name="id_tipo_practica" value="<?= $datos->id_tipo_practica ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -110,14 +110,14 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="id_periodo">Nº periodo</label>
-                                <input type="text" class="form-control" id="id_periodo" name="id_periodo" readonly>
+                                <label for="id_tipo_practica">Nº periodo</label>
+                                <input type="text" class="form-control" id="id_tipo_practica" name="id_tipo_practica" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="periodo">periodo </label>
-                                <input type="text" class="form-control" id="periodo" name="periodo" required>
+                                <label for="tipo_practica">Practicas </label>
+                                <input type="text" class="form-control" id="tipo_practica" name="tipo_practica" required>
                             </div>
                         </div>
                     </div>
@@ -130,15 +130,16 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="estado">estado</label>
-                            <select class="form-control" id="estado" name="estado" required>
-                            <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
-                            </select>
+                             <div class="form-group col-md-6">
+                                <label for="estado">Estado</label>
+                                <select class="form-control" id="estado" name="estado" required>
+                                    <option value="" disabled selected>Selecciona un estado</option>
+                                    <option value="ACTIVO">Activo</option>
+                                    <option value="INACTIVO">Inactivo</option>
+                                </select>
+                                </div>
                         </div>
-                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
@@ -160,11 +161,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_periodicidad.php" method="POST">
+                <form action="modelos/agregar_practicas_productivas.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="periodo" class="form-label">periodo</label>
-                            <input type="text" class="form-control" id="periodo" name="periodo">
+                            <label for="tipo_practica" class="form-label">Practicas</label>
+                            <input type="text" class="form-control" id="tipo_practica" name="tipo_practica">
                         </div>
                         <div class="col">
                             <label for="descripcion" class="form-label">descripcion</label>
@@ -183,9 +184,9 @@
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_periodo, periodo, descripcion, estado) {
-        document.getElementById("id_periodo").value = id_periodo;
-        document.getElementById("periodo").value = periodo;
+    function abrirModalEditar(id_tipo_practica, tipo_practica, descripcion, estado) {
+        document.getElementById("id_tipo_practica").value = id_tipo_practica;
+        document.getElementById("tipo_practica").value = tipo_practica;
         document.getElementById("descripcion").value = descripcion;
         document.getElementById("estado").value = estado;
 
@@ -200,7 +201,7 @@
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_periodicidad.php",
+                url: "modelos/editar_practicas_productivas.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {

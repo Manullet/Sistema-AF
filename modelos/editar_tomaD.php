@@ -1,15 +1,13 @@
 <?php
 ob_start();
 include "../php/conexion_be.php";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $Id_motivo=$_POST["Id_motivo"];
-    $Motivo=$_POST["Motivo"];
-    $Descripcion=$_POST["Descripcion"];
-    $Estado=$_POST["Estado"];
+    $id_tipo_tomador  = $_POST["id_tipo_tomador"];
+    $tomador = $_POST["tomador"];
+    $descripcion = $_POST["descripcion"];
+    $estado = $_POST["estado"];
 
-
-    $sql = "CALL EditarMotivo('$Id_motivo', '$Motivo', '$Descripcion', '$Estado');";
+    $sql = "CALL EditarTomaDecisiones('$id_tipo_tomador', '$tomador', '$descripcion', '$estado');";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 
@@ -19,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error al actualizar el periodo: " . mysqli_error($conexion);
     }
     
-    mysqli_close($conexion);  
-    }
-
+    mysqli_close($conexion);
+}
 ?>
