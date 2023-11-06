@@ -1,5 +1,5 @@
 <?php
-    $conexion = mysqli_connect("localhost", "root","", "bd_af");
+    $conexion = mysqli_connect("localhost", "root","1234", "bd_af");
 
     /*/
     if($conexion){

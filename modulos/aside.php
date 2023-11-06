@@ -178,6 +178,12 @@
                         <p>Fuentes de Credito</p>
                     </a>
                 </li>
+                <li class="nav-item nav-item-custom">
+                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Tipo_Pecuarios.php','content-wrapper')">
+                    <i class="bi bi-house-door"></i>
+                        <p>Tipo de Pecuarios</p>
+                    </a>
+                </li>
                     <!-- desde aqui se pueden añadir mas Mantenimientos -->
                     </ul>
                     <li class="nav-item has-treeview">
