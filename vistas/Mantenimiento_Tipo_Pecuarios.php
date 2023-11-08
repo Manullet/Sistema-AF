@@ -14,7 +14,7 @@
             <h1 class="poppins-font mb-2">TIPOS DE PECUARIOS</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-            <i class="bi bi-bar-chart"></i></i> Crear
+            <i class="bi bi-plus-square icono-grande"></i> Crear 
             </a>
         </div>
 
@@ -24,22 +24,44 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar tipo de apoyo..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar ..." aria-label="Search">
                 </div>
             </form>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
+    <!--  seleccion de registros -->
+    <div class="formulario-registros">
+        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
+            <select id="cantidadRegistros">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <span class="registros-text">Registros</span></label>
+    </div>
+    <!--  funcion para mostrar registros -->
+    <script>
+        // Obtiene referencias a los elementos HTML
+        const selectCantidadRegistros = document.getElementById("cantidadRegistros");
+
+        selectCantidadRegistros.addEventListener("change", function() {
+            const cantidadSeleccionada = parseInt(selectCantidadRegistros.value);
+            console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
+        });
+    </script>
 
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">TIPO DE PECUARIO</th>
-                    <th scope="col">RAZA</th>
-                    <th scope="col">DESCRIPCIÓN</th>
-                    <th scope="col">ESTADO</th>
+                    <th scope="col">Código</th>
+                    <th scope="col">Tipo de pecuario</th>
+                    <th scope="col">Raza</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
@@ -112,7 +134,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="id_tipo_pecuario">ID</label>
+                                <label for="id_tipo_pecuario">Código</label>
                                 <input type="text" class="form-control" id="id_tipo_pecuario" name="id_tipo_pecuario" readonly>
                             </div>
                         </div>
@@ -148,8 +170,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-actualizar">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
                     </div>
                 </form>
             </div>
@@ -179,9 +201,10 @@
                             <input type="text" class="form-control" id="descripcion" name="descripcion">
                         </div>
                     </div>
-                    
-                    <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-actualizar">Crear</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -216,7 +239,7 @@
                     if (response == "success") {
                         Swal.fire({
                             title: "Registro actualizado correctamente",
-                            text: "El tipo de Pecuario se ha actualizado correctamente.",
+                            text: "El tipo de pecuario se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -290,5 +313,15 @@
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".table tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

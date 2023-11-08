@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="bienvenida.php" class="brand-link" style="display: flex; flex-direction: column; align-items: center;">
         <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="poppins-font-aside mb-2" style="text-align: center;">CAMBIO CLIMATICO</span>
+        <span class="poppins-font-aside mb-2" style="text-align: center;">AGRICULTURA FAMILIAR</span>
     </a>
 
     <!-- Sidebar -->
@@ -97,7 +97,7 @@
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Riego.php','content-wrapper')">
                         <i class="bi bi-droplet-half"></i>
-                        <p>RIEGO</p>
+                        <p>Riego</p>
                     </a>
                 </li>
 
@@ -119,7 +119,7 @@
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Tipo_Organizacion.php','content-wrapper')">
                         <i class="bi bi-buildings"></i>
-                        <p>Tipos Organizacion</p>
+                        <p>Tipos Organización</p>
                     </a>
                 </li>
 
@@ -127,7 +127,7 @@
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Tipo_Produccion.php','content-wrapper')">
                         <i class="bi bi-basket"></i>
-                        <p>Tipos Produccion</p>
+                        <p>Tipos Producción</p>
                     </a>
                 </li>
                 <li class="nav-item nav-item-custom">
@@ -190,7 +190,7 @@
                     <a style="cursor:pointer;" class="nav-link">
                         <i class="bi bi-globe-americas"></i>
                         <p>
-                            Ubicacion
+                            Ubicación
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>

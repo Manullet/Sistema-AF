@@ -11,10 +11,10 @@
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">MANTENIMIENTO DEPARTAMENTOS</h1>
+            <h1 class="poppins-font mb-2">ALDEAS</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-                <i class="nav-icon bi bi-people-fill"></i> Crear Departamento
+                <i class="bi bi-plus-square icono-grande"></i> Crear
             </a>
         </div>
 
@@ -24,20 +24,42 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar departamento..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar aldeas..." aria-label="Search">
                 </div>
             </form>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
+    <!--  seleccion de registros -->
+    <div class="formulario-registros">
+        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
+            <select id="cantidadRegistros">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <span class="registros-text">Registros</span></label>
+    </div>
+    <!--  funcion para mostrar registros -->
+    <script>
+        // Obtiene referencias a los elementos HTML
+        const selectCantidadRegistros = document.getElementById("cantidadRegistros");
+
+        selectCantidadRegistros.addEventListener("change", function() {
+            const cantidadSeleccionada = parseInt(selectCantidadRegistros.value);
+            console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
+        });
+    </script>
 
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                <th scope="col">Id</th>
+                    <th scope="col">Código</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Descripcion</th>
+                    <th scope="col">Descripción</th>
                     <th scope="col">Municipio</th>
                     <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
@@ -50,7 +72,7 @@
                 $sql = $conexion->query("SELECT * FROM tbl_aldeas");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                    <td><?= $datos->Id_Aldea ?></td>
+                        <td><?= $datos->Id_Aldea ?></td>
                         <td><?= $datos->Nombre_Aldea ?></td>
                         <td><?= $datos->Descripcion ?></td>
                         <td><?= $datos->Id_Municipio ?></td>
@@ -63,7 +85,7 @@
                             }
                             ?></td>
                         <td>
-                        <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->Id_Aldea ?>', '<?= $datos->Nombre_Aldea ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Estado ?>', '<?= $datos->Id_Municipio ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
@@ -98,7 +120,7 @@
     </nav>
 </div>
 
-<!-- Modal para editar departamentos -->
+<!-- Modal para editar aldeas -->
 <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -113,13 +135,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Id_Aldea">Id</label>
+                                <label for="Id_Aldea">Código</label>
                                 <input type="text" class="form-control" id="Id_Aldea" name="Id_Aldea" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Nombre_Aldea"> Nombre </label>
+                                <label for="Nombre_Aldea"> Nombre</label>
                                 <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea" required>
                             </div>
                         </div>
@@ -127,7 +149,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Descripcion">Descripcion</label>
+                                <label for="Descripcion">Descripción</label>
                                 <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
                             </div>
                         </div>
@@ -136,43 +158,44 @@
                         <div class="form-group col-md-6">
                             <label for="Estado">Estado</label>
                             <select class="form-control" id="Estado" name="Estado" required>
-                                <option value="A">ACTIVO</option>
-                                <option value="I">INACTIVO</option>
+                                <option value="" disabled selected>Selecciona un estado</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-    <label for="Id_Municipio">Municipio:</label>
-    <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
-        <?php
-        // Conexión a la base de datos
-        include '../php/conexion_be.php';
+                        <label for="Id_Municipio">Municipio:</label>
+                        <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
 
-        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-        $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
 
-        // Ejecutar la consulta
-        $result = mysqli_query($conexion, $sql);
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
-            }
-        } else {
-            echo '<option value="">No hay municipios disponibles</option>';
-        }
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
 
-        // Cierra la conexión a la base de datos
-        mysqli_close($conexion);
-        ?>
-    </select>
-</div>
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </form>
             </div>
@@ -180,10 +203,10 @@
     </div>
 </div>
 
-<!-- Modal para crear usuarios -->
+<!-- Modal para crear aldeas -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" role="document">
+    <div class="modal-dialog"  role="document">
+        <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
                 <h5 class="poppins-modal mb-2" id="exampleModalLabel">Municipio</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
@@ -198,50 +221,51 @@
                             <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea">
                         </div>
                         <div class="col">
-                            <label for="Descripcion" class="form-label">Descripcion</label>
+                            <label for="Descripcion" class="form-label">Descripción</label>
                             <input type="text" class="form-control" id="Descripcion" name="Descripcion">
                         </div>
                     </div>
                     <div class="form-group">
-    <label for="Id_Municipio">Municipio:</label>
-    <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
-        <?php
-        // Conexión a la base de datos
-        include '../php/conexion_be.php';
+                        <label for="Id_Municipio">Municipio:</label>
+                        <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
 
-        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-        $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
 
-        // Ejecutar la consulta
-        $result = mysqli_query($conexion, $sql);
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
-            }
-        } else {
-            echo '<option value="">No hay municipios disponibles</option>';
-        }
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
 
-        // Cierra la conexión a la base de datos
-        mysqli_close($conexion);
-        ?>
-    </select>
-</div>
- 
-                    <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-actualizar">Crear</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<!-- JavaScript para manejar la edición de usuarios -->
+<!-- JavaScript para manejar la edición de aldeas -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Aldea, Nombre_Aldea, Descripcion, Estado,Id_Municipio) {
+    function abrirModalEditar(Id_Aldea, Nombre_Aldea, Descripcion, Estado, Id_Municipio) {
         document.getElementById("Id_Aldea").value = Id_Aldea;
         document.getElementById("Nombre_Aldea").value = Nombre_Aldea;
         document.getElementById("Descripcion").value = Descripcion;
@@ -252,7 +276,7 @@
     }
 </script>
 
-<!-- Script para mostrar el mensaje al momento de editar un departamento-->
+<!-- Script para mostrar el mensaje al momento de editar una aldea-->
 <script>
     $(document).ready(function() {
         $("#formularioEditar").on("submit", function(event) {
@@ -290,7 +314,7 @@
     });
 </script>
 
-<!-- Script para mostrar el mensaje al momento de eliminar un departamento-->
+<!-- Script para mostrar el mensaje al momento de eliminar un aldea-->
 <script>
     $(document).ready(function() {
         $("form#deleteForm").on("submit", function(event) {
@@ -340,5 +364,16 @@
     });
 </script>
 
+
+<script>
+    $(document).ready(function() {
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".table tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

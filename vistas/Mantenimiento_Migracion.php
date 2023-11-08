@@ -11,10 +11,10 @@
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">MANTENIMIENTO USUARIOS</h1>
+            <h1 class="poppins-font mb-2">MIGRACION</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-                <i class="bi bi-file-earmark-diff-fill"></i> Ingresar Motivo
+            <i class="bi bi-plus-square icono-grande"></i> Crear 
             </a>
         </div>
 
@@ -24,20 +24,42 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar usuarios..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar ..." aria-label="Search">
                 </div>
             </form>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
+    <!--  seleccion de registros -->
+    <div class="formulario-registros">
+        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
+            <select id="cantidadRegistros">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <span class="registros-text">Registros</span></label>
+    </div>
+    <!--  funcion para mostrar registros -->
+    <script>
+        // Obtiene referencias a los elementos HTML
+        const selectCantidadRegistros = document.getElementById("cantidadRegistros");
+
+        selectCantidadRegistros.addEventListener("change", function() {
+            const cantidadSeleccionada = parseInt(selectCantidadRegistros.value);
+            console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
+        });
+    </script>
 
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col">Código</th>
                     <th scope="col">Motivo</th>
-                    <th scope="col">Descripcion</th>
+                    <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
                   <!--  <th scope="col">Usuario</th>
                     <th scope="col">Rol</th>
@@ -103,7 +125,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR USUARIOS</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR MIGRACION</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -113,7 +135,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Id_motivo">Nº Motivo</label>
+                                <label for="Id_motivo">Código</label>
                                 <input type="text" class="form-control" id="Id_motivo" name="Id_motivo" readonly>
                             </div>
                         </div>
@@ -127,8 +149,8 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Descripcion">Descripcion</label>
-                                <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
+                            <label for="Descripcion">Descripción</label>
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>   
                             </div>
                         </div>
                     </div>
@@ -143,8 +165,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
+                        <button type="submit" class="btn btn-actualizar">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
                     </div>
                 </form>
             </div>
@@ -183,8 +205,10 @@
                             </select>
                         </div>
                     </div>-->
-                    <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-actualizar">Crear</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -218,7 +242,7 @@
                     if (response == "success") {
                         Swal.fire({
                             title: "Motivo actualizado correctamente",
-                            text: "El Motivo se ha actualizado correctamente.",
+                            text: "El motivo se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -229,7 +253,7 @@
                     } else {
                         Swal.fire({
                             title: "Error",
-                            text: "Hubo un problema al actualizar el Motivo.",
+                            text: "Hubo un problema al actualizar el motivo.",
                             icon: "error",
                             confirmButtonText: "Cerrar"
                         }).then(function() {
@@ -252,7 +276,7 @@
 
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "Esta acción eliminará el Motivo. Esta acción no se puede deshacer.",
+                text: "Esta acción eliminará el motivo. Esta acción no se puede deshacer.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Sí, eliminar",
@@ -267,7 +291,7 @@
                             if (response == "success") {
                                 Swal.fire({
                                     title: "Motivo eliminado correctamente",
-                                    text: "El Motivo se ha eliminado correctamente.",
+                                    text: "El motivo se ha eliminado correctamente.",
                                     icon: "success",
                                     showCancelButton: false,
                                     confirmButtonText: "Cerrar"
@@ -287,6 +311,17 @@
                         }
                     });
                 }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".table tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
     });

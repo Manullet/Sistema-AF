@@ -11,10 +11,10 @@
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">TABLA RIEGO</h1>
+            <h1 class="poppins-font mb-2">RIEGO</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-                <i class="nav-icon bi bi-people-fill"></i> CREAR RIEGO
+            <i class="bi bi-plus-square icono-grande"></i> Crear 
             </a>
         </div>
 
@@ -24,23 +24,45 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar usuarios..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar riegos..." aria-label="Search">
                 </div>
             </form>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
+    <!--  seleccion de registros -->
+    <div class="formulario-registros">
+        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
+            <select id="cantidadRegistros">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <span class="registros-text">Registros</span></label>
+    </div>
+    <!--  funcion para mostrar registros -->
+    <script>
+        // Obtiene referencias a los elementos HTML
+        const selectCantidadRegistros = document.getElementById("cantidadRegistros");
+
+        selectCantidadRegistros.addEventListener("change", function() {
+            const cantidadSeleccionada = parseInt(selectCantidadRegistros.value);
+            console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
+        });
+    </script>
 
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">RIEGO</th>
-                    <th scope="col">DESCRIPCION</th>
-                    <th scope="col">ESTADO</th>
+                    <th scope="col">Código</th>
+                    <th scope="col">Riego</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Estado</th>
 
-                    <th scope="col">ACCIONES</th> <!-- Added text-center class here -->
+                    <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -110,13 +132,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="id_tipo_riego">Nº RIEGO</label>
+                                <label for="id_tipo_riego">Código</label>
                                 <input type="text" class="form-control" id="id_tipo_riego" name="id_tipo_riego" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="tipo_riego">RIEGO </label>
+                                <label for="tipo_riego">Riego </label>
                                 <input type="text" class="form-control" id="tipo_riego" name="tipo_riego" required>
                             </div>
                         </div>
@@ -124,14 +146,14 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="descripcion">DESCRIPCION</label>
+                                <label for="descripcion">Descripción</label>
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="estado">ESTADO</label>
+                            <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                             <option value="" disabled selected>Selecciona un estado</option>
                                 <option value="ACTIVO">Activo</option>
@@ -140,8 +162,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
+                        <button type="submit" class="btn btn-actualizar">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
                     </div>
                 </form>
             </div>
@@ -163,17 +185,19 @@
                 <form action="modelos/agregar_riego.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="tipo_riego" class="form-label">RIEGO</label>
+                            <label for="tipo_riego" class="form-label">Riego</label>
                             <input type="text" class="form-control" id="tipo_riego" name="tipo_riego">
                         </div>
                         <div class="col">
-                            <label for="descripcion" class="form-label">DESCRIPCION</label>
+                            <label for="descripcion" class="form-label">Descripción</label>
                             <input type="text" class="form-control" id="descripcion" name="descripcion">
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-actualizar">Crear</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -206,8 +230,8 @@
                 success: function(response) {
                     if (response == "success") {
                         Swal.fire({
-                            title: "RIEGO actualizado correctamente",
-                            text: "El RIEGO se ha actualizado correctamente.",
+                            title: "Riego actualizado correctamente",
+                            text: "El riego se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -218,7 +242,7 @@
                     } else {
                         Swal.fire({
                             title: "Error",
-                            text: "Hubo un problema al actualizar el RIEGO.",
+                            text: "Hubo un problema al actualizar el riego.",
                             icon: "error",
                             confirmButtonText: "Cerrar"
                         }).then(function() {
@@ -241,7 +265,7 @@
 
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "Esta acción eliminará el RIEGO. Esta acción no se puede deshacer.",
+                text: "Esta acción eliminará el riego. Esta acción no se puede deshacer.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Sí, eliminar",
@@ -255,8 +279,8 @@
                         success: function(response) {
                             if (response == "success") {
                                 Swal.fire({
-                                    title: "RIEGO eliminado correctamente",
-                                    text: "El RIEGO se ha eliminado correctamente.",
+                                    title: "Riego eliminado correctamente",
+                                    text: "El riego se ha eliminado correctamente.",
                                     icon: "success",
                                     showCancelButton: false,
                                     confirmButtonText: "Cerrar"
@@ -266,7 +290,7 @@
                             } else {
                                 Swal.fire({
                                     title: "Error",
-                                    text: "Hubo un problema al eliminar el RIEGO.",
+                                    text: "Hubo un problema al eliminar el riego.",
                                     icon: "error",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {
@@ -281,5 +305,15 @@
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".table tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

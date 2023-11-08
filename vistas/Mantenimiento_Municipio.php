@@ -11,10 +11,10 @@
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">MANTENIMIENTO DEPARTAMENTOS</h1>
+            <h1 class="poppins-font mb-2">MUNICIPIOS</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-                <i class="nav-icon bi bi-people-fill"></i> Crear Departamento
+                <i class="bi bi-plus-square icono-grande"></i> Crear
             </a>
         </div>
 
@@ -24,20 +24,42 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar departamento..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar municipio..." aria-label="Search">
                 </div>
             </form>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
+    <!--  seleccion de registros -->
+    <div class="formulario-registros">
+        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
+            <select id="cantidadRegistros">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <span class="registros-text">Registros</span></label>
+    </div>
+    <!--  funcion para mostrar registros -->
+    <script>
+        // Obtiene referencias a los elementos HTML
+        const selectCantidadRegistros = document.getElementById("cantidadRegistros");
+
+        selectCantidadRegistros.addEventListener("change", function() {
+            const cantidadSeleccionada = parseInt(selectCantidadRegistros.value);
+            console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
+        });
+    </script>
 
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                <th scope="col">Id</th>
+                    <th scope="col">Código</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Descripcion</th>
+                    <th scope="col">Descripción</th>
                     <th scope="col">Departamento</th>
                     <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
@@ -114,7 +136,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Id_Municipio">Id</label>
+                                <label for="Id_Municipio">Código</label>
                                 <input type="text" class="form-control" id="Id_Municipio" name="Id_Municipio" readonly>
                             </div>
                         </div>
@@ -128,7 +150,7 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Descripcion">Descripcion</label>
+                                <label for="Descripcion">Descripción</label>
                                 <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
                             </div>
                         </div>
@@ -137,42 +159,44 @@
                         <div class="form-group col-md-6">
                             <label for="Estado">Estado</label>
                             <select class="form-control" id="Estado" name="Estado" required>
-                                <option value="A">ACTIVO</option>
-                                <option value="I">INACTIVO</option>
+                                <option value="" disabled selected>Selecciona un estado</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-    <label for="Id_Departamento">Departamento:</label>
-    <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
-        <?php
-        // Conexión a la base de datos
-        include '../php/conexion_be.php';
+                        <label for="Id_Departamento">Departamento </label>
+                        <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
 
-        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-        $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
+                            $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
 
-        // Ejecutar la consulta
-        $result = mysqli_query($conexion, $sql);
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
-                echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
-            }
-        } else {
-            echo '<option value="">No hay departamentos disponibles</option>';
-        }
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay departamentos disponibles</option>';
+                            }
 
-        // Cierra la conexión a la base de datos
-        mysqli_close($conexion);
-        ?>
-    </select>
-</div>
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
                     </div>
                 </form>
             </div>
@@ -194,46 +218,48 @@
                 <form action="modelos/agregar_municipio.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="Nombre_Municipio" class="form-label">Nombre Municipio</label>
+                            <label for="Nombre_Municipio" class="form-label">Municipio</label>
                             <input type="text" class="form-control" id="Nombre_Municipio" name="Nombre_Municipio">
                         </div>
                         <div class="col">
-                            <label for="Descripcion" class="form-label">Descripcion</label>
+                            <label for="Descripcion" class="form-label">Descripción</label>
                             <input type="text" class="form-control" id="Descripcion" name="Descripcion">
                         </div>
                     </div>
                     <div class="form-group">
-    <label for="Id_Departamento">Departamento:</label>
-    <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
-        <?php
-        // Conexión a la base de datos
-        include '../php/conexion_be.php';
+                        <label for="Id_Departamento">Departamento:</label>
+                        <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
 
-        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-        $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
+                            $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
 
-        // Ejecutar la consulta
-        $result = mysqli_query($conexion, $sql);
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
-                echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
-            }
-        } else {
-            echo '<option value="">No hay departamentos disponibles</option>';
-        }
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay departamentos disponibles</option>';
+                            }
 
-        // Cierra la conexión a la base de datos
-        mysqli_close($conexion);
-        ?>
-    </select>
-</div>
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
 
-                    
-                    
-                    <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-actualizar">Crear</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -243,7 +269,7 @@
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Municipio, Nombre_Municipio, Descripcion, Estado,Id_Departamento) {
+    function abrirModalEditar(Id_Municipio, Nombre_Municipio, Descripcion, Estado, Id_Departamento) {
         document.getElementById("Id_Municipio").value = Id_Municipio;
         document.getElementById("Nombre_Municipio").value = Nombre_Municipio;
         document.getElementById("Descripcion").value = Descripcion;
@@ -268,7 +294,7 @@
                     if (response == "success") {
                         Swal.fire({
                             title: "Departamento actualizado correctamente",
-                            text: "El Departamento se ha actualizado correctamente.",
+                            text: "El departamento se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -342,5 +368,15 @@
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".table tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

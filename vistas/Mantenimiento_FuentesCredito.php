@@ -14,7 +14,7 @@
             <h1 class="poppins-font mb-2">FUENTES DE CREDITO</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalagregarEtnia" class="btn btn-info">
-                <i class="nav-icon bi bi-people-fill"></i> Agregar
+            <i class="bi bi-plus-square icono-grande"></i> Crear 
             </a>
         </div>
 
@@ -30,18 +30,40 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
+    <!--  seleccion de registros -->
+    <div class="formulario-registros">
+        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
+            <select id="cantidadRegistros">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <span class="registros-text">Registros</span></label>
+    </div>
+    <!--  funcion para mostrar registros -->
+    <script>
+        // Obtiene referencias a los elementos HTML
+        const selectCantidadRegistros = document.getElementById("cantidadRegistros");
+
+        selectCantidadRegistros.addEventListener("change", function() {
+            const cantidadSeleccionada = parseInt(selectCantidadRegistros.value);
+            console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
+        });
+    </script>
+
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">FUENTE DE CREDITO</th>
-                    <th scope="col">DESCRIPCIÓN</th>
-                    <th scope="col">CREADO POR</th>
-                    <th scope="col">FECHA DE CREACIÓN</th>
-                    <th scope="col">ESTADO</th>
-                    <th scope="col">ACCIONES</th>
+                    <th scope="col">Código</th>
+                    <th scope="col">Fuente de crédito</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Creador por</th>
+                    <th scope="col">Fecha de creación</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -116,13 +138,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="id_fuente_credito">ID</label>
+                                <label for="id_fuente_credito">Código</label>
                                 <input type="text" class="form-control" id="id_fuente_credito" name="id_fuente_credito" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="fuente_credito">Fuente de credito</label>
+                                <label for="fuente_credito">Fuente de crédito</label>
                                 <input type="text" class="form-control" id="fuente_credito" name="fuente_credito" required>
                             </div>
                         </div>
@@ -130,21 +152,22 @@
                     <div class="form-row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="descripcion">DESCRIPCIÓN</label>
+                                <label for="descripcion">Descripción</label>
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
-                                <option value="1">Activo</option>
+                            <option value="" disabled selected>Selecciona un estado</option>
+                            <option value="1">Activo</option>
                                 <option value="0">Inactivo</option>
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
+                        <button type="submit" class="btn btn-actualizar">Actualizar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
                     </div>
                 </form>
             </div>
@@ -157,7 +180,7 @@
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR ETNIA</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR FUENTE DE CREDITO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -182,7 +205,8 @@
                         <div class="form-group col-md-6">
                             <label for="Status">Estado</label>
                             <select class="form-control" id="Status" name="Status" required>
-                                <option value="activo">Activo</option>
+                            <option value="" disabled selected>Selecciona un estado</option>
+                            <option value="activo">Activo</option>
                                 <option value="inactivo">Inactivo</option>
                             </select>
                         </div>
@@ -190,8 +214,10 @@
                     <div class="form-row">
 
                     </div>
-                    <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-actualizar">Crear</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -376,7 +402,15 @@
     });
 </script>
 
-
-
+<script>
+    $(document).ready(function() {
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $(".table tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

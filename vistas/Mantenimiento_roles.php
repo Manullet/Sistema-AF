@@ -9,9 +9,10 @@
         <div>
             <h1 class="poppins-font mb-2">MANTENIMIENTO ROLES</h1>
             <br>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#miModal">
-            <i class="nav-icon bi bi-shield-lock"></i> Crear nuevo rol
-            </button>
+            <a href="php\crear.php" class="btn btn-info">
+            <i class="nav-icon bi bi-shield-lock"></i> Crear rol
+            </a>
+            
         </div>
 
         <div class="mb-4 border-bottom">
