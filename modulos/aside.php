@@ -43,23 +43,23 @@
                         </li>
 
                         <li class="nav-item nav-item-custom">
-                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_permisos.php','content-wrapper')">
-                        <i class="nav-icon bi bi-shield-lock"></i>
-                        <p>Permisos</p>
-                    </a>
-                </li>
-                <li class="nav-item nav-item-custom">
-                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_preguntas.php','content-wrapper')">
-                        <i class="nav-icon bi bi-question-circle"></i>
-                        <p>Preguntas</p>
-                    </a>
-                </li>
-                <li class="nav-item nav-item-custom">
-                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_roles.php','content-wrapper')">
-                        <i class="nav-icon bi bi-badge-ad"></i>
-                        <p>Roles</p>
-                    </a>
-                </li>
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_permisos.php','content-wrapper')">
+                                <i class="nav-icon bi bi-shield-lock"></i>
+                                <p>Permisos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_preguntas.php','content-wrapper')">
+                                <i class="nav-icon bi bi-question-circle"></i>
+                                <p>Preguntas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_roles.php','content-wrapper')">
+                                <i class="nav-icon bi bi-badge-ad"></i>
+                                <p>Roles</p>
+                            </a>
+                        </li>
                         <!-- desde aqui se puede añadir mas Mantenimientos -->
                     </ul>
                 </li>
@@ -74,32 +74,32 @@
                     </a>
                     <ul class="nav nav-treeview">
 
-                  
-                <li class="nav-item nav-item-custom">
-                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Migracion.php','content-wrapper')">
-                        <i class="bi bi-airplane-fill"></i>
-                        <p>Motivos Migracion</p>
-                    </a>
-                </li>
 
-                <li class="nav-item nav-item-custom">
-                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Periodicidad.php','content-wrapper')">
-                        <i class="bi bi-calendar-event"></i>
-                        <p>Periodo</p>
-                    </a>
-                </li>
-                <li class="nav-item nav-item-custom">
-                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cultivo.php','content-wrapper')">
-                        <i class="bi bi-flower2"></i>
-                        <p>Cultivo</p>
-                    </a>
-                </li>
-                <li class="nav-item nav-item-custom">
-                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Riego.php','content-wrapper')">
-                        <i class="bi bi-droplet-half"></i>
-                        <p>Riego</p>
-                    </a>
-                </li>
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Migracion.php','content-wrapper')">
+                                <i class="bi bi-airplane-fill"></i>
+                                <p>Motivos Migracion</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Periodicidad.php','content-wrapper')">
+                                <i class="bi bi-calendar-event"></i>
+                                <p>Periodo</p>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cultivo.php','content-wrapper')">
+                                <i class="bi bi-flower2"></i>
+                                <p>Cultivo</p>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Riego.php','content-wrapper')">
+                                <i class="bi bi-droplet-half"></i>
+                                <p>Riego</p>
+                            </a>
+                        </li>
 
                 </li>
                 <li class="nav-item nav-item-custom">
@@ -138,31 +138,31 @@
                 </li>
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_tomaD.php','content-wrapper')">
-                    <i class="bi bi-graph-up"></i>
+                        <i class="bi bi-graph-up"></i>
                         <p>Toma de decisiones</p>
                     </a>
                 </li>
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_tipoT.php','content-wrapper')">
-                    <i class="bi bi-people"></i>
+                        <i class="bi bi-people"></i>
                         <p>Tipo de trabajadores</p>
                     </a>
                 </li>
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_medidas.php','content-wrapper')">
-                    <i class="bi bi-ui-radios"></i>
+                        <i class="bi bi-ui-radios"></i>
                         <p>Medidas de tierra</p>
                     </a>
                 </li>
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_apoyo.php','content-wrapper')">
-                    <i class="bi bi-bar-chart-fill"></i>
+                        <i class="bi bi-bar-chart-fill"></i>
                         <p>Apoyo</p>
                     </a>
                 </li>
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_tipoA.php','content-wrapper')">
-                    <i class="bi bi-bar-chart"></i>
+                        <i class="bi bi-bar-chart"></i>
                         <p>Tipo de apoyo</p>
                     </a>
                 </li>
@@ -174,62 +174,343 @@
                 </li>
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_FuentesCredito.php','content-wrapper')">
-                    <i class="bi bi-credit-card"></i>
+                        <i class="bi bi-credit-card"></i>
                         <p>Fuentes de Credito</p>
                     </a>
                 </li>
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Tipo_Pecuarios.php','content-wrapper')">
-                    <i class="bi bi-house-door"></i>
+                        <i class="bi bi-house-door"></i>
                         <p>Tipo de Pecuarios</p>
                     </a>
                 </li>
-                    <!-- desde aqui se pueden añadir mas Mantenimientos -->
-                    </ul>
-                    <li class="nav-item has-treeview">
-                    <a style="cursor:pointer;" class="nav-link">
-                        <i class="bi bi-globe-americas"></i>
-                        <p>
-                            Ubicación
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
+                <!-- desde aqui se pueden añadir mas Mantenimientos -->
+            </ul>
+        </li>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-globe-americas"></i>
+                    <p>
+                        Ubicación
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
 
                     <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Departamento</p>
                         </a>
-                     </li>
-                     <li class="nav-item nav-item-custom">
+                    </li>
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Municipio.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Municipio</p>
                         </a>
-                     </li>
-                     <li class="nav-item nav-item-custom">
+                    </li>
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Aldea.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Aldea</p>
                         </a>
-                     </li>
-                     <li class="nav-item nav-item-custom">
+                    </li>
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cacerio.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Cacerio</p>
                         </a>
-                     </li>
+                    </li>
+
+                    <!-- desde aqui se pueden añadir mas Mantenimientos -->
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-bar-chart-line"></i>
+                    <p>
+                        Unidad Productiva
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Departamento</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Municipio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Municipio</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Aldea.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Aldea</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cacerio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Cacerio</p>
+                        </a>
+                    </li>
+            
+
+                    <!-- desde aqui se pueden añadir mas Mantenimientos -->
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-droplet-half"></i>
+                    <p>
+                        Sistema Riego
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Riego</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Municipio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Municipio</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Aldea.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Aldea</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cacerio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Cacerio</p>
+                        </a>
+                    </li>
+
+
+
+
+                    <!-- desde aqui se pueden añadir mas Mantenimientos -->
+
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-file-earmark-bar-graph-fill"></i>
+                    <p>
+                        Producción Agrícola
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Departamento</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Municipio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Municipio</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Aldea.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Aldea</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cacerio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Cacerio</p>
+                        </a>
+                    </li>
+
+
+
+
+                                   <!-- desde aqui se pueden añadir mas Mantenimientos -->
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-bucket-fill"></i>
+                    <p>
+                        Producción Pecuaria
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Departamento</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Municipio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Municipio</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Aldea.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Aldea</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cacerio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Cacerio</p>
+                        </a>
+                    </li>
 
 
 
 
 
 
-                </li>
 
-               
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-receipt"></i>
+                    <p>
+                        Comercialización
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Departamento</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Municipio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Municipio</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Aldea.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Aldea</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cacerio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Cacerio</p>
+                        </a>
+                    </li>
+
+
+
+
+
+
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-house"></i>
+                    <p>
+                        Ingresos Hogar
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Departamento</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Municipio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Municipio</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Aldea.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Aldea</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cacerio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Cacerio</p>
+                        </a>
+                    </li>
+
+
+
+
+
+
             </ul>
+        </li>
+        <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-shop-window"></i>
+                    <p>
+                        Prácticas Producción
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Departamento</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Municipio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Municipio</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Aldea.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Aldea</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Cacerio.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Cacerio</p>
+                        </a>
+                    </li>
+
+
+
+
+            </ul>
+        </li>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
