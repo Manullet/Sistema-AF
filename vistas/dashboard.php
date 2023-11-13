@@ -8,26 +8,42 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Tablero Principal Das</h1>
+                <h1 class="m-0"></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">inicio</a></li>
-                    <li class="breadcrumb-item active">Tablero Principal Das</li>
+                    <li class="breadcrumb-item active"></li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-
+<style>
+        .centrado {
+            text-align: left;
+            margin-top: 10px; /* Ajusta el margen superior según sea necesario */
+        }
+            .contenedor-centro {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 65vh  /* O ajusta la altura según tus necesidades */
+            
+        }
+    </style>
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
+        
+    <h1 class="centrado">Bienvenidos Al Sistema-AF</h1>
         <div class="row">
-
-            <div class="col-lg-2">
-                <!-- small box -->
+       
+        <div class="contenedor-centro" ><img src="https://cursodeadministraciondeempresas.com/wp-content/uploads/2020/09/El-Sistema-de-Informacion-Administrativa.png" alt="Descripción de la imagen"></div>
+        
+          <!--  <div class="col-lg-2">
+              
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h4 id="totalUsuarios">1</h4>
@@ -41,7 +57,7 @@
                 </div>
             </div>
             <div class="col-lg-2">
-                <!-- small box -->
+                
                 <div class="small-box bg-success">
                     <div class="inner">
                         <h4 id="totalUsuarios">1</h4>
@@ -55,7 +71,7 @@
                 </div>
             </div>
             <div class="col-lg-2">
-                <!-- small box -->
+                
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h4 id="totalUsuarios">1</h4>
@@ -69,7 +85,7 @@
                 </div>
             </div>
             <div class="col-lg-2">
-                <!-- small box -->
+             
                 <div class="small-box bg-primary">
                     <div class="inner">
                         <h4 id="totalUsuarios">1</h4>
@@ -83,7 +99,7 @@
                 </div>
             </div>
             <div class="col-lg-2">
-                <!-- small box -->
+               
                 <div class="small-box bg-secondary">
                     <div class="inner">
                         <h4 id="totalUsuarios">1</h4>
@@ -97,7 +113,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2">-->
             
         </div>
         <div class="col-lg-2"></div>

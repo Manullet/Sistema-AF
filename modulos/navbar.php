@@ -8,6 +8,9 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/sistema-af/php/cerrar_sesion.php" class="nav-link">Cerrar Sesion</a> <!-- cambiar la direccion  -->
         </li>
+       <!--  <li class="nav-item d-none d-sm-inline-block">
+            <a href="Llenar_ficha.php" class="nav-link">Llenar Formulario</a>  cambiar la direccion  
+        </li>-->
     </ul>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">

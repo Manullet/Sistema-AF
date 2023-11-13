@@ -19,6 +19,12 @@
                         <p>Inicio</p>
                     </a>
                 </li>
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Llenar_ficha.php','content-wrapper')">
+                            <i class="bi bi-file-earmark-plus-fill"></i>
+                            <p>Llenar Formulario</p>
+                        </a>
+                    </li>
 
                 <li class="nav-item has-treeview">
                     <a style="cursor:pointer;" class="nav-link">
@@ -506,6 +512,63 @@
                         </a>
                     </li>
 
+
+
+
+            </ul>
+        </li>
+        <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-shop-window"></i>
+                    <p>
+                        Tablas Manuel
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Productor.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Datos Generales </p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Etnicidad.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Etnicidad</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Ubicacion_Productor.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>ubicación geografica</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Base_Organizaciones_Productor.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Pertenencia a Organizaciones</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Relevo_Organizacion.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Relevo Generacional</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Composicion.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Composición del hogar</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Migracion_Familiar.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Migración familiar</p>
+                        </a>
+                    </li>
 
 
 
