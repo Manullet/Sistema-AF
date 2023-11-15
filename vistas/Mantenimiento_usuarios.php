@@ -1,3 +1,8 @@
+<?php 
+session_start();
+ $_SESSION['url'] = 'vistas/Mantenimiento_Aldea.php';
+ $_SESSION['content-wrapper'] = 'content-wrapper';
+?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -48,11 +53,11 @@
                     <tr>
                         <td><?= $datos->Id_Usuario ?></td>
                         <td><?= $datos-> Nombre ?></td>
-                        <td><?= $datos-> Usuario?></td>
+                        <td><?= $datos-> usuario?></td>
                         <td><?= $datos-> Correo ?></td>
                         <td><?= $datos->Estado ?></td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_Usuario ?>', '<?= $datos->Nombre ?>', '<?= $datos->Usuario ?>', '<?= $datos->Correo ?>', '<?= $datos->Estado ?>')">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_Usuario ?>', '<?= $datos->Nombre ?>', '<?= $datos->usuario ?>', '<?= $datos->Correo ?>', '<?= $datos->Estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
@@ -104,8 +109,8 @@
                         <input type="text" class="form-control" id="Nombre" name="Nombre" required>
                     </div>
                     <div class="form-group">
-                        <label for="Usuario">Usuario:</label>
-                        <input type="text" class="form-control" id="Usuario" name="Usuario" required>
+                        <label for="usuario">Usuario:</label>
+                        <input type="text" class="form-control" id="usuario" name="usuario" required>
                     </div>
                     <div class="form-group">
                         <label for="Correo">Correo:</label>
@@ -148,10 +153,10 @@
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Usuario, Nombre, Usuario, Correo, Estado) {
+    function abrirModalEditar(Id_Usuario, Nombre, usuario, Correo, Estado) {
         document.getElementById("Id_Usuario").value = Id_Usuario;
         document.getElementById("Nombre").value = Nombre;
-        document.getElementById("Usuario").value = Usuario;
+        document.getElementById("usuario").value = usuario;
         document.getElementById("Correo").value = Correo;
         document.getElementById("Estado").value = Estado;
 

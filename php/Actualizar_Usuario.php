@@ -7,13 +7,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtiene los valores del formulario
     $Id_Usuario = $_POST["Id_Usuario"];
     $Nombre = $_POST["Nombre"];
-    $Usuario = $_POST["Usuario"];
+    $usuario = $_POST["usuario"];
     $Correo = $_POST["Correo"];
     $Estado = $_POST["Estado"];
   
     
     // Llama al procedimiento almacenado con 4 argumentos
-    $sql = "CALL UpdateUsuario('$Id_Usuario', '$Nombre', '$Usuario','$Correo','$Estado')";
+    $sql = "CALL UpdateUsuario('$Id_Usuario', '$Nombre', '$usuario','$Correo','$Estado')";
 
     if (mysqli_query($conexion, $sql)) {
       header("Location: ../bienvenida.php?success=true"); // Redirige a index.php con el parámetro success=true

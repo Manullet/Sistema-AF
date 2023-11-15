@@ -1,3 +1,8 @@
+<?php 
+session_start();
+ $_SESSION['url'] = 'vistas/Mantenimiento_Aldea.php';
+ $_SESSION['content-wrapper'] = 'content-wrapper';
+?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -215,14 +220,14 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="Id_Municipio">Municipio:</label>
-                            <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
+                            <label for="Id_Aldea">Municipio:</label>
+                            <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
                                 <?php
                                 // Conexión a la base de datos
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
+                                $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -230,7 +235,7 @@
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
+                                        echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
                                     }
                                 } else {
                                     echo '<option value="">No hay municipios disponibles</option>';

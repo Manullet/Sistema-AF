@@ -14,7 +14,10 @@ session_start();
 
     if(mysqli_num_rows($validar_login) > 0){
         //cookies cache
-        $_SESSION['usuario']= $correo;
+        $Usuario = mysqli_fetch_array($validar_login);
+        $_SESSION['usuario']= $Usuario;
+        $_SESSION['url'] = '';
+        $_SESSION['content-wrapper'] = '';
         header("location: ../bienvenida.php");
 
         //si el correo y la contraseña no existen enviara una alerta

@@ -58,8 +58,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <div class="content-wrapper">
 
-    <?php include "vistas/dashboard.php" ?>
-
   </div>
   <!-- /.content-wrapper -->
 
@@ -76,6 +74,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 </script>
+<?php
+  if ($_SESSION["url"] !== '' && $_SESSION["content-wrapper"] !== '') { ?>
+    <script>
+      let url = '<?php echo $_SESSION['url'] ?>';
+      let wrapper = '<?php echo $_SESSION['content-wrapper'] ?>';
+      CargarContenido(url, wrapper);
+    </script>
+
+  <?php }else{ ?>
+    <script>
+      CargarContenido('vistas/dashboard.php','content-wrapper');
+    </script>
+  <?php } ?>
+
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
