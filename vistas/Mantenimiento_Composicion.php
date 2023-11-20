@@ -1,6 +1,6 @@
 <?php 
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Aldea.php';
+ $_SESSION['url'] = 'vistas/Mantenimiento_Composicion.php';
  $_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
@@ -64,7 +64,7 @@ session_start();
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Nº Ficha</th>
-                    <th scope="col">Composicion</th>
+
                     <th scope="col">Productor</th>
                     <th scope="col">genero</th>
                     <th scope="col">edad</th>
@@ -77,17 +77,39 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_composicion");
+                $sql = $conexion->query("SELECT
+                C.id_ficha,
+                C.id_composicion,
+                C.id_productor,
+                C.genero,
+                C.edad,
+                C.descripcion,
+                C.creado_por,
+                C.fecha_creacion,
+                C.modificado_por,
+                C.fecha_modificacion,
+                C.estado,
+                P.primer_nombre
+            FROM
+                tbl_composicion C
+                INNER JOIN tbl_productor P ON C.id_productor = P.id_productor;
+            ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->id_ficha ?></td>
-                        <td><?= $datos->id_composicion ?></td>
-                        <td><?= $datos->id_productor ?></td>
-                        <td><?= $datos->genero ?></td>
+
+                        <td><?= $datos->primer_nombre ?></td>
+                        <td><?php
+                            if ($datos->genero == "H") {
+                                echo '<span class="badge badge-pill badge-light">Hombre</span>';
+                            } else {
+                                echo '<span class="badge badge-pill badge-light">Mujer</span>';
+                            }
+                            ?></td>
                         <td><?= $datos->edad ?></td>
                         <td><?= $datos->descripcion?></td>
                         <td><?php
-                            if ($datos->estado == "ACTIVO") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -183,38 +205,104 @@ session_start();
     </div>
 </div>
 
-<!-- Modal para crear usuarios -->
+<!-- Modal para crear composición -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR PERIODO </h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR COMPOSICIÓN</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_periodicidad.php" method="POST">
+                <form action="modelos/agregar_composicion.php" method="POST">
+                    <div class="row mb-3">
+                    <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="periodo" class="form-label">Periodo</label>
-                            <input type="text" class="form-control" id="periodo" name="periodo">
+                            <label for="genero" class="form-label">Género</label>
+                            <select class="form-control" id="genero" name="genero">
+                                <option value="H">Hombre</option>
+                                <option value="M">Mujer</option>
+                            </select>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
-                            <label for="descripcion" class="form-label">Descripción</label>
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="text" class="form-control" id="edad" name="edad">
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
                     </div>
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>

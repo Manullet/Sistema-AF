@@ -569,6 +569,12 @@
                             <p>Migración familiar</p>
                         </a>
                     </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Organizaciones_Productor.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Organizaciones Productor</p>
+                        </a>
+                    </li>
 
 
 

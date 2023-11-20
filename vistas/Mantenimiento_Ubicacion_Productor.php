@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Aldea.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_Ubicacion_Productor.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,12 +81,20 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT up.id_ficha, p.primer_nombre AS nombre_productor, up.id_ubicacion, d.Nombre_Departamento AS nombre_departamento, m.Nombre_Municipio AS nombre_municipio, a.Nombre_Aldea AS nombre_aldea, c.Nombre_Cacerio AS nombre_caserio, up.ubicacion_geografica, up.direccion_1, up.descripcion, up.estado FROM tbl_ubicacion_productor up
-                        LEFT JOIN tbl_departamentos d ON up.id_departamento = d.Id_Departamento
-                        LEFT JOIN tbl_municipios m ON up.id_municipio = m.Id_Municipio
-                        LEFT JOIN tbl_aldeas a ON up.id_aldea = a.Id_Aldea
-                        LEFT JOIN tbl_cacerios c ON up.id_caserio = c.Id_Cacerio
-                        LEFT JOIN tbl_productor p ON up.id_productor = p.id_productor");
+                $sql = $conexion->query("SELECT
+                up.*,
+                p.primer_nombre AS nombre_productor,
+                d.Nombre_Departamento AS nombre_departamento,
+                m.Nombre_Municipio AS nombre_municipio,
+                a.Nombre_Aldea AS nombre_aldea,
+                c.Nombre_Cacerio AS nombre_caserio
+            FROM tbl_ubicacion_productor up
+            LEFT JOIN tbl_departamentos d ON up.id_departamento = d.Id_Departamento
+            LEFT JOIN tbl_municipios m ON up.id_municipio = m.Id_Municipio
+            LEFT JOIN tbl_aldeas a ON up.id_aldea = a.Id_Aldea
+            LEFT JOIN tbl_cacerios c ON up.id_caserio = c.Id_Cacerio
+            LEFT JOIN tbl_productor p ON up.id_productor = p.id_productor;
+            ");
 
                 while ($datos = $sql->fetch_object()) {
                 ?>
@@ -110,11 +118,11 @@ session_start();
                             }
                             ?></td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_ubicacion ?>',  '<?= $datos->ubicacion_geografica?>', '<?= $datos->direccion_1?>', '<?= $datos->descripcion?>', '<?= $datos->estado?>')">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->id_ubicacion ?>','<?= $datos->id_ficha ?>','<?= $datos->id_productor ?>',    '<?= $datos->id_departamento ?>','<?= $datos->id_municipio ?>', '<?= $datos->id_aldea ?>','<?= $datos->id_caserio ?>', '<?= $datos->ubicacion_geografica ?>','<?= $datos->distancia_parcela_vivienda ?>', '<?= $datos->latitud_parcela ?>','<?= $datos->longitud_parcela ?>', '<?= $datos->msnm ?>','<?= $datos->direccion_1 ?>', '<?= $datos->direccion_2 ?>','<?= $datos->direccion_3 ?>', '<?= $datos->vive_en_finca ?>','<?= $datos->nombre_finca ?>','<?= $datos->descripcion ?>','<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
+
                             <form id="deleteForm" method="POST" action="modelos/eliminar_periodicidad.php" style="display: inline;">
                                 <input type="hidden" name="id_ubicacion" value="<?= $datos->id_ubicacion ?>">
                                 <button type="submit" class="btn btn-eliminar">
@@ -146,6 +154,7 @@ session_start();
 </div>
 
 <!-- Modal para editar UBICACION -->
+
 <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -164,11 +173,64 @@ session_start();
                                 <input type="text" class="form-control" id="id_ubicacion" name="id_ubicacion" readonly>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
 
-                        <div class="form-group">
-                        <label for="Id_Departamento">Departamento </label>
-                        <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_departamento">Departamento </label>
+                        <select class="form-control" id="id_departamento" name="id_departamento" required>
                             <?php
                             // Conexión a la base de datos
                             include '../php/conexion_be.php';
@@ -191,102 +253,143 @@ session_start();
                             mysqli_close($conexion);
                             ?>
                         </select>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="Id_Municipio">Municipio:</label>
-                            <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
-                                <?php
-                                // Conexión a la base de datos
-                                include '../php/conexion_be.php';
+                    <div class="form-group">
+                        <label for="id_municipio">Municipio:</label>
+                        <select class="form-control" id="id_municipio" name="id_municipio" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
 
-                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
 
-                                // Ejecutar la consulta
-                                $result = mysqli_query($conexion, $sql);
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
 
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
-                                    }
-                                } else {
-                                    echo '<option value="">No hay municipios disponibles</option>';
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
                                 }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
 
-                                // Cierra la conexión a la base de datos
-                                mysqli_close($conexion);
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="Id_Aldea">Municipio:</label>
-                            <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
-                                <?php
-                                // Conexión a la base de datos
-                                include '../php/conexion_be.php';
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
 
-                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
+                    <div class="form-group">
+                        <label for="id_aldea">Aldea:</label>
+                        <select class="form-control" id="id_aldea" name="id_aldea" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
 
-                                // Ejecutar la consulta
-                                $result = mysqli_query($conexion, $sql);
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
 
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
-                                    }
-                                } else {
-                                    echo '<option value="">No hay municipios disponibles</option>';
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
                                 }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
 
-                                // Cierra la conexión a la base de datos
-                                mysqli_close($conexion);
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="Id_Aldea">Cacerio:</label>
-                            <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
-                                <?php
-                                // Conexión a la base de datos
-                                include '../php/conexion_be.php';
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
 
-                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
-                                $sql = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios";
+                    <div class="form-group">
+                        <label for="id_cacerio">Cacerio:</label>
+                        <select class="form-control" id="id_cacerio" name="id_cacerio" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
 
-                                // Ejecutar la consulta
-                                $result = mysqli_query($conexion, $sql);
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                            $sql = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios";
 
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["Id_Cacerio"] . '">' . $row["Nombre_Cacerio"] . '</option>';
-                                    }
-                                } else {
-                                    echo '<option value="">No hay aldeas disponibles</option>';
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Cacerio"] . '">' . $row["Nombre_Cacerio"] . '</option>';
                                 }
+                            } else {
+                                echo '<option value="">No hay aldeas disponibles</option>';
+                            }
 
-                                // Cierra la conexión a la base de datos
-                                mysqli_close($conexion);
-                                ?>
-                            </select>
-                        </div>
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ubicacion_geografica">Ubicacion Geografica</label>
+                        <input type="text" class="form-control" id="ubicacion_geografica" name="ubicacion_geografica" required>
                     </div>
                     <div class="form-group">
-                                <label for="ubicacion_geografica">Ubicacion Geografica</label>
-                                <input type="text" class="form-control" id="ubicacion_geografica" name="ubicacion_geografica" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="direccion_1">Dirección </label>
-                                <input type="text" class="form-control" id="direccion_1" name="direccion_1" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="descripcion">Descripcion </label>
-                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
-                            </div>
+                        <label for="distancia_parcela_vivienda">Distancia Parcela-Vivienda</label>
+                        <input type="text" class="form-control" id="distancia_parcela_vivienda" name="distancia_parcela_vivienda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="latitud_parcela">Latitud Parcela</label>
+                        <input type="text" class="form-control" id="latitud_parcela" name="latitud_parcela" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitud_parcela">Longitud Parcela</label>
+                        <input type="text" class="form-control" id="longitud_parcela" name="longitud_parcela" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="msnm">Msnm</label>
+                        <input type="text" class="form-control" id="msnm" name="msnm" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion_1">Dirección </label>
+                        <input type="text" class="form-control" id="direccion_1" name="direccion_1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion_2">Dirección 2</label>
+                        <input type="text" class="form-control" id="direccion_2" name="direccion_2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion_3">Dirección 3</label>
+                        <input type="text" class="form-control" id="direccion_3" name="direccion_3" required>
+                    </div>
 
+                    <label class="form-label">¿Vive en finca?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="vive_en_finca" id="vive_en_finca_S" value="S">
+                        <label class="form-check-label" for="vive_en_finca_S">Sí</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="vive_en_finca" id="vive_en_finca_N" value="N">
+                        <label class="form-check-label" for="vive_en_finca_N">No</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre_finca">Nombre de la Finca</label>
+                        <input type="text" class="form-control" id="nombre_finca" name="nombre_finca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion </label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                    </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -298,6 +401,7 @@ session_start();
                             </select>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
@@ -307,6 +411,7 @@ session_start();
         </div>
     </div>
 </div>
+
 
 <!-- Modal para crear usuarios -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -319,18 +424,237 @@ session_start();
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_periodicidad.php" method="POST">
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="periodo" class="form-label">Periodo</label>
-                            <input type="text" class="form-control" id="periodo" name="periodo">
+                <form action="modelos/agregar_ubicacion_productor.php" method="POST">
+                <div class="row">
+                        
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
-                            <label for="descripcion" class="form-label">Descripción</label>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
+                    <div class="form-group ">
+                        <label for="id_departamento">Departamento </label>
+                        <select class="form-control" id="id_departamento" name="id_departamento" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
+                            $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
 
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay departamentos disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_municipio">Municipio:</label>
+                        <select class="form-control" id="id_municipio" name="id_municipio" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_aldea">Aldea:</label>
+                        <select class="form-control" id="id_aldea" name="id_aldea" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_cacerio">Cacerio:</label>
+                        <select class="form-control" id="id_cacerio" name="id_cacerio" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                            $sql = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Cacerio"] . '">' . $row["Nombre_Cacerio"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay aldeas disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ubicacion_geografica">Ubicacion Geografica</label>
+                        <input type="text" class="form-control" id="ubicacion_geografica" name="ubicacion_geografica" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="distancia_parcela_vivienda">Distancia Parcela-Vivienda</label>
+                        <input type="text" class="form-control" id="distancia_parcela_vivienda" name="distancia_parcela_vivienda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="latitud_parcela">Latitud Parcela</label>
+                        <input type="text" class="form-control" id="latitud_parcela" name="latitud_parcela" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitud_parcela">Longitud Parcela</label>
+                        <input type="text" class="form-control" id="longitud_parcela" name="longitud_parcela" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="msnm">Msnm</label>
+                        <input type="text" class="form-control" id="msnm" name="msnm" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion_1">Dirección </label>
+                        <input type="text" class="form-control" id="direccion_1" name="direccion_1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion_2">Dirección 2</label>
+                        <input type="text" class="form-control" id="direccion_2" name="direccion_2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion_3">Dirección 3</label>
+                        <input type="text" class="form-control" id="direccion_3" name="direccion_3" required>
+                    </div>
+
+                    <label class="form-label">¿Vive en finca?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="vive_en_finca" id="vive_en_finca_S" value="S">
+                        <label class="form-check-label" for="vive_en_finca_S">Sí</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="vive_en_finca" id="vive_en_finca_N" value="N">
+                        <label class="form-check-label" for="vive_en_finca_N">No</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre_finca">Nombre de la Finca</label>
+                        <input type="text" class="form-control" id="nombre_finca" name="nombre_finca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion </label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" name="estado" required>
+                                <option value="" disabled selected>Selecciona un estado</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
@@ -343,15 +667,37 @@ session_start();
 
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
-    // Función para abrir el modal de edición
-    function abrirModalEditar(id_ubicacion,  ubicacion_geografica, direccion_1, descripcion, estado) {
-        document.getElementById("id_ubicacion").value = id_ubicacion;
-        document.getElementById("ubicacion_geografica").value = ubicacion_geografica;
-        document.getElementById("direccion_1").value = direccion_1;
-        document.getElementById("descripcion").value = descripcion;
-        document.getElementById("estado").value = estado;
+    function abrirModalEditar(
+        id_ficha, id_productor, id_ubicacion, id_departamento, id_municipio,
+        id_aldea, id_caserio, ubicacion_geografica, distancia_parcela_vivienda,
+        latitud_parcela, longitud_parcela, msnm, direccion_1, direccion_2,
+        direccion_3, vive_en_finca, nombre_finca, descripcion, estado
+    ) {
+        $("#id_ficha").val(id_ficha);
+        $("#id_productor").val(id_productor);
+        $("#id_ubicacion").val(id_ubicacion);
+        $("#id_departamento").val(id_departamento);
+        $("#id_municipio").val(id_municipio);
+        $("#id_aldea").val(id_aldea);
+        $("#id_cacerio").val(id_caserio);
+        $("#ubicacion_geografica").val(ubicacion_geografica);
+        $("#distancia_parcela_vivienda").val(distancia_parcela_vivienda);
+        $("#latitud_parcela").val(latitud_parcela);
+        $("#longitud_parcela").val(longitud_parcela);
+        $("#msnm").val(msnm);
+        $("#direccion_1").val(direccion_1);
+        $("#direccion_2").val(direccion_2);
+        $("#direccion_3").val(direccion_3);
+        if (vive_en_finca === 'S') {
+            document.getElementById("vive_en_finca_S").checked = true;
+        } else if (vive_en_finca === 'N') {
+            document.getElementById("vive_en_finca_N").checked = true;
+        }
+        $("#nombre_finca").val(nombre_finca);
+        $("#descripcion").val(descripcion);
+        $("#estado").val(estado);
 
-        $('#modalEditar').modal('show'); // Mostrar el modal de edición
+        $('#modalEditar').modal('show');
     }
 </script>
 
@@ -362,7 +708,7 @@ session_start();
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_periodicidad.php",
+                url: "modelos/editar_ubicacion_productor.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {

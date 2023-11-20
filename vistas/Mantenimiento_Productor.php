@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Aldea.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_Productor.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@ session_start();
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">PERIODOS</h1>
+            <h1 class="poppins-font mb-2">DATOS GENERALES</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                 <i class="bi bi-plus-square icono-grande"></i> Crear
@@ -29,13 +29,13 @@ session_start();
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar periodos..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar Prodcutor..." aria-label="Search">
                 </div>
             </form>
         </div>
     </div>
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
@@ -57,7 +57,7 @@ session_start();
             console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
         });
     </script>
-    
+
     <div class="table-responsive">
 
         <table class="table table-hover">
@@ -81,21 +81,21 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_productor");
+                $sql = $conexion->query("SELECT tbl_productor.*, fichas.id_ficha FROM tbl_productor INNER JOIN fichas ON tbl_productor.id_ficha = fichas.id_ficha;");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->id_ficha ?></td>
                         <td><?= $datos->id_productor ?></td>
-                        <td><?= $datos->primer_nombre?></td>
+                        <td><?= $datos->primer_nombre ?></td>
                         <td><?= $datos->primer_apellido ?></td>
                         <td><?= $datos->identificacion ?></td>
-                        <td><?= $datos->genero?></td>
+                        <td><?= $datos->genero ?></td>
                         <td><?= $datos->estado_civil ?></td>
                         <td><?= $datos->telefono_1 ?></td>
-                        <td><?= $datos->email_1?></td>
-                        <td><?= $datos->descripcion?></td>
+                        <td><?= $datos->email_1 ?></td>
+                        <td><?= $datos->descripcion ?></td>
                         <td><?php
-                            if ($datos->estado == "ACTIVO") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -103,10 +103,11 @@ session_start();
                             ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_periodo ?>', '<?= $datos->periodo ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                            ('<?= $datos->id_productor ?>', '<?= $datos->id_ficha ?>', '<?= $datos->primer_nombre ?>', '<?= $datos->segundo_nombre ?>', '<?= $datos->primer_apellido ?>', '<?= $datos->segundo_apellido ?>', '<?= $datos->identificacion ?>', '<?= $datos->fecha_nacimiento ?>', '<?= $datos->genero ?>', '<?= $datos->estado_civil ?>', '<?= $datos->nivel_escolaridad ?>', '<?= $datos->ultimo_grado_escolar_aprobado ?>', '<?= $datos->telefono_1 ?>', '<?= $datos->telefono_2 ?>', '<?= $datos->telefono_3 ?>', '<?= $datos->email_1 ?>', '<?= $datos->email_2 ?>', '<?= $datos->email_3 ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
+
                             <form id="deleteForm" method="POST" action="modelos/eliminar_periodicidad.php" style="display: inline;">
                                 <input type="hidden" name="id_periodo" value="<?= $datos->id_periodo ?>">
                                 <button type="submit" class="btn btn-eliminar">
@@ -142,7 +143,7 @@ session_start();
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR PERIODOS</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR PRODUCTOR</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -150,46 +151,170 @@ session_start();
             <div class="modal-body">
                 <form id="formularioEditar" method="POST" action="#">
                     <div class="row">
+                        
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_periodo" name="id_periodo" readonly>
-                                <label for="id_periodo">Código</label>
+                                <label for="id_ficha">ID Ficha</label>
+                                <input type="text" class="form-control" id="id_ficha" name="id_ficha" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                            <div class="form-group" style="display: none;">
+                                <input type="text" class="form-control" id="id_productor" name="id_productor" readonly>
+                                <label for="id_productor">Código</label>
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="primer_nombre">Primer Nombre</label>
+                                <input type="text" class="form-control" id="primer_nombre" name="primer_nombre" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="periodo">Periodo</label>
-                                <input type="text" class="form-control" id="periodo" name="periodo" required>
+                                <label for="segundo_nombre">Segundo Nombre</label>
+                                <input type="text" class="form-control" id="segundo_nombre" name="segundo_nombre" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="descripcion">Descripción</label>
-                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                                <label for="primer_apellido">Primer Apellido</label>
+                                <input type="text" class="form-control" id="primer_apellido" name="primer_apellido" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="segundo_apellido">Segundo Apellido</label>
+                                <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" required>
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="identificacion">Identificación</label>
+                                <input type="text" class="form-control" id="identificacion" name="identificacion" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="genero">Género</label>
+                                <select class="form-control" id="genero" name="genero" required>
+                                    <option value="" disabled selected>Selecciona el género</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="estado_civil">Estado Civil</label>
+                                <select class="form-control" id="estado_civil" name="estado_civil" required>
+                                    <option value="" disabled selected>Selecciona el estado civil</option>
+                                    <option value="Soltero(a)">Soltero(a)</option>
+                                    <option value="Casado(a)">Casado(a)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="nivel_escolaridad">Nivel de Escolaridad</label>
+                                <input type="text" class="form-control" id="nivel_escolaridad" name="nivel_escolaridad" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="ultimo_grado_escolar_aprobado">Último Grado Escolar Aprobado</label>
+                                <input type="text" class="form-control" id="ultimo_grado_escolar_aprobado" name="ultimo_grado_escolar_aprobado" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="telefono_1">Teléfono 1</label>
+                                <input type="text" class="form-control" id="telefono_1" name="telefono_1" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="telefono_2">Teléfono 2</label>
+                                <input type="text" class="form-control" id="telefono_2" name="telefono_2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="telefono_3">Teléfono 3</label>
+                                <input type="text" class="form-control" id="telefono_3" name="telefono_3">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email_1">Correo Electrónico 1</label>
+                                <input type="email" class="form-control" id="email_1" name="email_1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email_2">Correo Electrónico 2</label>
+                                <input type="email" class="form-control" id="email_2" name="email_2">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email_3">Correo Electrónico 3</label>
+                                <input type="email" class="form-control" id="email_3" name="email_3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
+                        </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Modal para crear usuarios -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -202,18 +327,149 @@ session_start();
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_periodicidad.php" method="POST">
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="periodo" class="form-label">Periodo</label>
-                            <input type="text" class="form-control" id="periodo" name="periodo">
+                <form action="modelos/agregar_datos_productor.php" method="POST">
+                <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_ficha">ID Ficha</label>
+                                <input type="text" class="form-control" id="id_ficha" name="id_ficha" required>
+                            </div>
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
-                            <label for="descripcion" class="form-label">Descripción</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="primer_nombre">Primer Nombre</label>
+                                <input type="text" class="form-control" id="primer_nombre" name="primer_nombre" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="segundo_nombre">Segundo Nombre</label>
+                                <input type="text" class="form-control" id="segundo_nombre" name="segundo_nombre" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="primer_apellido">Primer Apellido</label>
+                                <input type="text" class="form-control" id="primer_apellido" name="primer_apellido" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="segundo_apellido">Segundo Apellido</label>
+                                <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="identificacion">Identificación</label>
+                                <input type="text" class="form-control" id="identificacion" name="identificacion" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="genero">Género</label>
+                                <select class="form-control" id="genero" name="genero" required>
+                                    <option value="" disabled selected>Selecciona el género</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="estado_civil">Estado Civil</label>
+                                <select class="form-control" id="estado_civil" name="estado_civil" required>
+                                    <option value="" disabled selected>Selecciona el estado civil</option>
+                                    <option value="Soltero(a)">Soltero(a)</option>
+                                    <option value="Casado(a)">Casado(a)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="nivel_escolaridad">Nivel de Escolaridad</label>
+                                <input type="text" class="form-control" id="nivel_escolaridad" name="nivel_escolaridad" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="ultimo_grado_escolar_aprobado">Último Grado Escolar Aprobado</label>
+                                <input type="text" class="form-control" id="ultimo_grado_escolar_aprobado" name="ultimo_grado_escolar_aprobado" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="telefono_1">Teléfono 1</label>
+                                <input type="text" class="form-control" id="telefono_1" name="telefono_1" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="telefono_2">Teléfono 2</label>
+                                <input type="text" class="form-control" id="telefono_2" name="telefono_2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="telefono_3">Teléfono 3</label>
+                                <input type="text" class="form-control" id="telefono_3" name="telefono_3">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email_1">Correo Electrónico 1</label>
+                                <input type="email" class="form-control" id="email_1" name="email_1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email_2">Correo Electrónico 2</label>
+                                <input type="email" class="form-control" id="email_2" name="email_2">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email_3">Correo Electrónico 3</label>
+                                <input type="email" class="form-control" id="email_3" name="email_3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+                            </div>
                         </div>
                     </div>
 
+
+
+
+
+                    
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
@@ -227,10 +483,27 @@ session_start();
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_periodo, periodo, descripcion, estado) {
-        document.getElementById("id_periodo").value = id_periodo;
-        document.getElementById("periodo").value = periodo;
+    function abrirModalEditar(id_productor, id_ficha, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, identificacion, fecha_nacimiento, genero, estado_civil, nivel_escolaridad, ultimo_grado_escolar_aprobado, telefono_1, telefono_2, telefono_3, email_1, email_2, email_3, descripcion, estado) {
+        document.getElementById("id_productor").value = id_productor;
+        document.getElementById("id_ficha").value = id_ficha;
+        document.getElementById("primer_nombre").value = primer_nombre;
+        document.getElementById("segundo_nombre").value = segundo_nombre;
+        document.getElementById("primer_apellido").value = primer_apellido;
+        document.getElementById("segundo_apellido").value = segundo_apellido;
+        document.getElementById("identificacion").value = identificacion;
+        document.getElementById("fecha_nacimiento").value = fecha_nacimiento;
+        document.getElementById("genero").value = genero;
+        document.getElementById("estado_civil").value = estado_civil;
+        document.getElementById("nivel_escolaridad").value = nivel_escolaridad;
+        document.getElementById("ultimo_grado_escolar_aprobado").value = ultimo_grado_escolar_aprobado;
+        document.getElementById("telefono_1").value = telefono_1;
+        document.getElementById("telefono_2").value = telefono_2;
+        document.getElementById("telefono_3").value = telefono_3;
+        document.getElementById("email_1").value = email_1;
+        document.getElementById("email_2").value = email_2;
+        document.getElementById("email_3").value = email_3;
         document.getElementById("descripcion").value = descripcion;
+
         document.getElementById("estado").value = estado;
 
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
@@ -244,7 +517,7 @@ session_start();
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_periodicidad.php",
+                url: "modelos/editar_datos_productor.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {
@@ -276,7 +549,7 @@ session_start();
 </script>
 
 <!-- Script para mostrar el mensaje al momento de eliminar un usuario-->
-<script>    
+<script>
     $(document).ready(function() {
         $("form#deleteForm").on("submit", function(event) {
             event.preventDefault();
