@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-11-2023 a las 09:38:18
+-- Tiempo de generación: 21-11-2023 a las 17:48:10
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -1721,11 +1721,37 @@ INSERT INTO `tbl_fuentes_credito` (`id_fuente_credito`, `fuente_credito`, `descr
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_manejo_riego`
+--
+
+CREATE TABLE `tbl_manejo_riego` (
+  `Id_Manejo_Riego` bigint(20) NOT NULL,
+  `Id_Ficha` bigint(20) DEFAULT NULL,
+  `Id_Ubicacion` bigint(20) DEFAULT NULL,
+  `Id_Productor` bigint(20) DEFAULT NULL,
+  `Tiene_Riego` enum('S','N') DEFAULT NULL,
+  `Superficie_Riego` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Superficie_Riego` bigint(20) DEFAULT NULL,
+  `Id_Tipo_Riego` bigint(20) DEFAULT NULL,
+  `Fuente_Agua` varchar(255) DEFAULT NULL,
+  `Disponibilidad_Agua_Meses` int(11) DEFAULT NULL,
+  `Descripcion` varchar(255) DEFAULT NULL,
+  `Id_Usuario` bigint(20) DEFAULT NULL,
+  `Creado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Modificado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Estado` enum('A','I') DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_medidas_tierra`
 --
 
 CREATE TABLE `tbl_medidas_tierra` (
-  `id_medida` int(11) NOT NULL,
+  `id_medida` bigint(20) NOT NULL,
   `medida` enum('MZ','HA','TAREAS','') DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
@@ -1953,6 +1979,86 @@ INSERT INTO `tbl_periodicidad` (`id_periodo`, `periodo`, `descripcion`, `creado_
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_produccion_agricola_anterior`
+--
+
+CREATE TABLE `tbl_produccion_agricola_anterior` (
+  `Id_Produccion_Anterior` bigint(20) NOT NULL,
+  `Id_Ficha` bigint(20) DEFAULT NULL,
+  `Id_Ubicacion` bigint(20) DEFAULT NULL,
+  `Id_Productor` bigint(20) DEFAULT NULL,
+  `Id_Tipo_Cultivo` bigint(20) DEFAULT NULL,
+  `Superficie_Primera_Postrera` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Primera_Postrera` bigint(20) DEFAULT NULL,
+  `Produccion_Obtenida` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Produccion_Obtenida` bigint(20) DEFAULT NULL,
+  `Cantidad_Vendida` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Vendida` bigint(20) DEFAULT NULL,
+  `Precio_Venta` decimal(10,2) DEFAULT NULL,
+  `A_Quien_Se_Vendio` varchar(255) DEFAULT NULL,
+  `Descripcion` varchar(255) DEFAULT NULL,
+  `Id_Usuario` bigint(20) DEFAULT NULL,
+  `Creado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Modificado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Estado` enum('A','I') DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_produccion_pecuaria`
+--
+
+CREATE TABLE `tbl_produccion_pecuaria` (
+  `Id_Produccion_Pecuaria` bigint(20) NOT NULL,
+  `Id_Produccion` bigint(20) DEFAULT NULL,
+  `Id_Ficha` bigint(20) DEFAULT NULL,
+  `Id_Ubicacion` bigint(20) DEFAULT NULL,
+  `Id_Productor` bigint(20) DEFAULT NULL,
+  `Año_Produccion` int(11) DEFAULT NULL,
+  `Id_Tipo_Pecuario` bigint(20) DEFAULT NULL,
+  `Cantidad_Hembras` int(11) DEFAULT NULL,
+  `Cantidad_Machos` int(11) DEFAULT NULL,
+  `Cantidad_Total` int(11) DEFAULT NULL,
+  `Descripcion_Otros` varchar(255) DEFAULT NULL,
+  `Precio_Venta` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Venta` bigint(20) DEFAULT NULL,
+  `Cantidad_Mercado` int(11) DEFAULT NULL,
+  `Id_Usuario` bigint(20) DEFAULT NULL,
+  `Descripcion` varchar(255) DEFAULT NULL,
+  `Creado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Modificado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Estado` enum('A','I') DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_produccion_vendida`
+--
+
+CREATE TABLE `tbl_produccion_vendida` (
+  `Id_Produccion_Vendida` bigint(20) NOT NULL,
+  `Año_Venta` int(11) DEFAULT NULL,
+  `Id_Tipo_Pecuario` bigint(20) DEFAULT NULL,
+  `Precio_Venta` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Venta` bigint(20) DEFAULT NULL,
+  `Cantidad_Mercado` int(11) DEFAULT NULL,
+  `Id_Usuario` bigint(20) DEFAULT NULL,
+  `Creado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Modificado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Estado` enum('A','I') DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_productor`
 --
 
@@ -2093,7 +2199,7 @@ CREATE TABLE `tbl_tipos_apoyo_produccion` (
 --
 
 CREATE TABLE `tbl_tipo_cultivo` (
-  `id_tipo_cultivo` int(11) NOT NULL,
+  `id_tipo_cultivo` bigint(20) NOT NULL,
   `tipo_cultivo` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
@@ -2163,6 +2269,24 @@ INSERT INTO `tbl_tipo_organizacion` (`id_tipo_organizacion`, `tipo_organizacion`
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_tipo_pecuarios`
+--
+
+CREATE TABLE `tbl_tipo_pecuarios` (
+  `id_tipo_pecuario` bigint(20) NOT NULL,
+  `tipo_pecuario` enum('bovino','ovino','caprino') NOT NULL,
+  `raza_con_genero` enum('s','n') DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
+  `fecha_creacion` date DEFAULT NULL,
+  `modificado_por` varchar(50) DEFAULT NULL,
+  `fecha_modificacion` date DEFAULT NULL,
+  `estado` enum('A','I') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_tipo_practicas_productivas`
 --
 
@@ -2218,7 +2342,7 @@ INSERT INTO `tbl_tipo_produccion` (`id_tipo_produccion`, `tipo_produccion`, `des
 --
 
 CREATE TABLE `tbl_tipo_riego` (
-  `id_tipo_riego` int(11) NOT NULL,
+  `id_tipo_riego` bigint(20) NOT NULL,
   `tipo_riego` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
@@ -2352,6 +2476,42 @@ CREATE TABLE `tbl_ubicacion_productor` (
 INSERT INTO `tbl_ubicacion_productor` (`id_ficha`, `id_productor`, `id_ubicacion`, `id_departamento`, `id_municipio`, `id_aldea`, `id_caserio`, `ubicacion_geografica`, `distancia_parcela_vivienda`, `latitud_parcela`, `longitud_parcela`, `msnm`, `direccion_1`, `direccion_2`, `direccion_3`, `vive_en_finca`, `nombre_finca`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 1, 1, 1, 4, 1, 1, 'Prueba ', 100.00, '11', '12', 13.00, 'Col. Arturo Quezada', 'Col. Arturo Quezada1', 'Col. Arturo Quezada2', 'S', 'Resi Quezada', 'Prueba', 'manu', '2023-11-13 03:29:27', 'manu', '2023-11-20 08:38:11', 'A'),
 (1, 1, 2, 1, 1, 1, 1, 'Prueba', NULL, NULL, NULL, NULL, 'Col.Quezada', NULL, NULL, 'S', 'Resi Quezada', 'Prueba', '1', '2023-11-13 03:31:13', '1', '2023-11-20 07:46:21', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_unidad_productora`
+--
+
+CREATE TABLE `tbl_unidad_productora` (
+  `Id_Ubicacion` bigint(20) NOT NULL,
+  `Id_Ficha` bigint(20) DEFAULT NULL,
+  `Id_Unidad_Productiva` bigint(20) NOT NULL,
+  `Id_Productor` bigint(20) DEFAULT NULL,
+  `Tipo_De_Manejo` enum('Propia','Alquilada','Prestada','Ejidal') DEFAULT NULL,
+  `Superficie_Produccion` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Produccion` bigint(20) DEFAULT NULL,
+  `Superficie_Agricultura` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Agricultura` bigint(20) DEFAULT NULL,
+  `Superficie_Ganaderia` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Ganaderia` bigint(20) DEFAULT NULL,
+  `Superficie_Apicultura` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Apicultura` bigint(20) DEFAULT NULL,
+  `Superficie_Forestal` decimal(10,2) DEFAULT NULL,
+  `Id_Medida_Forestal` bigint(20) DEFAULT NULL,
+  `Superficie_Acuacultura` decimal(10,2) DEFAULT NULL,
+  `Numero_Estanques` int(11) DEFAULT NULL,
+  `Superficie_Agroturismo` decimal(10,2) DEFAULT NULL,
+  `Superficie_Otros` decimal(10,2) DEFAULT NULL,
+  `Otros_Descripcion` varchar(255) DEFAULT NULL,
+  `Descripcion` varchar(255) DEFAULT NULL,
+  `Id_Usuario` bigint(20) DEFAULT NULL,
+  `Creado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Modificado_Por` varchar(255) DEFAULT NULL,
+  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Estado` enum('A','I') DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2539,6 +2699,17 @@ ALTER TABLE `tbl_fuentes_credito`
   ADD PRIMARY KEY (`id_fuente_credito`);
 
 --
+-- Indices de la tabla `tbl_manejo_riego`
+--
+ALTER TABLE `tbl_manejo_riego`
+  ADD PRIMARY KEY (`Id_Manejo_Riego`),
+  ADD KEY `FK_Id_Ficha_Manejo_Riego` (`Id_Ficha`),
+  ADD KEY `FK_Id_Ubicacion_Manejo_Riego` (`Id_Ubicacion`),
+  ADD KEY `FK_Id_Productor_Manejo_Riego` (`Id_Productor`),
+  ADD KEY `FK_Id_Medida_Superficie_Riego` (`Id_Medida_Superficie_Riego`),
+  ADD KEY `FK_Id_Tipo_Riego` (`Id_Tipo_Riego`);
+
+--
 -- Indices de la tabla `tbl_medidas_tierra`
 --
 ALTER TABLE `tbl_medidas_tierra`
@@ -2605,6 +2776,37 @@ ALTER TABLE `tbl_periodicidad`
   ADD PRIMARY KEY (`id_periodo`);
 
 --
+-- Indices de la tabla `tbl_produccion_agricola_anterior`
+--
+ALTER TABLE `tbl_produccion_agricola_anterior`
+  ADD PRIMARY KEY (`Id_Produccion_Anterior`),
+  ADD KEY `FK_Id_Ficha_Produccion_Anterior` (`Id_Ficha`),
+  ADD KEY `FK_Id_Ubicacion_Produccion_Anterior` (`Id_Ubicacion`),
+  ADD KEY `FK_Id_Productor_Produccion_Anterior` (`Id_Productor`),
+  ADD KEY `FK_Id_Tipo_Cultivo_Produccion_Anterior` (`Id_Tipo_Cultivo`),
+  ADD KEY `FK_Id_Medida_Primera_Postrera` (`Id_Medida_Primera_Postrera`),
+  ADD KEY `FK_Id_Medida_Produccion_Obtenida` (`Id_Medida_Produccion_Obtenida`),
+  ADD KEY `FK_Id_Medida_Vendida` (`Id_Medida_Vendida`);
+
+--
+-- Indices de la tabla `tbl_produccion_pecuaria`
+--
+ALTER TABLE `tbl_produccion_pecuaria`
+  ADD PRIMARY KEY (`Id_Produccion_Pecuaria`),
+  ADD KEY `FK_Id_Produccion_Pecuaria_Produccion_Vendida` (`Id_Produccion`),
+  ADD KEY `FK_Id_Ficha_Produccion_Pecuaria` (`Id_Ficha`),
+  ADD KEY `FK_Id_Ubicacion_Produccion_Pecuaria` (`Id_Ubicacion`),
+  ADD KEY `FK_Id_Productor_Produccion_Pecuaria` (`Id_Productor`),
+  ADD KEY `FK_Id_Tipo_Pecuario_Produccion_Pecuaria` (`Id_Tipo_Pecuario`),
+  ADD KEY `FK_Id_Medida_Venta_Produccion_Pecuaria` (`Id_Medida_Venta`);
+
+--
+-- Indices de la tabla `tbl_produccion_vendida`
+--
+ALTER TABLE `tbl_produccion_vendida`
+  ADD PRIMARY KEY (`Id_Produccion_Vendida`);
+
+--
 -- Indices de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
@@ -2662,6 +2864,12 @@ ALTER TABLE `tbl_tipo_organizacion`
   ADD PRIMARY KEY (`id_tipo_organizacion`);
 
 --
+-- Indices de la tabla `tbl_tipo_pecuarios`
+--
+ALTER TABLE `tbl_tipo_pecuarios`
+  ADD PRIMARY KEY (`id_tipo_pecuario`);
+
+--
 -- Indices de la tabla `tbl_tipo_practicas_productivas`
 --
 ALTER TABLE `tbl_tipo_practicas_productivas`
@@ -2711,6 +2919,20 @@ ALTER TABLE `tbl_ubicacion_productor`
   ADD KEY `id_caserio` (`id_caserio`),
   ADD KEY `id_productor` (`id_productor`),
   ADD KEY `fk_id_ficha_ubicacion` (`id_ficha`);
+
+--
+-- Indices de la tabla `tbl_unidad_productora`
+--
+ALTER TABLE `tbl_unidad_productora`
+  ADD PRIMARY KEY (`Id_Unidad_Productiva`),
+  ADD KEY `FK_Id_Ficha_Unidad_Productora` (`Id_Ficha`),
+  ADD KEY `FK_Id_Ubicacion_Unidad_Productora` (`Id_Ubicacion`),
+  ADD KEY `FK_Id_Productor_Unidad_Productora` (`Id_Productor`),
+  ADD KEY `FK_Id_Medida_Produccion` (`Id_Medida_Produccion`),
+  ADD KEY `FK_Id_Medida_Agricultura` (`Id_Medida_Agricultura`),
+  ADD KEY `FK_Id_Medida_Ganaderia` (`Id_Medida_Ganaderia`),
+  ADD KEY `FK_Id_Medida_Apicultura` (`Id_Medida_Apicultura`),
+  ADD KEY `FK_Id_Medida_Forestal` (`Id_Medida_Forestal`);
 
 --
 -- Indices de la tabla `usuario`
@@ -2803,10 +3025,16 @@ ALTER TABLE `tbl_fuentes_credito`
   MODIFY `id_fuente_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_manejo_riego`
+--
+ALTER TABLE `tbl_manejo_riego`
+  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_medidas_tierra`
 --
 ALTER TABLE `tbl_medidas_tierra`
-  MODIFY `id_medida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_migracion_familiar`
@@ -2851,6 +3079,24 @@ ALTER TABLE `tbl_periodicidad`
   MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_produccion_agricola_anterior`
+--
+ALTER TABLE `tbl_produccion_agricola_anterior`
+  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_produccion_pecuaria`
+--
+ALTER TABLE `tbl_produccion_pecuaria`
+  MODIFY `Id_Produccion_Pecuaria` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_produccion_vendida`
+--
+ALTER TABLE `tbl_produccion_vendida`
+  MODIFY `Id_Produccion_Vendida` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
@@ -2872,7 +3118,7 @@ ALTER TABLE `tbl_tipos_apoyos`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_cultivo`
 --
 ALTER TABLE `tbl_tipo_cultivo`
-  MODIFY `id_tipo_cultivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_tipo_cultivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_negocios`
@@ -2902,7 +3148,7 @@ ALTER TABLE `tbl_tipo_produccion`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_riego`
 --
 ALTER TABLE `tbl_tipo_riego`
-  MODIFY `id_tipo_riego` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_trabajadores`
@@ -2915,6 +3161,12 @@ ALTER TABLE `tbl_tipo_trabajadores`
 --
 ALTER TABLE `tbl_toma_decisiones`
   MODIFY `id_tipo_tomador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_unidad_productora`
+--
+ALTER TABLE `tbl_unidad_productora`
+  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -3013,6 +3265,16 @@ ALTER TABLE `tbl_etnias_por_productor`
   ADD CONSTRAINT `tbl_etnias_por_productor_ibfk_2` FOREIGN KEY (`id_etnia`) REFERENCES `tbl_etnias` (`id_etnia`);
 
 --
+-- Filtros para la tabla `tbl_manejo_riego`
+--
+ALTER TABLE `tbl_manejo_riego`
+  ADD CONSTRAINT `FK_Id_Ficha_Manejo_Riego` FOREIGN KEY (`Id_Ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `FK_Id_Medida_Superficie_Riego` FOREIGN KEY (`Id_Medida_Superficie_Riego`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Productor_Manejo_Riego` FOREIGN KEY (`Id_Productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `FK_Id_Tipo_Riego` FOREIGN KEY (`Id_Tipo_Riego`) REFERENCES `tbl_tipo_riego` (`id_tipo_riego`),
+  ADD CONSTRAINT `FK_Id_Ubicacion_Manejo_Riego` FOREIGN KEY (`Id_Ubicacion`) REFERENCES `tbl_ubicacion_productor` (`id_ubicacion`);
+
+--
 -- Filtros para la tabla `tbl_migracion_familiar`
 --
 ALTER TABLE `tbl_migracion_familiar`
@@ -3048,6 +3310,29 @@ ALTER TABLE `tbl_organizaciones_por_productor`
   ADD CONSTRAINT `fk_id_productor` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
   ADD CONSTRAINT `fk_organizacion_por_productor` FOREIGN KEY (`id_organizacion`) REFERENCES `tbl_organizaciones` (`id_organizacion`),
   ADD CONSTRAINT `tbl_organizaciones_por_productor_ibfk_1` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`);
+
+--
+-- Filtros para la tabla `tbl_produccion_agricola_anterior`
+--
+ALTER TABLE `tbl_produccion_agricola_anterior`
+  ADD CONSTRAINT `FK_Id_Ficha_Produccion_Anterior` FOREIGN KEY (`Id_Ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `FK_Id_Medida_Primera_Postrera` FOREIGN KEY (`Id_Medida_Primera_Postrera`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Medida_Produccion_Obtenida` FOREIGN KEY (`Id_Medida_Produccion_Obtenida`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Medida_Vendida` FOREIGN KEY (`Id_Medida_Vendida`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Productor_Produccion_Anterior` FOREIGN KEY (`Id_Productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `FK_Id_Tipo_Cultivo_Produccion_Anterior` FOREIGN KEY (`Id_Tipo_Cultivo`) REFERENCES `tbl_tipo_cultivo` (`id_tipo_cultivo`),
+  ADD CONSTRAINT `FK_Id_Ubicacion_Produccion_Anterior` FOREIGN KEY (`Id_Ubicacion`) REFERENCES `tbl_ubicacion_productor` (`id_ubicacion`);
+
+--
+-- Filtros para la tabla `tbl_produccion_pecuaria`
+--
+ALTER TABLE `tbl_produccion_pecuaria`
+  ADD CONSTRAINT `FK_Id_Ficha_Produccion_Pecuaria` FOREIGN KEY (`Id_Ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `FK_Id_Medida_Venta_Produccion_Pecuaria` FOREIGN KEY (`Id_Medida_Venta`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Produccion_Pecuaria_Produccion_Vendida` FOREIGN KEY (`Id_Produccion`) REFERENCES `tbl_produccion_vendida` (`Id_Produccion_Vendida`),
+  ADD CONSTRAINT `FK_Id_Productor_Produccion_Pecuaria` FOREIGN KEY (`Id_Productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `FK_Id_Tipo_Pecuario_Produccion_Pecuaria` FOREIGN KEY (`Id_Tipo_Pecuario`) REFERENCES `tbl_tipo_pecuarios` (`id_tipo_pecuario`),
+  ADD CONSTRAINT `FK_Id_Ubicacion_Produccion_Pecuaria` FOREIGN KEY (`Id_Ubicacion`) REFERENCES `tbl_ubicacion_productor` (`id_ubicacion`);
 
 --
 -- Filtros para la tabla `tbl_productor`
@@ -3097,6 +3382,19 @@ ALTER TABLE `tbl_ubicacion_productor`
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_4` FOREIGN KEY (`id_caserio`) REFERENCES `tbl_cacerios` (`Id_Cacerio`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_5` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_6` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
+-- Filtros para la tabla `tbl_unidad_productora`
+--
+ALTER TABLE `tbl_unidad_productora`
+  ADD CONSTRAINT `FK_Id_Ficha_Unidad_Productora` FOREIGN KEY (`Id_Ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `FK_Id_Medida_Agricultura` FOREIGN KEY (`Id_Medida_Agricultura`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Medida_Apicultura` FOREIGN KEY (`Id_Medida_Apicultura`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Medida_Forestal` FOREIGN KEY (`Id_Medida_Forestal`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Medida_Ganaderia` FOREIGN KEY (`Id_Medida_Ganaderia`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Medida_Produccion` FOREIGN KEY (`Id_Medida_Produccion`) REFERENCES `tbl_medidas_tierra` (`id_medida`),
+  ADD CONSTRAINT `FK_Id_Productor_Unidad_Productora` FOREIGN KEY (`Id_Productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `FK_Id_Ubicacion_Unidad_Productora` FOREIGN KEY (`Id_Ubicacion`) REFERENCES `tbl_ubicacion_productor` (`id_ubicacion`);
 
 --
 -- Filtros para la tabla `usuario`
