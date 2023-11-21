@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-11-2023 a las 07:56:52
+-- Tiempo de generación: 21-11-2023 a las 09:38:18
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -25,6 +25,194 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarEtniasPorProductor` (IN `p_Id_etnicidad` BIGINT, IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_id_etnia` BIGINT, IN `p_detalle_de_otros` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla fichas
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor p
+    JOIN fichas f ON p.id_ficha = f.id_ficha
+    WHERE p.id_ficha = p_id_ficha AND p.id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla fichas';
+    ELSE
+        -- Realizar la actualización si la validación es exitosa
+        UPDATE tbl_etnias_por_productor
+        SET
+            id_ficha = p_id_ficha,
+            id_productor = p_id_productor,
+            id_etnia = p_id_etnia,
+            detalle_de_otros = p_detalle_de_otros,
+            descripcion = p_descripcion,
+            modificado_por = p_modificado_por,
+            fecha_modificacion = CURRENT_TIMESTAMP(),
+            estado = p_estado
+        WHERE
+            Id_etnicidad = p_Id_etnicidad;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarOrganizacionPorProductor` (IN `p_Id_Organizacion_Productor` BIGINT(20), IN `p_id_ficha` BIGINT(20), IN `p_id_productor` BIGINT(20), IN `p_id_organizacion` BIGINT(20), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(20), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE `tbl_organizaciones_por_productor`
+    SET
+        `id_ficha` = p_id_ficha,
+        `id_productor` = p_id_productor,
+        `id_organizacion` = p_id_organizacion,
+        `descripcion` = p_descripcion,
+        `modificado_por` = p_modificado_por,
+        `fecha_modificacion` = CURRENT_TIMESTAMP(),
+        `estado` = p_estado
+    WHERE
+        `Id_Organizacion_Productor` = p_Id_Organizacion_Productor;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarProductor` (IN `p_id_productor` BIGINT, IN `p_id_ficha` BIGINT, IN `p_primer_nombre` VARCHAR(255), IN `p_segundo_nombre` VARCHAR(255), IN `p_primer_apellido` VARCHAR(255), IN `p_segundo_apellido` VARCHAR(255), IN `p_identificacion` BIGINT, IN `p_fecha_nacimiento` DATE, IN `p_genero` VARCHAR(10), IN `p_estado_civil` VARCHAR(20), IN `p_nivel_escolaridad` VARCHAR(50), IN `p_ultimo_grado_escolar_aprobado` VARCHAR(50), IN `p_telefono_1` INT, IN `p_telefono_2` INT, IN `p_telefono_3` INT, IN `p_email_1` VARCHAR(255), IN `p_email_2` VARCHAR(255), IN `p_email_3` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` BIGINT, IN `p_estado` ENUM('A','I'))   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla fichas
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor p
+    JOIN fichas f ON p.id_ficha = f.id_ficha
+    WHERE p.id_ficha = p_id_ficha AND p.id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla fichas';
+    ELSE
+        -- Realizar la actualización si la validación es exitosa
+        UPDATE tbl_productor
+        SET
+            id_ficha = p_id_ficha,
+            primer_nombre = p_primer_nombre,
+            segundo_nombre = p_segundo_nombre,
+            primer_apellido = p_primer_apellido,
+            segundo_apellido = p_segundo_apellido,
+            identificacion = p_identificacion,
+            fecha_nacimiento = p_fecha_nacimiento,
+            genero = p_genero,
+            estado_civil = p_estado_civil,
+            nivel_escolaridad = p_nivel_escolaridad,
+            ultimo_grado_escolar_aprobado = p_ultimo_grado_escolar_aprobado,
+            telefono_1 = p_telefono_1,
+            telefono_2 = p_telefono_2,
+            telefono_3 = p_telefono_3,
+            email_1 = p_email_1,
+            email_2 = p_email_2,
+            email_3 = p_email_3,
+            descripcion = p_descripcion,
+            modificado_por = p_modificado_por,
+            fecha_modificacion = CURRENT_TIMESTAMP(),
+            estado = p_estado
+        WHERE
+            id_productor = p_id_productor;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarRegistro` (IN `p_Id_Organizacion_Productor` BIGINT, IN `p_id_ficha` BIGINT, IN `p_id_organizacion` BIGINT, IN `p_id_productor` BIGINT, IN `p_descripcion` VARCHAR(255), IN `p_modificado_por` BIGINT, IN `p_estado` ENUM('A','I'))   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla fichas
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor p
+    JOIN fichas f ON p.id_ficha = f.id_ficha
+    WHERE p.id_ficha = p_id_ficha AND p.id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla fichas';
+    ELSE
+        -- Realizar la actualización si la validación es exitosa
+        UPDATE tbl_organizaciones_por_productor
+        SET
+            id_ficha = p_id_ficha,
+            id_productor = p_id_productor,
+            id_organizacion = p_id_organizacion,
+            descripcion = p_descripcion,
+            modificado_por = p_modificado_por,
+            fecha_modificacion = CURRENT_TIMESTAMP(),
+            estado = p_estado
+        WHERE
+            Id_Organizacion_Productor = p_Id_Organizacion_Productor;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarRelevoOrganizacion` (IN `p_Id_Relevo` BIGINT, IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_tendra_relevo` ENUM('S','N'), IN `p_cuantos_relevos` INT, IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(25), IN `p_estado` ENUM('A','I'))   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla fichas
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor p
+    JOIN fichas f ON p.id_ficha = f.id_ficha
+    WHERE p.id_ficha = p_id_ficha AND p.id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla fichas';
+    ELSE
+        -- Realizar la actualización si la validación es exitosa
+        UPDATE tbl_relevo_organizacion
+        SET
+            id_ficha = p_id_ficha,
+            id_productor = p_id_productor,
+            tendra_relevo = p_tendra_relevo,
+            cuantos_relevos = p_cuantos_relevos,
+            descripcion = p_descripcion,
+            modificado_por = p_modificado_por,
+            fecha_modificacion = CURRENT_TIMESTAMP(),
+            estado = p_estado
+        WHERE
+            Id_Relevo = p_Id_Relevo;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUbicacionProductor` (IN `p_id_ubicacion` BIGINT, IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_id_departamento` BIGINT, IN `p_id_municipio` BIGINT, IN `p_id_aldea` BIGINT, IN `p_id_caserio` BIGINT, IN `p_ubicacion_geografica` VARCHAR(255), IN `p_distancia_parcela_vivienda` DECIMAL(10,2), IN `p_latitud_parcela` VARCHAR(20), IN `p_longitud_parcela` VARCHAR(20), IN `p_msnm` DECIMAL(10,2), IN `p_direccion_1` VARCHAR(255), IN `p_direccion_2` VARCHAR(255), IN `p_direccion_3` VARCHAR(255), IN `p_vive_en_finca` ENUM('S','N'), IN `p_nombre_finca` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(50), IN `p_estado` ENUM('A','I'))   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla tbl_productor
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor
+    WHERE id_ficha = p_id_ficha AND id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla tbl_productor';
+    ELSE
+        -- Realizar la actualización si la validación es exitosa
+        UPDATE tbl_ubicacion_productor
+        SET
+            id_ficha = p_id_ficha,
+            id_productor = p_id_productor,
+            id_ubicacion = p_id_ubicacion,
+            id_departamento = p_id_departamento,
+            id_municipio = p_id_municipio,
+            id_aldea = p_id_aldea,
+            id_caserio = p_id_caserio,
+            ubicacion_geografica = p_ubicacion_geografica,
+            distancia_parcela_vivienda = p_distancia_parcela_vivienda,
+            latitud_parcela = p_latitud_parcela,
+            longitud_parcela = p_longitud_parcela,
+            msnm = p_msnm,
+            direccion_1 = p_direccion_1,
+            direccion_2 = p_direccion_2,
+            direccion_3 = p_direccion_3,
+            vive_en_finca = p_vive_en_finca,
+            nombre_finca = p_nombre_finca,
+            descripcion = p_descripcion,
+            modificado_por = p_modificado_por,
+            fecha_modificacion = CURRENT_TIMESTAMP(),
+            estado = p_estado
+        WHERE
+            id_ubicacion = p_id_ubicacion;
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteEtnia` (IN `etniaId` INT)   BEGIN
   UPDATE tbl_etnias SET estado = 0 WHERE id_etnia = etniaId;
 END$$
@@ -45,13 +233,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesactivarMotivo` (IN `id_motivo_pa
   WHERE `Id_motivo` = id_motivo_param;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarAldea` (IN `newId_Aldea` BIGINT(20), IN `newNombre_Aldea` VARCHAR(100), IN `newDescripcion` VARCHAR(255), IN `newEstado` ENUM('A','I'), IN `newId_Municipio` BIGINT(20))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarAldea` (IN `newId_Aldea` BIGINT(20), IN `newNombre_Aldea` VARCHAR(100), IN `newDescripcion` VARCHAR(255), IN `newEstado` ENUM('A','I'), IN `newId_Municipio` BIGINT(20), IN `newModificado_Por` VARCHAR(50))   BEGIN
     UPDATE tbl_aldeas
     SET Nombre_Aldea = newNombre_Aldea,
         Descripcion= newDescripcion,
         Estado= newEstado,
         Id_Municipio= newId_Municipio,
-        Fecha_Modificacion = CURRENT_TIMESTAMP()
+        Fecha_Modificacion = CURRENT_TIMESTAMP(),
+Modificado_Por = newModificado_Por
     WHERE Id_Aldea = newId_Aldea;
 END$$
 
@@ -253,6 +442,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarOrganizacion` (IN `id_organ
   DELETE FROM tbl_organizaciones WHERE id_organizacion = id_organizacion_param;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarOrganizacionPorProductor` (IN `p_Id_Organizacion_Productor` BIGINT(20))   BEGIN
+    DELETE FROM `tbl_organizaciones_por_productor`
+    WHERE `Id_Organizacion_Productor` = p_Id_Organizacion_Productor;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarPeriodicidad` (IN `id_periodo_parm` INT(20))   BEGIN
     DELETE FROM tbl_periodicidad WHERE id_periodo = id_periodo_parm;
 END$$
@@ -302,6 +496,33 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarCacerio` (IN `p_Nombre_Cace
     VALUES (p_Nombre_Cacerio, p_Descripcion, 'A', p_Id_Aldea, '1','1',CURRENT_TIMESTAMP(),'1',CURRENT_TIMESTAMP());
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarComposicion` (IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_genero` ENUM('H','M'), IN `p_edad` INT, IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(25))   BEGIN
+    -- Realizar la inserción
+    INSERT INTO tbl_composicion (
+        id_ficha,
+        id_productor,
+        genero,
+        edad,
+        descripcion,
+        creado_por,
+        fecha_creacion,
+        modificado_por,
+        fecha_modificacion,
+        estado
+    ) VALUES (
+        p_id_ficha,
+        p_id_productor,
+        p_genero,
+        p_edad,
+        p_descripcion,
+        p_creado_por,
+        CURRENT_TIMESTAMP(),
+        NULL,
+        CURRENT_TIMESTAMP(),
+        'A'
+    );
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarCultivo` (IN `tipo_cultivo_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
   INSERT INTO `tbl_tipo_cultivo` (`tipo_cultivo`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
   VALUES (tipo_cultivo_param, descripcion_param, 'Manuel', 'Manuel', 'ACTIVO');
@@ -340,6 +561,47 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarEtnia` (IN `etniaParam` VAR
     VALUES (etniaParam, descripcionParam, usuarioCreador, fechaCreacionParam, usuarioModificador, NOW(), estadoParam);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarEtniasPorProductor` (IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_id_etnia` BIGINT, IN `p_detalle_de_otros` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla fichas
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor p
+    JOIN fichas f ON p.id_ficha = f.id_ficha
+    WHERE p.id_ficha = p_id_ficha AND p.id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla fichas';
+    ELSE
+        -- Realizar la inserción si la validación es exitosa
+        INSERT INTO tbl_etnias_por_productor (
+            id_ficha,
+            id_productor,
+            id_etnia,
+            detalle_de_otros,
+            descripcion,
+            creado_por,
+            fecha_creacion,
+            modificado_por,
+            fecha_modificacion,
+            estado
+        ) VALUES (
+            p_id_ficha,
+            p_id_productor,
+            p_id_etnia,
+            p_detalle_de_otros,
+            p_descripcion,
+            p_creado_por,
+            CURRENT_TIMESTAMP(),
+            NULL,
+            CURRENT_TIMESTAMP(),
+            'A'
+        );
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarMedidaTierra` (IN `medida_param` ENUM('MZ','HA','TAREAS'), IN `descripcion_param` TEXT)   BEGIN
     
     
@@ -364,6 +626,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarOrganizacion` (IN `organiza
   VALUES (organizacion_param, descripcion_param, '1' , 'Kevin', 'Kevin', 'ACTIVO');
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarOrganizacionProductor` (IN `p_id_ficha` BIGINT(20), IN `p_id_organizacion` BIGINT(20), IN `p_id_productor` BIGINT(20), IN `p_descripcion` VARCHAR(20), IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO `tbl_organizaciones_por_productor` (
+        `id_ficha`,
+        `id_organizacion`,
+        `id_productor`,
+        `descripcion`,
+        `creado_por`,
+        `fecha_creacion`,
+        `modificado_por`,
+        `fecha_modificacion`
+    ) VALUES (
+        p_id_ficha,
+        p_id_organizacion,
+        p_id_productor,
+        p_descripcion,
+        p_creado_por,
+        CURRENT_TIMESTAMP(),
+        NULL,
+        CURRENT_TIMESTAMP()
+    );
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPeriodicidad` (IN `periodo_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
   INSERT INTO `tbl_periodicidad` (`periodo`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
   VALUES (periodo_param, descripcion_param, 'Manuel', 'Manuel', 'ACTIVO');
@@ -372,6 +656,136 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPracticas` (IN `tipo_practica_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
   INSERT INTO `tbl_tipo_practicas_productivas` (`tipo_practica`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
   VALUES (tipo_practica_param, descripcion_param, 'Manuel', 'Manuel', 'ACTIVO');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarProductor` (IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_primer_nombre` VARCHAR(255), IN `p_segundo_nombre` VARCHAR(255), IN `p_primer_apellido` VARCHAR(255), IN `p_segundo_apellido` VARCHAR(255), IN `p_identificacion` BIGINT, IN `p_fecha_nacimiento` DATE, IN `p_genero` VARCHAR(10), IN `p_estado_civil` VARCHAR(20), IN `p_nivel_escolaridad` VARCHAR(50), IN `p_ultimo_grado_escolar_aprobado` VARCHAR(50), IN `p_telefono_1` INT, IN `p_telefono_2` INT, IN `p_telefono_3` INT, IN `p_email_1` VARCHAR(255), IN `p_email_2` VARCHAR(255), IN `p_email_3` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` BIGINT)   BEGIN
+    INSERT INTO tbl_productor (
+        id_ficha,
+        id_productor,
+        primer_nombre,
+        segundo_nombre,
+        primer_apellido,
+        segundo_apellido,
+        identificacion,
+        fecha_nacimiento,
+        genero,
+        estado_civil,
+        nivel_escolaridad,
+        ultimo_grado_escolar_aprobado,
+        telefono_1,
+        telefono_2,
+        telefono_3,
+        email_1,
+        email_2,
+        email_3,
+        descripcion,
+        creado_por,
+        fecha_creacion,
+        modificado_por,
+        fecha_modificacion,
+        estado
+    ) VALUES (
+        p_id_ficha,
+        p_id_productor,
+        p_primer_nombre,
+        p_segundo_nombre,
+        p_primer_apellido,
+        p_segundo_apellido,
+        p_identificacion,
+        p_fecha_nacimiento,
+        p_genero,
+        p_estado_civil,
+        p_nivel_escolaridad,
+        p_ultimo_grado_escolar_aprobado,
+        p_telefono_1,
+        p_telefono_2,
+        p_telefono_3,
+        p_email_1,
+        p_email_2,
+        p_email_3,
+        p_descripcion,
+        p_creado_por,
+        CURRENT_TIMESTAMP(),
+        NULL,
+        CURRENT_TIMESTAMP(),
+        'A'
+    );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarRegistro` (IN `p_id_ficha` BIGINT, IN `p_id_organizacion` BIGINT, IN `p_id_productor` BIGINT, IN `p_descripcion` VARCHAR(255), IN `p_creado_por` BIGINT)   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla fichas
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor p
+    JOIN fichas f ON p.id_ficha = f.id_ficha
+    WHERE p.id_ficha = p_id_ficha AND p.id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla fichas';
+    ELSE
+        -- Realizar la inserción si la validación es exitosa
+        INSERT INTO tbl_organizaciones_por_productor (
+            id_ficha,
+            id_organizacion,
+            id_productor,
+            descripcion,
+            creado_por,
+            fecha_creacion,
+            modificado_por,
+            fecha_modificacion
+        ) VALUES (
+            p_id_ficha,
+            p_id_organizacion,
+            p_id_productor,
+            p_descripcion,
+            p_creado_por,
+            CURRENT_TIMESTAMP(),
+            NULL,
+            CURRENT_TIMESTAMP()
+        );
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarRelevoOrganizacion` (IN `p_id_ficha` BIGINT(20), IN `p_id_productor` BIGINT(20), IN `p_tendra_relevo` ENUM('S','N'), IN `p_cuantos_relevos` INT(20), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(20))   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla fichas
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor p
+    JOIN fichas f ON p.id_ficha = f.id_ficha
+    WHERE p.id_ficha = p_id_ficha AND p.id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla fichas';
+    ELSE
+        -- Realizar la inserción si la validación es exitosa
+        INSERT INTO tbl_relevo_organizacion (
+            id_ficha,
+            id_productor,
+            tendra_relevo,
+            cuantos_relevos,
+            descripcion,
+            creado_por,
+            fecha_creacion,
+            modificado_por,
+            fecha_modificacion
+        ) VALUES (
+            p_id_ficha,
+            p_id_productor,
+            p_tendra_relevo,
+            p_cuantos_relevos,
+            p_descripcion,
+            p_creado_por,
+            CURRENT_TIMESTAMP(),
+            NULL,
+            CURRENT_TIMESTAMP()
+        );
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarRiego` (IN `tipo_riego_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
@@ -407,6 +821,72 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTomaDecisones` (IN `tomador_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
   INSERT INTO `tbl_toma_decisiones` (`tomador`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
   VALUES (tomador_param, descripcion_param, 'Daniela', 'Daniela', 'ACTIVO');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUbicacionProductor` (IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_id_ubicacion` BIGINT, IN `p_id_departamento` BIGINT, IN `p_id_municipio` BIGINT, IN `p_id_aldea` BIGINT, IN `p_id_caserio` BIGINT, IN `p_ubicacion_geografica` VARCHAR(255), IN `p_distancia_parcela_vivienda` DECIMAL(10,2), IN `p_latitud_parcela` VARCHAR(20), IN `p_longitud_parcela` VARCHAR(20), IN `p_msnm` DECIMAL(10,2), IN `p_direccion_1` VARCHAR(255), IN `p_direccion_2` VARCHAR(255), IN `p_direccion_3` VARCHAR(255), IN `p_vive_en_finca` CHAR(1), IN `p_nombre_finca` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    DECLARE v_valid_productor BOOLEAN;
+
+    -- Verificar si el id_productor coincide con el id_ficha en la tabla tbl_productor
+    SELECT COUNT(*) INTO v_valid_productor
+    FROM tbl_productor
+    WHERE id_ficha = p_id_ficha AND id_productor = p_id_productor;
+
+    -- Si el id_productor no coincide, lanzar un error o tomar medidas apropiadas
+    IF v_valid_productor = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El id_productor no coincide con el id_ficha en la tabla tbl_productor';
+    ELSE
+        -- Realizar la inserción si la validación es exitosa
+        INSERT INTO tbl_ubicacion_productor (
+            id_ficha,
+            id_productor,
+            id_ubicacion,
+            id_departamento,
+            id_municipio,
+            id_aldea,
+            id_caserio,
+            ubicacion_geografica,
+            distancia_parcela_vivienda,
+            latitud_parcela,
+            longitud_parcela,
+            msnm,
+            direccion_1,
+            direccion_2,
+            direccion_3,
+            vive_en_finca,
+            nombre_finca,
+            descripcion,
+            creado_por,
+            fecha_creacion,
+            modificado_por,
+            fecha_modificacion,
+            estado
+        ) VALUES (
+            p_id_ficha,
+            p_id_productor,
+            p_id_ubicacion,
+            p_id_departamento,
+            p_id_municipio,
+            p_id_aldea,
+            p_id_caserio,
+            p_ubicacion_geografica,
+            p_distancia_parcela_vivienda,
+            p_latitud_parcela,
+            p_longitud_parcela,
+            p_msnm,
+            p_direccion_1,
+            p_direccion_2,
+            p_direccion_3,
+            p_vive_en_finca,
+            p_nombre_finca,
+            p_descripcion,
+            p_creado_por,
+            CURRENT_TIMESTAMP(),
+            NULL,
+            CURRENT_TIMESTAMP(),
+            'A'
+        );
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertObejtos` (IN `newObjeto` VARCHAR(255), IN `newDescripcion` VARCHAR(255), IN `newActualizado_Por` VARCHAR(255), IN `newCreado_Por` VARCHAR(255))   BEGIN
@@ -643,6 +1123,40 @@ INSERT INTO `estado_usuario` (`id_estado`, `Estado`) VALUES
 (2, 'INACTIVO'),
 (3, 'NUEVO'),
 (4, 'BLOQUEADO ');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `fichas`
+--
+
+CREATE TABLE `fichas` (
+  `id_ficha` bigint(20) NOT NULL,
+  `fecha_solicitud` date DEFAULT NULL,
+  `anio_solicitud` int(11) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modificado_por` varchar(50) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` enum('A','I') DEFAULT NULL,
+  `fecha_entrevista` date DEFAULT NULL,
+  `nombre_encuentrador` varchar(50) DEFAULT NULL,
+  `firma_productor` varchar(100) DEFAULT NULL,
+  `nombre_encuestador` varchar(50) DEFAULT NULL,
+  `firma_encuestador` varchar(100) DEFAULT NULL,
+  `nombre_supervisor` varchar(50) DEFAULT NULL,
+  `firma_supervisor` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `fichas`
+--
+
+INSERT INTO `fichas` (`id_ficha`, `fecha_solicitud`, `anio_solicitud`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`, `fecha_entrevista`, `nombre_encuentrador`, `firma_productor`, `nombre_encuestador`, `firma_encuestador`, `nombre_supervisor`, `firma_supervisor`) VALUES
+(1, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:43:05', 'manu', '2023-11-21 08:25:47', 'I', '2023-11-17', NULL, NULL, NULL, NULL, NULL, NULL),
+(2, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:57:36', 'manu', '2023-11-17 20:57:36', 'A', '2023-11-17', NULL, NULL, NULL, NULL, NULL, NULL),
+(3, '2023-11-17', 2023, 'Creado', 'manu', '2023-11-20 06:00:21', 'manu', '2023-11-20 06:00:21', 'A', '2023-11-17', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -898,9 +1412,9 @@ CREATE TABLE `tbl_aldeas` (
   `Descripcion` varchar(255) DEFAULT NULL,
   `Estado` enum('A','I') DEFAULT NULL,
   `Id_Usuario` bigint(20) DEFAULT NULL,
-  `Creado_Por` bigint(20) NOT NULL,
+  `Creado_Por` varchar(50) NOT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Modificado_Por` bigint(20) NOT NULL,
+  `Modificado_Por` varchar(50) NOT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -909,9 +1423,9 @@ CREATE TABLE `tbl_aldeas` (
 --
 
 INSERT INTO `tbl_aldeas` (`Id_Aldea`, `Id_Municipio`, `Nombre_Aldea`, `Descripcion`, `Estado`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
-(1, 1, 'Agua Blanca', 'Aldea de talanga', 'A', 1, 1, '2023-11-05 04:52:40', 1, '2023-11-05 04:52:40'),
-(2, 2, 'la capa', 'aldea de yoro', 'A', 1, 1, '2023-11-05 05:20:52', 1, '2023-11-05 05:20:52'),
-(3, 2, 'A', 'A', 'I', 1, 1, '2023-11-05 06:47:24', 1, '2023-11-05 09:01:17');
+(1, 1, 'Agua Blanca', 'Aldea de talanga', 'A', 1, '1', '2023-11-05 04:52:40', '1', '2023-11-05 04:52:40'),
+(2, 2, 'la capa', 'aldea de yoro', 'A', 1, '1', '2023-11-05 05:20:52', '1', '2023-11-05 05:20:52'),
+(3, 4, 'sss', 'sss', 'I', 1, '1', '2023-11-05 06:47:24', 'manu', '2023-11-15 05:08:31');
 
 -- --------------------------------------------------------
 
@@ -920,7 +1434,7 @@ INSERT INTO `tbl_aldeas` (`Id_Aldea`, `Id_Municipio`, `Nombre_Aldea`, `Descripci
 --
 
 CREATE TABLE `tbl_apoyos` (
-  `id_apoyo_produccion` int(11) NOT NULL,
+  `id_apoyo_produccion` bigint(20) NOT NULL,
   `tipo_apoyo_produccion` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
@@ -941,17 +1455,59 @@ INSERT INTO `tbl_apoyos` (`id_apoyo_produccion`, `tipo_apoyo_produccion`, `descr
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_apoyos_produccion`
+--
+
+CREATE TABLE `tbl_apoyos_produccion` (
+  `id_apoyo_prod` bigint(20) NOT NULL,
+  `id_ficha` bigint(20) DEFAULT NULL,
+  `id_productor` bigint(20) DEFAULT NULL,
+  `id_apoyo_produccion` bigint(20) NOT NULL,
+  `otros_detalles` text DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(255) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `modificado_por` varchar(255) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` enum('A','I') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_apoyo_actividad_externa`
+--
+
+CREATE TABLE `tbl_apoyo_actividad_externa` (
+  `id_apoyo_ext` bigint(20) NOT NULL,
+  `id_ficha` bigint(20) DEFAULT NULL,
+  `id_productor` bigint(20) DEFAULT NULL,
+  `recibe_apoyo_prodagrícola` enum('S','N') DEFAULT NULL,
+  `atencion_por_UAG` enum('S','N') DEFAULT NULL,
+  `productos_vendidospor_pralesc` enum('S','N') DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(255) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `modificado_por` varchar(255) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_base_organizacion_por_productor`
 --
 
 CREATE TABLE `tbl_base_organizacion_por_productor` (
+  `Id_base_organizacion` bigint(20) NOT NULL,
   `id_ficha` bigint(20) DEFAULT NULL,
   `id_productor` bigint(20) DEFAULT NULL,
-  `pertenece_a_organizacion` char(1) DEFAULT NULL,
+  `ha_solicitado_creditos` enum('S','N') DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
-  `creado_por` bigint(20) DEFAULT NULL,
+  `creado_por` varchar(20) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `modificado_por` bigint(20) DEFAULT NULL,
+  `modificado_por` varchar(20) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -1004,9 +1560,39 @@ CREATE TABLE `tbl_composicion` (
   `genero` enum('H','M') DEFAULT NULL,
   `edad` int(11) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
-  `creado_por` bigint(20) DEFAULT NULL,
+  `creado_por` varchar(25) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `modificado_por` bigint(20) DEFAULT NULL,
+  `modificado_por` varchar(25) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` enum('A','I') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_composicion`
+--
+
+INSERT INTO `tbl_composicion` (`id_ficha`, `id_composicion`, `id_productor`, `genero`, `edad`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 0, 1, 'H', 50, 'gqad', 'manu', '2023-11-20 10:08:52', NULL, '2023-11-20 10:08:52', 'A'),
+(1, 1, 1, 'H', 28, 'desct', 'manu', '2023-11-20 09:28:22', 'manu', '2023-11-20 09:28:22', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_credito_produccion`
+--
+
+CREATE TABLE `tbl_credito_produccion` (
+  `id_credpro` bigint(20) NOT NULL,
+  `id_ficha` bigint(20) DEFAULT NULL,
+  `id_productor` bigint(20) DEFAULT NULL,
+  `ha_solicitado_creditos` enum('S','N') DEFAULT NULL,
+  `id_fuente_credito` bigint(20) DEFAULT NULL,
+  `monto_credito` decimal(10,2) DEFAULT NULL,
+  `id_motivos_no_credito` bigint(20) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(255) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -1035,7 +1621,7 @@ CREATE TABLE `tbl_departamentos` (
 
 INSERT INTO `tbl_departamentos` (`Id_Departamento`, `Id_Usuario`, `Nombre_Departamento`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
 (1, 1, 'Francisco Morazan', 'Central', 1, '2023-11-05 04:15:22', 1, '2023-11-05 04:15:22', 'A'),
-(2, 1, 'Olancho', 'Sur', 1, '2023-11-05 04:41:44', 1, '2023-11-07 05:04:13', 'A');
+(2, 1, 'Olancho', 'saasas', 1, '2023-11-05 04:41:44', 1, '2023-11-15 05:02:39', 'A');
 
 -- --------------------------------------------------------
 
@@ -1079,14 +1665,15 @@ INSERT INTO `tbl_etnias` (`id_etnia`, `etnia`, `descripcion`, `creado_por`, `fec
 --
 
 CREATE TABLE `tbl_etnias_por_productor` (
+  `Id_etnicidad` int(11) NOT NULL,
   `id_ficha` bigint(20) DEFAULT NULL,
   `id_productor` bigint(20) DEFAULT NULL,
   `id_etnia` bigint(20) NOT NULL,
   `detalle_de_otros` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
-  `creado_por` bigint(20) DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `modificado_por` bigint(20) DEFAULT NULL,
+  `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -1095,8 +1682,10 @@ CREATE TABLE `tbl_etnias_por_productor` (
 -- Volcado de datos para la tabla `tbl_etnias_por_productor`
 --
 
-INSERT INTO `tbl_etnias_por_productor` (`id_ficha`, `id_productor`, `id_etnia`, `detalle_de_otros`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'Prueba de Detalle', 'Agregar Descripcion', 1, '2023-11-13 06:01:50', 1, '2023-11-13 06:01:50', 'A');
+INSERT INTO `tbl_etnias_por_productor` (`Id_etnicidad`, `id_ficha`, `id_productor`, `id_etnia`, `detalle_de_otros`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 8, 'Prueba de Detalle1', 'Agregar Descripcion', 'manu', '2023-11-13 06:01:50', 'manu', '2023-11-20 02:41:03', 'I'),
+(2, 2, 2, 7, 'Prueba de Detalleas', 'desc', 'manu', '2023-11-20 02:48:45', NULL, '2023-11-20 02:48:45', 'A'),
+(3, 1, 1, 11, 'Prueba de Detalleas', 'sisterna', 'manu', '2023-11-20 02:49:31', NULL, '2023-11-20 02:49:31', 'A');
 
 -- --------------------------------------------------------
 
@@ -1105,7 +1694,7 @@ INSERT INTO `tbl_etnias_por_productor` (`id_ficha`, `id_productor`, `id_etnia`, 
 --
 
 CREATE TABLE `tbl_fuentes_credito` (
-  `id_fuente_credito` int(11) NOT NULL,
+  `id_fuente_credito` bigint(20) NOT NULL,
   `fuente_credito` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
@@ -1164,11 +1753,11 @@ CREATE TABLE `tbl_migracion_familiar` (
   `id_ficha` bigint(20) DEFAULT NULL,
   `id_productor` bigint(20) DEFAULT NULL,
   `id_migracion` bigint(20) NOT NULL,
-  `tiene_migrantes` char(1) DEFAULT NULL,
-  `migracion_dentro_pais` char(1) DEFAULT NULL,
-  `migracion_fuera_pais` char(1) DEFAULT NULL,
+  `tiene_migrantes` enum('S','N') DEFAULT NULL,
+  `migracion_dentro_pais` enum('S','N') DEFAULT NULL,
+  `migracion_fuera_pais` enum('S','N') DEFAULT NULL,
   `id_tipo_motivos` bigint(20) NOT NULL,
-  `remesas` char(1) DEFAULT NULL,
+  `remesas` enum('S','N') DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` bigint(20) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -1191,7 +1780,7 @@ CREATE TABLE `tbl_motivos_migracion` (
   `Fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `Modificado_por` varchar(255) DEFAULT NULL,
   `Fecha_Actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Estado` enum('ACTIVO','INACTIVO','','') DEFAULT NULL
+  `Estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -1199,15 +1788,32 @@ CREATE TABLE `tbl_motivos_migracion` (
 --
 
 INSERT INTO `tbl_motivos_migracion` (`Id_motivo`, `Motivo`, `Descripcion`, `Creado_por`, `Fecha_creacion`, `Modificado_por`, `Fecha_Actualizacion`, `Estado`) VALUES
-(1, 'Trabajo', 'No encontre empleo', 'Manuel', '2023-10-31 03:56:32', 'Manuel', '2023-10-31 03:56:32', 'INACTIVO'),
+(1, 'Trabajo', 'No encontre empleo', 'Manuel', '2023-10-31 03:56:32', 'Manuel', '2023-10-31 03:56:32', ''),
 (2, 'JUBILACION', 'RESIDENCIA', NULL, '2023-10-31 04:58:55', NULL, '2023-10-31 04:58:55', ''),
-(3, 'JUBILACION', 'Vive alla', 'Manuel', '2023-10-31 05:07:18', 'Manuel', '2023-11-04 05:20:37', 'INACTIVO'),
-(4, 'JUBILACION', 'por ', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2023-10-31 05:33:43', 'INACTIVO'),
-(5, 'DXFCVGBH', 'FVGJHBKJNK', 'Manuel', '2023-10-31 05:34:00', 'Manuel', '2023-10-31 05:34:00', 'ACTIVO'),
-(6, 'FD', 'eyey', 'Manuel', '2023-10-31 05:39:54', 'Manuel', '2023-10-31 07:08:35', 'ACTIVO'),
-(7, 'JUBILACION SI', 'asdgrrfqeafqe', 'Manuel', '2023-10-31 07:02:30', 'Manuel', '2023-10-31 07:08:24', 'ACTIVO'),
-(8, 'edi', 'E3QERRR3E', 'Manuel', '2023-10-31 07:55:37', 'Manuel', '2023-11-01 04:39:36', 'INACTIVO'),
-(9, 's', 'asd', 'Manuel', '2023-11-01 05:51:35', 'Manuel', '2023-11-01 05:52:31', 'INACTIVO');
+(3, 'JUBILACION', 'Vive alla', 'Manuel', '2023-10-31 05:07:18', 'Manuel', '2023-11-04 05:20:37', ''),
+(4, 'JUBILACION', 'por ', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2023-10-31 05:33:43', ''),
+(5, 'DXFCVGBH', 'FVGJHBKJNK', 'Manuel', '2023-10-31 05:34:00', 'Manuel', '2023-10-31 05:34:00', ''),
+(6, 'FD', 'eyey', 'Manuel', '2023-10-31 05:39:54', 'Manuel', '2023-10-31 07:08:35', ''),
+(7, 'JUBILACION SI', 'asdgrrfqeafqe', 'Manuel', '2023-10-31 07:02:30', 'Manuel', '2023-10-31 07:08:24', ''),
+(8, 'edi', 'E3QERRR3E', 'Manuel', '2023-10-31 07:55:37', 'Manuel', '2023-11-01 04:39:36', ''),
+(9, 's', 'asd', 'Manuel', '2023-11-01 05:51:35', 'Manuel', '2023-11-01 05:52:31', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_motivos_nocredito`
+--
+
+CREATE TABLE `tbl_motivos_nocredito` (
+  `id_motivos_no_credito` bigint(20) NOT NULL,
+  `motivo_no_credito` varchar(255) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(100) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modificado_por` varchar(100) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` enum('S','N') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1241,19 +1847,38 @@ INSERT INTO `tbl_municipios` (`Id_Municipio`, `Id_Departamento`, `Id_Usuario`, `
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_no_creditos`
+--
+
+CREATE TABLE `tbl_no_creditos` (
+  `id_nocred` bigint(20) NOT NULL,
+  `id_ficha` bigint(20) DEFAULT NULL,
+  `id_productor` bigint(20) DEFAULT NULL,
+  `id_motivos_no_credito` bigint(20) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(255) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `modificado_por` varchar(255) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` enum('A','I') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_organizaciones`
 --
 
 CREATE TABLE `tbl_organizaciones` (
-  `id_organizacion` int(11) NOT NULL,
+  `id_organizacion` bigint(20) NOT NULL,
   `organizacion` varchar(255) DEFAULT NULL,
-  `id_tipo_organizacion` int(11) DEFAULT NULL,
+  `id_tipo_organizacion` bigint(20) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('ACTIVO','INACTIVO','','') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -1261,8 +1886,8 @@ CREATE TABLE `tbl_organizaciones` (
 --
 
 INSERT INTO `tbl_organizaciones` (`id_organizacion`, `organizacion`, `id_tipo_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'orga', 1, 'desc', '1', '2023-11-03 05:00:40', NULL, '2023-11-03 05:01:48', 'ACTIVO'),
-(3, 'orga2', 1, 'desc2', 'Kevin', '2023-11-03 05:06:50', 'Kevin', '2023-11-03 05:16:38', 'ACTIVO');
+(1, 'Cooperativa Elga', 2, 'Cooperativa de ahorro', 'manu', '2023-11-16 06:22:34', 'manu', '2023-11-16 06:26:08', 'A'),
+(2, 'Cooperativa Sagrada Familia', 2, 'Prueba', 'manu', '2023-11-17 20:47:02', 'manu', '2023-11-17 20:47:02', 'A');
 
 -- --------------------------------------------------------
 
@@ -1274,13 +1899,25 @@ CREATE TABLE `tbl_organizaciones_por_productor` (
   `id_ficha` bigint(20) DEFAULT NULL,
   `id_productor` bigint(20) DEFAULT NULL,
   `id_organizacion` bigint(20) NOT NULL,
+  `Id_Organizacion_Productor` bigint(20) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `creado_por` bigint(20) DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `modificado_por` bigint(20) DEFAULT NULL,
+  `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('A','I') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_organizaciones_por_productor`
+--
+
+INSERT INTO `tbl_organizaciones_por_productor` (`id_ficha`, `id_productor`, `id_organizacion`, `Id_Organizacion_Productor`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 2, 4, 'desc', 'manu', '2023-11-17 20:51:46', 'manu', '2023-11-18 05:43:18', 'I'),
+(1, 1, 2, 5, 'desc', 'manu', '2023-11-17 20:51:52', 'manu', '2023-11-19 04:53:48', 'I'),
+(2, 2, 2, 9, 'SI', 'manu', '2023-11-17 21:08:34', 'manu', '2023-11-19 04:53:53', 'A'),
+(1, 1, 2, 12, 'TierrasSana', '0', '2023-11-19 04:33:58', 'manu', '2023-11-19 04:55:11', 'I'),
+(2, 2, 2, 13, 'edi', '0', '2023-11-19 04:35:37', 'manu', '2023-11-20 02:51:15', 'I');
 
 -- --------------------------------------------------------
 
@@ -1310,7 +1947,8 @@ INSERT INTO `tbl_periodicidad` (`id_periodo`, `periodo`, `descripcion`, `creado_
 (4, 'adsda', 'dfa', NULL, '2023-10-31 21:36:39', NULL, '2023-11-01 04:46:23', 'ACTIVO'),
 (9, 'rwewe', 'gdgd', 'Manuel', '2023-11-01 04:45:38', 'Manuel', '2023-11-01 06:07:37', 'ACTIVO'),
 (10, '', '', 'Manuel', '2023-11-07 04:42:54', 'Manuel', '2023-11-07 04:42:54', 'ACTIVO'),
-(11, '', '', 'Manuel', '2023-11-13 04:28:49', 'Manuel', '2023-11-13 04:28:49', 'ACTIVO');
+(11, '', '', 'Manuel', '2023-11-13 04:28:49', 'Manuel', '2023-11-13 04:28:49', 'ACTIVO'),
+(12, '', '', 'Manuel', '2023-11-16 04:35:41', 'Manuel', '2023-11-16 04:35:41', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -1338,9 +1976,9 @@ CREATE TABLE `tbl_productor` (
   `email_2` varchar(255) DEFAULT NULL,
   `email_3` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
-  `creado_por` bigint(20) DEFAULT NULL,
+  `creado_por` varchar(25) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `modificado_por` bigint(20) DEFAULT NULL,
+  `modificado_por` varchar(25) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -1350,7 +1988,29 @@ CREATE TABLE `tbl_productor` (
 --
 
 INSERT INTO `tbl_productor` (`id_ficha`, `id_productor`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `identificacion`, `fecha_nacimiento`, `genero`, `estado_civil`, `nivel_escolaridad`, `ultimo_grado_escolar_aprobado`, `telefono_1`, `telefono_2`, `telefono_3`, `email_1`, `email_2`, `email_3`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 'Manuel', 'Jesus', 'Figueroa', 'Barahona', 801200205125, '2001-08-28', 'M', 'Soltero', 'Universitario', 'Bachillerato', 31373917, NULL, NULL, 'manuel_figueroa@gmail.com', NULL, NULL, 'Creado por Manuel', 1, '2023-11-13 03:26:44', 1, '2023-11-13 03:26:44', 'A');
+(1, 1, 'Manuel', 'Jesus', 'Figueroa', 'Barahona', 801200205125, '2001-08-28', 'M', 'Soltero', 'Universitario', 'Bachillerato', 31373917, NULL, NULL, 'manuel_figueroa@gmail.com', NULL, NULL, 'Creado por Manuel', '1', '2023-11-13 03:26:44', '1', '2023-11-13 03:26:44', 'A'),
+(2, 2, 'Kevin', 'ale', 'vaca', 'vaca', 801200205125, '2023-11-17', 'M', 'Soltero', 'Universitario', 'Bachillerato', 31373917, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-17 20:59:25', NULL, '2023-11-17 20:59:25', 'A'),
+(3, 3, 'manuel', 'jesus', 'figueroaas', 'barahona', 801200205125, '2023-11-20', 'Masculino', 'Casado(a)', 'universitario', 'universitario', 31673917, 31673917, 31673917, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manu@unah.hn', 'prueba', '0', '2023-11-20 06:54:47', '0', '2023-11-20 06:54:47', 'I');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_productor_actividad_externa`
+--
+
+CREATE TABLE `tbl_productor_actividad_externa` (
+  `id_actividad_ext` bigint(20) NOT NULL,
+  `id_ficha` bigint(20) DEFAULT NULL,
+  `id_productor` bigint(20) DEFAULT NULL,
+  `miembros_realizan_actividades_fuera_finca` enum('S','N') DEFAULT NULL,
+  `id_tomador_decisiones` bigint(20) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(255) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `modificado_por` varchar(255) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1361,15 +2021,25 @@ INSERT INTO `tbl_productor` (`id_ficha`, `id_productor`, `primer_nombre`, `segun
 CREATE TABLE `tbl_relevo_organizacion` (
   `id_ficha` bigint(20) DEFAULT NULL,
   `id_productor` bigint(20) DEFAULT NULL,
-  `tendra_relevo` char(1) DEFAULT NULL,
+  `Id_Relevo` bigint(20) NOT NULL,
+  `tendra_relevo` enum('S','N') DEFAULT NULL,
   `cuantos_relevos` int(11) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
-  `creado_por` bigint(20) DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `modificado_por` bigint(20) DEFAULT NULL,
+  `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('A','I') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_relevo_organizacion`
+--
+
+INSERT INTO `tbl_relevo_organizacion` (`id_ficha`, `id_productor`, `Id_Relevo`, `tendra_relevo`, `cuantos_relevos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'S', 2, 'Relevo por la vida', 'manu', '2023-11-19 05:15:18', 'manu', '2023-11-19 05:15:18', 'A'),
+(2, 2, 14, 'S', 71, 'TierrasSana1', 'manu', '2023-11-19 22:37:46', 'manu', '2023-11-19 22:45:03', 'I'),
+(1, 1, 15, 'N', 565, 'yh', 'manu', '2023-11-19 22:39:31', 'manu', '2023-11-19 22:51:06', 'I');
 
 -- --------------------------------------------------------
 
@@ -1395,6 +2065,26 @@ CREATE TABLE `tbl_tipos_apoyos` (
 INSERT INTO `tbl_tipos_apoyos` (`id_tipo_apoyos`, `tipo_apoyos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'Bono', 'Bono ganadero', 'Daniela', '2023-11-04 13:29:36', 'Daniela', '2023-11-04 13:29:36', 'ACTIVO'),
 (2, 'Bono A', 'Bono Agricultor 1', 'Daniela', '2023-11-05 08:59:41', 'Daniela', '2023-11-05 08:59:41', 'INACTIVO');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_tipos_apoyo_produccion`
+--
+
+CREATE TABLE `tbl_tipos_apoyo_produccion` (
+  `id_apoyo_produccion` bigint(20) NOT NULL,
+  `id_ficha` bigint(20) DEFAULT NULL,
+  `id_productor` bigint(20) DEFAULT NULL,
+  `id_tipos_apoyos` bigint(20) NOT NULL,
+  `otros_detalles` text DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(255) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `modificado_por` varchar(255) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` enum('A','I') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1452,23 +2142,23 @@ INSERT INTO `tbl_tipo_negocios` (`id_tipo_negocio`, `tipo_negocio`, `descripcion
 --
 
 CREATE TABLE `tbl_tipo_organizacion` (
-  `id_tipo_organizacion` int(11) NOT NULL,
+  `id_tipo_organizacion` bigint(20) NOT NULL,
   `tipo_organizacion` varchar(255) DEFAULT NULL,
-  `id organizacion` bigint(20) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('ACTIVO','INACTIVO','','') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_tipo_organizacion`
 --
 
-INSERT INTO `tbl_tipo_organizacion` (`id_tipo_organizacion`, `tipo_organizacion`, `id organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'BENEFICA', 0, 'Grupo Solidario ', '1', '2023-11-05 08:57:22', '1', '2023-11-05 08:57:22', 'ACTIVO');
+INSERT INTO `tbl_tipo_organizacion` (`id_tipo_organizacion`, `tipo_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 'BENEFICA', 'Grupo Solidario ', '1', '2023-11-16 06:22:08', '1', '2023-11-16 06:22:08', 'A'),
+(2, 'Cooperativa', 'cooperativas', 'manu', '2023-11-16 06:22:15', 'manu', '2023-11-16 06:22:15', 'A');
 
 -- --------------------------------------------------------
 
@@ -1552,7 +2242,7 @@ INSERT INTO `tbl_tipo_riego` (`id_tipo_riego`, `tipo_riego`, `descripcion`, `cre
 --
 
 CREATE TABLE `tbl_tipo_trabajadores` (
-  `id_tipo_trabajador` int(11) NOT NULL,
+  `id_tipo_trabajador` bigint(20) NOT NULL,
   `tipo_trabajador` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
@@ -1577,14 +2267,14 @@ INSERT INTO `tbl_tipo_trabajadores` (`id_tipo_trabajador`, `tipo_trabajador`, `d
 --
 
 CREATE TABLE `tbl_toma_decisiones` (
-  `id_tipo_tomador` int(11) NOT NULL,
+  `id_tipo_tomador` bigint(20) NOT NULL,
   `tomador` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('ACTIVO','INACTIVO','','') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -1592,9 +2282,36 @@ CREATE TABLE `tbl_toma_decisiones` (
 --
 
 INSERT INTO `tbl_toma_decisiones` (`id_tipo_tomador`, `tomador`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'SAG', 'Se decidio por voto', 'Daniela', '2023-11-04 13:40:26', 'Daniela', '2023-11-04 13:40:26', 'ACTIVO'),
-(2, 'SAG 1', 'Creacion de base 1', 'Daniela', '2023-11-04 22:44:19', 'Daniela', '2023-11-04 22:44:19', 'ACTIVO'),
-(3, 'UPEG1', 'Pagos1', 'Daniela', '2023-11-05 08:58:41', 'Daniela', '2023-11-05 08:58:41', 'INACTIVO');
+(1, 'SAG', 'Se decidio por voto', 'Daniela', '2023-11-04 13:40:26', 'Daniela', '2023-11-04 13:40:26', ''),
+(2, 'SAG 1', 'Creacion de base 1', 'Daniela', '2023-11-04 22:44:19', 'Daniela', '2023-11-04 22:44:19', ''),
+(3, 'UPEG1', 'Pagos1', 'Daniela', '2023-11-05 08:58:41', 'Daniela', '2023-11-05 08:58:41', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_trabajadores_externos`
+--
+
+CREATE TABLE `tbl_trabajadores_externos` (
+  `id_trabajador_ext` bigint(20) NOT NULL,
+  `id_ficha` bigint(20) DEFAULT NULL,
+  `id_productor` bigint(20) DEFAULT NULL,
+  `id_tipo_trabajador` bigint(20) DEFAULT NULL,
+  `cantidad_trabajador` int(11) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(255) DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `modificado_por` varchar(255) DEFAULT NULL,
+  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` enum('A','I') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_trabajadores_externos`
+--
+
+INSERT INTO `tbl_trabajadores_externos` (`id_trabajador_ext`, `id_ficha`, `id_productor`, `id_tipo_trabajador`, `cantidad_trabajador`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 1, 12, 'saas', 'manu', '2023-11-21 08:26:07', 'manu', '2023-11-21 08:26:07', 'A');
 
 -- --------------------------------------------------------
 
@@ -1618,12 +2335,12 @@ CREATE TABLE `tbl_ubicacion_productor` (
   `direccion_1` varchar(255) DEFAULT NULL,
   `direccion_2` varchar(255) DEFAULT NULL,
   `direccion_3` varchar(255) DEFAULT NULL,
-  `vive_en_finca` char(1) DEFAULT NULL,
+  `vive_en_finca` enum('S','N') DEFAULT NULL,
   `nombre_finca` varchar(255) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
-  `creado_por` bigint(20) DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `modificado_por` bigint(20) DEFAULT NULL,
+  `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -1633,8 +2350,8 @@ CREATE TABLE `tbl_ubicacion_productor` (
 --
 
 INSERT INTO `tbl_ubicacion_productor` (`id_ficha`, `id_productor`, `id_ubicacion`, `id_departamento`, `id_municipio`, `id_aldea`, `id_caserio`, `ubicacion_geografica`, `distancia_parcela_vivienda`, `latitud_parcela`, `longitud_parcela`, `msnm`, `direccion_1`, `direccion_2`, `direccion_3`, `vive_en_finca`, `nombre_finca`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 4, 1, 1, 'Prueba ', 100.00, NULL, NULL, NULL, 'Col. Arturo Quezada', NULL, NULL, 'S', 'Resi Quezada', 'Prueba', 1, '2023-11-13 03:29:27', 1, '2023-11-13 03:29:27', 'A'),
-(1, 1, 2, 1, 1, 1, 1, 'Prueba', NULL, NULL, NULL, NULL, 'Col.Quezada', NULL, NULL, 'S', 'Resi Quezada', 'Prueba', 1, '2023-11-13 03:31:13', 1, '2023-11-13 03:31:13', NULL);
+(1, 1, 1, 1, 4, 1, 1, 'Prueba ', 100.00, '11', '12', 13.00, 'Col. Arturo Quezada', 'Col. Arturo Quezada1', 'Col. Arturo Quezada2', 'S', 'Resi Quezada', 'Prueba', 'manu', '2023-11-13 03:29:27', 'manu', '2023-11-20 08:38:11', 'A'),
+(1, 1, 2, 1, 1, 1, 1, 'Prueba', NULL, NULL, NULL, NULL, 'Col.Quezada', NULL, NULL, 'S', 'Resi Quezada', 'Prueba', '1', '2023-11-13 03:31:13', '1', '2023-11-20 07:46:21', 'A');
 
 -- --------------------------------------------------------
 
@@ -1647,7 +2364,7 @@ CREATE TABLE `usuario` (
   `Id_rol` bigint(20) NOT NULL,
   `Nombre` varchar(255) NOT NULL,
   `Correo` varchar(255) NOT NULL,
-  `Usuario` varchar(255) NOT NULL,
+  `usuario` varchar(255) NOT NULL,
   `Contraseña` varchar(255) NOT NULL,
   `Token` varchar(100) DEFAULT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -1667,7 +2384,7 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`Id_Usuario`, `Id_rol`, `Nombre`, `Correo`, `Usuario`, `Contraseña`, `Token`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Preguntas_Contestadas`, `Estado`, `Id_estado`, `Primera_Vez`, `Fecha_Vencimiento`, `Intentos_Preguntas`, `Preguntas_Correctas`, `Intentos_Fallidos`) VALUES
+INSERT INTO `usuario` (`Id_Usuario`, `Id_rol`, `Nombre`, `Correo`, `usuario`, `Contraseña`, `Token`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Preguntas_Contestadas`, `Estado`, `Id_estado`, `Primera_Vez`, `Fecha_Vencimiento`, `Intentos_Preguntas`, `Preguntas_Correctas`, `Intentos_Fallidos`) VALUES
 (1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 1, 1, 1, '2023-10-31', NULL, NULL, 0),
 (2, 18, 'AS', 'AS', 'ASZ', '111', NULL, '2023-10-25 08:04:11', 1, '2023-10-31 08:04:11', 1, 1, 1, 1, '2023-10-31', NULL, NULL, NULL);
 
@@ -1680,6 +2397,12 @@ INSERT INTO `usuario` (`Id_Usuario`, `Id_rol`, `Nombre`, `Correo`, `Usuario`, `C
 --
 ALTER TABLE `estado_usuario`
   ADD PRIMARY KEY (`id_estado`);
+
+--
+-- Indices de la tabla `fichas`
+--
+ALTER TABLE `fichas`
+  ADD PRIMARY KEY (`id_ficha`);
 
 --
 -- Indices de la tabla `objetos`
@@ -1737,6 +2460,31 @@ ALTER TABLE `tbl_apoyos`
   ADD PRIMARY KEY (`id_apoyo_produccion`);
 
 --
+-- Indices de la tabla `tbl_apoyos_produccion`
+--
+ALTER TABLE `tbl_apoyos_produccion`
+  ADD PRIMARY KEY (`id_apoyo_prod`),
+  ADD KEY `fk_id_ficha_apoyos_produccion` (`id_ficha`),
+  ADD KEY `fk_id_productor_apoyos_produccion` (`id_productor`),
+  ADD KEY `fk_id_apoyo_produccion` (`id_apoyo_produccion`);
+
+--
+-- Indices de la tabla `tbl_apoyo_actividad_externa`
+--
+ALTER TABLE `tbl_apoyo_actividad_externa`
+  ADD PRIMARY KEY (`id_apoyo_ext`),
+  ADD KEY `fk_id_ficha_apoyo_actividad_extern` (`id_ficha`),
+  ADD KEY `fk_id_productor_apoyo_actividad_extern` (`id_productor`);
+
+--
+-- Indices de la tabla `tbl_base_organizacion_por_productor`
+--
+ALTER TABLE `tbl_base_organizacion_por_productor`
+  ADD PRIMARY KEY (`Id_base_organizacion`),
+  ADD KEY `fk_base_organizacion_ficha` (`id_ficha`),
+  ADD KEY `fk_base_organizacion_productor` (`id_productor`);
+
+--
 -- Indices de la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
@@ -1748,7 +2496,19 @@ ALTER TABLE `tbl_cacerios`
 -- Indices de la tabla `tbl_composicion`
 --
 ALTER TABLE `tbl_composicion`
-  ADD PRIMARY KEY (`id_composicion`);
+  ADD PRIMARY KEY (`id_composicion`),
+  ADD KEY `fk_id_ficha_composicion` (`id_ficha`),
+  ADD KEY `fk_id_producto_composicionr` (`id_productor`);
+
+--
+-- Indices de la tabla `tbl_credito_produccion`
+--
+ALTER TABLE `tbl_credito_produccion`
+  ADD PRIMARY KEY (`id_credpro`),
+  ADD KEY `fk_id_motivos_no_credito` (`id_motivos_no_credito`),
+  ADD KEY `fk_id_fuente_credito` (`id_fuente_credito`),
+  ADD KEY `fk_id_ficha_credito_produccion` (`id_ficha`),
+  ADD KEY `fk_id_productor_credito_produccion` (`id_productor`);
 
 --
 -- Indices de la tabla `tbl_departamentos`
@@ -1767,8 +2527,10 @@ ALTER TABLE `tbl_etnias`
 -- Indices de la tabla `tbl_etnias_por_productor`
 --
 ALTER TABLE `tbl_etnias_por_productor`
+  ADD PRIMARY KEY (`Id_etnicidad`),
   ADD KEY `id_productor` (`id_productor`),
-  ADD KEY `id_etnia` (`id_etnia`);
+  ADD KEY `id_etnia` (`id_etnia`),
+  ADD KEY `fk_etnias_fichas` (`id_ficha`);
 
 --
 -- Indices de la tabla `tbl_fuentes_credito`
@@ -1786,13 +2548,22 @@ ALTER TABLE `tbl_medidas_tierra`
 -- Indices de la tabla `tbl_migracion_familiar`
 --
 ALTER TABLE `tbl_migracion_familiar`
-  ADD PRIMARY KEY (`id_migracion`);
+  ADD PRIMARY KEY (`id_migracion`),
+  ADD KEY `fk_id_ficha_migracion_familiar` (`id_ficha`),
+  ADD KEY `fk_id_productor_migracion_familiar` (`id_productor`),
+  ADD KEY `fk_id_tipo_motivos` (`id_tipo_motivos`);
 
 --
 -- Indices de la tabla `tbl_motivos_migracion`
 --
 ALTER TABLE `tbl_motivos_migracion`
   ADD PRIMARY KEY (`Id_motivo`);
+
+--
+-- Indices de la tabla `tbl_motivos_nocredito`
+--
+ALTER TABLE `tbl_motivos_nocredito`
+  ADD PRIMARY KEY (`id_motivos_no_credito`);
 
 --
 -- Indices de la tabla `tbl_municipios`
@@ -1803,16 +2574,29 @@ ALTER TABLE `tbl_municipios`
   ADD KEY `FK_Municipio_Departamento` (`Id_Departamento`);
 
 --
+-- Indices de la tabla `tbl_no_creditos`
+--
+ALTER TABLE `tbl_no_creditos`
+  ADD PRIMARY KEY (`id_nocred`),
+  ADD KEY `fk_id_fichal_no_creditos` (`id_ficha`),
+  ADD KEY `fk_id_productorl_no_creditos` (`id_productor`),
+  ADD KEY `fk_id_motivos` (`id_motivos_no_credito`);
+
+--
 -- Indices de la tabla `tbl_organizaciones`
 --
 ALTER TABLE `tbl_organizaciones`
-  ADD PRIMARY KEY (`id_organizacion`);
+  ADD PRIMARY KEY (`id_organizacion`),
+  ADD KEY `fk_tipo_organizacion` (`id_tipo_organizacion`);
 
 --
 -- Indices de la tabla `tbl_organizaciones_por_productor`
 --
 ALTER TABLE `tbl_organizaciones_por_productor`
-  ADD PRIMARY KEY (`id_organizacion`);
+  ADD PRIMARY KEY (`Id_Organizacion_Productor`),
+  ADD KEY `fk_organizacion_por_productor` (`id_organizacion`),
+  ADD KEY `fk_id_productor` (`id_productor`),
+  ADD KEY `id_ficha` (`id_ficha`);
 
 --
 -- Indices de la tabla `tbl_periodicidad`
@@ -1824,13 +2608,40 @@ ALTER TABLE `tbl_periodicidad`
 -- Indices de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
-  ADD PRIMARY KEY (`id_productor`);
+  ADD PRIMARY KEY (`id_productor`),
+  ADD KEY `id_ficha` (`id_ficha`);
+
+--
+-- Indices de la tabla `tbl_productor_actividad_externa`
+--
+ALTER TABLE `tbl_productor_actividad_externa`
+  ADD PRIMARY KEY (`id_actividad_ext`),
+  ADD KEY `fk_id_ficha_actividad_externa` (`id_ficha`),
+  ADD KEY `fk_id_productor_actividad_externa` (`id_productor`),
+  ADD KEY `fk_id_tomador_decisiones_actividad_externa` (`id_tomador_decisiones`);
+
+--
+-- Indices de la tabla `tbl_relevo_organizacion`
+--
+ALTER TABLE `tbl_relevo_organizacion`
+  ADD PRIMARY KEY (`Id_Relevo`),
+  ADD KEY `fk_id_ficha` (`id_ficha`),
+  ADD KEY `fk_id_productor_relevo` (`id_productor`);
 
 --
 -- Indices de la tabla `tbl_tipos_apoyos`
 --
 ALTER TABLE `tbl_tipos_apoyos`
   ADD PRIMARY KEY (`id_tipo_apoyos`);
+
+--
+-- Indices de la tabla `tbl_tipos_apoyo_produccion`
+--
+ALTER TABLE `tbl_tipos_apoyo_produccion`
+  ADD PRIMARY KEY (`id_apoyo_produccion`) USING BTREE,
+  ADD KEY `fk_id_ficha_apoyo_produccion` (`id_ficha`),
+  ADD KEY `fk_id_productor_apoyo_produccion` (`id_productor`),
+  ADD KEY `fk_id_tipos_apoyos_apoyo_produccion` (`id_tipos_apoyos`);
 
 --
 -- Indices de la tabla `tbl_tipo_cultivo`
@@ -1881,6 +2692,15 @@ ALTER TABLE `tbl_toma_decisiones`
   ADD PRIMARY KEY (`id_tipo_tomador`);
 
 --
+-- Indices de la tabla `tbl_trabajadores_externos`
+--
+ALTER TABLE `tbl_trabajadores_externos`
+  ADD PRIMARY KEY (`id_trabajador_ext`),
+  ADD KEY `fk_id_ficha_trabajadores_externos` (`id_ficha`),
+  ADD KEY `fk_id_productor_trabajadores_externos` (`id_productor`),
+  ADD KEY `fk_id_tipo_trabajador` (`id_tipo_trabajador`);
+
+--
 -- Indices de la tabla `tbl_ubicacion_productor`
 --
 ALTER TABLE `tbl_ubicacion_productor`
@@ -1889,7 +2709,8 @@ ALTER TABLE `tbl_ubicacion_productor`
   ADD KEY `id_municipio` (`id_municipio`),
   ADD KEY `id_aldea` (`id_aldea`),
   ADD KEY `id_caserio` (`id_caserio`),
-  ADD KEY `id_productor` (`id_productor`);
+  ADD KEY `id_productor` (`id_productor`),
+  ADD KEY `fk_id_ficha_ubicacion` (`id_ficha`);
 
 --
 -- Indices de la tabla `usuario`
@@ -1949,7 +2770,7 @@ ALTER TABLE `tbl_aldeas`
 -- AUTO_INCREMENT de la tabla `tbl_apoyos`
 --
 ALTER TABLE `tbl_apoyos`
-  MODIFY `id_apoyo_produccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_cacerios`
@@ -1970,10 +2791,16 @@ ALTER TABLE `tbl_etnias`
   MODIFY `id_etnia` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_etnias_por_productor`
+--
+ALTER TABLE `tbl_etnias_por_productor`
+  MODIFY `Id_etnicidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_fuentes_credito`
 --
 ALTER TABLE `tbl_fuentes_credito`
-  MODIFY `id_fuente_credito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_fuente_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_medidas_tierra`
@@ -1994,6 +2821,12 @@ ALTER TABLE `tbl_motivos_migracion`
   MODIFY `Id_motivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_motivos_nocredito`
+--
+ALTER TABLE `tbl_motivos_nocredito`
+  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_municipios`
 --
 ALTER TABLE `tbl_municipios`
@@ -2003,19 +2836,31 @@ ALTER TABLE `tbl_municipios`
 -- AUTO_INCREMENT de la tabla `tbl_organizaciones`
 --
 ALTER TABLE `tbl_organizaciones`
-  MODIFY `id_organizacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_organizaciones_por_productor`
+--
+ALTER TABLE `tbl_organizaciones_por_productor`
+  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_periodicidad`
 --
 ALTER TABLE `tbl_periodicidad`
-  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
-  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_relevo_organizacion`
+--
+ALTER TABLE `tbl_relevo_organizacion`
+  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyos`
@@ -2039,7 +2884,7 @@ ALTER TABLE `tbl_tipo_negocios`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_organizacion`
 --
 ALTER TABLE `tbl_tipo_organizacion`
-  MODIFY `id_tipo_organizacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_practicas_productivas`
@@ -2063,13 +2908,13 @@ ALTER TABLE `tbl_tipo_riego`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_trabajadores`
 --
 ALTER TABLE `tbl_tipo_trabajadores`
-  MODIFY `id_tipo_trabajador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo_trabajador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_toma_decisiones`
 --
 ALTER TABLE `tbl_toma_decisiones`
-  MODIFY `id_tipo_tomador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_tomador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -2109,11 +2954,49 @@ ALTER TABLE `tbl_aldeas`
   ADD CONSTRAINT `FK_Aldea_Usuario` FOREIGN KEY (`Id_Usuario`) REFERENCES `usuario` (`Id_Usuario`);
 
 --
+-- Filtros para la tabla `tbl_apoyos_produccion`
+--
+ALTER TABLE `tbl_apoyos_produccion`
+  ADD CONSTRAINT `fk_id_apoyo_produccion` FOREIGN KEY (`id_apoyo_produccion`) REFERENCES `tbl_apoyos` (`id_apoyo_produccion`),
+  ADD CONSTRAINT `fk_id_ficha_apoyos_produccion` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_apoyos_produccion` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
+-- Filtros para la tabla `tbl_apoyo_actividad_externa`
+--
+ALTER TABLE `tbl_apoyo_actividad_externa`
+  ADD CONSTRAINT `fk_id_ficha_apoyo_actividad_extern` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_apoyo_actividad_extern` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
+-- Filtros para la tabla `tbl_base_organizacion_por_productor`
+--
+ALTER TABLE `tbl_base_organizacion_por_productor`
+  ADD CONSTRAINT `fk_base_organizacion_ficha` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_base_organizacion_productor` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
 -- Filtros para la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
   ADD CONSTRAINT `FK_Cacerio_Usuario` FOREIGN KEY (`Id_Usuario`) REFERENCES `usuario` (`Id_Usuario`),
   ADD CONSTRAINT `FK_Caserio_Aldea` FOREIGN KEY (`Id_Aldea`) REFERENCES `tbl_aldeas` (`Id_Aldea`);
+
+--
+-- Filtros para la tabla `tbl_composicion`
+--
+ALTER TABLE `tbl_composicion`
+  ADD CONSTRAINT `fk_id_ficha_composicion` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_producto_composicionr` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
+-- Filtros para la tabla `tbl_credito_produccion`
+--
+ALTER TABLE `tbl_credito_produccion`
+  ADD CONSTRAINT `fk_id_ficha_credito_produccion` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_fuente_credito` FOREIGN KEY (`id_fuente_credito`) REFERENCES `tbl_fuentes_credito` (`id_fuente_credito`),
+  ADD CONSTRAINT `fk_id_motivos_no_credito` FOREIGN KEY (`id_motivos_no_credito`) REFERENCES `tbl_motivos_nocredito` (`id_motivos_no_credito`),
+  ADD CONSTRAINT `fk_id_productor_credito_produccion` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
 
 --
 -- Filtros para la tabla `tbl_departamentos`
@@ -2125,8 +3008,17 @@ ALTER TABLE `tbl_departamentos`
 -- Filtros para la tabla `tbl_etnias_por_productor`
 --
 ALTER TABLE `tbl_etnias_por_productor`
+  ADD CONSTRAINT `fk_etnias_fichas` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
   ADD CONSTRAINT `tbl_etnias_por_productor_ibfk_1` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
   ADD CONSTRAINT `tbl_etnias_por_productor_ibfk_2` FOREIGN KEY (`id_etnia`) REFERENCES `tbl_etnias` (`id_etnia`);
+
+--
+-- Filtros para la tabla `tbl_migracion_familiar`
+--
+ALTER TABLE `tbl_migracion_familiar`
+  ADD CONSTRAINT `fk_id_ficha_migracion_familiar` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_migracion_familiar` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `fk_id_tipo_motivos` FOREIGN KEY (`id_tipo_motivos`) REFERENCES `tbl_motivos_migracion` (`Id_motivo`);
 
 --
 -- Filtros para la tabla `tbl_municipios`
@@ -2136,9 +3028,69 @@ ALTER TABLE `tbl_municipios`
   ADD CONSTRAINT `FK_Municipio_Usuario` FOREIGN KEY (`Id_Usuario`) REFERENCES `usuario` (`Id_Usuario`);
 
 --
+-- Filtros para la tabla `tbl_no_creditos`
+--
+ALTER TABLE `tbl_no_creditos`
+  ADD CONSTRAINT `fk_id_fichal_no_creditos` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_motivos` FOREIGN KEY (`id_motivos_no_credito`) REFERENCES `tbl_motivos_nocredito` (`id_motivos_no_credito`),
+  ADD CONSTRAINT `fk_id_productorl_no_creditos` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
+-- Filtros para la tabla `tbl_organizaciones`
+--
+ALTER TABLE `tbl_organizaciones`
+  ADD CONSTRAINT `fk_tipo_organizacion` FOREIGN KEY (`id_tipo_organizacion`) REFERENCES `tbl_tipo_organizacion` (`id_tipo_organizacion`);
+
+--
+-- Filtros para la tabla `tbl_organizaciones_por_productor`
+--
+ALTER TABLE `tbl_organizaciones_por_productor`
+  ADD CONSTRAINT `fk_id_productor` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `fk_organizacion_por_productor` FOREIGN KEY (`id_organizacion`) REFERENCES `tbl_organizaciones` (`id_organizacion`),
+  ADD CONSTRAINT `tbl_organizaciones_por_productor_ibfk_1` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`);
+
+--
+-- Filtros para la tabla `tbl_productor`
+--
+ALTER TABLE `tbl_productor`
+  ADD CONSTRAINT `tbl_productor_ibfk_1` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`);
+
+--
+-- Filtros para la tabla `tbl_productor_actividad_externa`
+--
+ALTER TABLE `tbl_productor_actividad_externa`
+  ADD CONSTRAINT `fk_id_ficha_actividad_externa` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_actividad_externa` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `fk_id_tomador_decisiones_actividad_externa` FOREIGN KEY (`id_tomador_decisiones`) REFERENCES `tbl_toma_decisiones` (`id_tipo_tomador`);
+
+--
+-- Filtros para la tabla `tbl_relevo_organizacion`
+--
+ALTER TABLE `tbl_relevo_organizacion`
+  ADD CONSTRAINT `fk_id_ficha` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_relevo` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
+-- Filtros para la tabla `tbl_tipos_apoyo_produccion`
+--
+ALTER TABLE `tbl_tipos_apoyo_produccion`
+  ADD CONSTRAINT `fk_id_ficha_apoyo_produccion` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_apoyo_produccion` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `fk_id_tipos_apoyos_apoyo_produccion` FOREIGN KEY (`id_tipos_apoyos`) REFERENCES `tbl_tipos_apoyos` (`id_tipo_apoyos`);
+
+--
+-- Filtros para la tabla `tbl_trabajadores_externos`
+--
+ALTER TABLE `tbl_trabajadores_externos`
+  ADD CONSTRAINT `fk_id_ficha_trabajadores_externos` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_trabajadores_externos` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `fk_id_tipo_trabajador` FOREIGN KEY (`id_tipo_trabajador`) REFERENCES `tbl_tipo_trabajadores` (`id_tipo_trabajador`);
+
+--
 -- Filtros para la tabla `tbl_ubicacion_productor`
 --
 ALTER TABLE `tbl_ubicacion_productor`
+  ADD CONSTRAINT `fk_id_ficha_ubicacion` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `tbl_departamentos` (`Id_Departamento`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_2` FOREIGN KEY (`id_municipio`) REFERENCES `tbl_municipios` (`Id_Municipio`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_3` FOREIGN KEY (`id_aldea`) REFERENCES `tbl_aldeas` (`Id_Aldea`),

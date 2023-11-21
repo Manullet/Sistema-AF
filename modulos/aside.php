@@ -20,11 +20,11 @@
                     </a>
                 </li>
                 <li class="nav-item nav-item-custom">
-                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Llenar_ficha.php','content-wrapper')">
-                            <i class="bi bi-file-earmark-plus-fill"></i>
-                            <p>Llenar Formulario</p>
-                        </a>
-                    </li>
+                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Llenar_ficha.php','content-wrapper')">
+                        <i class="bi bi-file-earmark-plus-fill"></i>
+                        <p>Llenar Formulario</p>
+                    </a>
+                </li>
 
                 <li class="nav-item has-treeview">
                     <a style="cursor:pointer;" class="nav-link">
@@ -192,7 +192,7 @@
                 </li>
                 <!-- desde aqui se pueden añadir mas Mantenimientos -->
             </ul>
-        </li>
+            </li>
             <li class="nav-item has-treeview">
                 <a style="cursor:pointer;" class="nav-link">
                     <i class="bi bi-globe-americas"></i>
@@ -240,7 +240,7 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Departamento</p>
@@ -264,7 +264,7 @@
                             <p>Cacerio</p>
                         </a>
                     </li>
-            
+
 
                     <!-- desde aqui se pueden añadir mas Mantenimientos -->
                 </ul>
@@ -279,7 +279,7 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Riego</p>
@@ -321,7 +321,7 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Departamento</p>
@@ -349,7 +349,7 @@
 
 
 
-                                   <!-- desde aqui se pueden añadir mas Mantenimientos -->
+                    <!-- desde aqui se pueden añadir mas Mantenimientos -->
                 </ul>
             </li>
             <li class="nav-item has-treeview">
@@ -361,7 +361,7 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Departamento</p>
@@ -403,7 +403,7 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Departamento</p>
@@ -445,7 +445,7 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Departamento</p>
@@ -475,9 +475,9 @@
 
 
 
-            </ul>
-        </li>
-        <li class="nav-item has-treeview">
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
                 <a style="cursor:pointer;" class="nav-link">
                     <i class="bi bi-shop-window"></i>
                     <p>
@@ -487,7 +487,7 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Departamento.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Departamento</p>
@@ -515,9 +515,9 @@
 
 
 
-            </ul>
-        </li>
-        <li class="nav-item has-treeview">
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
                 <a style="cursor:pointer;" class="nav-link">
                     <i class="bi bi-shop-window"></i>
                     <p>
@@ -527,7 +527,7 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Productor.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Datos Generales </p>
@@ -578,8 +578,88 @@
 
 
 
-            </ul>
-        </li>
+                </ul>
+            </li>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-shop-window"></i>
+                    <p>
+                        Tablas Manuel
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_tiposAP.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>TIPOS_APOYO</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_apoyos_produccion.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>APOYOS_PROD</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_apoyo_ext.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>APOYO_EXT</p>
+                        </a>
+                    </li>
+                </ul>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-shop-window"></i>
+                    <p>
+                        Credito
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_NoCred.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>NoCredito</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantinimiento_CredPr.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>Credito</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_base_organizacionprod.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>BOP</p>
+                        </a>
+                    </li>
+                </ul>
+            <li class="nav-item has-treeview">
+                <a style="cursor:pointer;" class="nav-link">
+                    <i class="bi bi-shop-window"></i>
+                    <p>
+                    ACTIVIDADES EXTERNAS
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_TrabExt.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>TRABEXT</p>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_PAE.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>PAE</p>
+                        </a>
+                    </li>
+                </ul>
+                
+
         </nav>
         <!-- /.sidebar-menu -->
     </div>
