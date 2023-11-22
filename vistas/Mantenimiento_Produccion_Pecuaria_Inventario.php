@@ -1,3 +1,8 @@
+<?php 
+session_start();
+ $_SESSION['url'] = 'vistas/Mantenimiento_Produccion_Pecuaria_Inventario.php';
+ $_SESSION['content-wrapper'] = 'content-wrapper';
+?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -71,10 +76,10 @@
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_Produccion_Pecuaria_Inventario");
+                $sql = $conexion->query("SELECT * FROM tbl_Produccion_Pecuaria");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->Id_Produccion_Pecuaria_Inventario ?></td>
+                        <td><?= $datos->Id_Produccion_Pecuaria ?></td>
                         <td><?= $datos->Año_Produccion ?></td>
                         <td><?= $datos->Cantidad_Hembras ?></td>
                         <td><?= $datos->Cantidad_Machos ?></td>

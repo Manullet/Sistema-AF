@@ -1,6 +1,6 @@
 <?php 
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Aldea.php';
+ $_SESSION['url'] = 'vistas/Mantenimiento_tipoT.php';
  $_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
@@ -80,7 +80,7 @@ session_start();
                         <td><?= $datos->tipo_trabajador ?></td>
                         <td><?= $datos->descripcion ?></td>
                         <td><?php
-                            if ($datos->estado == "ACTIVO") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';

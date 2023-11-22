@@ -1,6 +1,6 @@
 <?php 
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Aldea.php';
+ $_SESSION['url'] = 'vistas/Mantenimiento_Migracion.php';
  $_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
@@ -83,7 +83,7 @@ session_start();
                         <td><?= $datos->Motivo ?></td>
                         <td><?= $datos->Descripcion ?></td>
                         <td><?php
-                            if ($datos->Estado == "ACTIVO") {
+                            if ($datos->Estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';

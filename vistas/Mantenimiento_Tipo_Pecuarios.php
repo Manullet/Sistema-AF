@@ -1,6 +1,6 @@
 <?php 
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Aldea.php';
+ $_SESSION['url'] = 'vistas/Mantenimiento_Tipo_Pecuarios.php';
  $_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
