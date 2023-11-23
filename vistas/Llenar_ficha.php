@@ -1,8 +1,3 @@
-<?php 
-session_start();
- $_SESSION['url'] = 'vistas/Llenar_ficha.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
-?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -114,9 +109,13 @@ session_start();
         <div class="sidebar-ficha col-md-3">
             <div class="menu">
                 <!-- Usando anclas para apuntar a los formularios -->
+                <a href="#datosFichaForm" class="menu-item">
+                    <div class="menu-number one">+</div>
+                    <div class="menu-text">Ficha</div>
+                </a>
                 <a href="#datosTrabajadorForm" class="menu-item">
-                    <div class="menu-number one">1</div>
-                    <div class="menu-text">Datos del Trabajador</div>
+                    <div class="menu-number">1</div>
+                    <div class="menu-text">Datos Generales</div>
                 </a>
                 <a href="#datosUbiForm" class="menu-item">
                     <div class="menu-number">2</div>
@@ -181,24 +180,79 @@ session_start();
             </div>
         </div>
 
-        <!-- Formulario de Datos del Trabajador -->
+        <!-- Formularios -->
         <div class="col-md-9">
-            <form id="datosTrabajadorForm" class="form-section">
+            <!-- Datos de la ficha -->
+            <form id="datosFichaForm" class="form-section">   
+                <h3>Ficha</h3>
+                <br>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="codigo">Código Ficha</label>
+                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="fechaFicha">Fecha de Solicitud</label>
+                        <input type="date" class="form-control" id="fechaFicha" placeholder="Fecha ">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="anioSolicitud">Año de Solicitud</label>
+                        <input type="number" class="form-control" id="anioSolicitud" placeholder="Año Actual">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="descripcion">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" placeholder="Descripción">
+                    </div>
+                    </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="fechaEntrevista" class="form-label">Fecha de la Entrevista</label>
+                        <input type="date" class="form-control" id="fechaEntrevista" name="fechaEntrevista" placeholder="Fecha Actual">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="encuestador" class="form-label">Nombre Encuestador</label>
+                        <input type="text" class="form-control" id="encuestador" name="encuestador" placeholder="Nombre Encuestador">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="encuestado" class="form-label">Nombre Encuestado</label>
+                        <input type="text" class="form-control" id="encuestado" name="encuestado" placeholder="Nombre Encuestado">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="nombreS" class="form-label">Nombre Supervisor</label>
+                        <input type="text" class="form-control" id="nombreS" name="nombreS" placeholder="Nombre Supervisor">
+                    </div>
+                </div>
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosTrabajadorForm')">Siguiente</button>
+                </div>
+            </form>
+
+            <!-- Formulario de Datos Generales -->
+            <form id="datosTrabajadorForm" class="form-section" style="display: none;">
                 <!-- Datos del Trabajador -->
                 <h3>Datos Generales</h3>
                 <br>
                 <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="nombreProductor">Nombres del productor(a)</label>
-                        <input type="text" class="form-control" id="nombreProductor" placeholder="Nombre">
+                    <div class="form-group col-md-3">
+                        <label for="primerNombre">Primer Nombre</label>
+                        <input type="text" class="form-control" id="primerNombre" placeholder="Primer Nombre">
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="apellidoProductor">Apellidos del productor(a)</label>
-                        <input type="text" class="form-control" id="apellidoProductor" placeholder="Apellido">
+                    <div class="form-group col-md-3">
+                        <label for="segundoNombre">Segundo Nombre</label>
+                        <input type="text" class="form-control" id="segundoNombre" placeholder="Segundo Nombre">
                     </div>
-                    <div class="mb-4">
+                    <div class="form-group col-md-3">
+                        <label for="primerApellido">Primer Apellido</label>
+                        <input type="text" class="form-control" id="primerApellido" placeholder="Primer Apellido">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="segundoApellido">Segundo Apellido</label>
+                        <input type="text" class="form-control" id="segundoApellido" placeholder="Segundo Apellido">
+                    </div>
+                    <div class="form-group col-md-3">
                         <label for="identidadProductor" class="form-label">Número de identidad</label>
-                        <input type="tel" class="form-control" id="identidadProductor" name="telefonoProductor" placeholder="Identidad">
+                        <input type="text" class="form-control" id="identidadProductor" name="telefonoProductor" placeholder="Identidad">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="sexoProductor">Sexo</label>
@@ -208,9 +262,9 @@ session_start();
                             <option>Femenino</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-2">
-                        <label for="edadProductor">Edad</label>
-                        <input type="number" class="form-control" id="edadProductor" placeholder="Edad">
+                    <div class="form-group col-md-3">
+                        <label for="fechaNacimiento">Fecha de nacimiento</label>
+                        <input type="date" class="form-control" id="fechaNacimiento" placeholder="Fecha de Nacimiento">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="estadoCivilProductor" class="form-label">Estado Civil</label>
@@ -221,13 +275,18 @@ session_start();
                             <option value="Unión libre">Unión libre</option>
                         </select>
                     </div>
-                    <div class="mb-4">
-                        <label for="telefonoProductor" class="form-label">Teléfono</label>
-                        <input type="tel" class="form-control" id="telefonoProductor" name="telefonoProductor" placeholder="Teléfono">
+                    <div class="form-group col-md-3">
+                        <label for="telefonoPrincipa" class="form-label">Teléfono Principal</label>
+                        <input type="tel" class="form-control" id="telefonoPrincipal" name="telefonoPrincipal" placeholder="Teléfono Principal">
                     </div>
-                </div>
-
-                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="telefonoSecundario" class="form-label">Teléfono Secundario</label>
+                        <input type="tel" class="form-control" id="telefonoSecundario" name="telefonoSecundario" placeholder="Teléfono Secundario">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="telefonoOpcional" class="form-label">Teléfono Opcional</label>
+                        <input type="tel" class="form-control" id="telefonoOpcional" name="telefonoOpcional" placeholder="Teléfono Opcional">
+                    </div>
                     <div class="form-group col-md-3">
                         <label for="escolaridadProductor" class="form-label">Nivel Educativo</label>
                         <select class="form-control" id="escolaridadProductor" name="escolaridadProductor">
@@ -238,6 +297,9 @@ session_start();
                             <option value="universitaria">Universitaria</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="ultimoGradoEscolar" class="form-label">Último grado escolar aprobado</label>
                         <select class="form-control" id="ultimoGradoEscolar" name="ultimoGradoEscolar">
@@ -252,8 +314,23 @@ session_start();
                             <option value="8">8</option>
                         </select>
                     </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="correoPrincipal" class="form-label">Correo Principal</label>
+                        <input type="email" class="form-control" id="correoPrincipal" name="correoPrincipal" placeholder="Correo Principal">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="correoSecundario" class="form-label">Correo Secundario</label>
+                        <input type="email" class="form-control" id="correoSecundario" name="correoSecundario" placeholder="Correo Secundario">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="correoOpcional" class="form-label">Correo Opcional</label>
+                        <input type="email" class="form-control" id="correoOpcional" name="correoOpcional" placeholder="Correo Opcional">
+                    </div>
+
                 </div>
                 <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosFichaForm')">Regresar</button>
                     <button type="button" class="btn btn-info" onclick="navigateToForm('#datosUbiForm')">Siguiente</button>
                 </div>
             </form>
@@ -263,49 +340,77 @@ session_start();
                 <h3>Ubicación Geográfica</h3>
                 <br>
                 <div class="form-row">
-                    <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                         <label for="departamento">Departamento</label>
-                        <input type="text" class="form-control" id="departamento" placeholder="Departamento">
+                        <select id="departamento" class="form-control">
+                            <option value="" disabled selected>Seleccione...</option>
+                        </select>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label for="municipio">Municipio</label>
-                        <input type="text" class="form-control" id="municipio" placeholder="Municipio">
+                        <select id="municipio" class="form-control">
+                            <option value="" disabled selected>Seleccione...</option>
+                        </select>
                     </div>
-                    <div class="mb-4">
-                        <label for="aldea" class="form-label">Aldea</label>
-                        <input type="text" class="form-control" id="aldea" name="aldea" placeholder="Aldea">
+                    <div class="form-group col-md-3">
+                        <label for="aldea">Aldea</label>
+                        <select id="aldea" class="form-control">
+                            <option value="" disabled selected>Seleccione...</option>
+                        </select>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="caserio" class="form-label">Caserío</label>
-                        <input type="text" class="form-control" id="caserio" name="caserio" placeholder="Caserío">
+                    <div class="form-group col-md-3">
+                        <label for="caserio">Caserío</label>
+                        <select id="caserio" class="form-control">
+                            <option value="" disabled selected>Seleccione...</option>
+                        </select>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
+                        <label for="ubicacion" class="form-label">Ubicación</label>
+                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ubicación">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="distanciaVivienda" class="form-label">Distancia(km/m):</label>
+                        <input type="text" class="form-control" id="distanciaVivienda" name="distanciaVivienda" placeholder="Distancia entre parcela y vivienda(km/m)">
+                    </div>
+                    <div class="form-group col-md-3">
                         <label for="longitudParcela" class="form-label">Longitud de la parcela:</label>
-                        <input type="text" class="form-control" id="longitudParcela" name="longitudParcela">
+                        <input type="text" class="form-control" id="longitudParcela" name="longitudParcela" placeholder="Longitud">
                     </div>
-                    <div class="mb-4">
+                    <div class="form-group col-md-3">
                         <label for="latitudParcela" class="form-label">Latitud de la parcela:</label>
-                        <input type="text" class="form-control" id="latitudParcela" name="latitudParcela">
+                        <input type="text" class="form-control" id="latitudParcela" name="latitudParcela" placeholder="Latitud">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="distanciaVivienda" class="form-label">Distancia entre parcela y vivienda (km/m):</label>
-                        <input type="text" class="form-control" id="distanciaVivienda" name="distanciaVivienda" placeholder="(km/m)">
+                <div class="form-group col-md-3">
+                        <label for="msnm" class="form-label">MSNM:</label>
+                        <input type="number" class="form-control" id="msnm" name="msnm" placeholder="Metros sobre el nivel del mar">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="direccionPrincipal" class="form-label">Dirección Principal</label>
+                        <input type="text" class="form-control" id="direccionPrincipal" name="direccionPrincipal" placeholder="Dirección 1">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="direccionSecundario" class="form-label">Dirección Secundario</label>
+                        <input type="text" class="form-control" id="direccionSecundario" name="direccionSecundario" placeholder="Dirección 2">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="direccionOpcional" class="form-label">Dirección Opcional</label>
+                        <input type="text" class="form-control" id="direccionOpcional" name="direccionOpcional" placeholder="Dirección 3">
                     </div>
                     <div class="form-group col-md-3">
                         <label>Vive en la finca el productor(a):</label>
-                        <div aling="center">
+                        <div>
                             <input type="radio" id="viveFincaSi" name="viveFinca" value="Si">
                             <label for="viveFincaSi">Si</label>
                             <input type="radio" id="viveFincaNo" name="viveFinca" value="No">
                             <label for="viveFincaNo">No</label>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <label for="msnm" class="form-label">MSNM:</label>
-                        <input type="number" class="form-control" id="msnm" name="msnm" placeholder="Metros sobre el nivel del mar">
-                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="nombreFinca" class="form-label">Nombre de la finca</label>
+                        <input class="form-control" type="text" id="nombreFinca" name="nombreFinca"placeholder="Nombre de la finca" >
+                   </div>
                 </div>
 
                 <div class="modal-footer center-content-between">
@@ -943,8 +1048,8 @@ session_start();
                 </div>
             </form>
 
-            <!-- 9 -->
-            <form id="datosAgricolaForm" class="form-section">
+            <!-- Formulario de Produccion Agricola -->
+            <form id="datosAgricolaForm" class="form-section" style="display: none;">
                 <h3>Información de Cultivos</h3>
                 <br>
 
@@ -1008,9 +1113,9 @@ session_start();
                 </div>
             </form>
 
-            <!-- 10 -->
+             <!-- 10 -->
 
-            <form id="datosPecuariaForm" class="form-section">
+            <form id="datosPecuariaForm" class="form-section" style="display: none;">
                 <h3>Producción Pecuaria (Inventario)</h3>
                 <br>
 
@@ -1296,7 +1401,7 @@ session_start();
 
             <!-- 11 -->
 
-            <form id="datosPrCoForm" class="form-section">
+            <form id="datosPrCoForm" class="form-section" style="display: none;">
                 <h3>11. Producción y Comercialización Pecuaria</h3>
 
                 <!-- Producción de leche -->
@@ -1389,7 +1494,7 @@ session_start();
 
             <!-- 12 -->
 
-            <form id="datosOtrosForm" class="form-section">
+            <form id="datosOtrosForm" class="form-section" style="display: none;">
                 <h3>12. Otros ingresos en el hogar</h3>
 
                 <!-- Negocio -->
@@ -1494,9 +1599,9 @@ session_start();
                 </div>
             </form>
 
-            <!-- 13 -->
+             <!-- 13 -->
 
-            <form id="datosCreditoForm" class="form-section">
+             <form id="datosCreditoForm" class="form-section" style="display: none;"> 
                 <h3>13. Crédito para la producción agropecuaria</h3>
 
                 <!-- Pregunta sobre préstamos -->
@@ -1556,7 +1661,7 @@ session_start();
 
              <!-- 14 -->
 
-            <form id="datosActividadesForm" class="form-section">
+            <form id="datosActividadesForm" class="form-section" style="display: none;">
                 <h3>14. Actividades externas a la unidad productiva</h3>
 
                 <!-- Actividades fuera de la finca -->
@@ -1599,11 +1704,6 @@ session_start();
                     <button type="button" class="btn btn-info" onclick="navigateToForm('#datosPracticaForm')">Siguiente</button>
                 </div>
             </form>
-
-
-
-
-
         </div>
     </div>
 </div>
@@ -1654,4 +1754,6 @@ session_start();
             firstMenuItem.style.color = '#fff';
         }
     });
+
+    //Se asegura de activar el nombre de la finca
 </script>
