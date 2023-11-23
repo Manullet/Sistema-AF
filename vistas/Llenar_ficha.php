@@ -99,6 +99,20 @@
     }
 </style>
 
+<?php
+include "../php/conexion_be.php";
+function obtenerNumeroFicha($conexion)
+{
+    // Obtener el número actual de fichas
+    $sql = "SELECT COUNT(*) as id_ficha FROM fichas";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+    $numeroFicha = $row['id_ficha'] + 1;
+
+    return $numeroFicha;
+}
+
+?>
 <div class="containertable">
     <div class="header">
         <h1 class="poppins-font mb-2">FICHA DE REGISTRO</h1>
@@ -183,13 +197,13 @@
         <!-- Formularios -->
         <div class="col-md-9">
             <!-- Datos de la ficha -->
-            <form id="datosFichaForm" class="form-section">   
+            <form id="datosFichaForm" class="form-section">
                 <h3>Ficha</h3>
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="codigo">Código Ficha</label>
-                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha">
+                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha" value="<?php echo obtenerNumeroFicha($conexion); ?>" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="fechaFicha">Fecha de Solicitud</label>
@@ -203,7 +217,7 @@
                         <label for="descripcion">Descripción</label>
                         <input type="text" class="form-control" id="descripcion" placeholder="Descripción">
                     </div>
-                    </div>
+                </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-3">
@@ -340,7 +354,7 @@
                 <h3>Ubicación Geográfica</h3>
                 <br>
                 <div class="form-row">
-                <div class="form-group col-md-3">
+                    <div class="form-group col-md-3">
                         <label for="departamento">Departamento</label>
                         <select id="departamento" class="form-control">
                             <option value="" disabled selected>Seleccione...</option>
@@ -382,7 +396,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                <div class="form-group col-md-3">
+                    <div class="form-group col-md-3">
                         <label for="msnm" class="form-label">MSNM:</label>
                         <input type="number" class="form-control" id="msnm" name="msnm" placeholder="Metros sobre el nivel del mar">
                     </div>
@@ -409,8 +423,8 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="nombreFinca" class="form-label">Nombre de la finca</label>
-                        <input class="form-control" type="text" id="nombreFinca" name="nombreFinca"placeholder="Nombre de la finca" >
-                   </div>
+                        <input class="form-control" type="text" id="nombreFinca" name="nombreFinca" placeholder="Nombre de la finca">
+                    </div>
                 </div>
 
                 <div class="modal-footer center-content-between">
@@ -1113,7 +1127,7 @@
                 </div>
             </form>
 
-             <!-- 10 -->
+            <!-- 10 -->
 
             <form id="datosPecuariaForm" class="form-section" style="display: none;">
                 <h3>Producción Pecuaria (Inventario)</h3>
@@ -1599,9 +1613,9 @@
                 </div>
             </form>
 
-             <!-- 13 -->
+            <!-- 13 -->
 
-             <form id="datosCreditoForm" class="form-section" style="display: none;"> 
+            <form id="datosCreditoForm" class="form-section" style="display: none;">
                 <h3>13. Crédito para la producción agropecuaria</h3>
 
                 <!-- Pregunta sobre préstamos -->
@@ -1659,7 +1673,7 @@
                 </div>
             </form>
 
-             <!-- 14 -->
+            <!-- 14 -->
 
             <form id="datosActividadesForm" class="form-section" style="display: none;">
                 <h3>14. Actividades externas a la unidad productiva</h3>
@@ -1672,7 +1686,7 @@
                     <input type="radio" id="actividadesFueraNo" name="actividadesFuera" value="No">
                     <label for="actividadesFueraNo">NO</label>
                     <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos">
-                    
+
                 </div>
 
                 <!-- Contratación de trabajadores no miembros -->
@@ -1700,7 +1714,7 @@
                 </div>
 
                 <div class="modal-footer center-content-between">
-                <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosCreditoForm')">Regresar</button>
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosCreditoForm')">Regresar</button>
                     <button type="button" class="btn btn-info" onclick="navigateToForm('#datosPracticaForm')">Siguiente</button>
                 </div>
             </form>
