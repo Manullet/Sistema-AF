@@ -73,7 +73,7 @@ session_start();
                 </tr>
             </thead>
             <tbody class="text-center">
-                <?php
+                < <?php
                 include "../php/conexion_be.php";
                 $sql = $conexion->query("SELECT * FROM tbl_base_organizacion_por_productor");
                 while ($datos = $sql->fetch_object()) { ?>

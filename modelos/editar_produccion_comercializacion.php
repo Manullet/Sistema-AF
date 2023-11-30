@@ -4,6 +4,7 @@ include "../php/conexion_be.php";
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Id_Produccion_Comercio = $_POST["Id_Produccion_Comercio"];
     $Id_Ficha = $_POST["Id_Ficha"];
     $Id_Ubicacion = $_POST["Id_Ubicacion"];
     $Id_Productor = $_POST["Id_Productor"];
@@ -14,10 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Id_Medida_Venta = $_POST["Id_Medida_Venta"];
     $Precio_Venta = $_POST["Precio_Venta"];
     $A_Quien_Se_Vendio = $_POST["A_Quien_Se_Vendio"];
-    $Creado_Por = $_SESSION["usuario"]["usuario"];
-    
+    $Modificado_Por = $_SESSION["usuario"]["usuario"];
+    $estado = $_POST["estado"];
 
-    $sql = "CALL InsertarProduccionComercializacion(
+
+    $sql = "CALL ActualizarProduccionComercializacion(
+        '$Id_Produccion_Comercio',
         '$Id_Ficha',
         '$Id_Ubicacion',
         '$Id_Productor',
@@ -28,7 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         '$Id_Medida_Venta',
         '$Precio_Venta',
         '$A_Quien_Se_Vendio',
-        '$Creado_Por'
+        '$Modificado_Por',
+        '$estado'
 
     )";
 

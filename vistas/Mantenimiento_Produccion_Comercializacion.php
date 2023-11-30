@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Produccion_Comercializacion.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_Produccion_Comercializacion.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,11 +64,8 @@ session_start();
                 <tr>
                     <th scope="col">Código</th>
                     <th scope="col">Ficha</th>
-                    <th scope="col">Ubicacion</th>
                     <th scope="col">Productor</th>
                     <th scope="col">Tipo Produccion</th>
-                    <th scope="col">Creado Por</th>
-                    <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
@@ -76,32 +73,38 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_Produccion_Comercializacion");
+                $sql = $conexion->query("SELECT
+                PC.*,
+                TP.tipo_produccion,
+                P.primer_nombre,
+                F.id_ficha
+            FROM
+                tbl_produccion_comercializacion PC
+                INNER JOIN tbl_tipo_produccion TP ON PC.Id_Tipo_Produccion = TP.id_tipo_produccion
+                INNER JOIN tbl_productor P ON PC.Id_Productor = P.id_productor
+                INNER JOIN fichas F ON PC.Id_Ficha = F.id_ficha;
+            ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->Id_Produccion_Comercio ?></td>
                         <td><?= $datos->Id_Ficha ?></td>
-                        <td><?= $datos->Id_Ubicacion ?></td>
-                        <td><?= $datos->Id_Productor ?></td>
-                        <td><?= $datos->Id_Tipo_Produccion ?></td>
-                        <td><?= $datos->Creado_Por ?></td>
-                        <td><?= $datos->Fecha_Creacion ?></td>
+                        <td><?= $datos->primer_nombre ?></td>
+                        <td><?= $datos->tipo_produccion ?></td>
                         <td><?php
-                            if ($datos->Estado == "A") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->Id_Produccion_Comercio ?>', '<?= $datos->Id_Ficha ?>', '<?= $datos->Id_Ubicacion ?>', '<?= $datos->Id_Productor ?>''<?= $datos->Id_Tipo_Produccion ?>', '<?= $datos->Estado ?>', '<?= $datos->Creado_Por ?>', '<?= $datos->Fecha_Creacion ?>')">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_Produccion_Comercio ?>', '<?= $datos->Id_Ficha ?>', '<?= $datos->Id_Ubicacion ?>', '<?= $datos->Id_Productor ?>','<?= $datos->Id_Tipo_Produccion ?>','<?= $datos->Cantidad_Produccion ?>', '<?= $datos->Id_Medida_Produccion ?>','<?= $datos->Cantidad_Vendida ?>','<?= $datos->Id_Medida_Venta ?>', '<?= $datos->Precio_Venta ?>','<?= $datos->A_Quien_Se_Vendio ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_produccion_comercializacion.php" style="display: inline;">
                                 <input type="hidden" name="Id_Produccion_Comercio" value="<?= $datos->Id_Produccion_Comercio
-                                 ?>">
+                                                                                            ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -129,6 +132,8 @@ session_start();
         </ul>
     </nav>
 </div>
+<!-- FALTA EDITAR LOS MODALES DE CREAR Y EDITAR  -->
+<!-- FALTA CREAR LOS MODELOS PROCEDIMIENTOS YA ESTAN EN LA BASE DE DATOS-->
 
 
 <!-- Modal para editar usuarios -->
@@ -150,46 +155,218 @@ session_start();
                                 <input type="text" class="form-control" id="Id_Produccion_Comercio" name="Id_Produccion_Comercio" readonly>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Ficha">Ficha</label>
-                                <input type="text" class="form-control" id="Id_Ficha" name="Id_Ficha" required>
+                                <label for="Id_Ficha">Ficha:</label>
+                                <select class="form-control" id="Id_Ficha" name="Id_Ficha" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col">
+                            <label for="Id_Ubicacion">Ubicacion:</label>
+                            <select class="form-control" id="Id_Ubicacion" name="Id_Ubicacion" readonly>
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                $sql = "SELECT id_ubicacion, direccion_1 FROM tbl_ubicacion_productor";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_ubicacion"] . '">' . $row["direccion_1"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay aldeas disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Ubicacion">Ubicacion</label>
-                                <input type="text" class="form-control" id="Id_Ubicacion" name="Id_Ubicacion" required>
+                                <label for="Id_Productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="Id_Productor" name="Id_Productor" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Productor">Productor</label>
-                                <input type="text" class="form-control" id="Id_Productor" name="Id_Productor" required>
+                                <label for="Id_Tipo_Produccion">Tipo Produccion :</label>
+                                <select class="form-control" id="Id_Tipo_Produccion" name="Id_Tipo_Produccion" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_produccion , tipo_produccion FROM tbl_tipo_produccion";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_produccion"] . '">' . $row["tipo_produccion"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Tipo_Produccion">Tipo produccion</label>
-                                <input type="text" class="form-control" id="Id_Tipo_Produccion" name="Id_Tipo_Produccion" required>
+                                <label for="Id_Medida_Produccion">Id_Medida_Produccion:</label>
+                                <select class="form-control" id="Id_Medida_Produccion" name="Id_Medida_Produccion" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
-                    <div class="form-row">
-                             <div class="form-group col-md-15">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Cantidad_Produccion">Cantidad_Produccion </label>
+                                <input type="text" class="form-control" id="Cantidad_Produccion" name="Cantidad_Produccion" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Medida_Venta">Id_Medida_Venta:</label>
+                                <select class="form-control" id="Id_Medida_Venta" name="Id_Medida_Venta" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Cantidad_Vendida">Cantidad_Vendida </label>
+                                <input type="text" class="form-control" id="Cantidad_Vendida" name="Cantidad_Vendida" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Precio_Venta">Precio_Venta</label>
+                                <input type="text" class="form-control" id="Precio_Venta" name="Precio_Venta" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="A_Quien_Se_Vendio">A_Quien_Se_Vendio </label>
+                                <input type="text" class="form-control" id="A_Quien_Se_Vendio" name="A_Quien_Se_Vendio" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="estado">Estado</label>
                                 <select class="form-control" id="estado" name="estado" required>
                                     <option value="" disabled selected>Selecciona un estado</option>
-                                    <option value="ACTIVO">Activo</option>
-                                    <option value="INACTIVO">Inactivo</option>
+                                    <option value="A">Activo</option>
+                                    <option value="I">Inactivo</option>
                                 </select>
-                                </div>
+                            </div>
                         </div>
-                        </div>
-                        <div class="modal-footer">
+                    </div>
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
                     </div>
@@ -198,10 +375,9 @@ session_start();
         </div>
     </div>
 </div>
-
 <!-- Modal para crear aldeas -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog"  role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
                 <h5 class="poppins-modal mb-2" id="exampleModalLabel">Practicas Por Producción</h5>
@@ -212,34 +388,202 @@ session_start();
             <div class="modal-body">
                 <form action="modelos/agregar_produccion_comercializacion.php" method="POST">
                     <div class="row mb-3">
-                    <div class="row">
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Ficha">Ficha</label>
-                                <input type="text" class="form-control" id="Id_Ficha" name="Id_Ficha" required>
+                                <label for="Id_Ficha">Ficha:</label>
+                                <select class="form-control" id="Id_Ficha" name="Id_Ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col">
+                            <label for="Id_Ubicacion">Ubicacion:</label>
+                            <select class="form-control" id="Id_Ubicacion" name="Id_Ubicacion" required>
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                $sql = "SELECT id_ubicacion, direccion_1 FROM tbl_ubicacion_productor";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_ubicacion"] . '">' . $row["direccion_1"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay aldeas disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Ubicacion">Ubicación</label>
-                                <input type="text" class="form-control" id="Id_Ubicacion" name="Id_Ubicacion" required>
+                                <label for="Id_Productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="Id_Productor" name="Id_Productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Tipo_Produccion">Tipo Produccion :</label>
+                                <select class="form-control" id="Id_Tipo_Produccion" name="Id_Tipo_Produccion" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_produccion , tipo_produccion FROM tbl_tipo_produccion";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_produccion"] . '">' . $row["tipo_produccion"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Id_Productor">Productor</label>
-                                <input type="text" class="form-control" id="Id_Productor" name="Id_Productor" required>
+                                <label for="Cantidad_Produccion">Cantidad_Produccion </label>
+                                <input type="text" class="form-control" id="Cantidad_Produccion" name="Cantidad_Produccion" required>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Tipo_Produccion">Tipo produccion</label>
-                                <input type="text" class="form-control" id="Id_Tipo_Produccion" name="Id_Tipo_Produccion" required>
+                                <label for="Id_Medida_Produccion">Id_Medida_Produccion:</label>
+                                <select class="form-control" id="Id_Medida_Produccion" name="Id_Medida_Produccion" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Cantidad_Vendida">Cantidad_Vendida </label>
+                                <input type="text" class="form-control" id="Cantidad_Vendida" name="Cantidad_Vendida" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Medida_Venta">Id_Medida_Venta:</label>
+                                <select class="form-control" id="Id_Medida_Venta" name="Id_Medida_Venta" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Precio_Venta">Precio_Venta</label>
+                                <input type="text" class="form-control" id="Precio_Venta" name="Precio_Venta" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="A_Quien_Se_Vendio">A_Quien_Se_Vendio </label>
+                                <input type="text" class="form-control" id="A_Quien_Se_Vendio" name="A_Quien_Se_Vendio" required>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
@@ -252,14 +596,32 @@ session_start();
 </div>
 <!-- JavaScript para manejar la edición de aldeas -->
 <script>
-    // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Produccion_Comercio, Id_Ficha, Id_Ubicacion, Id_Productor, Id_Tipo_Produccion, Estado) {
+    function abrirModalEditar(
+        Id_Produccion_Comercio,
+        Id_Ficha,
+        Id_Ubicacion,
+        Id_Productor,
+        Id_Tipo_Produccion,
+        Cantidad_Produccion,
+        Id_Medida_Produccion,
+        Cantidad_Vendida,
+        Id_Medida_Venta,
+        Precio_Venta,
+        A_Quien_Se_Vendio,
+        estado
+    ) {
         document.getElementById("Id_Produccion_Comercio").value = Id_Produccion_Comercio;
         document.getElementById("Id_Ficha").value = Id_Ficha;
         document.getElementById("Id_Ubicacion").value = Id_Ubicacion;
         document.getElementById("Id_Productor").value = Id_Productor;
         document.getElementById("Id_Tipo_Produccion").value = Id_Tipo_Produccion;
-        document.getElementById("Estado").value = Estado;
+        document.getElementById("Cantidad_Produccion").value = Cantidad_Produccion;
+        document.getElementById("Id_Medida_Produccion").value = Id_Medida_Produccion;
+        document.getElementById("Cantidad_Vendida").value = Cantidad_Vendida;
+        document.getElementById("Id_Medida_Venta").value = Id_Medida_Venta;
+        document.getElementById("Precio_Venta").value = Precio_Venta;
+        document.getElementById("A_Quien_Se_Vendio").value = A_Quien_Se_Vendio;
+        document.getElementById("estado").value = estado;
 
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
     }
@@ -288,9 +650,9 @@ session_start();
                         });
                     } else {
                         Swal.fire({
-                            title: "Error",
-                            text: "Hubo un problema al actualizar la produccion y comercializacion.",
-                            icon: "error",
+                            title: "Produccion y comercializacion actualizada correctamente",
+                            text: "La roduccion y comercializacion se ha actualizado correctamente.",
+                            icon: "success",
                             confirmButtonText: "Cerrar"
                         }).then(function() {
                             location.reload(); // Recarga la página

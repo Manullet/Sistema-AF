@@ -67,8 +67,6 @@ session_start();
                     <th scope="col">Productor</th>
                     <th scope="col">Tipo de Practica</th>
                     <th scope="col">Descripción</th>
-                    <th scope="col">Creado Por</th>
-                    <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
@@ -76,32 +74,39 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_Practicas_Por_Produccion");
+                $sql = $conexion->query("SELECT
+                PPP.Id_Ficha,
+                PPP.*,
+                TPP.tipo_practica,
+                P.primer_nombre
+            FROM
+                tbl_practicas_por_produccion PPP
+                INNER JOIN tbl_tipo_practicas_productivas TPP ON PPP.Id_Tipo_Practica = TPP.id_tipo_practica
+                INNER JOIN tbl_productor P ON PPP.Id_Productor = P.id_productor
+                INNER JOIN fichas F ON PPP.Id_Ficha = F.id_ficha;
+            ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->Id_Practica_Produccion ?></td>
-                        <td><?= $datos->Id_Ficha ?></td>
-                        <td><?= $datos->Id_Productor ?></td>
-                        <td><?= $datos->Id_Tipo_Practica ?></td>
-                        <td><?= $datos->Descripcion ?></td>
-                        <td><?= $datos->Creado_Por ?></td>
-                        <td><?= $datos->Fecha_Creacion ?></td>
+                        <td><?= $datos->Id_Practica_Produccion?></td>
+                        <td><?= $datos->Id_Ficha?></td>
+                        <td><?= $datos->primer_nombre?></td>
+                        <td><?= $datos->tipo_practica?></td>
+                        <td><?= $datos->Descripcion?></td>
+
                         <td><?php
-                            if ($datos->Estado == "A") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->Id_Practica_Produccion ?>', '<?= $datos->Id_Ficha ?>', '<?= $datos->Id_Productor ?>', '<?= $datos->Id_Tipo_Practica ?>''<?= $datos->Descripcion ?>', '<?= $datos->Estado ?>', '<?= $datos->Creado_Por ?>', '<?= $datos->Fecha_Creacion ?>')">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_Practica_Produccion ?>', '<?= $datos->Id_Ficha ?>', '<?= $datos->Id_Productor ?>', '<?= $datos->Id_Tipo_Practica ?>','<?= $datos->Descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="modelos/eliminar_practicas_por_produccion.php" style="display: inline;">
-                                <input type="hidden" name="Id_Practica_Produccion" value="<?= $datos->Id_Practica_Produccion
-                                 ?>">
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_practicas_por_productor.php" style="display: inline;">
+                                <input type="hidden" name="Id_Practica_Produccion" value="<?= $datos->Id_Practica_Produccion?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -151,23 +156,88 @@ session_start();
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Ficha">Ficha</label>
-                                <input type="text" class="form-control" id="Id_Ficha" name="Id_Ficha" required>
+                        <div class="form-group">
+                                <label for="Id_Ficha">Ficha:</label>
+                                <select class="form-control" id="Id_Ficha" name="Id_Ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Productor">Productor</label>
-                                <input type="text" class="form-control" id="Id_Productor" name="Id_Productor" required>
+                        <div class="form-group">
+                                <label for="Id_Productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="Id_Productor" name="Id_Productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Tipo_Practica">Tipo de Practica</label>
-                                <input type="text" class="form-control" id="Id_Tipo_Practica" name="Id_Tipo_Practica" required>
+                        <div class="form-group">
+                                <label for="Id_Tipo_Practica">Tipo Practica:</label>
+                                <select class="form-control" id="Id_Tipo_Practica" name="Id_Tipo_Practica" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_practica, tipo_practica FROM tbl_tipo_practicas_productivas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_practica"] . '">' . $row["tipo_practica"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -183,8 +253,8 @@ session_start();
                                 <label for="estado">Estado</label>
                                 <select class="form-control" id="estado" name="estado" required>
                                     <option value="" disabled selected>Selecciona un estado</option>
-                                    <option value="ACTIVO">Activo</option>
-                                    <option value="INACTIVO">Inactivo</option>
+                                    <option value="A">Activo</option>
+                                    <option value="I">Inactivo</option>
                                 </select>
                                 </div>
                         </div>
@@ -210,27 +280,92 @@ session_start();
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_practicas_por_produccion.php" method="POST">
+                <form action="modelos/agregar_practicas_por_productor.php" method="POST">
                     <div class="row mb-3">
-                    <div class="row">
+                    
                         <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Ficha">Ficha</label>
-                                <input type="text" class="form-control" id="Id_Ficha" name="Id_Ficha" required>
+                        <div class="form-group">
+                                <label for="Id_Ficha">Ficha:</label>
+                                <select class="form-control" id="Id_Ficha" name="Id_Ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Productor">Productor</label>
-                                <input type="text" class="form-control" id="Id_Productor" name="Id_Productor" required>
+                        <div class="form-group">
+                                <label for="Id_Productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="Id_Productor" name="Id_Productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Tipo_Practica">Tipo de Practica</label>
-                                <input type="text" class="form-control" id="Id_Tipo_Practica" name="Id_Tipo_Practica" required>
+                        <div class="form-group">
+                                <label for="Id_Tipo_Practica">Tipo Practica:</label>
+                                <select class="form-control" id="Id_Tipo_Practica" name="Id_Tipo_Practica" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_practica, tipo_practica FROM tbl_tipo_practicas_productivas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_practica"] . '">' . $row["tipo_practica"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
@@ -239,7 +374,6 @@ session_start();
                                 <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
                             </div>
                         </div>
-                    </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
@@ -253,13 +387,13 @@ session_start();
 <!-- JavaScript para manejar la edición de aldeas -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Practica_Produccion, Id_Ficha, Id_Productor, Id_Tipo_Practica, Descripcion, Estado) {
+    function abrirModalEditar(Id_Practica_Produccion, Id_Ficha, Id_Productor, Id_Tipo_Practica, Descripcion, estado) {
         document.getElementById("Id_Practica_Produccion").value = Id_Practica_Produccion;
         document.getElementById("Id_Ficha").value = Id_Ficha;
         document.getElementById("Id_Productor").value = Id_Productor;
         document.getElementById("Id_Tipo_Practica").value = Id_Tipo_Practica;
         document.getElementById("Descripcion").value = Descripcion;
-        document.getElementById("Estado").value = Estado;
+        document.getElementById("estado").value = estado;
 
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
     }
@@ -271,7 +405,7 @@ session_start();
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_ingreso_familiar.php",
+                url: "modelos/editar_practicas_por_productor.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {
@@ -336,9 +470,9 @@ session_start();
                                 });
                             } else {
                                 Swal.fire({
-                                    title: "Error",
-                                    text: "Hubo un problema al eliminar la practica por producción.",
-                                    icon: "error",
+                                    title: "Practica por producción eleminada correctamente",
+                                    text: "La practica por producción se ha eliminado correctamente.",
+                                    icon: "success",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {
                                     location.reload(); // Recarga la página

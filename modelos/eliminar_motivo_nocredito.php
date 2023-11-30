@@ -5,18 +5,18 @@ include '../php/conexion_be.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $Id_Produccion_Pecuaria = $_POST["Id_Produccion_Pecuaria"];
+    $id_motivos_no_credito = $_POST["id_motivos_no_credito"];
 
-    $sql = "CALL EliminarProduccionPecuaria($Id_Produccion_Pecuaria)";
+    $sql = "CALL EliminarMONCRED($id_motivos_no_credito)";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 
         echo "success"; 
     } else {
         ob_end_clean(); 
-        echo "Error al eliminar la producción pecuaria inventario: " . mysqli_error($conexion);
+        echo "Error al eliminar el Motivo de Credito: " . mysqli_error($conexion);
     }
     
     mysqli_close($conexion);
 }
-?>
+?> 

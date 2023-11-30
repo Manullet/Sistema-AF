@@ -190,6 +190,12 @@
                         <p>Tipo de Pecuarios</p>
                     </a>
                 </li>
+                <li class="nav-item nav-item-custom">
+                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Motivos_No_Credito.php','content-wrapper')">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <p>MOTIVOS NO CREDITO</p>
+                        </a>
+                     </li>
                 <!-- desde aqui se pueden añadir mas Mantenimientos -->
             </ul>
             </li>
@@ -458,12 +464,7 @@
                             <p>Credito</p>
                         </a>
                     </li>
-                    <li class="nav-item nav-item-custom">
-                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_base_organizacionprod.php','content-wrapper')">
-                            <i class="bi bi-geo-alt-fill"></i>
-                            <p>BOP</p>
-                        </a>
-                    </li>
+                    
                 </ul>
             <li class="nav-item has-treeview">
                 <a style="cursor:pointer;" class="nav-link">

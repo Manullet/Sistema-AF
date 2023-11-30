@@ -7,29 +7,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Id_Ficha = $_POST["Id_Ficha"];
     $Id_Ubicacion = $_POST["Id_Ubicacion"];
     $Id_Productor = $_POST["Id_Productor"];
-    $Id_Tipo_Produccion = $_POST["Id_Tipo_Produccion"];
-    $Cantidad_Produccion = $_POST["Cantidad_Produccion"];
-    $Id_Medida_Produccion = $_POST["Id_Medida_Produccion"];
-    $Cantidad_Vendida = $_POST["Cantidad_Vendida"];
-    $Id_Medida_Venta = $_POST["Id_Medida_Venta"];
-    $Precio_Venta = $_POST["Precio_Venta"];
-    $A_Quien_Se_Vendio = $_POST["A_Quien_Se_Vendio"];
-    $Creado_Por = $_SESSION["usuario"]["usuario"];
-    
 
-    $sql = "CALL InsertarProduccionComercializacion(
+    $Año_Produccion = $_POST["Año_Produccion"];
+    $Id_Tipo_Pecuario = $_POST["Id_Tipo_Pecuario"];
+    $Cantidad_Hembras = $_POST["Cantidad_Hembras"];
+    $Cantidad_Machos = $_POST["Cantidad_Machos"];
+    $Descripcion_Otros = $_POST["Descripcion_Otros"];
+    $Precio_Venta = $_POST["Precio_Venta"];
+    $Id_Medida_Venta = $_POST["Id_Medida_Venta"];
+    $Cantidad_Mercado = $_POST["Cantidad_Mercado"];
+    $Descripcion = $_POST["Descripcion"];
+    $Creado_Por = $_SESSION["usuario"]["usuario"];
+
+    $sql = "CALL InsertarProduccionPecuaria(
         '$Id_Ficha',
         '$Id_Ubicacion',
         '$Id_Productor',
-        '$Id_Tipo_Produccion',
-        '$Cantidad_Produccion',
-        '$Id_Medida_Produccion',
-        '$Cantidad_Vendida',
-        '$Id_Medida_Venta',
+        '$Año_Produccion',
+        '$Id_Tipo_Pecuario',
+        '$Cantidad_Hembras',
+        '$Cantidad_Machos',
+        '$Descripcion_Otros',
         '$Precio_Venta',
-        '$A_Quien_Se_Vendio',
+        '$Id_Medida_Venta',
+        '$Cantidad_Mercado',
+        '$Descripcion',
         '$Creado_Por'
-
     )";
 
     if (mysqli_query($conexion, $sql)) {

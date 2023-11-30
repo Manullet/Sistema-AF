@@ -13,7 +13,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-<div class="containertable"> 
+<div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
             <h1 class="poppins-font mb-2">CREDITOS</h1>
@@ -35,7 +35,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         </div>
     </div>
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
@@ -57,15 +57,19 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
         });
     </script>
-    
+
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Código</th>
-                    <th scope="col">Periodo</th>
-                    <th scope="col">Descripción</th>
+                    <th scope="col">Nº Credito</th>
+
+                    <th scope="col">Agricultor</th>
+                    <th scope="col">Solicitud de Credito</th>
+                    <th scope="col">Fuente Credito</th>
+                    <th scope="col">Monto del Credito</th>
+                    <th scope="col">Motivos no Credito</th>
                     <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -74,20 +78,40 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_credito_produccion");
+                $sql = $conexion->query("SELECT
+                CP.*,
+                FC.fuente_credito,
+                MNC.motivo_no_credito,
+                P.primer_nombre,
+                F.id_ficha
+            FROM
+                tbl_credito_produccion CP
+                LEFT JOIN tbl_fuentes_credito FC ON CP.id_fuente_credito = FC.id_fuente_credito
+                LEFT JOIN tbl_motivos_no_creditos MNC ON CP.id_motivos_no_credito = MNC.id_motivos_no_credito
+                LEFT JOIN tbl_productor P ON CP.id_productor = P.id_productor
+                LEFT JOIN fichas F ON CP.id_ficha = F.id_ficha;
+            ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->id_credpro ?></td>
-                        <td><?= $datos->id_ficha ?></td>
-                        <td><?= $datos->id_productor ?></td>
-                        <td><?= $datos->ha_solicitado_creditos ?></td>
-                        <td><?= $datos->id_fuente_credito ?></td>
-                        <td><?= $datos->monto_credito ?></td>
-                        <td><?= $datos->id_motivos_no_credito ?></td>
-                        <td><?= $datos->descripcion ?></td>
-                        <td><?= $datos->estado ?></td>
+
+                        <td><?= $datos->primer_nombre ?></td>
                         <td><?php
-                            if ($datos->estado == "ACTIVO") {
+                            if ($datos->ha_solicitado_creditos == "S") {
+                                echo '<span class="badge bg-success">SI</span>';
+                            } else {
+                                echo '<span class="badge bg-danger">NO</span>';
+                            }
+                            ?>
+                        </td>
+
+                        <td><?= $datos->fuente_credito ?></td>
+                        <td><?= $datos->monto_credito ?></td>
+                        <td><?= $datos->motivo_no_credito ?></td>
+
+
+                        <td><?php
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -145,40 +169,104 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_credpro" name="id_credpro" readonly>
                                 <label for="id_credpro">id_credpro</label>
+                                <input type="text" class="form-control" id="id_credpro" name="id_credpro" readonly>
+
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_ficha" name="id_ficha" readonly>
-                                <label for="id_ficha">ficha</label>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="id_productor">id_productor</label>
-                                <input type="text" class="form-control" id="id_productor" name="id_productor" required>
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="ha_solicitado_creditos">ha_solicitado_creditos</label>
-                                <input type="text" class="form-control" id="ha_solicitado_creditos" name="ha_solicitado_creditos" required>
+                                <label for="ha_solicitado_creditos">¿Ha solicitado créditos?</label>
+                                <select class="form-control" id="ha_solicitado_creditos" name="ha_solicitado_creditos" required>
+                                    <option value="S">Sí</option>
+                                    <option value="N">No</option>
+                                </select>
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="id_fuente_credito">id_fuente_credito</label>
-                                <input type="text" class="form-control" id="id_fuente_credito" name="id_fuente_credito" required>
+                                <label for="id_fuente_credito">Fuente de Credito:</label>
+                                <select class="form-control" id="id_fuente_credito" name="id_fuente_credito" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_fuente_credito , fuente_credito FROM tbl_fuentes_credito";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_fuente_credito"] . '">' . $row["fuente_credito"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="monto_credito">monto_credito</label>
@@ -187,14 +275,31 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="id_motivos_no_credito">id_motivos_no_credito</label>
-                                <input type="text" class="form-control" id="id_motivos_no_credito" name="id_motivos_no_credito" required>
+                                <label for="id_motivos_no_credito">Motivos no Credito :</label>
+                                <select class="form-control" id="id_motivos_no_credito" name="id_motivos_no_credito" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_motivos_no_credito , motivo_no_credito FROM tbl_motivos_no_creditos";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_motivos_no_credito"] . '">' . $row["motivo_no_credito"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="descripcion">descripcion</label>
@@ -202,16 +307,20 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+
+
+
+                    <div class="row">
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
@@ -234,18 +343,141 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             </div>
             <div class="modal-body">
                 <form action="modelos/agregar_credito.php" method="POST">
-                    <div class="row mb-3">
+                <div class="row">
                         <div class="col">
-                            <label for="ha_solicitado_creditos" class="form-label">ha_solicitado_creditos</label>
-                            <input type="text" class="form-control" id="ha_solicitado_creditos" name="ha_solicitado_creditos">
+                            <div class="form-group">
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="monto_credito" name="monto_credito">
-                            <label for="monto_credito" class="form-label">monto_credito</label>
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                    <div class="col-6">
+                            <div class="form-group">
+                                <label for="ha_solicitado_creditos">¿Ha solicitado créditos?</label>
+                                <select class="form-control" id="ha_solicitado_creditos" name="ha_solicitado_creditos" required>
+                                    <option value="S">Sí</option>
+                                    <option value="N">No</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
-                            <label for="descripcion" class="form-label">descripcion</label>
+                            <div class="form-group">
+                                <label for="id_fuente_credito">Fuente de Credito:</label>
+                                <select class="form-control" id="id_fuente_credito" name="id_fuente_credito" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_fuente_credito , fuente_credito FROM tbl_fuentes_credito";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_fuente_credito"] . '">' . $row["fuente_credito"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                    <div class="col-6">
+                            <div class="form-group">
+                                <label for="monto_credito">monto_credito</label>
+                                <input type="text" class="form-control" id="monto_credito" name="monto_credito" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_motivos_no_credito">Motivos no Credito :</label>
+                                <select class="form-control" id="id_motivos_no_credito" name="id_motivos_no_credito" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_motivos_no_credito , motivo_no_credito FROM tbl_motivos_no_creditos";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_motivos_no_credito"] . '">' . $row["motivo_no_credito"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="descripcion">descripcion</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                            </div>
                         </div>
                     </div>
 
@@ -349,9 +581,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 });
                             } else {
                                 Swal.fire({
-                                    title: "Error",
-                                    text: "Hubo un problema al eliminar el Credito.",
-                                    icon: "error",
+                                    title: "Credito eliminado correctamente",
+                                    text: "El Credito se ha eliminado correctamente.",
+                                    icon: "success",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {
                                     location.reload(); // Recarga la página

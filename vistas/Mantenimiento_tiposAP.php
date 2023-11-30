@@ -35,7 +35,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         </div>
     </div>
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
@@ -57,14 +57,17 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
         });
     </script>
-    
+
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Código</th>
-                    <th scope="col">Periodo</th>
+                    <th scope="col">id_apoyo_produccion</th>
+                    <th scope="col">id_ficha</th>
+                    <th scope="col">id_productor</th>
+                    <th scope="col">otros_detalles</th>
+                    <th scope="col">tipo_apoyo</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
 
@@ -74,30 +77,40 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM   tbl_tipos_apoyo_produccion");
+                $sql = $conexion->query("SELECT
+                TAP.*,
+                TA.tipo_apoyos,
+                F.id_ficha,
+                P.primer_nombre
+            FROM
+            tbl_tipos_apoyo_produccion TAP
+                LEFT JOIN tbl_tipos_apoyos TA ON TAP.id_tipos_apoyos = TA.id_tipo_apoyos
+                LEFT JOIN fichas F ON TAP.id_ficha = F.id_ficha
+                LEFT JOIN tbl_productor P ON TAP.id_productor = P.id_productor;
+            ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->id_tipos_apoyo ?></td>
+                        <td><?= $datos->id_apoyo_produccion ?></td>
                         <td><?= $datos->id_ficha ?></td>
-                        <td><?= $datos->id_productor ?></td>
+                        <td><?= $datos->primer_nombre ?></td>
                         <td><?= $datos->otros_detalles ?></td>
+                        <td><?= $datos->tipo_apoyos ?></td>
                         <td><?= $datos->descripcion ?></td>
-                        <td><?= $datos->estado ?></td>
-                        <td><?php 
-                            if ($datos->estado == "ACTIVO") {
+
+                        <td><?php
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_tipos_apoyo  ?>', '<?= $datos->id_ficha ?>', '<?= $datos->id_productor ?>', '<?= $datos->otros_detalles ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->id_apoyo_produccion ?>', '<?= $datos->id_ficha ?>', '<?= $datos->id_productor ?>','<?= $datos->otros_detalles ?>', '<?= $datos->id_tipos_apoyos ?>',  '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_tipos_ap.php" style="display: inline;">
-                                <input type="hidden" name="id_tipos_apoyo " value="<?= $datos->id_tipos_apoyo  ?>">
+                                <input type="hidden" name="id_apoyo_produccion" value="<?= $datos->id_apoyo_produccion?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -141,24 +154,66 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_tipos_apoyo  " name="id_tipos_apoyo  " readonly>
-                                <label for="id_tipos_apoyo  ">id_tipos_apoyo  </label>
+                                <label for="id_apoyo_produccion">Nº Codigo </label>
+                                <input type="text" class="form-control" id="id_apoyo_produccion" name="id_apoyo_produccion" readonly>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_ficha" name="id_ficha" readonly>
-                                <label for="id_ficha">ficha</label>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="id_productor">id_productor</label>
-                                <input type="text" class="form-control" id="id_productor" name="id_productor" required>
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="otros_detalles">otros_detalles</label>
@@ -167,6 +222,31 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_tipos_apoyos">Tipo apoyos :</label>
+                                <select class="form-control" id="id_tipos_apoyos" name="id_tipos_apoyos" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_trabajador , tipo_trabajador FROM tbl_tipo_trabajadores";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_trabajador"] . '">' . $row["tipo_trabajador"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="descripcion">descripcion</label>
@@ -179,8 +259,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -208,19 +288,101 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                 <form action="modelos/agregar_tipos_ap.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="otros_detalles" class="form-label">otros_detalles</label>
-                            <input type="text" class="form-control" id="otros_detalles" name="otros_detalles">
+                            <div class="form-group">
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                         <div class="col">
-                            <label for="descripcion" class="form-label">descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="estado" name="estado">
-                            <label for="estado" class="form-label">estado</label>
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="otros_detalles">otros_detalles</label>
+                                <input type="text" class="form-control" id="otros_detalles" name="otros_detalles" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_tipos_apoyos">Tipo apoyos :</label>
+                                <select class="form-control" id="id_tipos_apoyos" name="id_tipos_apoyos" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_trabajador , tipo_trabajador FROM tbl_tipo_trabajadores";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_trabajador"] . '">' . $row["tipo_trabajador"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="descripcion">descripcion</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                            </div>
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
@@ -234,11 +396,12 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <!-- JavaScript para manejar la edición de Tipos Apoyo-->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_tipos_apoyo , id_ficha, id_productor, otros_detalles, descripcion, estado) {
-        document.getElementById("id_tipos_apoyo").value = id_tipos_apoyo;
+    function abrirModalEditar(id_apoyo_produccion, id_ficha, id_productor, otros_detalles, id_tipos_apoyos, descripcion, estado) {
+        document.getElementById("id_apoyo_produccion").value = id_apoyo_produccion;
         document.getElementById("id_ficha").value = id_ficha;
         document.getElementById("id_productor").value = id_productor;
         document.getElementById("otros_detalles").value = otros_detalles;
+        document.getElementById("id_tipos_apoyos").value = id_tipos_apoyos;
         document.getElementById("descripcion").value = descripcion;
         document.getElementById("estado").value = estado;
 

@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Superficie_Otros = $_POST["Superficie_Otros"];
     $Otros_Descripcion = $_POST["Otros_Descripcion"];
     $Descripcion = $_POST["Descripcion"];
-    $Creado_Por = $_POST["Creado_Por"];
+    $Creado_Por = $_SESSION["usuario"]["usuario"];
 
     // Llamar al procedimiento almacenado
     $sql = "CALL InsertarUnidadProductora(

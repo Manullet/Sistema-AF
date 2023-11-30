@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Tipo_Pecuarios.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_Tipo_Pecuarios.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@ session_start();
             <h1 class="poppins-font mb-2">TIPOS DE PECUARIOS</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-            <i class="bi bi-plus-square icono-grande"></i> Crear 
+                <i class="bi bi-plus-square icono-grande"></i> Crear
             </a>
         </div>
 
@@ -78,11 +78,34 @@ session_start();
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->id_tipo_pecuario  ?></td>
-                        <td><?= $datos->tipo_pecuario  ?></td>
-                        <td><?= $datos->raza_con_genero ?></td>
+                        <td><?php
+                            $tipo_pecuario = $datos->tipo_pecuario; // Supongamos que $datos->tipo_pecuario contiene el tipo de pecuario ("ovino", "bovino", "caprino").
+
+                            switch ($tipo_pecuario) {
+                                case "b":
+                                    echo '<span >Bovino</span>';
+                                    break;
+                                case "o":
+                                    echo '<span >Ovino</span>';
+                                    break;
+                                case "c":
+                                    echo '<span >Caprino</span>';
+                                    break;
+                                default:
+                                    echo '<span class="badge bg-danger">Tipo Desconocido</span>';
+                            }
+                            ?>
+                        </td>
+                        <td><?php
+                            if ($datos->raza_con_genero == "s") {
+                                echo '<span class="badge bg-success">Si</span>';
+                            } else {
+                                echo '<span class="badge bg-danger">No</span>';
+                            }
+                            ?></td>
                         <td><?= $datos->descripcion ?></td>
                         <td><?php
-                            if ($datos->estado == "Activo") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -145,16 +168,24 @@ session_start();
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="tipo_pecuario">Tipo de pecuario </label>
-                                <input type="text" class="form-control" id="tipo_pecuario" name="tipo_pecuario" required>
+                            <label for="tipo_pecuario" class="form-label">Tipo de pecuario</label>
+                            <select class="form-control" id="tipo_pecuario" name="tipo_pecuario">
+                                <option value="b">Bovino</option>
+                                <option value="o">Ovino</option>
+                                <option value="caprino">Caprino</option>
+                            </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                    <div class="col-6">
+                        <div class="col-6">
                             <div class="form-group">
-                                <label for="raza_con_genero">Raza</label>
-                                <input type="text" class="form-control" id="raza_con_genero" name="raza_con_genero" required>
+                            <label for="raza_con_genero" class="form-label">Tipo de pecuario</label>
+                                <select class="form-control" id="raza_con_genero" name="raza_con_genero">
+                                    <option value="s">Si</option>
+                                    <option value="n">No</option>
+
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
@@ -168,9 +199,9 @@ session_start();
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
-                            <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="" disabled selected>Selecciona un estado</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -195,15 +226,34 @@ session_start();
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_tipoA.php" method="POST">
+                <form action="modelos/agregar_tipo_pecuario.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="tipo_apoyos" class="form-label">Tipo de pecuario</label>
-                            <input type="text" class="form-control" id="tipo_apoyos" name="tipo_apoyos">
+                            <label for="tipo_pecuario" class="form-label">Tipo de pecuario</label>
+                            <select class="form-control" id="tipo_pecuario" name="tipo_pecuario">
+                                <option value="b">Bovino</option>
+                                <option value="o">Ovino</option>
+                                <option value="caprino">Caprino</option>
+                            </select>
                         </div>
+
                         <div class="col">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                            <div class="form-group">
+                                <label for="raza_con_genero" class="form-label">Tipo de pecuario</label>
+                                <select class="form-control" id="raza_con_genero" name="raza_con_genero">
+                                    <option value="s">Si</option>
+                                    <option value="n">No</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -219,7 +269,7 @@ session_start();
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_tipo_pecuario, tipo_pecuario,raza_con_genero, descripcion, estado) {
+    function abrirModalEditar(id_tipo_pecuario, tipo_pecuario, raza_con_genero, descripcion, estado) {
         document.getElementById("id_tipo_pecuario").value = id_tipo_pecuario;
         document.getElementById("tipo_pecuario").value = tipo_pecuario;
         document.getElementById("raza_con_genero").value = raza_con_genero;

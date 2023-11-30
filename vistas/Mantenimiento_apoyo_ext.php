@@ -35,7 +35,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         </div>
     </div>
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
@@ -57,14 +57,19 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
         });
     </script>
-    
+
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Código</th>
-                    <th scope="col">Periodo</th>
+                    <th scope="col">id_ficha</th>
+                    <th scope="col">Productor</th>
+                    <th scope="col">recibe_apoyo_prodagrícola</th>
+                    <th scope="col">atencion_por_UAG</th>
+                    <th scope="col">productos_vendidospor_pralesc</th>
+
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
 
@@ -74,19 +79,44 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_apoyo_actividad_externa");
+                $sql = $conexion->query("SELECT
+                AAE.*,
+                F.id_ficha,
+                P.primer_nombre
+            FROM
+                tbl_apoyo_actividad_externa AAE
+                LEFT JOIN fichas F ON AAE.id_ficha = F.id_ficha
+                LEFT JOIN tbl_productor P ON AAE.id_productor = P.id_productor;
+            ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->id_apoyo_ext  ?></td>
                         <td><?= $datos->id_ficha ?></td>
-                        <td><?= $datos->id_productor ?></td>
-                        <td><?= $datos->recibe_apoyo_prodagrícola ?></td>
-                        <td><?= $datos->atencion_por_UAG ?></td>
-                        <td><?= $datos->productos_vendidospor_pralesc ?></td>
+                        <td><?= $datos->primer_nombre ?></td>
+                        <td><?php
+                            if ($datos->recibe_apoyo_prodagrícola == "S") {
+                                echo '<h6><span class="badge bg-info">SI</span></h6>';
+                            } else {
+                                echo '<span class="badge bg-danger">NO</span>';
+                            }
+                            ?></td>
+                        <td><?php
+                            if ($datos->atencion_por_UAG == "S") {
+                                echo '<h6><span class="badge bg-info">SI</span></h6>';
+                            } else {
+                                echo '<span class="badge bg-danger">NO</span>';
+                            }
+                            ?></td>
+                        <td><?php
+                            if ($datos->productos_vendidospor_pralesc == "S") {
+                                echo '<h6><span class="badge bg-info">SI</span></h6>';
+                            } else {
+                                echo '<span class="badge bg-danger">NO</span>';
+                            }
+                            ?></td>
                         <td><?= $datos->descripcion ?></td>
-                        <td><?= $datos->estado ?></td>
-                        <td><?php 
-                            if ($datos->estado == "ACTIVO") {
+                        <td><?php
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -98,9 +128,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             '<?= $datos->atencion_por_UAG ?>', '<?= $datos->productos_vendidospor_pralesc ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
-                            </button>
-                            <form id="deleteForm" method="POST" action="modelos/eliminar_nocredito.php" style="display: inline;">
-                                <input type="hidden" name="id_apoyo_ext " value="<?= $datos->id_apoyo_ext  ?>">
+                            </button> 
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_apoyo_ext.php" style="display: inline;">
+                                <input type="hidden" name="id_apoyo_ext" value="<?= $datos->id_apoyo_ext?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -144,44 +174,96 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
+                            <label for="id_apoyo_ext">id_apoyo_ext</label>
                                 <input type="text" class="form-control" id="id_apoyo_ext" name="id_apoyo_ext" readonly>
-                                <label for="id_apoyo_ext">id_apoyo_ext</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_ficha" name="id_ficha" readonly>
-                                <label for="id_ficha">ficha</label>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="id_productor">id_productor</label>
-                                <input type="text" class="form-control" id="id_productor" name="id_productor" required>
+                                <label for="recibe_apoyo_prodagrícola">¿Recibe Apoyo Prodagrícola?</label>
+                                <select class="form-control" id="recibe_apoyo_prodagrícola" name="recibe_apoyo_prodagrícola" required>
+                                    <option value="S">Sí</option>
+                                    <option value="N">No</option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="recibe_apoyo_prodagrícola">recibe_apoyo_prodagrícola</label>
-                                <input type="text" class="form-control" id="recibe_apoyo_prodagrícola" name="recibe_apoyo_prodagrícola" required>
+                                <label for="atencion_por_UAG">¿Atencion por UAG?</label>
+                                <select class="form-control" id="atencion_por_UAG" name="atencion_por_UAG" required>
+                                    <option value="S">Sí</option>
+                                    <option value="N">No</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="atencion_por_UAG">atencion_por_UAG</label>
-                                <input type="text" class="form-control" id="atencion_por_UAG" name="atencion_por_UAG" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="productos_vendidospor_pralesc">productos_vendidospor_pralesc</label>
-                                <input type="text" class="form-control" id="productos_vendidospor_pralesc" name="productos_vendidospor_pralesc" required>
+                                <label for="productos_vendidospor_pralesc">¿Productos Vendidos Por Pralesc?</label>
+                                <select class="form-control" id="productos_vendidospor_pralesc" name="productos_vendidospor_pralesc" required>
+                                    <option value="S">Sí</option>
+                                    <option value="N">No</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -192,14 +274,12 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -225,29 +305,99 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             </div>
             <div class="modal-body">
                 <form action="modelos/agregar_apoyo_ext.php" method="POST">
-                    <div class="row mb-3">
+                <div class="row">
                         <div class="col">
-                            <label for="recibe_apoyo_prodagrícola" class="form-label">recibe_apoyo_prodagrícola</label>
-                            <input type="text" class="form-control" id="recibe_apoyo_prodagrícola" name="recibe_apoyo_prodagrícola">
+                            <div class="form-group">
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                         <div class="col">
-                            <label for="atencion_por_UAG" class="form-label">atencion_por_UAG</label>
-                            <input type="text" class="form-control" id="atencion_por_UAG" name="atencion_por_UAG">
-                        </div>
-                        <div class="col">
-                            <label for="productos_vendidospor_pralesc" class="form-label">productos_vendidospor_pralesc</label>
-                            <input type="text" class="form-control" id="productos_vendidospor_pralesc" name="productos_vendidospor_pralesc">
-                        </div>
-                        <div class="col">
-                            <label for="descripcion" class="form-label">descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="estado" name="estado">
-                            <label for="estado" class="form-label">estado</label>
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="recibe_apoyo_prodagrícola">¿Recibe Apoyo Prodagrícola?</label>
+                                <select class="form-control" id="recibe_apoyo_prodagrícola" name="recibe_apoyo_prodagrícola" required>
+                                    <option value="S">Sí</option>
+                                    <option value="N">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="atencion_por_UAG">¿Atencion por UAG?</label>
+                                <select class="form-control" id="atencion_por_UAG" name="atencion_por_UAG" required>
+                                    <option value="S">Sí</option>
+                                    <option value="N">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="productos_vendidospor_pralesc">¿Productos Vendidos Por Pralesc?</label>
+                                <select class="form-control" id="productos_vendidospor_pralesc" name="productos_vendidospor_pralesc" required>
+                                    <option value="S">Sí</option>
+                                    <option value="N">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="descripcion">descripcion</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                            </div>
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>

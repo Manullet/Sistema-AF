@@ -1,7 +1,7 @@
 <?php
 ob_start();
-
-include 'conexion_be.php';
+include "../php/conexion_be.php";
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -10,8 +10,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $raza_con_genero = $_POST["raza_con_genero"];
     $descripcion = $_POST["descripcion"];
     $estado = $_POST["estado"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
+
  
-    $sql = "CALL UpdateTipoPecuario('$id_tipo_pecuario', '$tipo_pecuario', '$raza_con_genero', '$descripcion', '$estado')";
+    $sql = "CALL ActualizarTipoPecuario('$id_tipo_pecuario', '$tipo_pecuario', '$raza_con_genero', '$descripcion', '$estado','$modificado_por')";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

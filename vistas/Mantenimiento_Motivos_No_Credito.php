@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['url'] = 'vistas/Mantenimiento_base_organizacionprod.php';
+$_SESSION['url'] = 'vistas/Mantenimiento_Motivos_No_Credito.php';
 $_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
@@ -16,7 +16,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">BASE ORGPRO</h1> 
+            <h1 class="poppins-font mb-2">MOTIVOS NO CREDITOS</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                 <i class="bi bi-plus-square icono-grande"></i> Crear
@@ -64,7 +64,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Código</th>
-                    <th scope="col">Periodo</th>
+                    <th scope="col">Motivo</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
 
@@ -74,30 +74,27 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_base_organizacion_productor");
+                $sql = $conexion->query("SELECT * FROM  tbl_motivos_no_creditos");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->id_bop ?></td>
-                        <td><?= $datos->id_ficha ?></td>
-                        <td><?= $datos->id_productor ?></td>
-                        <td><?= $datos->ha_solicitado_creditos ?></td>
+                        <td><?= $datos->id_motivos_no_credito  ?></td>
+                        <td><?= $datos->motivo_no_credito ?></td>
                         <td><?= $datos->descripcion ?></td>
-                        <td><?= $datos->estado ?></td>
-                        <td><?php
-                            if ($datos->estado == "ACTIVO") {
+
+                        <td><?php 
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_bop ?>', '<?= $datos->id_ficha ?>', '<?= $datos->id_productor ?>', '<?= $datos->ha_solicitado_creditos ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->id_motivos_no_credito ?>', '<?= $datos->motivo_no_credito ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="modelos/eliminar_b_organizacionprod.php" style="display: inline;">
-                                <input type="hidden" name="id_bop" value="<?= $datos->id_bop ?>">
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_motivo_nocredito.php" style="display: inline;">
+                                <input type="hidden" name="id_motivos_no_credito" value="<?= $datos->id_motivos_no_credito ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -126,12 +123,12 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     </nav>
 </div>
 
-<!-- Modal para editar Base OrgProd -->
+<!-- Modal para editar Motivo No Credito -->
 <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR BASE ORGPROD</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR MOTIVO NO CREDITOS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -141,46 +138,31 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_bop" name="id_bop" readonly>
-                                <label for="id_bop">id_bop</label>
+                                <input type="text" class="form-control" id="id_motivos_no_credito" name="id_motivos_no_credito" readonly>
+                                <label for="id_motivos_no_credito">Codigo</label>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_ficha" name="id_ficha" readonly>
-                                <label for="id_ficha">ficha</label>
+                                <input type="text" class="form-control" id="motivo_no_credito" name="motivo_no_credito" required>
+                                <label for="motivo_no_credito">Motivo</label>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="id_productor">id_productor</label>
-                                <input type="text" class="form-control" id="id_productor" name="id_productor" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="ha_solicitado_creditos">ha_solicitado_creditos</label>
-                                <input type="text" class="form-control" id="ha_solicitado_creditos" name="ha_solicitado_creditos" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="descripcion">descripcion</label>
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                         </div>
-                    </div>
+                        
+                    </div>            
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -194,31 +176,28 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     </div>
 </div>
 
-<!-- Modal para crear Base OrgProd -->
+<!-- Modal para crear Motivo No Credito -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR CREDITO </h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR MOTIVO NO CREDITO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_b_organizacionprod.php" method="POST">
+                <form action="modelos/agregar_motivo_nocredito.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="ha_solicitado_creditos" class="form-label">ha_solicitado_creditos</label>
-                            <input type="text" class="form-control" id="ha_solicitado_creditos" name="ha_solicitado_creditos">
+                            <label for="motivo_no_credito" class="form-label">motivo no credito</label>
+                            <input type="text" class="form-control" id="motivo_no_credito" name="motivo_no_credito">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
                             <label for="descripcion" class="form-label">descripcion</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion">
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="estado" name="estado">
-                            <label for="estado" class="form-label">estado</label>
-                        </div>
+                        
                     </div>
 
                     <div class="modal-footer">
@@ -231,14 +210,12 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     </div>
 </div>
 
-<!-- JavaScript para manejar la edición de OrgProd -->
+<!-- JavaScript para manejar la edición de Motivo No Credito -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_bop, id_ficha, id_productor, ha_solicitado_creditos, descripcion, estado) {
-        document.getElementById("id_bop").value = id_bop;
-        document.getElementById("id_ficha").value = id_ficha;
-        document.getElementById("id_productor").value = id_productor;
-        document.getElementById("ha_solicitado_creditos").value = ha_solicitado_creditos;
+    function abrirModalEditar(id_motivos_no_credito, motivo_no_credito, descripcion, estado) {
+        document.getElementById("id_motivos_no_credito").value = id_motivos_no_credito;
+        document.getElementById("motivo_no_credito").value = motivo_no_credito;
         document.getElementById("descripcion").value = descripcion;
         document.getElementById("estado").value = estado;
 
@@ -246,21 +223,21 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     }
 </script>
 
-<!-- Script para mostrar el mensaje al momento de editar la Base OrgProd-->
+<!-- Script para mostrar el mensaje al momento de editar un Motivo No Credito-->
 <script>
     $(document).ready(function() {
         $("#formularioEditar").on("submit", function(event) {
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_b_organizacionpro.php",
+                url: "modelos/editar_motivo_nocredito.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {
                     if (response == "success") {
                         Swal.fire({
-                            title: "Base OrgProd actualizado correctamente",
-                            text: "Base OrgProd se ha actualizado correctamente.",
+                            title: "Motivo de Credito actualizado correctamente",
+                            text: "El Motivo de Credito se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -271,7 +248,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     } else {
                         Swal.fire({
                             title: "Error",
-                            text: "Hubo un problema al actualizar la Base OrgProd.",
+                            text: "Hubo un problema al actualizar el Motivo de Credito.",
                             icon: "error",
                             confirmButtonText: "Cerrar"
                         }).then(function() {
@@ -284,7 +261,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     });
 </script>
 
-<!-- Script para mostrar el mensaje al momento de eliminar la Base OrgProd-->
+<!-- Script para mostrar el mensaje al momento de eliminar un Motvio No Credito-->
 <script>
     $(document).ready(function() {
         $("form#deleteForm").on("submit", function(event) {
@@ -294,7 +271,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "Esta acción eliminará la Base OrgProd. Esta acción no se puede deshacer.",
+                text: "Esta acción eliminará el Motvio de Credito. Esta acción no se puede deshacer.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Sí, eliminar",
@@ -308,8 +285,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         success: function(response) {
                             if (response == "success") {
                                 Swal.fire({
-                                    title: "Base OrgProd eliminado correctamente",
-                                    text: "Base OrgProd se ha eliminado correctamente.",
+                                    title: "Motvio de Credito eliminado correctamente",
+                                    text: "El   Motivo de Credito se ha eliminado correctamente.",
                                     icon: "success",
                                     showCancelButton: false,
                                     confirmButtonText: "Cerrar"
@@ -318,9 +295,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 });
                             } else {
                                 Swal.fire({
-                                    title: "Error",
-                                    text: "Hubo un problema al eliminar la Base OrgProd.",
-                                    icon: "error",
+                                    title: "success",
+                                    text: "El   Motivo de Credito se ha eliminado correctamente.",
+                                    icon: "success",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {
                                     location.reload(); // Recarga la página
