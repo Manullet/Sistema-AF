@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-11-2023 a las 21:33:17
+-- Tiempo de generación: 01-12-2023 a las 18:32:28
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -104,6 +104,31 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarApoyoProduccion` (IN `p_I
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarBaseOrganizacion` (IN `p_Id_Pertenece_Organizacion` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Pertenece_A_Organizacion` ENUM('S','N'), IN `p_Descripcion` TEXT, IN `p_Modificado_Por` VARCHAR(50), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
+    -- Verificar si el registro a actualizar existe en la tabla tbl_base_organizacion
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_base_organizacion
+        WHERE id_pertenece_organizacion = p_Id_Pertenece_Organizacion
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a actualizar no existe en la tabla tbl_base_organizacion';
+    ELSE
+        -- Realizar la actualización
+        UPDATE `tbl_base_organizacion`
+        SET
+            `id_ficha` = p_Id_Ficha,
+            `id_productor` = p_Id_Productor,
+            `pertenece_a_organizacion` = p_Pertenece_A_Organizacion,
+            `descripcion` = p_Descripcion,
+            `modificado_por` = p_Modificado_Por,
+            `fecha_modificacion` = CURRENT_TIMESTAMP(),
+            `estado` = p_Nuevo_Estado
+        WHERE
+            `id_pertenece_organizacion` = p_Id_Pertenece_Organizacion;
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarCreditoProduccion` (IN `p_Id_CreditoProduccion` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Ha_Solicitado_Creditos` ENUM('S','N'), IN `p_Id_Fuente_Credito` BIGINT, IN `p_Monto_Credito` DECIMAL(10,2), IN `p_Id_Motivos_No_Credito` BIGINT, IN `p_Descripcion` TEXT, IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
     -- Verificar si el registro a actualizar existe en la tabla tbl_credito_produccion
     IF NOT EXISTS (
@@ -162,6 +187,62 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarEtniasPorProductor` (IN `
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarFicha` (IN `p_Id_Ficha` BIGINT, IN `p_Fecha_Solicitud` DATE, IN `p_Anio_Solicitud` INT, IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(50), IN `p_Nuevo_Estado` ENUM('A','I'), IN `p_Fecha_Entrevista` DATE, IN `p_Nombre_Encuentrador` VARCHAR(50), IN `p_Nombre_Encuestador` VARCHAR(50), IN `p_Nombre_Supervisor` VARCHAR(50))   BEGIN
+    -- Verificar si el registro a actualizar existe en la tabla fichas
+    IF NOT EXISTS (
+        SELECT 1
+        FROM fichas
+        WHERE id_ficha = p_Id_Ficha
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a actualizar no existe en la tabla fichas';
+    ELSE
+        -- Realizar la actualización
+        UPDATE `fichas`
+        SET
+            `fecha_solicitud` = p_Fecha_Solicitud,
+            `anio_solicitud` = p_Anio_Solicitud,
+            `descripcion` = p_Descripcion,
+            `modificado_por` = p_Modificado_Por,
+            `fecha_modificacion` = CURRENT_TIMESTAMP(),
+            `estado` = p_Nuevo_Estado,
+            `fecha_entrevista` = p_Fecha_Entrevista,
+            `nombre_encuentrador` = p_Nombre_Encuentrador,
+            `nombre_encuestador` = p_Nombre_Encuestador,
+            `nombre_supervisor` = p_Nombre_Supervisor
+        WHERE
+            `id_ficha` = p_Id_Ficha;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarIngresoFamiliar` (IN `p_Id_Ingreso_Familiar` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipo_Negocio` BIGINT, IN `p_Total_Ingreso` DECIMAL(10,2), IN `p_Id_Periodo_Ingreso` BIGINT, IN `p_Descripcion_Otros` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
+    -- Verificar si el registro a actualizar existe en la tabla tbl_ingreso_familiar
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_ingreso_familiar
+        WHERE Id_Ingreso_Familiar = p_Id_Ingreso_Familiar
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a actualizar no existe en la tabla tbl_ingreso_familiar';
+    ELSE
+        -- Realizar la actualización
+        UPDATE `tbl_ingreso_familiar`
+        SET
+            `Id_Ficha` = p_Id_Ficha,
+            `Id_Productor` = p_Id_Productor,
+            `Id_Tipo_Negocio` = p_Id_Tipo_Negocio,
+            `Total_Ingreso` = p_Total_Ingreso,
+            `Id_Periodo_Ingreso` = p_Id_Periodo_Ingreso,
+            `Descripcion_Otros` = p_Descripcion_Otros,
+            `Descripcion` = p_Descripcion,
+            `Modificado_Por` = p_Modificado_Por,
+            `Fecha_Modificacion` = CURRENT_TIMESTAMP(),
+            `estado` = p_Nuevo_Estado
+        WHERE
+            `Id_Ingreso_Familiar` = p_Id_Ingreso_Familiar;
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarManejoRiego` (IN `p_Id_Manejo_Riego` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Ubicacion` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Tiene_Riego` ENUM('S','N'), IN `p_Superficie_Riego` DECIMAL(10,2), IN `p_Id_Medida_Superficie_Riego` BIGINT, IN `p_Id_Tipo_Riego` BIGINT, IN `p_Fuente_Agua` VARCHAR(255), IN `p_Disponibilidad_Agua_Meses` INT, IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(255), IN `p_Estado` ENUM('A','I'))   BEGIN
     -- Verificar si el registro a actualizar existe en la tabla tbl_manejo_riego
     IF NOT EXISTS (
@@ -190,6 +271,35 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarManejoRiego` (IN `p_Id_Ma
             `Estado` = p_Estado
         WHERE
             `Id_Manejo_Riego` = p_Id_Manejo_Riego;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarMigracionFamiliar` (IN `p_Id_Migracion` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Tiene_Migrantes` ENUM('S','N'), IN `p_Migracion_Dentro_Pais` ENUM('S','N'), IN `p_Migracion_Fuera_Pais` ENUM('S','N'), IN `p_Id_Tipo_Motivos` BIGINT, IN `p_Remesas` ENUM('S','N'), IN `p_Descripcion` TEXT, IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
+    -- Verificar si el registro a actualizar existe en la tabla tbl_migracion_familiar
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_migracion_familiar
+        WHERE id_migracion = p_Id_Migracion
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a actualizar no existe en la tabla tbl_migracion_familiar';
+    ELSE
+        -- Realizar la actualización
+        UPDATE `tbl_migracion_familiar`
+        SET
+            `id_ficha` = p_Id_Ficha,
+            `id_productor` = p_Id_Productor,
+            `tiene_migrantes` = p_Tiene_Migrantes,
+            `migracion_dentro_pais` = p_Migracion_Dentro_Pais,
+            `migracion_fuera_pais` = p_Migracion_Fuera_Pais,
+            `id_tipo_motivos` = p_Id_Tipo_Motivos,
+            `remesas` = p_Remesas,
+            `descripcion` = p_Descripcion,
+            `modificado_por` = p_Modificado_Por,
+            `fecha_modificacion` = CURRENT_TIMESTAMP(),
+            `estado` = p_Nuevo_Estado
+        WHERE
+            `id_migracion` = p_Id_Migracion;
     END IF;
 END$$
 
@@ -835,6 +945,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarApoyoProduccion` (IN `p_Id_
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarBaseOrganizacion` (IN `p_Id_Pertenece_Organizacion` BIGINT)   BEGIN
+    -- Verificar si el registro a eliminar existe en la tabla tbl_base_organizacion
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_base_organizacion
+        WHERE id_pertenece_organizacion = p_Id_Pertenece_Organizacion
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a eliminar no existe en la tabla tbl_base_organizacion';
+    ELSE
+        -- Realizar la eliminación
+        DELETE FROM `tbl_base_organizacion`
+        WHERE `id_pertenece_organizacion` = p_Id_Pertenece_Organizacion;
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarCacerio` (IN `newId_Cacerio` BIGINT(20))   BEGIN
      DELETE FROM tbl_cacerios WHERE Id_Cacerio = newId_Cacerio;
 END$$
@@ -863,6 +989,38 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarDepartamento` (IN `Id_Depar
     DELETE FROM tbl_departamentos WHERE Id_Departamento = Id_Departamento_parm;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarFicha` (IN `p_Id_Ficha` BIGINT)   BEGIN
+    -- Verificar si el registro a eliminar existe en la tabla fichas
+    IF NOT EXISTS (
+        SELECT 1
+        FROM fichas
+        WHERE id_ficha = p_Id_Ficha
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a eliminar no existe en la tabla fichas';
+    ELSE
+        -- Realizar la eliminación
+        DELETE FROM `fichas`
+        WHERE `id_ficha` = p_Id_Ficha;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarIngresoFamiliar` (IN `p_Id_Ingreso_Familiar` BIGINT)   BEGIN
+    -- Verificar si el registro a eliminar existe en la tabla tbl_ingreso_familiar
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_ingreso_familiar
+        WHERE Id_Ingreso_Familiar = p_Id_Ingreso_Familiar
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a eliminar no existe en la tabla tbl_ingreso_familiar';
+    ELSE
+        -- Realizar la eliminación
+        DELETE FROM `tbl_ingreso_familiar`
+        WHERE `Id_Ingreso_Familiar` = p_Id_Ingreso_Familiar;
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarManejoRiego` (IN `p_Id_Manejo_Riego` BIGINT)   BEGIN
     -- Verificar si el registro a eliminar existe en la tabla tbl_manejo_riego
     IF NOT EXISTS (
@@ -881,6 +1039,22 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarMedidaTierra` (IN `id_medida_param` INT(11))   BEGIN
   DELETE FROM tbl_medidas_tierra WHERE id_medida = id_medida_param;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarMigracionFamiliar` (IN `p_Id_Migracion` BIGINT)   BEGIN
+    -- Verificar si el registro a eliminar existe en la tabla tbl_migracion_familiar
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_migracion_familiar
+        WHERE id_migracion = p_Id_Migracion
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a eliminar no existe en la tabla tbl_migracion_familiar';
+    ELSE
+        -- Realizar la eliminación
+        DELETE FROM `tbl_migracion_familiar`
+        WHERE `id_migracion` = p_Id_Migracion;
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarMONCRED` (IN `id_motivos_no_credito_parm` INT(20))   BEGIN
@@ -1156,6 +1330,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarApoyoProduccion` (IN `p_Id_
     );
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarBaseOrganizacion` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Pertenece_A_Organizacion` ENUM('S','N'), IN `p_Descripcion` TEXT, IN `p_Creado_Por` VARCHAR(50))   BEGIN
+    -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
+    INSERT INTO `tbl_base_organizacion` (
+        `id_ficha`,
+        `id_productor`,
+        `pertenece_a_organizacion`,
+        `descripcion`,
+        `creado_por`,
+        `fecha_creacion`,
+        `modificado_por`,
+        `fecha_modificacion`,
+        `estado`
+    ) 
+    VALUES (
+        p_Id_Ficha,
+        p_Id_Productor,
+        p_Pertenece_A_Organizacion,
+        p_Descripcion,
+        p_Creado_Por,
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP,
+        'A'
+    );
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarCacerio` (IN `p_Nombre_Cacerio` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Id_Aldea` BIGINT(20))   BEGIN
     INSERT INTO tbl_cacerios (Nombre_Cacerio, Descripcion, Estado, Id_Aldea, Id_Usuario,
         Creado_Por, Fecha_Creacion, Modificado_Por, Fecha_Modificacion)
@@ -1300,6 +1500,70 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarEtniasPorProductor` (IN `p_
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarFicha` (IN `p_Fecha_Solicitud` DATE, IN `p_Anio_Solicitud` INT, IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(50), IN `p_Fecha_Entrevista` DATE, IN `p_Nombre_Encuentrador` VARCHAR(50), IN `p_Nombre_Encuestador` VARCHAR(50), IN `p_Nombre_Supervisor` VARCHAR(50))   BEGIN
+    -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
+    INSERT INTO `fichas` (
+        `fecha_solicitud`,
+        `anio_solicitud`,
+        `descripcion`,
+        `creado_por`,
+        `fecha_creacion`,
+        `modificado_por`,
+        `fecha_modificacion`,
+        `estado`,
+        `fecha_entrevista`,
+        `nombre_encuentrador`,
+        `nombre_encuestador`,
+        `nombre_supervisor`
+    ) 
+    VALUES (
+        p_Fecha_Solicitud,
+        p_Anio_Solicitud,
+        p_Descripcion,
+        p_Creado_Por,
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP,
+        'A',
+        p_Fecha_Entrevista,
+        p_Nombre_Encuentrador,
+        p_Nombre_Encuestador,
+        p_Nombre_Supervisor
+    );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarIngresoFamiliar` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipo_Negocio` BIGINT, IN `p_Total_Ingreso` DECIMAL(10,2), IN `p_Id_Periodo_Ingreso` BIGINT, IN `p_Descripcion_Otros` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
+    -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
+    INSERT INTO `tbl_ingreso_familiar` (
+        `Id_Ficha`,
+        `Id_Productor`,
+        `Id_Tipo_Negocio`,
+        `Total_Ingreso`,
+        `Id_Periodo_Ingreso`,
+        `Descripcion_Otros`,
+        `Descripcion`,
+        `Creado_Por`,
+        `Fecha_Creacion`,
+        `Modificado_Por`,
+        `Fecha_Modificacion`,
+        `estado`
+    ) 
+    VALUES (
+        p_Id_Ficha,
+        p_Id_Productor,
+        p_Id_Tipo_Negocio,
+        p_Total_Ingreso,
+        p_Id_Periodo_Ingreso,
+        p_Descripcion_Otros,
+        p_Descripcion,
+        p_Creado_Por,
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP,
+        'A'
+    );
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarManejoRiego` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Ubicacion` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Tiene_Riego` ENUM('S','N'), IN `p_Superficie_Riego` DECIMAL(10,2), IN `p_Id_Medida_Superficie_Riego` BIGINT, IN `p_Id_Tipo_Riego` BIGINT, IN `p_Fuente_Agua` VARCHAR(255), IN `p_Disponibilidad_Agua_Meses` INT, IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
     -- Verificar si el Id_Productor existe en la tabla tbl_productor
     IF NOT EXISTS (
@@ -1353,6 +1617,40 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarMedidaTierra` (IN `medida_p
     INSERT INTO tbl_medidas_tierra (medida, descripcion, creado_por, modificado_por, estado) 
     VALUES (medida_param, descripcion_param, 'Daniela', 'Daniela', 'ACTIVO');
 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarMigracionFamiliar` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Tiene_Migrantes` ENUM('S','N'), IN `p_Migracion_Dentro_Pais` ENUM('S','N'), IN `p_Migracion_Fuera_Pais` ENUM('S','N'), IN `p_Id_Tipo_Motivos` BIGINT, IN `p_Remesas` ENUM('S','N'), IN `p_Descripcion` TEXT, IN `p_Creado_Por` VARCHAR(255))   BEGIN
+    -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
+    INSERT INTO `tbl_migracion_familiar` (
+        `id_ficha`,
+        `id_productor`,
+        `tiene_migrantes`,
+        `migracion_dentro_pais`,
+        `migracion_fuera_pais`,
+        `id_tipo_motivos`,
+        `remesas`,
+        `descripcion`,
+        `creado_por`,
+        `fecha_creacion`,
+        `modificado_por`,
+        `fecha_modificacion`,
+        `estado`
+    ) 
+    VALUES (
+        p_Id_Ficha,
+        p_Id_Productor,
+        p_Tiene_Migrantes,
+        p_Migracion_Dentro_Pais,
+        p_Migracion_Fuera_Pais,
+        p_Id_Tipo_Motivos,
+        p_Remesas,
+        p_Descripcion,
+        p_Creado_Por,
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP,
+        'A'
+    );
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarMotivo` (IN `motivo_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
@@ -2215,9 +2513,9 @@ CREATE TABLE `fichas` (
 --
 
 INSERT INTO `fichas` (`id_ficha`, `fecha_solicitud`, `anio_solicitud`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`, `fecha_entrevista`, `nombre_encuentrador`, `firma_productor`, `nombre_encuestador`, `firma_encuestador`, `nombre_supervisor`, `firma_supervisor`) VALUES
-(1, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:43:05', 'manu', '2023-11-21 08:25:47', 'I', '2023-11-17', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:57:36', 'manu', '2023-11-17 20:57:36', 'A', '2023-11-17', NULL, NULL, NULL, NULL, NULL, NULL),
-(3, '2023-11-17', 2023, 'Creado', 'manu', '2023-11-20 06:00:21', 'manu', '2023-11-20 06:00:21', 'A', '2023-11-17', NULL, NULL, NULL, NULL, NULL, NULL);
+(1, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:43:05', 'manu', '2023-12-01 04:16:28', 'I', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
+(2, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:57:36', 'manu', '2023-12-01 04:17:22', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
+(3, '2023-11-17', 2023, 'Creado', 'manu', '2023-11-20 06:00:21', 'manu', '2023-12-01 04:17:06', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL);
 
 -- --------------------------------------------------------
 
@@ -2571,6 +2869,32 @@ INSERT INTO `tbl_apoyo_actividad_externa` (`id_apoyo_ext`, `id_ficha`, `id_produ
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_base_organizacion`
+--
+
+CREATE TABLE `tbl_base_organizacion` (
+  `id_pertenece_organizacion` bigint(20) NOT NULL,
+  `id_ficha` bigint(20) NOT NULL,
+  `id_productor` bigint(20) DEFAULT NULL,
+  `pertenece_a_organizacion` enum('S','N') DEFAULT NULL,
+  `descripcion` text DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
+  `fecha_creacion` timestamp NULL DEFAULT current_timestamp(),
+  `modificado_por` varchar(50) DEFAULT NULL,
+  `fecha_modificacion` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `estado` enum('A','I') DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_base_organizacion`
+--
+
+INSERT INTO `tbl_base_organizacion` (`id_pertenece_organizacion`, `id_ficha`, `id_productor`, `pertenece_a_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'S', 'descrt', 'manu', '2023-11-30 23:00:51', 'manu', '2023-11-30 23:00:51', 'A');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_cacerios`
 --
 
@@ -2796,13 +3120,19 @@ CREATE TABLE `tbl_ingreso_familiar` (
   `Id_Periodo_Ingreso` bigint(20) DEFAULT NULL,
   `Descripcion_Otros` varchar(255) DEFAULT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
-  `Id_Usuario` bigint(20) DEFAULT NULL,
   `Creado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_ingreso_familiar`
+--
+
+INSERT INTO `tbl_ingreso_familiar` (`Id_Ficha`, `Id_Productor`, `Id_Ingreso_Familiar`, `Id_Tipo_Negocio`, `Total_Ingreso`, `Id_Periodo_Ingreso`, `Descripcion_Otros`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(1, 1, 1, 1, 10000.00, 1, 'otros', 'descr', 'manu', '2023-11-30 20:41:42', 'manu', '2023-11-30 20:41:42', 'A');
 
 -- --------------------------------------------------------
 
@@ -2878,12 +3208,21 @@ CREATE TABLE `tbl_migracion_familiar` (
   `id_tipo_motivos` bigint(20) NOT NULL,
   `remesas` enum('S','N') DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
-  `creado_por` bigint(20) DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `modificado_por` bigint(20) DEFAULT NULL,
+  `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_migracion_familiar`
+--
+
+INSERT INTO `tbl_migracion_familiar` (`id_ficha`, `id_productor`, `id_migracion`, `tiene_migrantes`, `migracion_dentro_pais`, `migracion_fuera_pais`, `id_tipo_motivos`, `remesas`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'S', 'N', 'S', 4, 'N', 'no tengo familiares en el extrajero', 'manu', '2023-12-01 02:35:42', 'manu', '2023-12-01 03:21:30', 'A'),
+(2, 2, 2, 'N', 'S', 'S', 3, 'S', 'TierrasSana', 'manu', '2023-12-01 03:15:19', 'manu', '2023-12-01 03:21:39', 'A'),
+(1, 1, 4, 'S', 'N', 'S', 1, 'N', 'TierrasSana1', 'manu', '2023-12-01 03:21:59', 'manu', '2023-12-01 03:22:16', 'A');
 
 -- --------------------------------------------------------
 
@@ -3855,6 +4194,14 @@ ALTER TABLE `tbl_apoyo_actividad_externa`
   ADD KEY `fk_id_productor_apoyo_actividad_extern` (`id_productor`);
 
 --
+-- Indices de la tabla `tbl_base_organizacion`
+--
+ALTER TABLE `tbl_base_organizacion`
+  ADD PRIMARY KEY (`id_pertenece_organizacion`),
+  ADD KEY `fk_id_productor_base_organizacion` (`id_productor`),
+  ADD KEY `fk_id_ficha_base_organizacion` (`id_ficha`);
+
+--
 -- Indices de la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
@@ -3913,10 +4260,10 @@ ALTER TABLE `tbl_fuentes_credito`
 --
 ALTER TABLE `tbl_ingreso_familiar`
   ADD PRIMARY KEY (`Id_Ingreso_Familiar`),
-  ADD KEY `FK_Id_Ficha_Ingreso_Familiar` (`Id_Ficha`),
   ADD KEY `FK_Id_Productor_Ingreso_Familiar` (`Id_Productor`),
   ADD KEY `FK_Id_Tipo_Negocio_Ingreso_Familiar` (`Id_Tipo_Negocio`),
-  ADD KEY `FK_Id_Periodo_Ingreso_Ingreso_Familiar` (`Id_Periodo_Ingreso`);
+  ADD KEY `FK_Id_Periodo_Ingreso_Ingreso_Familiar` (`Id_Periodo_Ingreso`),
+  ADD KEY `FK_Id_Ficha_Ingreso_Familiar` (`Id_Ficha`);
 
 --
 -- Indices de la tabla `tbl_manejo_riego`
@@ -4186,6 +4533,8 @@ ALTER TABLE `usuario`
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
+ALTER TABLE `fichas`
+  MODIFY `id_ficha` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 
 --
@@ -4249,6 +4598,12 @@ ALTER TABLE `tbl_apoyo_actividad_externa`
   MODIFY `id_apoyo_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_base_organizacion`
+--
+ALTER TABLE `tbl_base_organizacion`
+  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
@@ -4288,7 +4643,7 @@ ALTER TABLE `tbl_fuentes_credito`
 -- AUTO_INCREMENT de la tabla `tbl_ingreso_familiar`
 --
 ALTER TABLE `tbl_ingreso_familiar`
-  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_manejo_riego`
@@ -4306,7 +4661,7 @@ ALTER TABLE `tbl_medidas_tierra`
 -- AUTO_INCREMENT de la tabla `tbl_migracion_familiar`
 --
 ALTER TABLE `tbl_migracion_familiar`
-  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_migracion`
@@ -4527,6 +4882,13 @@ ALTER TABLE `tbl_apoyos_produccion`
 ALTER TABLE `tbl_apoyo_actividad_externa`
   ADD CONSTRAINT `fk_id_ficha_apoyo_actividad_extern` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
   ADD CONSTRAINT `fk_id_productor_apoyo_actividad_extern` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
+-- Filtros para la tabla `tbl_base_organizacion`
+--
+ALTER TABLE `tbl_base_organizacion`
+  ADD CONSTRAINT `fk_id_ficha_base_organizacion` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_base_organizacion` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
 
 --
 -- Filtros para la tabla `tbl_cacerios`

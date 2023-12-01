@@ -6,6 +6,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="css/mobiscroll.javascript.min.css">
+<script src="js/mobiscroll.javascript.min.js"></script>
 
 <style>
     .sidebar-ficha {
@@ -97,22 +99,46 @@
         width: 500px;
         outline: none;
     }
+
+    .hidden {
+        display: none;
+    }
+
+    .multiselect {
+        width: 200px;
+    }
+
+    .selectBox {
+        position: relative;
+    }
+
+    .selectBox select {
+        width: 100%;
+        font-weight: bold;
+    }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+
+    #checkboxes label {
+        display: block;
+    }
+
+    #checkboxes label:hover {
+        background-color: #1e90ff;
+    }
 </style>
 
-<?php
-include "../php/conexion_be.php";
-function obtenerNumeroFicha($conexion)
-{
-    // Obtener el número actual de fichas
-    $sql = "SELECT COUNT(*) as id_ficha FROM fichas";
-    $result = $conexion->query($sql);
-    $row = $result->fetch_assoc();
-    $numeroFicha = $row['id_ficha'] + 1;
-
-    return $numeroFicha;
-}
-
-?>
 <div class="containertable">
     <div class="header">
         <h1 class="poppins-font mb-2">FICHA DE REGISTRO</h1>
@@ -203,7 +229,7 @@ function obtenerNumeroFicha($conexion)
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="codigo">Código Ficha</label>
-                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha" value="<?php echo obtenerNumeroFicha($conexion); ?>" readonly>
+                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="fechaFicha">Fecha de Solicitud</label>
@@ -440,59 +466,61 @@ function obtenerNumeroFicha($conexion)
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label>Pertenece a alguna organización</label>
+                        <label for="pertenece">¿Pertenece a alguna organización?</label>
                         <div>
-                            <input type="radio" id="perteneceOSi" name="perteneceO" value="Si">
-                            <label for="perteneceOSi"> Si </label>
-                            <input type="radio" id="perteneceONo" name="perteneceO" value="No">
-                            <label for="perteneceONo"> No </label>
+                            <input type="radio" id="si" name="pertenece" value="si" onclick="mostrarOrganizaciones()">
+                            <label for="si"> Si </label>
+                            <input type="radio" id="no" name="pertenece" value="no" onclick="navigateToForm('#datosHogarForm')">
+                            <label for="no"> No </label>
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
+                <div id="organizaciones" class="hidden">
                     <div class="form-group col-md-8">
                         <label for="PerteneceOr">A qué organizaciones pertenece</label>
                         <br>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="option1" id="inlineCheckbox1">
+                            <input class="form-check-input" type="checkbox" name="organizacion">
                             <label class="form-check-label" for="inlineCheckbox1">
                                 Asociación
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="option2" id="inlineCheckbox2">
+                            <input class="form-check-input" type="checkbox" name="organizacion">
                             <label class="form-check-label" for="inlineCheckbox2">
                                 Cooperativa
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="option3" id="inlineCheckbox3">
+                            <input class="form-check-input" type="checkbox" name="organizacion">
                             <label class="form-check-label" for="inlineCheckbox3">
                                 Caja rural
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="option4" id="inlineCheckbox4">
+                            <input class="form-check-input" type="checkbox" name="organizacion">
                             <label class="form-check-label" for="inlineCheckbox4">
                                 Patronato
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="option5" id="inlineCheckbox5">
+                            <input class="form-check-input" type="checkbox" name="organizacion">
                             <label class="form-check-label" for="inlineCheckbox5">
                                 Junta de agua
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="option6" id="inlineCheckbox6">
-                            <label class="form-check-label" for="inlineCheckbox6"> Otra </label>
+                            <input type="checkbox" name="organizacion" value="otra" id="checkboxOtra" onchange="escribirOtra()">
+                            <label class="form-check-label" for="checkboxOtra"> Otra </label>
                         </div>
                         <br>
-                        <br>
-                        <div class="mb-4">
-                            <label for="otrasOrg" id="otrasOrgLabel">Indique el(los) nombre(s) de la(s) organización(es)</label>
+                        <div id="otrasOrgContainer" class="hidden">
+                            <br>
+                            <label for="otrasOrg">Indique el(los) nombre(s) de la(s) organización(es)</label>
                             <input type="text" class="cuadro-texto" id="otrasOrg" name="otrasOrg" placeholder="Escriba aquí...">
                         </div>
+                        <br>
+
                     </div>
                 </div>
                 <div class="modal-footer center-content-between">
@@ -505,289 +533,37 @@ function obtenerNumeroFicha($conexion)
             <form id="datosHogarForm" class="form-section" style="display: none;">
                 <h3>Composición del Hogar</h3>
                 <br>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad0-4">0 - 4 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres0-4" name="mujeres0-4">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres0-4" name="hombres0-4">
-                                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showCheckboxes()">
+                                <select>
+                                    <option>Seleccionar Edades Mujeres</option>
+                                </select>
+                                <div class="overSelect"></div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad10-14">10 - 14 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres10-14" name="mujeres10-14">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres10-14" name="hombres10-14">
-                                </div>
+                            <div id="checkboxes" style="display: none;" class="form-control">
+                                <label for="uno">
+                                    <input type="checkbox" id="uno">0-10 años</label>
+                                <label for="dos">
+                                    <input type="checkbox" id="dos">11-20 años</label>
+                                <label for="tres">
+                                    <input type="checkbox" id="tres">21-30 años</label>
+                                <label for="cuatro">
+                                    <input type="checkbox" id="cuatro">31-40 años</label>
+                                <label for="cinco">
+                                    <input type="checkbox" id="cinco">41-50 años</label>
+                                <label for="seis">
+                                    <input type="checkbox" id="seis">51-60 años</label>
+                                <label for="siete">
+                                    <input type="checkbox" id="siete">61-70 años</label>
+                                <label for="ocho">
+                                    <input type="checkbox" id="ocho">71-80 años</label>
+                                <label for="nueve">
+                                    <input type="checkbox" id="nueve">81-90 años</label>
+                                <label for="diez">
+                                    <input type="checkbox" id="diez">91+ años</label>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad20-24">20 - 24 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres20-24" name="mujeres20-24">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres20-24" name="hombres20-24">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad30-34">30 - 34 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres30-34" name="mujeres30-34">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres30-34" name="hombres30-34">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad40-44">40 - 44 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres40-44" name="mujeres40-44">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres40-44" name="hombres40-44">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad50-54">50 - 54 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres50-54" name="mujeres50-54">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres50-54" name="hombres50-54">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad60-64">60 - 64 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres60-64" name="mujeres60-64">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres60-64" name="hombres60-64">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad70-74">70 - 74 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres70-74" name="mujeres70-74">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres70-74" name="hombres70-74">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad80-84">80 - 84 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres80-84" name="mujeres80-84">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres80-84" name="hombres80-84">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad10-14"> 90 - 94 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres90-94" name="mujeres90-94">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres90-94" name="hombres90-94">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad5-9">5 - 9 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres5-9" name="mujeres5-9">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres5-9" name="hombres5-9">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad15-19">15 - 19 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres15-19" name="mujeres15-19">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres15-19" name="hombres15-19">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad25-29">25 - 29 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres25-29" name="mujeres25-29">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres25-29" name="hombres25-29">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad35-39">35 - 39 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres35-39" name="mujeres35-39">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres35-39" name="hombres35-39">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad45-49">45 - 49 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres45-49" name="mujeres45-49">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres45-49" name="hombres45-49">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad55-59">55 - 59 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres55-59" name="mujeres55-59">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres55-59" name="hombres55-59">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad65-69">65 - 69 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres65-69" name="mujeres65-69">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres65-69" name="hombres65-69">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad75-79">75 - 79 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres75-79" name="mujeres75-79">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres75-79" name="hombres75-79">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad85-89">85 - 89 Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres85-89" name="mujeres85-89">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres85-89" name="hombres85-89">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="edad95">95+ Años</label>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total mujeres:</label>
-                                    <input type="number" id="mujeres95" name="mujeres95">
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Total Hombres:</label>
-                                    <input type="number" id="hombres95" name="hombres95">
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -807,60 +583,63 @@ function obtenerNumeroFicha($conexion)
                         <p>
                         <div class="form-group">
                             <div>
-                                <input type="checkbox" id="lencas" name="etnia" value="Lencas">
+                                <input type="radio" id="lencas" name="etnia" value="Lencas">
                                 <label for="lencas">Lencas</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="pech" name="etnia" value="Pech">
+                                <input type="radio" id="pech" name="etnia" value="Pech">
                                 <label for="pech">Pech</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="tolupanes" name="etnia" value="Tolupanes">
+                                <input type="radio" id="tolupanes" name="etnia" value="Tolupanes">
                                 <label for="tolupanes">Tolupanes</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="garifunas" name="etnia" value="Garífunas">
+                                <input type="radio" id="garifunas" name="etnia" value="Garífunas">
                                 <label for="garifunas">Garífunas</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="mayaChortis" name="etnia" value="Maya Chortís">
+                                <input type="radio" id="mayaChortis" name="etnia" value="Maya Chortís">
                                 <label for="mayaChortis">Maya Chortís</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="tawahkas" name="etnia" value="Tawahkas">
+                                <input type="radio" id="tawahkas" name="etnia" value="Tawahkas">
                                 <label for="tawahkas">Tawahkas</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="misquitos" name="etnia" value="Misquitos">
+                                <input type="radio" id="misquitos" name="etnia" value="Misquitos">
                                 <label for="misquitos">Misquitos</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="nahua" name="etnia" value="Nahua">
+                                <input type="radio" id="nahua" name="etnia" value="Nahua">
                                 <label for="nahua">Nahua</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="ladino" name="etnia" value="Ladino">
+                                <input type="radio" id="ladino" name="etnia" value="Ladino">
                                 <label for="ladino">Ladino</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="negroHablaInglesa" name="etnia" value="Negro habla inglesa">
+                                <input type="radio" id="negroHablaInglesa" name="etnia" value="Negro habla inglesa">
                                 <label for="negroHablaInglesa">Negro habla inglesa</label>
                             </div>
 
                             <div>
-                                <input type="checkbox" id="otros" name="etnia" value="Otros">
-                                <label for="otros">Otros (Especifique)</label>
-                                <input type="text" id="otrosEspecifique" class="cuadro-texto" name="otrosEspecifique" placeholder="Especifique aquí...">
+                                <input type="radio" id="otros" name="etnia" value="Otros" onchange="escribirEtnia()">
+                                <label for="otros">Otros(Especifique)</label>
                             </div>
+                            <div id="otrasEtnContainer" class="hidden">
+                                <input type="text" class="cuadro-texto" id="otrasEtn" name="otrasEtn" placeholder="Escriba aquí...">
+                            </div>
+                            <br>
                         </div>
                     </div>
                 </div>
@@ -878,16 +657,23 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-8">
                         <label>¿De las actividades agropecuarias que desarrolla, usted cree que la seguirán practicando alguno o algunos de los miembros del hogar?</label>
                         <div>
-                            <input type="radio" id="viveFincaSi" name="viveFinca" value="Si">
-                            <label for="viveFincaSi">Si</label>
-                            <label for="cuantos">Cuantos:</label>
-                            <input type="number" name="cuantos" id="cuantos" min="0">
+                            <input type="radio" id="Si" name="viveFinca" value="Si" onclick="mostrarCuadro()">
+                            <label for="Si">Si</label>
+                            <div id="cuantos" class="hidden">
+                                <div class="form-group col-md-8">
+                                    <label for="cuantos">Cuantos</label>
+                                    <input type="number" name="cuantos" id="cuantos" min="0" class="cuadro-texto">
+                                    <br>
+                                </div>
+                            </div>
                             <br>
-                            <input type="radio" id="viveFincaNo" name="viveFinca" value="No">
-                            <label for="viveFincaNo">No</label>
+                            <input type="radio" id="No" name="viveFinca" value="No" onclick="navigateToForm('#datosMigraForm')">
+                            <label for="No">No</label>
                         </div>
                     </div>
                 </div>
+
+
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosEtniaForm')">Regresar</button>
@@ -903,10 +689,10 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-5">
                         <label>Alguien del hogar ha emigrado?</label>
                         <div>
-                            <input type="radio" id="viveFincaSi" name="viveFinca" value="Si">
-                            <label for="viveFincaSi">Si</label>
-                            <input type="radio" id="viveFincaNo" name="viveFinca" value="No">
-                            <label for="viveFincaNo">No</label>
+                            <input type="radio" id="Si" name="migra" value="Si">
+                            <label for="Si">Si</label>
+                            <input type="radio" id="No" name="migra" value="No">
+                            <label for="No">No</label>
                         </div>
                     </div>
                 </div>
@@ -918,9 +704,6 @@ function obtenerNumeroFicha($conexion)
                             <input type="radio" name="destino" value="dentro_del_pais" id="dentroDelPais"> <label for="dentroDelPais">Dentro del país</label>
                             <br>
                             <input type="radio" name="destino" value="otro_pais" id="otroPais"> <label for="otroPais">Otro país</label>
-                            <br>
-                            <label for="otroPaisInput">Especifique el país:</label>
-                            <input type="text" name="otroPaisInput" id="otroPaisInput" class="cuadro-texto" placeholder="Escriba aquí...">
                         </div>
                     </div>
                 </div>
@@ -954,7 +737,7 @@ function obtenerNumeroFicha($conexion)
                 </div>
 
                 <div class="modal-footer center-content-between">
-                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosEtniaForm')">Regresar</button>
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosRelevoForm')">Regresar</button>
                     <button type="button" class="btn btn-info" onclick="navigateToForm('#datosUnidadForm')">Siguiente</button>
                 </div>
             </form>
@@ -1065,59 +848,81 @@ function obtenerNumeroFicha($conexion)
             <!-- Formulario de Produccion Agricola -->
             <form id="datosAgricolaForm" class="form-section" style="display: none;">
                 <h3>Información de Cultivos</h3>
-                <br>
-
                 <div class="cultivo-info">
                     <h4>Cultivo</h4>
 
-                    <div class="form-group">
-                        <label for="nombreCultivo">Nombre del Cultivo</label>
-                        <input type="text" class="form-control" id="nombreCultivo" name="nombreCultivo">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Siembra</label>
-                        <div class="form-checkbox">
-                            <input type="checkbox" id="primera" name="tipoSiembra" value="Primera">
-                            <label for="primera">Primera</label>
-                            <input type="checkbox" id="postrera" name="tipoSiembra" value="Postrera">
-                            <label for="postrera">Postrera</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombreCultivo">Nombre del Cultivo</label>
+                                <input type="text" class="form-control" id="nombreCultivo" name="nombreCultivo">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tipoSiembra">Siembra</label>
+                                <select class="form-control" id="tipoSiembra" name="tipoSiembra">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Primera">Primera</option>
+                                    <option value="Postrera">Postrera</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="areaSembrada">Área Sembrada (mz)(ha)(tareas)</label>
-                        <input type="text" class="form-control" id="areaSembrada" name="areaSembrada">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="areaSembrada">Área Sembrada (mz)(ha)(tareas)</label>
+                                <input type="text" class="form-control" id="areaSembrada" name="areaSembrada">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="produccionObtenida">Producción Obtenida</label>
+                                <input type="number" class="form-control" id="produccionObtenida" name="produccionObtenida" min="0" step="any">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="produccionObtenida">Producción Obtenida</label>
-                        <input type="text" class="form-control" id="produccionObtenida" name="produccionObtenida">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unidadMedidaProduccion">Unidad de Medida de Producción</label>
+                                <input type="text" class="form-control" id="unidadMedidaProduccion" name="unidadMedidaProduccion">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cantidadVendida">Cantidad Vendida</label>
+                                <input type="number" class="form-control" id="cantidadVendida" name="cantidadVendida" min="0" step="any">
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="form-group">
-                        <label for="unidadMedidaProduccion">Unidad de Medida de Producción</label>
-                        <input type="text" class="form-control" id="unidadMedidaProduccion" name="unidadMedidaProduccion">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="unidadMedidaVenta">Unidad de Medida de Venta</label>
+                                <input type="text" class="form-control" id="unidadMedidaVenta" name="unidadMedidaVenta">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="precioVenta">Precio de Venta por Unidad de Medida</label>
+                                <input type="number" class="form-control" id="precioVenta" name="precioVenta" min="0" step="0.01">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="cantidadVendida">Cantidad Vendida</label>
-                        <input type="text" class="form-control" id="cantidadVendida" name="cantidadVendida">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="unidadMedidaVenta">Unidad de Medida de Venta</label>
-                        <input type="text" class="form-control" id="unidadMedidaVenta" name="unidadMedidaVenta">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="precioVenta">Precio de Venta por Unidad de Medida</label>
-                        <input type="text" class="form-control" id="precioVenta" name="precioVenta">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="comprador">A quién vendió</label>
-                        <input type="text" class="form-control" id="comprador" name="comprador">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="comprador">A quién vendió</label>
+                                <input type="text" class="form-control" id="comprador" name="comprador">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1126,286 +931,132 @@ function obtenerNumeroFicha($conexion)
                     <button type="button" class="btn btn-info" onclick="navigateToForm('#datosPecuariaForm')">Siguiente</button>
                 </div>
             </form>
-
             <!-- 10 -->
 
             <form id="datosPecuariaForm" class="form-section" style="display: none;">
                 <h3>Producción Pecuaria (Inventario)</h3>
                 <br>
 
-                <!-- Bovinos -->
-                <div class="row form-group">
+                <div class="row">
+                    <!-- Tipo de Animal -->
                     <div class="col-md-4">
-                        <label for="bovinosHembras">(1) Bovinos - Hembras</label>
-                        <input type="number" class="form-control" id="bovinosHembras" name="bovinosHembras" placeholder="Cantidad">
+                        <div class="form-group">
+                            <label for="tipoAnimal">Tipo de Animal</label>
+                            <select class="form-control" id="tipoAnimal" name="tipoAnimal" onchange="mostrarOpcionesGenero(this.value)">
+                                <option value="">Seleccione un animal</option>
+                                <option value="Bovinos">Bovinos</option>
+                                <option value="Caprino">Caprino</option>
+                                <option value="Ovino">Ovino</option>
+                                <option value="Cerdo">Cerdo</option>
+                                <option value="PollosEngorde">Pollos de Engorde</option>
+                                <option value="Aves">Aves</option>
+                                <option value="Peces">Peces</option>
+                                <option value="Camarones">Camarones</option>
+                                <option value="Otros">Otros</option>
+                            </select>
+                        </div>
                     </div>
+
+                    <!-- Género -->
                     <div class="col-md-4">
-                        <label for="bovinosMachos">Bovinos - Machos</label>
-                        <input type="number" class="form-control" id="bovinosMachos" name="bovinosMachos" placeholder="Cantidad">
+                        <div class="form-group" id="divGenero" style="display:none;">
+                            <label for="generoAnimal">Género</label>
+                            <select class="form-control" id="generoAnimal" name="generoAnimal">
+                                <option value="Hembra">Hembra</option>
+                                <option value="Macho">Macho</option>
+                            </select>
+                        </div>
                     </div>
+
+                    <!-- Cantidad -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cantidadAnimal">Cantidad</label>
+                            <input type="number" class="form-control" id="cantidadAnimal" name="cantidadAnimal" placeholder="Cantidad" min="1">
+                        </div>
+                    </div>
+
+                    <!-- Botón Agregar -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <button type="button" class="btn btn-info" onclick="agregarATabla()">Agregar</button>
+                    </div>
+                    <br>
+                    <br>
                 </div>
 
-                <!-- Caprino -->
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <label for="caprinoHembras">(2) Caprino - Hembras</label>
-                        <input type="number" class="form-control" id="caprinoHembras" name="caprinoHembras" placeholder="Cantidad">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="caprinoMachos">Caprino - Machos</label>
-                        <input type="number" class="form-control" id="caprinoMachos" name="caprinoMachos" placeholder="Cantidad">
-                    </div>
-                </div>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tipo de Animal</th>
+                            <th>Género</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTemporal" class="table-hover">
+                        <!-- Los elementos agregados aparecerán aquí -->
+                    </tbody>
+                </table>
 
-                <!-- Ovino -->
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <label for="ovinoHembras">(3) Ovino - Hembras</label>
-                        <input type="number" class="form-control" id="ovinoHembras" name="ovinoHembras" placeholder="Cantidad">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="ovinoMachos">Ovino - Machos</label>
-                        <input type="number" class="form-control" id="ovinoMachos" name="ovinoMachos" placeholder="Cantidad">
-                    </div>
-                </div>
-
-                <!-- Cerdo -->
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <label for="cerdoHembras">(4) Cerdo - Hembras</label>
-                        <input type="number" class="form-control" id="cerdoHembras" name="cerdoHembras" placeholder="Cantidad">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="cerdoMachos">Cerdo - Machos</label>
-                        <input type="number" class="form-control" id="cerdoMachos" name="cerdoMachos" placeholder="Cantidad">
-                    </div>
-                </div>
-
-                <!-- Pollos de engorde -->
-                <div class="row form-group">
-                    <div class="col-md-8">
-                        <label for="pollosEngorde">(5) Pollos de Engorde</label>
-                        <input type="number" class="form-control" id="pollosEngorde" name="pollosEngorde" placeholder="Cantidad">
-                    </div>
-                </div>
-
-                <!-- Aves -->
-                <div class="row form-group">
-                    <div class="col-md-8">
-                        <label for="aves">(6) Aves</label>
-                        <input type="number" class="form-control" id="aves" name="aves" placeholder="Cantidad">
-                    </div>
-                </div>
-
-                <!-- Peces -->
-                <div class="row form-group">
-                    <div class="col-md-8">
-                        <label for="peces">(7) Peces</label>
-                        <input type="number" class="form-control" id="peces" name="peces" placeholder="Cantidad">
-                    </div>
-                </div>
-
-                <!-- Camarones -->
-                <div class="row form-group">
-                    <div class="col-md-8">
-                        <label for="camarones">(8) Camarones</label>
-                        <input type="number" class="form-control" id="camarones" name="camarones" placeholder="Cantidad">
-                    </div>
-                </div>
-
-                <!-- Otros -->
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <label for="otrosTipo">(9) Otros (Especifique) - Tipo de animal</label>
-                        <input type="text" class="form-control" id="otrosTipo" name="otrosTipo" placeholder="Tipo de animal">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="otrosCantidad">Otros - Cantidad</label>
-                        <input type="number" class="form-control" id="otrosCantidad" name="otrosCantidad" placeholder="Cantidad">
-                    </div>
-                </div>
 
                 <h3>Unidades vendidas año anterior</h3>
-                <!-- Bovinos -->
                 <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="bovinosUnidades">(1) Bovinos</label>
-                        <input type="number" class="form-control" id="bovinosUnidades" name="bovinosUnidades">
-                    </div>
+                    <!-- Tipo de Animal -->
                     <div class="col-md-3">
-                        <label for="bovinosPrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="bovinosPrecio" name="bovinosPrecio">
+                        <label for="tipoAnimal">Tipo de Animal</label>
+                        <select class="form-control" id="tipoAnimalU" name="tipoAnimalU">
+                            <option value="Bovinos">Bovinos</option>
+                            <option value="Caprino">Caprino</option>
+                            <option value="Ovino">Ovino</option>
+                            <option value="Cerdo">Cerdo</option>
+                            <option value="PollosEngorde">Pollos de Engorde</option>
+                            <option value="Aves">Aves</option>
+                            <option value="Peces">Peces</option>
+                            <option value="Camarones">Camarones</option>
+                            <option value="Otros">Otros</option>
+                        </select>
                     </div>
+
+                    <!-- Precio de Venta -->
                     <div class="col-md-3">
-                        <label for="bovinosUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="bovinosUnidadMedida" name="bovinosUnidadMedida">
+                        <label for="precioVentaU">Precio de venta (Lps)</label>
+                        <input type="number" class="form-control" id="precioVentaU" name="precioVentaU" min="0" step="0.01">
                     </div>
-                    <div class="col-md-4">
-                        <label for="bovinosMercado">Mercado</label>
-                        <input type="text" class="form-control" id="bovinosMercado" name="bovinosMercado">
+
+                    <!-- Unidad de Medida -->
+                    <div class="col-md-3">
+                        <label for="unidadMedida">Unidad de medida</label>
+                        <input type="text" class="form-control" id="unidadMedida" name="unidadMedida">
+                    </div>
+
+                    <!-- Mercado y botón Agregar -->
+                    <div class="col-md-3 d-flex align-items-end">
+                        <div class="form-group flex-grow-1 mr-2">
+                            <label for="mercado">Mercado</label>
+                            <input type="text" class="form-control" id="mercado" name="mercado">
+                        </div>
+                    </div>
+
+                    <!-- Botón Agregar -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <button type="button" class="btn btn-info" onclick="agregarAUnidadesVendidas()">Agregar</button>
                     </div>
                 </div>
 
-                <!-- Caprino -->
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="caprinoUnidades">(2) Caprino</label>
-                        <input type="number" class="form-control" id="caprinoUnidades" name="caprinoUnidades">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="caprinoPrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="caprinoPrecio" name="caprinoPrecio">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="caprinoUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="caprinoUnidadMedida" name="caprinoUnidadMedida">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="caprinoMercado">Mercado</label>
-                        <input type="text" class="form-control" id="caprinoMercado" name="caprinoMercado">
-                    </div>
-                </div>
-
-                <!-- Ovino -->
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="ovinoUnidades">(3) Ovino</label>
-                        <input type="number" class="form-control" id="ovinoUnidades" name="ovinoUnidades">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="ovinoPrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="ovinoPrecio" name="ovinoPrecio">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="ovinoUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="ovinoUnidadMedida" name="ovinoUnidadMedida">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="ovinoMercado">Mercado</label>
-                        <input type="text" class="form-control" id="ovinoMercado" name="ovinoMercado">
-                    </div>
-                </div>
-
-                <!-- Cerdos -->
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="cerdosUnidades">(4) Cerdos</label>
-                        <input type="number" class="form-control" id="cerdosUnidades" name="cerdosUnidades">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="cerdosPrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="cerdosPrecio" name="cerdosPrecio">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="cerdosUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="cerdosUnidadMedida" name="cerdosUnidadMedida">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="cerdosMercado">Mercado</label>
-                        <input type="text" class="form-control" id="cerdosMercado" name="cerdosMercado">
-                    </div>
-                </div>
-
-                <!-- Pollos de engorde -->
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="pollosEngordeUnidades">(5) Pollos de Engorde</label>
-                        <input type="number" class="form-control" id="pollosEngordeUnidades" name="pollosEngordeUnidades">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="pollosEngordePrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="pollosEngordePrecio" name="pollosEngordePrecio">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="pollosEngordeUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="pollosEngordeUnidadMedida" name="pollosEngordeUnidadMedida">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="pollosEngordeMercado">Mercado</label>
-                        <input type="text" class="form-control" id="pollosEngordeMercado" name="pollosEngordeMercado">
-                    </div>
-                </div>
-
-                <!-- Aves -->
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="avesUnidades">(6) Aves</label>
-                        <input type="number" class="form-control" id="avesUnidades" name="avesUnidades">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="avesPrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="avesPrecio" name="avesPrecio">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="avesUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="avesUnidadMedida" name="avesUnidadMedida">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="avesMercado">Mercado</label>
-                        <input type="text" class="form-control" id="avesMercado" name="avesMercado">
-                    </div>
-                </div>
-
-                <!-- Peces -->
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="pecesUnidades">(7) Peces</label>
-                        <input type="number" class="form-control" id="pecesUnidades" name="pecesUnidades">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="pecesPrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="pecesPrecio" name="pecesPrecio">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="pecesUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="pecesUnidadMedida" name="pecesUnidadMedida">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="pecesMercado">Mercado</label>
-                        <input type="text" class="form-control" id="pecesMercado" name="pecesMercado">
-                    </div>
-                </div>
-
-                <!-- Camarones -->
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="camaronesUnidades">(8) Camarones</label>
-                        <input type="number" class="form-control" id="camaronesUnidades" name="camaronesUnidades">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="camaronesPrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="camaronesPrecio" name="camaronesPrecio">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="camaronesUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="camaronesUnidadMedida" name="camaronesUnidadMedida">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="camaronesMercado">Mercado</label>
-                        <input type="text" class="form-control" id="camaronesMercado" name="camaronesMercado">
-                    </div>
-                </div>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tipo de Animal</th>
+                            <th>Precio de Venta</th>
+                            <th>Unidad de Medida</th>
+                            <th>Mercado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaUnidadesVendidas">
+                        <!-- Los datos agregados aparecerán aquí -->
+                    </tbody>
+                </table>
 
 
-                <!-- Otros -->
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="otrosUnidades">(9) Otros</label>
-                        <input type="number" class="form-control" id="otrosUnidades" name="otrosUnidades">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="otrosPrecio">Precio de venta (Lempiras)</label>
-                        <input type="text" class="form-control" id="otrosPrecio" name="otrosPrecio">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="otrosUnidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="otrosUnidadMedida" name="otrosUnidadMedida">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="otrosMercado">Mercado</label>
-                        <input type="text" class="form-control" id="otrosMercado" name="otrosMercado">
-                    </div>
-                </div>
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosAgricolaForm')">Regresar</button>
@@ -1418,86 +1069,99 @@ function obtenerNumeroFicha($conexion)
             <form id="datosPrCoForm" class="form-section" style="display: none;">
                 <h3>11. Producción y Comercialización Pecuaria</h3>
 
-                <!-- Producción de leche -->
-                <div class="form-group">
-                    <label for="prodLeche">Producción de leche (semanal, mensual, anual)</label>
-                    <input type="text" class="form-control" id="prodLeche" name="prodLeche">
-                    <label for="unidadMedidaLeche">Unidad de medida</label>
-                    <input type="text" class="form-control" id="unidadMedidaLeche" name="unidadMedidaLeche">
-                    <label for="cantidadVendidaLeche">Cantidad vendida</label>
-                    <input type="text" class="form-control" id="cantidadVendidaLeche" name="cantidadVendidaLeche">
-                    <label for="precioVentaLeche">Precio de venta en lempiras</label>
-                    <input type="text" class="form-control" id="precioVentaLeche" name="precioVentaLeche">
-                    <label for="clienteLeche">A quién le vendió</label>
-                    <input type="text" class="form-control" id="clienteLeche" name="clienteLeche">
+
+                <div class="row">
+                    <!-- Formulario para tipo de producción -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tipoProduccion">Tipo de Producción</label>
+                            <select class="form-control" id="tipoProduccion" name="tipoProduccion">
+                                <option value="Leche">Leche</option>
+                                <option value="Carne">Carne</option>
+                                <option value="DerivadosLeche">Derivados de leche</option>
+                                <option value="Huevos">Huevos</option>
+                                <option value="Apicola">Apícola</option>
+                                <option value="Transformacion">Producto de Transformación</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Periodicidad -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="periodicidad">Periodicidad</label>
+                            <select class="form-control" id="periodicidad" name="periodicidad">
+                                <option value="Semanal">Semanal</option>
+                                <option value="Mensual">Mensual</option>
+                                <option value="Anual">Anual</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Unidad de Medida -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="unidadMedidaPC">Unidad de medida</label>
+                            <input type="text" class="form-control" id="unidadMedidaPC" name="unidadMedidaPC">
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Producción de carne -->
-                <div class="form-group">
-                    <label for="prodCarne">Producción de carne (semanal, mensual, anual)</label>
-                    <input type="text" class="form-control" id="prodCarne" name="prodCarne">
-                    <label for="unidadMedidaCarne">Unidad de medida</label>
-                    <input type="text" class="form-control" id="unidadMedidaCarne" name="unidadMedidaCarne">
-                    <label for="cantidadVendidaCarne">Cantidad vendida</label>
-                    <input type="text" class="form-control" id="cantidadVendidaCarne" name="cantidadVendidaCarne">
-                    <label for="precioVentaCarne">Precio de venta en lempiras</label>
-                    <input type="text" class="form-control" id="precioVentaCarne" name="precioVentaCarne">
-                    <label for="clienteCarne">A quién le vendió</label>
-                    <input type="text" class="form-control" id="clienteCarne" name="clienteCarne">
+                <div class="row">
+                    <!-- Cantidad Vendida -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cantidadVendidaPC">Cantidad vendida</label>
+                            <input type="number" class="form-control" id="cantidadVendidaPC" name="cantidadVendidaPC" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Precio de Venta -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="precioVentaPC">Precio de venta (Lps)</label>
+                            <input type="number" class="form-control" id="precioVentaPC" name="precioVentaPC" min="0" step="0.01">
+                        </div>
+                    </div>
+
+                    <!-- A quién Vendió -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cliente">A quién le vendió</label>
+                            <input type="text" class="form-control" id="cliente" name="cliente">
+                        </div>
+                    </div>
+
+
                 </div>
 
-                <!-- Producción de derivados de leche -->
-                <div class="form-group">
-                    <label for="prodDerivadosLeche">Producción de derivados de leche (semanal, mensual, anual)</label>
-                    <input type="text" class="form-control" id="prodDerivadosLeche" name="prodDerivadosLeche">
-                    <label for="unidadMedidaDerivados">Unidad de medida</label>
-                    <input type="text" class="form-control" id="unidadMedidaDerivados" name="unidadMedidaDerivados">
-                    <label for="cantidadVendidaDerivados">Cantidad vendida</label>
-                    <input type="text" class="form-control" id="cantidadVendidaDerivados" name="cantidadVendidaDerivados">
-                    <label for="precioVentaDerivados">Precio de venta en lempiras</label>
-                    <input type="text" class="form-control" id="precioVentaDerivados" name="precioVentaDerivados">
-                    <label for="clienteDerivados">A quién le vendió</label>
-                    <input type="text" class="form-control" id="clienteDerivados" name="clienteDerivados">
+                <!-- Botón Agregar -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-info" id="btnAgregar" onclick="agregarATablaProduccion()">Agregar</button>
+                    </div>
                 </div>
+                <br>
 
-                <!-- Producción de huevos -->
-                <div class="form-group">
-                    <label for="prodHuevos">Producción de huevos (semanal, mensual, anual)</label>
-                    <input type="text" class="form-control" id="prodHuevos" name="prodHuevos">
-                    <label for="precioVentaHuevos">Precio de venta en lempiras</label>
-                    <input type="text" class="form-control" id="precioVentaHuevos" name="precioVentaHuevos">
-                    <label for="clienteHuevos">A quién le vendió</label>
-                    <input type="text" class="form-control" id="clienteHuevos" name="clienteHuevos">
-                </div>
-
-                <!-- Producción apícola -->
-                <div class="form-group">
-                    <label for="prodApicola">Producción apícola (semanal, mensual, anual)</label>
-                    <input type="text" class="form-control" id="prodApicola" name="prodApicola">
-                    <label for="unidadMedidaApicola">Unidad de medida</label>
-                    <input type="text" class="form-control" id="unidadMedidaApicola" name="unidadMedidaApicola">
-                    <label for="cantidadVendidaApicola">Cantidad vendida</label>
-                    <input type="text" class="form-control" id="cantidadVendidaApicola" name="cantidadVendidaApicola">
-                    <label for="precioVentaApicola">Precio de venta en lempiras</label>
-                    <input type="text" class="form-control" id="precioVentaApicola" name="precioVentaApicola">
-                    <label for="clienteApicola">A quién le vendió</label>
-                    <input type="text" class="form-control" id="clienteApicola" name="clienteApicola">
-                </div>
-
-                <!-- Producto de Transformación -->
-                <div class="form-group">
-                    <label for="prodTransformacion">Producto de Transformación (semanal, mensual, anual)</label>
-                    <input type="text" class="form-control" id="prodTransformacion" name="prodTransformacion">
-                    <label for="cantidadProdTransformacion">Cuantos produce</label>
-                    <input type="text" class="form-control" id="cantidadProdTransformacion" name="cantidadProdTransformacion">
-                    <label for="unidadMedidaTransformacion">Unidad de medida</label>
-                    <input type="text" class="form-control" id="unidadMedidaTransformacion" name="unidadMedidaTransformacion">
-                    <label for="cantidadVendidaTransformacion">Cantidad vendida</label>
-                    <input type="text" class="form-control" id="cantidadVendidaTransformacion" name="cantidadVendidaTransformacion">
-                    <label for="precioVentaTransformacion">Precio de venta en lempiras</label>
-                    <input type="text" class="form-control" id="precioVentaTransformacion" name="precioVentaTransformacion">
-                    <label for="clienteTransformacion">A quién le vendió</label>
-                    <input type="text" class="form-control" id="clienteTransformacion" name="clienteTransformacion">
+                <!-- Tabla para visualizar los datos agregados -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Tipo de Producción</th>
+                                    <th>Periodicidad</th>
+                                    <th>Unidad de Medida</th>
+                                    <th>Cantidad Vendida</th>
+                                    <th>Precio de Venta (Lps)</th>
+                                    <th>A quién le vendió</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaDatosTemporal">
+                                <!-- Las filas agregadas se visualizarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="modal-footer center-content-between">
@@ -1511,101 +1175,59 @@ function obtenerNumeroFicha($conexion)
             <form id="datosOtrosForm" class="form-section" style="display: none;">
                 <h3>12. Otros ingresos en el hogar</h3>
 
-                <!-- Negocio -->
-                <div class="form-group">
-                    <label for="negocio">Negocio</label>
-                    <input type="text" class="form-control" id="negocio" name="negocio">
-                    <label for="ingresoNegocio">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoNegocio" name="ingresoNegocio">
+                <div class="row">
+                    <!-- Tipo de Ingreso -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tipoIngreso">Tipo de Ingreso</label>
+                            <select class="form-control" id="tipoIngreso" name="tipoIngreso">
+                                <option value="Negocio">Negocio</option>
+                                <option value="VentaServicio">Venta de servicio</option>
+                                <option value="JornalAgricola">Jornal agrícola</option>
+                                <option value="CorteCafe">Corte de café</option>
+                                <option value="jornalNoAgricola">Jornal no agricola</option>
+                                <option value="alquileres">Alquileres</option>
+                                <option value="RemesaExterior">Remesa del exterior</option>
+                                <option value="RemesaNacional">Remesa nacional</option>
+                                <option value="Bono">Bono</option>
+                                <option value="SalarioProfesional">Salario profesional</option>
+                                <option value="Artesania">Artesanía</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cantidad -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cantidadIngreso">Cantidad</label>
+                            <input type="number" class="form-control" id="cantidadIngreso" name="cantidadIngreso" min="0" step="0.01" placeholder="Ingrese la cantidad">
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- Venta de servicio -->
-                <div class="form-group">
-                    <label for="ventaServicio">Venta de servicio</label>
-                    <input type="text" class="form-control" id="ventaServicio" name="ventaServicio">
-                    <label for="ingresoVentaServicio">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoVentaServicio" name="ingresoVentaServicio">
+                <!-- Botón Agregar -->
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <button type="button" class="btn btn-info mt-2" onclick="agregarIngreso()">Agregar</button>
+                    </div>
                 </div>
+                <br>
 
-                <!-- Jornal agrícola -->
-                <div class="form-group">
-                    <label for="jornalAgricola">Jornal agrícola</label>
-                    <input type="text" class="form-control" id="jornalAgricola" name="jornalAgricola">
-                    <label for="ingresoJornalAgricola">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoJornalAgricola" name="ingresoJornalAgricola">
-                </div>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tipo de Ingreso</th>
+                            <th>Cantidad (L)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaIngresos">
+                        <!-- Los datos agregados se mostrarán aquí -->
+                    </tbody>
+                </table>
 
-                <!-- Corte de café -->
-                <div class="form-group">
-                    <label for="corteCafe">Corte de café</label>
-                    <input type="text" class="form-control" id="corteCafe" name="corteCafe">
-                    <label for="ingresoCorteCafe">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoCorteCafe" name="ingresoCorteCafe">
-                </div>
 
-                <!-- Jornal no agrícola -->
-                <div class="form-group">
-                    <label for="jornalNoAgricola">Jornal no agrícola</label>
-                    <input type="text" class="form-control" id="jornalNoAgricola" name="jornalNoAgricola">
-                    <label for="ingresoJornalNoAgricola">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoJornalNoAgricola" name="ingresoJornalNoAgricola">
-                </div>
-
-                <!-- Alquileres -->
-                <div class="form-group">
-                    <label for="alquileres">Alquileres</label>
-                    <input type="text" class="form-control" id="alquileres" name="alquileres">
-                    <label for="ingresoAlquileres">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoAlquileres" name="ingresoAlquileres">
-                </div>
-
-                <!-- Remesa del exterior -->
-                <div class="form-group">
-                    <label for="remesaExterior">Remesa del exterior</label>
-                    <input type="text" class="form-control" id="remesaExterior" name="remesaExterior">
-                    <label for="ingresoRemesaExterior">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoRemesaExterior" name="ingresoRemesaExterior">
-                </div>
-
-                <!-- Remesa nacional -->
-                <div class="form-group">
-                    <label for="remesaNacional">Remesa nacional</label>
-                    <input type="text" class="form-control" id="remesaNacional" name="remesaNacional">
-                    <label for="ingresoRemesaNacional">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoRemesaNacional" name="ingresoRemesaNacional">
-                </div>
-
-                <!-- Bono (10 mil, 3ra edad, escolar) -->
-                <div class="form-group">
-                    <label for="bono">Bono (10 mil, 3ra edad, escolar)</label>
-                    <input type="text" class="form-control" id="bono" name="bono">
-                    <label for="ingresoBono">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoBono" name="ingresoBono">
-                </div>
-
-                <!-- Salario profesional -->
-                <div class="form-group">
-                    <label for="salarioProfesional">Salario profesional</label>
-                    <input type="text" class="form-control" id="salarioProfesional" name="salarioProfesional">
-                    <label for="ingresoSalarioProfesional">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoSalarioProfesional" name="ingresoSalarioProfesional">
-                </div>
-
-                <!-- Artesanía -->
-                <div class="form-group">
-                    <label for="artesania">Artesanía</label>
-                    <input type="text" class="form-control" id="artesania" name="artesania">
-                    <label for="ingresoArtesania">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoArtesania" name="ingresoArtesania">
-                </div>
-
-                <!-- Otro (especifique) -->
-                <div class="form-group">
-                    <label for="otroIngreso">Otro (especifique)</label>
-                    <input type="text" class="form-control" id="otroIngreso" name="otroIngreso">
-                    <label for="ingresoOtro">Total ingreso (L) (semanal/mensual/anual)</label>
-                    <input type="text" class="form-control" id="ingresoOtro" name="ingresoOtro">
-                </div>
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
@@ -1628,8 +1250,8 @@ function obtenerNumeroFicha($conexion)
                 </div>
 
                 <!-- Opciones si la respuesta es SI -->
-                <div class="form-group" id="opcionesPrestamoSi">
-                    <label>Si la respuesta es SI, ¿a quién acude?</label><br>
+                <div class="form-group" id="opcionesPrestamoSi" style="display: none;">
+                    <label>¿A quién acude?</label><br>
                     <input type="checkbox" id="banca" name="fuentePrestamo" value="Banca">
                     <label for="banca">A la banca</label>
                     <input type="checkbox" id="amigo" name="fuentePrestamo" value="Amigo">
@@ -1649,8 +1271,8 @@ function obtenerNumeroFicha($conexion)
                 </div>
 
                 <!-- Opciones si la respuesta es NO -->
-                <div class="form-group" id="opcionesPrestamoNo">
-                    <label>Si la respuesta es NO, ¿Por qué no ha solicitado préstamos agropecuarios?</label><br>
+                <div class="form-group" id="opcionesPrestamoNo" style="display: none;">
+                    <label>¿Por qué no ha solicitado préstamos agropecuarios?</label><br>
                     <input type="checkbox" id="centralRiesgos" name="motivoNoPrestamo" value="CentralRiesgos">
                     <label for="centralRiesgos">Estoy en la central de riesgos</label>
                     <input type="checkbox" id="muchosRequisitos" name="motivoNoPrestamo" value="MuchosRequisitos">
@@ -1674,33 +1296,42 @@ function obtenerNumeroFicha($conexion)
             </form>
 
             <!-- 14 -->
-
             <form id="datosActividadesForm" class="form-section" style="display: none;">
                 <h3>14. Actividades externas a la unidad productiva</h3>
 
                 <!-- Actividades fuera de la finca -->
                 <div class="form-group">
                     <label>¿Miembros de este hogar realizan actividades fuera de la finca?</label><br>
-                    <input type="radio" id="actividadesFueraSi" name="actividadesFuera" value="Si">
+                    <input type="radio" id="actividadesFueraSi" name="actividadesFuera" value="Yes">
                     <label for="actividadesFueraSi">SI</label>
-                    <input type="radio" id="actividadesFueraNo" name="actividadesFuera" value="No">
+                    <input type="radio" id="actividadesFueraNo" name="actividadesFuera" value="Not">
                     <label for="actividadesFueraNo">NO</label>
-                    <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos">
+                    <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos" style="display: none;">
 
                 </div>
 
                 <!-- Contratación de trabajadores no miembros -->
-                <div class="form-group">
-                    <label>En las actividades productivas de su finca, ¿contrata trabajadores(as) que no son miembros de su hogar?</label><br>
-                    <label for="trabajadoresPermanentes">Permanentes</label>
-                    <input type="text" class="form-control" id="trabajadoresPermanentes" name="trabajadoresPermanentes" placeholder="cuantos">
-                    <label for="trabajadoresTemporales">Temporales</label>
-                    <input type="text" class="form-control" id="trabajadoresTemporales" name="trabajadoresTemporales" placeholder="cuantos">
+                <div class="form-group" id="seccionTrabajadores" style="display: none;">
+                    <label>En las actividades productivas de su finca, ¿contrata trabajadores(as) que no son miembros de su hogar?</label>
+                    <div class="row">
+                        <!-- Trabajadores Permanentes -->
+                        <div class="col-md-6">
+                            <label for="trabajadoresPermanentes">Permanentes</label>
+                            <input type="number" class="form-control" id="trabajadoresPermanentes" name="trabajadoresPermanentes" placeholder="cuántos">
+                        </div>
+
+                        <!-- Trabajadores Temporales -->
+                        <div class="col-md-6">
+                            <label for="trabajadoresTemporales">Temporales</label>
+                            <input type="number" class="form-control" id="trabajadoresTemporales" name="trabajadoresTemporales" placeholder="cuántos">
+                        </div>
+                    </div>
                 </div>
 
+
                 <!-- Tomador de decisiones -->
-                <h4>14.1. ¿Quién es el tomador de decisiones con relación a las actividades agropecuarias de la finca?</h4>
-                <div class="form-group">
+                <div class="form-group" id="seccionTomadorDecisiones" style="display: none;">
+                    <h4>14.1. ¿Quién es el tomador de decisiones con relación a las actividades agropecuarias de la finca?</h4>
                     <input type="checkbox" id="esposoDecision" name="tomadorDecisiones" value="Esposo">
                     <label for="esposoDecision">Esposo</label>
                     <input type="checkbox" id="esposaDecision" name="tomadorDecisiones" value="Esposa">
@@ -1718,6 +1349,233 @@ function obtenerNumeroFicha($conexion)
                     <button type="button" class="btn btn-info" onclick="navigateToForm('#datosPracticaForm')">Siguiente</button>
                 </div>
             </form>
+
+              <!-- 15 -->
+
+              <form id="datosPracticaForm" class="form-section" style="display: none;">
+                <h3>15. Prácticas para producción en la unidad productiva</h3>
+
+                <div class="form-group">
+                    <label>Seleccione las prácticas que realiza en su finca:</label>
+                    <div class="row">
+                        <div class="col-md-3"> <!-- Primera columna -->
+                            <input type="checkbox" id="quema" name="practicas" value="quema">
+                            <label for="quema">Quema</label><br>
+                            <input type="checkbox" id="riega" name="practicas" value="riega">
+                            <label for="riega">Riega</label><br>
+                            <input type="checkbox" id="manejoRastrojo" name="practicas" value="manejoRastrojo">
+                            <label for="manejoRastrojo">Manejo de rastrojo</label><br>
+                            <input type="checkbox" id="ceroLabranzas" name="practicas" value="ceroLabranzas">
+                            <label for="ceroLabranzas">Cero labranzas</label><br>
+                            <input type="checkbox" id="labranzaMinima" name="practicas" value="labranzaMinima">
+                            <label for="labranzaMinima">Labranza mínima</label><br>
+                            <input type="checkbox" id="siembraHilerasSurcos" name="practicas" value="siembraHilerasSurcos">
+                            <label for="siembraHilerasSurcos">Siembra en hileras o surcos</label><br>
+                            <input type="checkbox" id="curvasNivel" name="practicas" value="curvasNivel">
+                            <label for="curvasNivel">Curvas a nivel</label><br>
+                            <input type="checkbox" id="cultivosAsocio" name="practicas" value="cultivosAsocio">
+                            <label for="cultivosAsocio">Cultivos en asocio</label><br>
+                            <input type="checkbox" id="desparasitantes" name="practicas" value="desparasitantes">
+                            <label for="desparasitantes">Desparasitantes</label><br>
+                            <input type="checkbox" id="preparacionSueloTractor" name="practicas" value="preparacionSueloTractor">
+                            <label for="preparacionSueloTractor">Preparación de suelo con tractor</label><br>
+
+                        </div>
+                        <div class="col-md-3">
+                            <input type="checkbox" id="cultivoRelevo" name="practicas" value="cultivoRelevo">
+                            <label for="cultivoRelevo">Cultivo en relevo</label><br>
+                            <input type="checkbox" id="tierraDescanso" name="practicas" value="tierraDescanso">
+                            <label for="tierraDescanso">Tierra en descanso</label><br>
+                            <input type="checkbox" id="barrerasVivas" name="practicas" value="barrerasVivas">
+                            <label for="barrerasVivas">Barreras vivas</label><br>
+                            <input type="checkbox" id="barrerasMuertas" name="practicas" value="barrerasMuertas">
+                            <label for="barrerasMuertas">Barreras muertas</label><br>
+                            <input type="checkbox" id="abonoOrganico" name="practicas" value="abonoOrganico">
+                            <label for="abonoOrganico">Abono orgánico</label><br>
+                            <input type="checkbox" id="abonoSintetico" name="practicas" value="abonoSintetico">
+                            <label for="abonoSintetico">Abono sintético</label><br>
+                            <input type="checkbox" id="cosechaAgua" name="practicas" value="cosechaAgua">
+                            <label for="cosechaAgua">Cosecha de agua</label><br>
+                            <input type="checkbox" id="manejoHumedad" name="practicas" value="manejoHumedad">
+                            <label for="manejoHumedad">Manejo de humedad</label><br>
+                            <input type="checkbox" id="semillaCriolla" name="practicas" value="semillaCriolla">
+                            <label for="semillaCriolla">Semilla criolla</label><br>
+                            <input type="checkbox" id="semillaMejorada" name="practicas" value="semillaMejorada">
+                            <label for="semillaMejorada">Semilla mejorada</label><br>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="checkbox" id="huertoFamiliar" name="practicas" value="huertoFamiliar">
+                            <label for="huertoFamiliar">Huerto familiar</label><br>
+                            <input type="checkbox" id="almacenamientoGrano" name="practicas" value="almacenamientoGrano">
+                            <label for="almacenamientoGrano">Almacenamiento de grano</label><br>
+                            <input type="checkbox" id="agriculturaProtegida" name="practicas" value="agriculturaProtegida">
+                            <label for="agriculturaProtegida">Agricultura protegida</label><br>
+                            <input type="checkbox" id="secadoraSolar" name="practicas" value="secadoraSolar">
+                            <label for="secadoraSolar">Secadora solar</label><br>
+                            <input type="checkbox" id="usoInsecticidas" name="practicas" value="usoInsecticidas">
+                            <label for="usoInsecticidas">Uso de insecticidas</label><br>
+                            <input type="checkbox" id="usoFungicidas" name="practicas" value="usoFungicidas">
+                            <label for="usoFungicidas">Uso de fungicidas</label><br>
+                            <input type="checkbox" id="usoAcaricidas" name="practicas" value="usoAcaricidas">
+                            <label for="usoAcaricidas">Uso de acaricidas</label><br>
+                            <input type="checkbox" id="usoHerbicidas" name="practicas" value="usoHerbicidas">
+                            <label for="usoHerbicidas">Uso de herbicidas</label><br>
+                            <input type="checkbox" id="podas" name="practicas" value="podas">
+                            <label for="podas">Podas</label><br>
+                            <input type="checkbox" id="sistemaAgroforestal" name="practicas" value="sistemaAgroforestal">
+                            <label for="sistemaAgroforestal">Sistema agroforestal</label><br>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="checkbox" id="controlSombra" name="practicas" value="controlSombra">
+                            <label for="controlSombra">Control de sombra</label><br>
+                            <input type="checkbox" id="sistemaSilvopastoril" name="practicas" value="sistemaSilvopastoril">
+                            <label for="sistemaSilvopastoril">Sistema silvopastoril</label><br>
+                            <input type="checkbox" id="terrazas" name="practicas" value="terrazas">
+                            <label for="terrazas">Terrazas</label><br>
+                            <input type="checkbox" id="cultivoCobertura" name="practicas" value="cultivoCobertura">
+                            <label for="cultivoCobertura">Cultivo de cobertura</label><br>
+                            <input type="checkbox" id="bancoProteina" name="practicas" value="bancoProteina">
+                            <label for="bancoProteina">Banco de proteína</label><br>
+                            <input type="checkbox" id="pastosMejorados" name="practicas" value="pastosMejorados">
+                            <label for="pastosMejorados">Pastos mejorados</label><br>
+                            <input type="checkbox" id="aplicacionVacunas" name="practicas" value="aplicacionVacunas">
+                            <label for="aplicacionVacunas">Aplicación de vacunas</label><br>
+                            <input type="checkbox" id="vitaminas" name="practicas" value="vitaminas">
+                            <label for="vitaminas">Vitaminas</label><br>
+                            <input type="checkbox" id="preparacionSueloTraccionAnimal" name="practicas" value="preparacionSueloTraccionAnimal">
+                            <label for="preparacionSueloTraccionAnimal">Preparación de suelo con tracción animal</label><br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosActividadesForm')">Regresar</button>
+                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosApoyoForm')">Siguiente</button>
+                </div>
+            </form>
+
+            <!-- 16 -->
+
+            <form id="datosApoyoForm" class="form-section" style="display: none;">
+                <h3>16. Apoyo para la producción agropecuaria</h3>
+
+                <!-- Pregunta sobre la recepción de apoyo -->
+                <div class="form-group">
+                    <label>¿Recibe apoyo para la producción agrícola?</label><br>
+                    <input type="radio" id="apoyoSi" name="recibeApoyo" value="SiApoyo">
+                    <label for="apoyoSi">SI</label>
+                    <input type="radio" id="apoyoNo" name="recibeApoyo" value="NoApoyo">
+                    <label for="apoyoNo">NO</label> (Finalice la entrevista)
+                </div>
+
+                <!-- Selección múltiple de quién provee el apoyo -->
+                <div class="form-group seccionOculta">
+                    <label>¿De quién recibe apoyo para la producción agropecuaria? (selección múltiple)</label><br>
+                    <input type="checkbox" id="apoyoGobierno" name="fuenteApoyo" value="Gobierno">
+                    <label for="apoyoGobierno">Gobierno</label><br>
+                    <input type="checkbox" id="apoyoONG" name="fuenteApoyo" value="ONG">
+                    <label for="apoyoONG">ONG</label><br>
+                    <input type="checkbox" id="apoyoAmigo" name="fuenteApoyo" value="Amigo">
+                    <label for="apoyoAmigo">Amigo</label><br>
+                    <input type="checkbox" id="apoyoCooperativa" name="fuenteApoyo" value="Cooperativa">
+                    <label for="apoyoCooperativa">Cooperativa</label><br>
+                    <label for="apoyoOtro">Otro (especifique)</label>
+                    <input type="text" class="form-control" id="apoyoOtro" name="apoyoOtro">
+                </div>
+
+                <div class="form-group seccionOculta">
+                    <label>¿Qué tipo de apoyo recibe? (selección múltiple)</label>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="checkbox" id="credito" name="tipoApoyo" value="Credito">
+                            <label for="credito">Crédito</label><br>
+                            <input type="checkbox" id="semilla" name="tipoApoyo" value="Semilla">
+                            <label for="semilla">Semilla</label><br>
+                            <input type="checkbox" id="fertilizante" name="tipoApoyo" value="Fertilizante">
+                            <label for="fertilizante">Fertilizante</label><br>
+                            <input type="checkbox" id="capacitacion" name="tipoApoyo" value="Capacitacion">
+                            <label for="capacitacion">Capacitación</label><br>
+                            <input type="checkbox" id="asistenciaTecnica" name="tipoApoyo" value="AsistenciaTecnica">
+                            <label for="asistenciaTecnica">Asistencia técnica</label><br>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="checkbox" id="herramientasTrabajo" name="tipoApoyo" value="HerramientasTrabajo">
+                            <label for="herramientasTrabajo">Herramientas de trabajo</label><br>
+                            <input type="checkbox" id="sistemaRiego" name="tipoApoyo" value="SistemaRiego">
+                            <label for="sistemaRiego">Sistema de riego</label><br>
+                            <input type="checkbox" id="equipoAgricola" name="tipoApoyo" value="EquipoAgricola">
+                            <label for="equipoAgricola">Equipo agrícola</label><br>
+                            <input type="checkbox" id="silos" name="tipoApoyo" value="Silos">
+                            <label for="silos">Silos</label><br>
+                            <input type="checkbox" id="cosechadorasAgua" name="tipoApoyo" value="CosechadorasAgua">
+                            <label for="cosechadorasAgua">Cosechadoras de agua</label><br>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="checkbox" id="pieDeCria" name="tipoApoyo" value="PieDeCria">
+                            <label for="pieDeCria">Pie de cría</label><br>
+                            <input type="checkbox" id="informacionPrecios" name="tipoApoyo" value="InformacionPrecios">
+                            <label for="informacionPrecios">Información de precios</label><br>
+                            <input type="checkbox" id="comercializacionMercados" name="tipoApoyo" value="ComercializacionMercados">
+                            <label for="comercializacionMercados">Comercialización/mercados</label><br>
+                            <input type="checkbox" id="organizacionRural" name="tipoApoyo" value="OrganizacionRural">
+                            <label for="organizacionRural">Organización rural</label><br>
+                            <input type="checkbox" id="transformacionProductos" name="tipoApoyo" value="TransformacionProductos">
+                            <label for="transformacionProductos">Transformación de productos</label><br>
+                            <label for="otroTipoApoyo">Otro (especifique)</label>
+                            <input type="text" class="form-control" id="otroTipoApoyo" name="otroTipoApoyo">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group seccionOculta">
+                    <label>Está siendo usted atendido por la Unidad de Agricultura Familiar:</label><br>
+                    <input type="radio" id="atendidoSi" name="atendidoUnidadAgricultura" value="Si">
+                    <label for="atendidoSi">SI</label>
+                    <input type="radio" id="atendidoNo" name="atendidoUnidadAgricultura" value="No">
+                    <label for="atendidoNo">NO</label>
+                </div>
+
+                <div class="form-group seccionOculta" >
+                    <label>¿Usted sabe si algunos de sus productos son vendidos para el Programa de Alimentación Escolar?</label><br>
+                    <input type="radio" id="productosVendidosSi" name="productosVendidosProgramaAlimentacion" value="Siyes">
+                    <label for="productosVendidosSi">SI</label>
+                    <input type="radio" id="productosVendidosNo" name="productosVendidosProgramaAlimentacion" value="Nonot">
+                    <label for="productosVendidosNo">NO</label>
+                </div>
+
+                <div class="form-group" id="seccionFinal">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label for="fechaEntrevista">Fecha de la entrevista:</label>
+                            <input type="text" class="form-control" id="fechaEntrevista" name="fechaEntrevista" placeholder="DD/MM/AAAA">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="nombreProductor">Nombre y firma del productor:</label>
+                            <input type="text" class="form-control" id="nombreProductor" name="nombreProductor">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="nombreEncuestador">Nombre y firma del encuestador:</label>
+                            <input type="text" class="form-control" id="nombreEncuestador" name="nombreEncuestador">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="nombreSupervisor">Nombre y firma del supervisor:</label>
+                            <input type="text" class="form-control" id="nombreSupervisor" name="nombreSupervisor">
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPracticaForm')">Regresar</button>
+                    <button type="submit" class="btn btn-info">Enviar</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
@@ -1769,5 +1627,228 @@ function obtenerNumeroFicha($conexion)
         }
     });
 
-    //Se asegura de activar el nombre de la finca
+    //Para mostrar las organizaciones en dado caso que pertenezca
+    function mostrarOrganizaciones() {
+        var radioSi = document.getElementById("si");
+        var organizacionesDiv = document.getElementById("organizaciones");
+
+        if (radioSi.checked) {
+            organizacionesDiv.classList.remove("hidden");
+        } else {
+            organizacionesDiv.classList.add("hidden");
+        }
+    }
+    //Relevo
+    function mostrarCuadro() {
+        var radioSi = document.getElementById("Si");
+        var cuantosDiv = document.getElementById("cuantos");
+
+        if (radioSi.checked) {
+            cuantosDiv.classList.remove("hidden");
+        } else {
+            cuantosDiv.classList.add("hidden");
+        }
+    }
+
+    //Para mostrar las organizaciones en dado caso que pertenezca
+    function escribirOtra() {
+        const otrasOrgContainer = document.getElementById('otrasOrgContainer');
+        otrasOrgContainer.classList.toggle('hidden', !document.getElementById('checkboxOtra').checked);
+    }
+
+
+    function escribirEtnia() {
+        const otrasEtnContainer = document.getElementById('otrasEtnContainer');
+        otrasEtnContainer.classList.toggle('hidden', !document.getElementById('otros').checked);
+    }
+</script>
+
+<script>
+    function mostrarOpcionesGenero(tipoAnimal) {
+        var divGenero = document.getElementById('divGenero');
+        // Animales que no se diferencian por género
+        var animalesSinGenero = ['PollosEngorde', 'Aves', 'Peces', 'Camarones'];
+
+        if (animalesSinGenero.includes(tipoAnimal)) {
+            divGenero.style.display = 'none';
+        } else {
+            divGenero.style.display = 'block';
+        }
+    }
+</script>
+
+<script>
+    function agregarATabla() {
+        var tipoAnimal = document.getElementById('tipoAnimal').value;
+        var generoAnimal = document.getElementById('generoAnimal').value;
+        var cantidadAnimal = document.getElementById('cantidadAnimal').value;
+
+        // Crear una nueva fila
+        var fila = "<tr><td>" + tipoAnimal + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td></tr>";
+
+        // Agregar la fila a la tabla
+        document.getElementById('tablaTemporal').innerHTML += fila;
+
+        //Limpiar los campos después de agregar
+        document.getElementById('tipoAnimal').value = '';
+        document.getElementById('generoAnimal').value = '';
+        document.getElementById('cantidadAnimal').value = '';
+    }
+</script>
+
+<script>
+    function agregarAUnidadesVendidas() {
+        var tipoAnimal = document.getElementById('tipoAnimalU').value;
+        var precioVenta = document.getElementById('precioVentaU').value;
+        var unidadMedida = document.getElementById('unidadMedida').value;
+        var mercado = document.getElementById('mercado').value;
+
+        // Crear una nueva fila para la tabla de unidades vendidas
+        var filaUnidadesVendidas = "<tr><td>" + tipoAnimal + "</td><td>" + precioVenta + "</td><td>" + unidadMedida + "</td><td>" + mercado + "</td></tr>";
+
+        // Agregar la fila a la tabla correspondiente
+        document.getElementById('tablaUnidadesVendidas').innerHTML += filaUnidadesVendidas;
+
+        // Limpiar los campos después de agregar
+        document.getElementById('tipoAnimalU').value = '';
+        document.getElementById('precioVentaU').value = '';
+        document.getElementById('unidadMedida').value = '';
+        document.getElementById('mercado').value = '';
+    }
+</script>
+
+<script>
+    function agregarATablaProduccion() {
+        var tipoProduccion = document.getElementById('tipoProduccion').value;
+        var periodicidad = document.getElementById('periodicidad').value;
+        var unidadMedida = document.getElementById('unidadMedidaPC').value;
+        var cantidadVendida = document.getElementById('cantidadVendidaPC').value;
+        var precioVenta = document.getElementById('precioVentaPC').value;
+        var cliente = document.getElementById('cliente').value;
+
+        // Crear una nueva fila para la tabla
+        var nuevaFila = `<tr>
+                        <td>${tipoProduccion}</td>
+                        <td>${periodicidad}</td>
+                        <td>${unidadMedida}</td>
+                        <td>${cantidadVendida}</td>
+                        <td>${precioVenta}</td>
+                        <td>${cliente}</td>
+                     </tr>`;
+
+        // Agregar la nueva fila a la tabla
+        document.getElementById('tablaDatosTemporal').innerHTML += nuevaFila;
+
+        // Limpiar los campos después de agregar
+        document.getElementById('tipoProduccion').value = '';
+        document.getElementById('periodicidad').value = '';
+        document.getElementById('unidadMedidaPC').value = '';
+        document.getElementById('cantidadVendidaPC').value = '';
+        document.getElementById('precioVentaPC').value = '';
+        document.getElementById('cliente').value = '';
+    }
+</script>
+
+<script>
+    function agregarIngreso() {
+        var tipoIngreso = document.getElementById('tipoIngreso').value;
+        var cantidadIngreso = document.getElementById('cantidadIngreso').value;
+
+        // Crear una nueva fila para la tabla
+        var nuevaFila = `<tr>
+                        <td>${tipoIngreso}</td>
+                        <td>${cantidadIngreso}</td>
+                     </tr>`;
+
+        // Agregar la nueva fila a la tabla
+        document.getElementById('tablaIngresos').innerHTML += nuevaFila;
+
+        // Limpiar los campos después de agregar
+        document.getElementById('tipoIngreso').selectedIndex = 0;
+        document.getElementById('cantidadIngreso').value = '';
+    }
+</script>
+
+<script>
+    function manejarSeleccionPrestamo() {
+        var prestamoSi = document.getElementById('prestamoSi').checked;
+        var prestamoNo = document.getElementById('prestamoNo').checked;
+
+        if (prestamoSi) {
+            document.getElementById('opcionesPrestamoSi').style.display = 'block';
+            document.getElementById('opcionesPrestamoNo').style.display = 'none';
+        } else if (prestamoNo) {
+            document.getElementById('opcionesPrestamoSi').style.display = 'none';
+            document.getElementById('opcionesPrestamoNo').style.display = 'block';
+        }
+    }
+
+    document.getElementById('prestamoSi').addEventListener('change', manejarSeleccionPrestamo);
+    document.getElementById('prestamoNo').addEventListener('change', manejarSeleccionPrestamo);
+
+    document.addEventListener('DOMContentLoaded', manejarSeleccionPrestamo);
+</script>
+
+<script>
+    function manejarSeleccionActividadesFuera() {
+        var actividadesFueraSi = document.getElementById('actividadesFueraSi').checked;
+        var actividadesFueraNo = document.getElementById('actividadesFueraNo').checked;
+
+        if (actividadesFueraSi) {
+            document.getElementById('seccionTrabajadores').style.display = 'block';
+            document.getElementById('cuantosActividadesFuera').style.display = 'block';
+            document.getElementById('seccionTomadorDecisiones').style.display = 'block';
+        } else if (actividadesFueraNo) {
+            document.getElementById('seccionTrabajadores').style.display = 'none';
+            document.getElementById('cuantosActividadesFuera').style.display = 'none';
+            document.getElementById('seccionTomadorDecisiones').style.display = 'block';
+        }
+    }
+
+    document.getElementById('actividadesFueraSi').addEventListener('change', manejarSeleccionActividadesFuera);
+    document.getElementById('actividadesFueraNo').addEventListener('change', manejarSeleccionActividadesFuera);
+
+    document.addEventListener('DOMContentLoaded', manejarSeleccionActividadesFuera);
+</script>
+
+<script>
+    var expanded = false;
+
+    function showCheckboxes() {
+        var checkboxes = document.getElementById("checkboxes");
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+        }
+    }
+</script>
+
+<script>
+    function manejarSeleccionApoyo() {
+        var apoyoSi = document.getElementById('apoyoSi').checked;
+        var apoyoNo = document.getElementById('apoyoNo').checked;
+
+        var seccionesOcultar = document.querySelectorAll('.seccionOculta');
+        var seccionFinal = document.getElementById('seccionFinal');
+
+        if (apoyoSi) {
+            seccionesOcultar.forEach(function(seccion) {
+                seccion.style.display = 'block';
+            });
+            seccionFinal.style.display = 'block';
+        } else if (apoyoNo) {
+            seccionesOcultar.forEach(function(seccion) {
+                seccion.style.display = 'none';
+            });
+            seccionFinal.style.display = 'block';
+        }
+    }
+
+    document.getElementById('apoyoSi').addEventListener('change', manejarSeleccionApoyo);
+    document.getElementById('apoyoNo').addEventListener('change', manejarSeleccionApoyo);
+
+    document.addEventListener('DOMContentLoaded', manejarSeleccionApoyo);
 </script>
