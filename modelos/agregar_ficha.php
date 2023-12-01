@@ -1,0 +1,41 @@
+<?php
+ob_start();
+include "../php/conexion_be.php";
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $fecha_solicitud=$_POST["fecha_solicitud"];
+    $anio_solicitud=$_POST["anio_solicitud"];
+
+    $descripcion=$_POST["descripcion"];
+    $fecha_entrevista=$_POST["fecha_entrevista"];
+
+    $nombre_encuentrador=$_POST["nombre_encuentrador"];
+    $nombre_encuestador=$_POST["nombre_encuestador"];
+    $nombre_supervisor=$_POST["nombre_supervisor"];
+
+
+
+    
+    $creado_por = $_SESSION["usuario"]["usuario"];
+
+
+    $sql = "CALL InsertarFicha('$fecha_solicitud', '$anio_solicitud', '$descripcion','$fecha_entrevista','$nombre_encuentrador', '$nombre_encuestador','$nombre_supervisor','$creado_por')";
+
+    if (mysqli_query($conexion,$sql)) {
+        header("Location: ../bienvenida.php?success=true");
+        exit();
+    } else {
+        if (mysqli_errno($conexion) == 1062) {
+            echo '<div class="alert alert-danger text-center">Error ID Ya Existente</div>';
+        } else {
+            echo '<div class="alert alert-warning text-center">Algunos Campos Estan Vacios</div>';
+        }
+        
+    }
+    
+    mysqli_close($conexion);
+}
+
+?>

@@ -5,9 +5,9 @@ include '../php/conexion_be.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $Id_Ingreso_Familiar = $_POST["Id_Ingreso_Familiar"];
+    $id_pertenece_organizacion = $_POST["id_pertenece_organizacion"];
 
-    $sql = "CALL EliminarIngresoFamiliar($Id_Ingreso_Familiar)";
+    $sql = "CALL EliminarBaseOrganizacion($id_pertenece_organizacion)";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

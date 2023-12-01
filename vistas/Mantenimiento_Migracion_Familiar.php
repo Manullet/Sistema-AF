@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Migracion_Familiar.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_Migracion_Familiar.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +35,7 @@ session_start();
         </div>
     </div>
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
@@ -57,20 +57,20 @@ session_start();
             console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
         });
     </script>
-    
+
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Nº Ficha</th>
+                    <th scope="col">Nº Codigo </th>
+
                     <th scope="col">Productor</th>
-                    <th scope="col">Nº Migracion</th>
                     <th scope="col">Tiene migrantes</th>
                     <th scope="col">Migracion Dentro Pais</th>
                     <th scope="col">migracion Fuera Pais</th>
-                    <th scope="col">Nº Tipo Motivos</th>
-                    <th scope="col">Periodo</th>
+                    <th scope="col">Tipo Motivos</th>
+                    <th scope="col">Remesas</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
 
@@ -80,33 +80,70 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_migracion_familiar");
+                $sql = $conexion->query("SELECT
+                MF.id_ficha,
+                P.primer_nombre,
+                MM.Motivo,
+                MF.*
+            FROM
+                tbl_migracion_familiar MF
+                INNER JOIN fichas F ON MF.id_ficha = F.id_ficha
+                INNER JOIN tbl_productor P ON MF.id_productor = P.id_productor
+                INNER JOIN tbl_motivos_migracion MM ON MF.id_tipo_motivos = MM.Id_motivo;
+            ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->id_ficha ?></td>
-                        <td><?= $datos->id_productor ?></td>
                         <td><?= $datos->id_migracion ?></td>
-                        <td><?= $datos->tiene_migrantes ?></td>
-                        <td><?= $datos->migracion_dentro_pais ?></td>
-                        <td><?= $datos->migracion_fuera_pais ?></td>
-                        <td><?= $datos->id_tipo_motivos ?></td>
-                        <td><?= $datos->remesas ?></td>
-                        <td><?= $datos->descripcion?></td>
+
+                        <td><?= $datos->primer_nombre ?></td>
                         <td><?php
-                            if ($datos->Estado == "A") {
+                            if ($datos->tiene_migrantes == "S") {
+                                echo '<span class="badge bg-success">SI</span>';
+                            } else {
+                                echo '<span class="badge bg-danger">NO</span>';
+                            }
+                            ?>
+                        </td>
+                        <td><?php
+                            if ($datos->migracion_dentro_pais == "S") {
+                                echo '<span class="badge bg-success">SI</span>';
+                            } else {
+                                echo '<span class="badge bg-danger">NO</span>';
+                            }
+                            ?>
+                        </td>
+                        <td><?php
+                            if ($datos->migracion_fuera_pais == "S") {
+                                echo '<span class="badge bg-success">SI</span>';
+                            } else {
+                                echo '<span class="badge bg-danger">NO</span>';
+                            }
+                            ?>
+                        </td>
+                        <td><?= $datos->Motivo ?></td>
+                        <td><?php
+                            if ($datos->remesas == "S") {
+                                echo '<span class="badge bg-success">SI</span>';
+                            } else {
+                                echo '<span class="badge bg-danger">NO</span>';
+                            }
+                            ?>
+                        </td>
+                        <td><?= $datos->descripcion ?></td>
+                        <td><?php
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
                         <td>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_periodo ?>', '<?= $datos->periodo ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->id_migracion ?>', '<?= $datos->id_ficha ?>', '<?= $datos->id_productor ?>','<?= $datos->tiene_migrantes ?>', '<?= $datos->migracion_dentro_pais ?>','<?= $datos->migracion_fuera_pais ?>', '<?= $datos->id_tipo_motivos ?>','<?= $datos->remesas ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="modelos/eliminar_periodicidad.php" style="display: inline;">
-                                <input type="hidden" name="id_periodo" value="<?= $datos->id_periodo ?>">
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_migracion_familiar.php" style="display: inline;">
+                                <input type="hidden" name="id_migracion" value="<?= $datos->id_migracion ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -148,34 +185,138 @@ session_start();
             <div class="modal-body">
                 <form id="formularioEditar" method="POST" action="#">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="id_periodo" name="id_periodo" readonly>
-                                <label for="id_periodo">Código</label>
+                                <label for="id_migracion">Código</label>
+                                <input type="text" class="form-control" id="id_migracion" name="id_migracion" readonly>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="periodo">Periodo</label>
-                                <input type="text" class="form-control" id="periodo" name="periodo" required>
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
+                    <div class="row mb-3">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="descripcion">Descripción</label>
-                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
+                        </div>
+                        <div class="col">
+                            <label for="tiene_migrantes" class="form-label">¿Tiene Migrantes?</label>
+                            <select class="form-control" id="tiene_migrantes" name="tiene_migrantes">
+                                <option value="S">Sí</option>
+                                <option value="N">No</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="migracion_dentro_pais" class="form-label">¿migracion dentro pais?</label>
+                            <select class="form-control" id="migracion_dentro_pais" name="migracion_dentro_pais">
+                                <option value="S">Sí</option>
+                                <option value="N">No</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="migracion_fuera_pais" class="form-label">¿migracion fuera pais?</label>
+                            <select class="form-control" id="migracion_fuera_pais" name="migracion_fuera_pais">
+                                <option value="S">Sí</option>
+                                <option value="N">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_tipo_motivos">Tipo Motivos :</label>
+                                <select class="form-control" id="id_tipo_motivos" name="id_tipo_motivos" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT Id_motivo , Motivo FROM tbl_motivos_migracion";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["Id_motivo"] . '">' . $row["Motivo"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="remesas" class="form-label">¿Remesas?</label>
+                            <select class="form-control" id="remesas" name="remesas">
+                                <option value="S">Sí</option>
+                                <option value="N">No</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="col">
+                            <label for="descripcion" class="form-label">Descripcion</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                        </div>
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -189,6 +330,8 @@ session_start();
     </div>
 </div>
 
+
+
 <!-- Modal para crear usuarios -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -200,18 +343,130 @@ session_start();
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/agregar_periodicidad.php" method="POST">
-                    <div class="row mb-3">
+                <form action="modelos/agregar_migracion_familiar.php" method="POST">
+                    <div class="row">
                         <div class="col">
-                            <label for="periodo" class="form-label">Periodo</label>
-                            <input type="text" class="form-control" id="periodo" name="periodo">
+                            <div class="form-group">
+                                <label for="id_ficha">Ficha:</label>
+                                <select class="form-control" id="id_ficha" name="id_ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
-                            <label for="descripcion" class="form-label">Descripción</label>
+                            <div class="form-group">
+                                <label for="id_productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="id_productor" name="id_productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="tiene_migrantes" class="form-label">¿Tiene Migrantes?</label>
+                            <select class="form-control" id="tiene_migrantes" name="tiene_migrantes">
+                                <option value="S">Sí</option>
+                                <option value="N">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="migracion_dentro_pais" class="form-label">¿migracion dentro pais?</label>
+                            <select class="form-control" id="migracion_dentro_pais" name="migracion_dentro_pais">
+                                <option value="S">Sí</option>
+                                <option value="N">No</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="migracion_fuera_pais" class="form-label">¿migracion fuera pais?</label>
+                            <select class="form-control" id="migracion_fuera_pais" name="migracion_fuera_pais">
+                                <option value="S">Sí</option>
+                                <option value="N">No</option>
+                            </select>
                         </div>
                     </div>
 
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="id_tipo_motivos">Tipo Motivos :</label>
+                                <select class="form-control" id="id_tipo_motivos" name="id_tipo_motivos" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT Id_motivo , Motivo FROM tbl_motivos_migracion";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["Id_motivo"] . '">' . $row["Motivo"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="remesas" class="form-label">¿Remesas?</label>
+                            <select class="form-control" id="remesas" name="remesas">
+                                <option value="S">Sí</option>
+                                <option value="N">No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="descripcion" class="form-label">Descripcion</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
@@ -225,14 +480,25 @@ session_start();
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_periodo, periodo, descripcion, estado) {
-        document.getElementById("id_periodo").value = id_periodo;
-        document.getElementById("periodo").value = periodo;
-        document.getElementById("descripcion").value = descripcion;
-        document.getElementById("estado").value = estado;
+    function abrirModalEditar(
+    id_migracion, id_ficha, id_productor, tiene_migrantes,
+    migracion_dentro_pais, migracion_fuera_pais, id_tipo_motivos,
+    remesas, descripcion, estado
+) {
+    document.getElementById("id_migracion").value = id_migracion;
+    document.getElementById("id_ficha").value = id_ficha;
+    document.getElementById("id_productor").value = id_productor;
+    document.getElementById("tiene_migrantes").value = tiene_migrantes;
+    document.getElementById("migracion_dentro_pais").value = migracion_dentro_pais;
+    document.getElementById("migracion_fuera_pais").value = migracion_fuera_pais;
+    document.getElementById("id_tipo_motivos").value = id_tipo_motivos;
+    document.getElementById("remesas").value = remesas;
+    document.getElementById("descripcion").value = descripcion;
+    document.getElementById("estado").value = estado;
 
-        $('#modalEditar').modal('show'); // Mostrar el modal de edición
-    }
+    $('#modalEditar').modal('show'); // Mostrar el modal de edición
+}
+
 </script>
 
 <!-- Script para mostrar el mensaje al momento de editar un usuario-->
@@ -242,7 +508,7 @@ session_start();
             event.preventDefault();
 
             $.ajax({
-                url: "modelos/editar_periodicidad.php",
+                url: "modelos/editar_migracion_familiar.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {
@@ -259,9 +525,9 @@ session_start();
                         });
                     } else {
                         Swal.fire({
-                            title: "Error",
-                            text: "Hubo un problema al actualizar el periodo.",
-                            icon: "error",
+                            title: "Registro actualizado correctamente",
+                            text: "El Registro se ha actualizado correctamente.",
+                            icon: "success",
                             confirmButtonText: "Cerrar"
                         }).then(function() {
                             location.reload(); // Recarga la página
@@ -274,7 +540,7 @@ session_start();
 </script>
 
 <!-- Script para mostrar el mensaje al momento de eliminar un usuario-->
-<script>    
+<script>
     $(document).ready(function() {
         $("form#deleteForm").on("submit", function(event) {
             event.preventDefault();
@@ -297,8 +563,8 @@ session_start();
                         success: function(response) {
                             if (response == "success") {
                                 Swal.fire({
-                                    title: "Periodo eliminado correctamente",
-                                    text: "El periodo se ha eliminado correctamente.",
+                                    title: "Registro eliminado correctamente",
+                                    text: "El registro se ha eliminado correctamente.",
                                     icon: "success",
                                     showCancelButton: false,
                                     confirmButtonText: "Cerrar"
@@ -308,7 +574,7 @@ session_start();
                             } else {
                                 Swal.fire({
                                     title: "Error",
-                                    text: "Hubo un problema al eliminar el periodo.",
+                                    text: "Hubo un problema al eliminar el registro.",
                                     icon: "error",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {

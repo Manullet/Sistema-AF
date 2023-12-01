@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Ingreso_Familiar.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_Ingreso_Familiar.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,8 +67,6 @@ session_start();
                     <th scope="col">Ingreso total</th>
                     <th scope="col">Periodo</th>
                     <th scope="col">Otros descripción</th>
-                    <th scope="col">Creado Por</th>
-                    <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
@@ -76,18 +74,29 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_Ingreso_Familiar");
+                $sql = $conexion->query("SELECT
+                F.id_ficha,
+                P.primer_nombre,
+                Pd.periodo,
+                TN.tipo_negocio,
+                IFR.*
+            FROM
+                tbl_ingreso_familiar IFR
+                LEFT JOIN fichas F ON IFR.Id_Ficha = F.id_ficha
+                LEFT JOIN tbl_productor P ON IFR.Id_Productor = P.id_productor
+                LEFT JOIN tbl_periodicidad Pd ON IFR.Id_Periodo_Ingreso = Pd.id_periodo
+                LEFT JOIN tbl_tipo_negocios TN ON IFR.Id_Tipo_Negocio = TN.id_tipo_negocio;
+            ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->Id_Ingreso_Familiar ?></td>
-                        <td><?= $datos->Id_Tipo_Negocio ?></td>
+                        <td><?= $datos->tipo_negocio ?></td>
                         <td><?= $datos->Total_Ingreso ?></td>
-                        <td><?= $datos->Id_Periodo ?></td>
+                        <td><?= $datos->periodo ?></td>
                         <td><?= $datos->Descripcion_Otros ?></td>
-                        <td><?= $datos->Creado_Por ?></td>
-                        <td><?= $datos->Fecha_Creacion ?></td>
+
                         <td><?php
-                            if ($datos->Estado == "A") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -95,13 +104,13 @@ session_start();
                             ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->Id_Ingreso_Familiar ?>', '<?= $datos->Id_Tipo_Negocio ?>', '<?= $datos->Total_Ingreso ?>', '<?= $datos->Id_Periodo ?>''<?= $datos->Descripcion_Otros ?>', '<?= $datos->Estado ?>', '<?= $datos->Creado_Por ?>', '<?= $datos->Fecha_Creacion ?>')">
+                            ('<?= $datos->Id_Ingreso_Familiar ?>', '<?= $datos->Id_Ficha ?>', '<?= $datos->Id_Productor ?>', '<?= $datos->Id_Tipo_Negocio ?>', '<?= $datos->Total_Ingreso ?>', '<?= $datos->Id_Periodo_Ingreso ?>', '<?= $datos->Descripcion_Otros ?>', '<?= $datos->Descripcion ?>','<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_ingreso_familiar.php" style="display: inline;">
                                 <input type="hidden" name="Id_Ingreso_Familiar" value="<?= $datos->Id_Ingreso_Familiar
-                                 ?>">
+                                                                                        ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -146,50 +155,156 @@ session_start();
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Id_Ingreso_Familiar">Código</label>
+                                <label for="Id_Ingreso_Familiar">Id_Ingreso_Familiar</label>
                                 <input type="text" class="form-control" id="Id_Ingreso_Familiar" name="Id_Ingreso_Familiar" readonly>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Tipo_Negocio">Tipo de negocio</label>
-                                <input type="text" class="form-control" id="Id_Tipo_Negocio" name="Id_Tipo_Negocio" required>
+                                <label for="Id_Ficha">Ficha:</label>
+                                <select class="form-control" id="Id_Ficha" name="Id_Ficha" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="Id_Productor" name="Id_Productor" readonly>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Tipo_Negocio">Id_Tipo_Negocio:</label>
+                                <select class="form-control" id="Id_Tipo_Negocio" name="Id_Tipo_Negocio" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_negocio , tipo_negocio FROM tbl_tipo_negocios";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_negocio"] . '">' . $row["tipo_negocio"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Total_Ingreso">Ingreso total</label>
+                                <label for="Total_Ingreso">Total_Ingreso</label>
                                 <input type="text" class="form-control" id="Total_Ingreso" name="Total_Ingreso" required>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Periodo">Periodo</label>
-                                <input type="text" class="form-control" id="Id_Periodo" name="Id_Periodo" required>
+                                <label for="Id_Periodo_Ingreso">Id_Periodo_Ingreso:</label>
+                                <select class="form-control" id="Id_Periodo_Ingreso" name="Id_Periodo_Ingreso" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_periodo, periodo FROM tbl_periodicidad";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_periodo"] . '">' . $row["periodo"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Descripcion_Otros">Otros descripción</label>
+                                <label for="Descripcion_Otros">Descripcion Otros</label>
                                 <input type="text" class="form-control" id="Descripcion_Otros" name="Descripcion_Otros" required>
                             </div>
                         </div>
-                    <div class="form-row">
-                             <div class="form-group col-md-15">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Descripcion">Descripcion</label>
+                                <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-row">
+                            <div class="form-group col-md-15">
                                 <label for="estado">Estado</label>
                                 <select class="form-control" id="estado" name="estado" required>
                                     <option value="" disabled selected>Selecciona un estado</option>
-                                    <option value="ACTIVO">Activo</option>
-                                    <option value="INACTIVO">Inactivo</option>
+                                    <option value="A">Activo</option>
+                                    <option value="I">Inactivo</option>
                                 </select>
-                                </div>
+                            </div>
                         </div>
-                        </div>
-                        <div class="modal-footer">
+                    </div>
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
                     </div>
@@ -201,7 +316,7 @@ session_start();
 
 <!-- Modal para crear aldeas -->
 <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog"  role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
                 <h5 class="poppins-modal mb-2" id="exampleModalLabel">Otros Ingresos</h5>
@@ -211,35 +326,141 @@ session_start();
             </div>
             <div class="modal-body">
                 <form action="modelos/agregar_Ingreso_Familiar.php" method="POST">
-                    <div class="row mb-3">
-                    <div class="row">
-                        <div class="col-6">
+                <div class="row">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Tipo_Negocio">Tipo de negocio</label>
-                                <input type="text" class="form-control" id="Id_Tipo_Negocio" name="Id_Tipo_Negocio" required>
+                                <label for="Id_Ficha">Ficha:</label>
+                                <select class="form-control" id="Id_Ficha" name="Id_Ficha" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_ficha FROM fichas";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_ficha"] . '">' . $row["id_ficha"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Productor">Nombre Agricultor:</label>
+                                <select class="form-control" id="Id_Productor" name="Id_Productor" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_productor , primer_nombre FROM tbl_productor";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_productor"] . '">' . $row["primer_nombre"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Id_Tipo_Negocio">Id_Tipo_Negocio:</label>
+                                <select class="form-control" id="Id_Tipo_Negocio" name="Id_Tipo_Negocio" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_negocio , tipo_negocio FROM tbl_tipo_negocios";
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_negocio"] . '">' . $row["tipo_negocio"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Total_Ingreso">Ingreso total</label>
+                                <label for="Total_Ingreso">Total_Ingreso</label>
                                 <input type="text" class="form-control" id="Total_Ingreso" name="Total_Ingreso" required>
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col">
                             <div class="form-group">
-                                <label for="Id_Periodo">Periodo</label>
-                                <input type="text" class="form-control" id="Id_Periodo" name="Id_Periodo" required>
+                                <label for="Id_Periodo_Ingreso">Id_Periodo_Ingreso:</label>
+                                <select class="form-control" id="Id_Periodo_Ingreso" name="Id_Periodo_Ingreso" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_periodo, periodo FROM tbl_periodicidad";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_periodo"] . '">' . $row["periodo"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Descripcion_Otros">Otros descripción</label>
+                                <label for="Descripcion_Otros">Descripcion Otros</label>
                                 <input type="text" class="form-control" id="Descripcion_Otros" name="Descripcion_Otros" required>
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Descripcion">Descripcion</label>
+                                <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
@@ -253,16 +474,20 @@ session_start();
 <!-- JavaScript para manejar la edición de aldeas -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Ingreso_Familiar, Id_Tipo_Negocio, Total_Ingreso, Id_Periodo, Descripcion_Otros, Estado) {
-        document.getElementById("Id_Ingreso_Familiar").value = Id_Ingreso_Familiar;
-        document.getElementById("Id_Tipo_Negocio").value = Id_Tipo_Negocio;
-        document.getElementById("Total_Ingreso").value = Total_Ingreso;
-        document.getElementById("Id_Periodo").value = Id_Periodo;
-        document.getElementById("Descripcion_Otros").value = Descripcion_Otros;
-        document.getElementById("Estado").value = Estado;
+    function abrirModalEditar(Id_Ingreso_Familiar, Id_Ficha, Id_Productor, Id_Tipo_Negocio, Total_Ingreso, Id_Periodo_Ingreso, Descripcion_Otros, Descripcion, estado) {
+    document.getElementById("Id_Ingreso_Familiar").value = Id_Ingreso_Familiar;
+    document.getElementById("Id_Ficha").value = Id_Ficha;
+    document.getElementById("Id_Productor").value = Id_Productor;
+    document.getElementById("Id_Tipo_Negocio").value = Id_Tipo_Negocio;
+    document.getElementById("Total_Ingreso").value = Total_Ingreso;
+    document.getElementById("Id_Periodo_Ingreso").value = Id_Periodo_Ingreso;
+    document.getElementById("Descripcion_Otros").value = Descripcion_Otros;
+    document.getElementById("Descripcion").value = Descripcion;
+    document.getElementById("estado").value = estado;
 
-        $('#modalEditar').modal('show'); // Mostrar el modal de edición
-    }
+    $('#modalEditar').modal('show'); // Mostrar el modal de edición
+}
+
 </script>
 
 <script>

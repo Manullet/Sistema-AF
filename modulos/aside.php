@@ -79,6 +79,12 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                    <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Ficha.php','content-wrapper')">
+                                <i class="bi bi-droplet-half"></i>
+                                <p>FICHA</p>
+                            </a>
+                        </li>
 
 
                         <li class="nav-item nav-item-custom">
@@ -191,11 +197,11 @@
                     </a>
                 </li>
                 <li class="nav-item nav-item-custom">
-                        <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Motivos_No_Credito.php','content-wrapper')">
-                            <i class="bi bi-geo-alt-fill"></i>
-                            <p>MOTIVOS NO CREDITO</p>
-                        </a>
-                     </li>
+                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Motivos_No_Credito.php','content-wrapper')">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <p>MOTIVOS NO CREDITO</p>
+                    </a>
+                </li>
                 <!-- desde aqui se pueden añadir mas Mantenimientos -->
             </ul>
             </li>
@@ -246,7 +252,7 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Unidad_Productiva.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Informacion Basica</p>
@@ -257,7 +263,7 @@
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Practicas para Producción</p>
                         </a>
-                    </li>      
+                    </li>
 
                     <!-- desde aqui se pueden añadir mas Mantenimientos -->
                 </ul>
@@ -272,13 +278,13 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Manejo_Riego.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Manejo de Riego</p>
                         </a>
                     </li>
-                   
+
                     <!-- desde aqui se pueden añadir mas Mantenimientos -->
 
                 </ul>
@@ -293,26 +299,26 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Produccion_Agricola_Anterior.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Año Anterior</p>
                         </a>
                     </li>
-                    
-                                   <!-- desde aqui se pueden añadir mas Mantenimientos -->
+
+                    <!-- desde aqui se pueden añadir mas Mantenimientos -->
                 </ul>
             </li>
             <li class="nav-item has-treeview">
                 <a style="cursor:pointer;" class="nav-link">
                     <i class="bi bi-bucket-fill"></i>
                     <p>
-                        Producción Pecuaria 
+                        Producción Pecuaria
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Produccion_Pecuaria_Inventario.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Inventario</p>
@@ -330,7 +336,7 @@
                             <p>Comercialización</p>
                         </a>
                     </li>
-                    
+
                 </ul>
             </li>
 
@@ -344,14 +350,14 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                <li class="nav-item nav-item-custom">
+                    <li class="nav-item nav-item-custom">
                         <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Ingreso_Familiar.php','content-wrapper')">
                             <i class="bi bi-geo-alt-fill"></i>
                             <p>Otros Ingresos</p>
                         </a>
                     </li>
-            </ul>
-        </li>
+                </ul>
+            </li>
             <li class="nav-item has-treeview">
                 <a style="cursor:pointer;" class="nav-link">
                     <i class="bi bi-shop-window"></i>
@@ -464,13 +470,13 @@
                             <p>Credito</p>
                         </a>
                     </li>
-                    
+
                 </ul>
             <li class="nav-item has-treeview">
                 <a style="cursor:pointer;" class="nav-link">
                     <i class="bi bi-shop-window"></i>
                     <p>
-                    ACTIVIDADES EXTERNAS
+                        ACTIVIDADES EXTERNAS
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
@@ -488,7 +494,7 @@
                         </a>
                     </li>
                 </ul>
-                
+
 
         </nav>
         <!-- /.sidebar-menu -->

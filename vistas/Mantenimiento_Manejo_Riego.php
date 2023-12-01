@@ -244,7 +244,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     </div>
 
                     <div class="row mb-3">
-                        
+
                         <div class="col">
                             <div class="col">
                                 <label for="Tiene_Riego" class="form-label">¿Tiene Riego?</label>
@@ -257,7 +257,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col">
                             <label for="Superficie_Riego" class="form-label">Superficie_Riego</label>
-                            <input type="text" class="form-control" id="Superficie_Riego" name="Superficie_Riego"  oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                            <input type="text" class="form-control" id="Superficie_Riego" name="Superficie_Riego" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>
                     </div>
 
@@ -336,7 +336,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                     </div>
                     <div class="form-row">
-                    <div class="col">
+                        <div class="col">
                             <label for="Descripcion" class="form-label">Descripcion</label>
                             <input type="text" class="form-control" id="Descripcion" name="Descripcion">
                         </div>
@@ -562,7 +562,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <!-- JavaScript para manejar la edición de aldeas -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Manejo_Riego, Id_Ficha,Id_Ubicacion,Id_Productor,Tiene_Riego,Superficie_Riego, Id_Medida_Superficie_Riego,Id_Tipo_Riego,Fuente_Agua, Disponibilidad_Agua_Meses, Descripcion,Estado) {
+    function abrirModalEditar(Id_Manejo_Riego, Id_Ficha, Id_Ubicacion, Id_Productor, Tiene_Riego, Superficie_Riego, Id_Medida_Superficie_Riego, Id_Tipo_Riego, Fuente_Agua, Disponibilidad_Agua_Meses, Descripcion, Estado) {
         document.getElementById("Id_Manejo_Riego").value = Id_Manejo_Riego;
         document.getElementById("Id_Ficha").value = Id_Ficha;
         document.getElementById("Id_Ubicacion").value = Id_Ubicacion;

@@ -4,23 +4,16 @@ include "../php/conexion_be.php";
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $Id_Ficha=$_POST["Id_Ficha"];
-    $Id_Productor=$_POST["Id_Productor"];
+    $id_ficha=$_POST["id_ficha"];
+    $id_productor=$_POST["id_productor"];
 
-    $Id_Tipo_Negocio=$_POST["Id_Tipo_Negocio"];
-    $Total_Ingreso=$_POST["Total_Ingreso"];
+    $pertenece_a_organizacion=$_POST["pertenece_a_organizacion"];
+    $descripcion=$_POST["descripcion"];
 
-
-    $Id_Periodo_Ingreso=$_POST["Id_Periodo_Ingreso"];
-    $Descripcion_Otros=$_POST["Descripcion_Otros"];
+    $creado_por = $_SESSION["usuario"]["usuario"];
 
 
-
-    $Descripcion=$_POST["Descripcion"];
-    $Creado_Por = $_SESSION["usuario"]["usuario"];
-
-
-    $sql = "CALL InsertarIngresoFamiliar('$Id_Ficha', '$Id_Productor', '$Id_Tipo_Negocio','$Total_Ingreso', '$Id_Periodo_Ingreso','$Descripcion_Otros','$Descripcion', '$Creado_Por')";
+    $sql = "CALL InsertarBaseOrganizacion('$id_ficha', '$id_productor', '$pertenece_a_organizacion','$descripcion', '$creado_por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");
