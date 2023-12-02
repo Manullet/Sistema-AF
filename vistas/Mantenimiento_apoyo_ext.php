@@ -64,11 +64,11 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Código</th>
-                    <th scope="col">id_ficha</th>
+                    <th scope="col">Ficha</th>
                     <th scope="col">Productor</th>
-                    <th scope="col">recibe_apoyo_prodagrícola</th>
-                    <th scope="col">atencion_por_UAG</th>
-                    <th scope="col">productos_vendidospor_pralesc</th>
+                    <th scope="col">¿Recibe Apoyo Prodagrícola?</th>
+                    <th scope="col">¿Atencion por UAG?</th>
+                    <th scope="col">¿Productos Vendidos por Pralesc?</th>
 
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>

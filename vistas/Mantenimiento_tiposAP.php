@@ -63,11 +63,11 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">id_apoyo_produccion</th>
-                    <th scope="col">id_ficha</th>
-                    <th scope="col">id_productor</th>
-                    <th scope="col">otros_detalles</th>
-                    <th scope="col">tipo_apoyo</th>
+                    <th scope="col">Nº Apoyo Produccion</th>
+                    <th scope="col">Nº Ficha</th>
+                    <th scope="col">Productor</th>
+                    <th scope="col">Otros Detalles</th>
+                    <th scope="col">Tipo Apoyo</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
 

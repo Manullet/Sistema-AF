@@ -64,7 +64,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                 <tr>
                     <th scope="col">Código</th>
                     <th scope="col">Productor</th>
-                    <th scope="col">tipo_pecuario</th>
+                    <th scope="col">Tipo Pecuario</th>
                     <th scope="col">Año produccion</th>
                     <th scope="col">Cantidad hembras</th>
                     <th scope="col">Cantidad machos</th>

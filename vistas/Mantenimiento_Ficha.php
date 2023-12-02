@@ -62,14 +62,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Código</th>
-                    <th scope="col">fecha_solicitud</th>
-                    <th scope="col">anio_solicitud</th>
-                    <th scope="col">fecha_entrevista</th>
-                    <th scope="col">nombre_encuentrador</th>
-                    <th scope="col">nombre_encuestador</th>
-                    <th scope="col">nombre_supervisor</th>
-                    <th scope="col">descripcion</th>
+                    <th scope="col">Nº Ficha</th>
+                    <th scope="col">Fecha Solicitud</th>
+                    <th scope="col">Año Solicitud</th>
+                    <th scope="col">Fecha Entrevista</th>
+                    <th scope="col">Nombre Encuentrador</th>
+                    <th scope="col">Nombre Encuestador</th>
+                    <th scope="col">Nombre Supervisor</th>
+                    <th scope="col">Descripcion</th>
                     <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -154,47 +154,55 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="fecha_solicitud">fecha_solicitud</label>
-                                <input type="text" class="form-control" id="fecha_solicitud" name="fecha_solicitud" required>
+                                <label for="fecha_solicitud">Fecha Solicitud</label>
+                                <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="anio_solicitud">anio_solicitud</label>
+                                <label for="anio_solicitud">Año de Solicitud</label>
                                 <input type="text" class="form-control" id="anio_solicitud" name="anio_solicitud" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="fecha_entrevista">fecha_entrevista</label>
-                                <input type="text" class="form-control" id="fecha_entrevista" name="fecha_entrevista" required>
+                                <label for="fecha_entrevista">Fecha Entrevista</label>
+                                <input type="date" class="form-control" id="fecha_entrevista" name="fecha_entrevista" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                    <div class="col-6">
                             <div class="form-group">
-                                <label for="nombre_encuentrador">nombre_encuentrador</label>
-                                <input type="text" class="form-control" id="nombre_encuentrador" name="nombre_encuentrador" required>
+                                <label for="nombre_supervisor">Nombre Supervisor</label>
+                                <input type="text" class="form-control" id="nombre_supervisor" name="nombre_supervisor" required>
                             </div>
                         </div>
+
+                        
+
+
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="nombre_encuestador">nombre_encuestador</label>
+                                <label for="nombre_encuestador">Nombre Encuestador</label>
                                 <input type="text" class="form-control" id="nombre_encuestador" name="nombre_encuestador" required>
                             </div>
                         </div>
 
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                    <div class="col-6">
                             <div class="form-group">
-                                <label for="nombre_supervisor">nombre_supervisor</label>
-                                <input type="text" class="form-control" id="nombre_supervisor" name="nombre_supervisor" required>
+                                <label for="nombre_encuentrador">Nombre Encuentrador</label>
+                                <input type="text" class="form-control" id="nombre_encuentrador" name="nombre_encuentrador" required>
                             </div>
                         </div>
+
+                        
+
+
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="descripcion">Descripción</label>
@@ -248,7 +256,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="fecha_solicitud">fecha_solicitud</label>
+                                <label for="fecha_solicitud">Fecha Solicitud</label>
                                 <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" required>
                             </div>
                         </div>
@@ -256,13 +264,13 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="anio_solicitud">anio_solicitud</label>
+                                <label for="anio_solicitud">Año de Solicitud</label>
                                 <input type="text" class="form-control" id="anio_solicitud" name="anio_solicitud" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="fecha_entrevista">fecha_entrevista</label>
+                                <label for="fecha_entrevista">Fecha Entrevista</label>
                                 <input type="date" class="form-control" id="fecha_entrevista" name="fecha_entrevista" required>
                             </div>
                         </div>
@@ -270,13 +278,13 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="nombre_encuentrador">nombre_encuentrador</label>
+                                <label for="nombre_encuentrador">Nombre Encuentador</label>
                                 <input type="text" class="form-control" id="nombre_encuentrador" name="nombre_encuentrador" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="nombre_encuestador">nombre_encuestador</label>
+                                <label for="nombre_encuestador">Nombre Encuestador</label>
                                 <input type="text" class="form-control" id="nombre_encuestador" name="nombre_encuestador" required>
                             </div>
                         </div>
@@ -285,7 +293,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="nombre_supervisor">nombre_supervisor</label>
+                                <label for="nombre_supervisor">Nombre Supervisor</label>
                                 <input type="text" class="form-control" id="nombre_supervisor" name="nombre_supervisor" required>
                             </div>
                         </div>

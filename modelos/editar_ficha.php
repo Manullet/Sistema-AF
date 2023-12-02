@@ -10,6 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $anio_solicitud=$_POST["anio_solicitud"];
 
     $descripcion=$_POST["descripcion"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
+    $estado=$_POST["estado"];
     $fecha_entrevista=$_POST["fecha_entrevista"];
 
     $nombre_encuentrador=$_POST["nombre_encuentrador"];
@@ -19,11 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     
-    $modificado_por = $_SESSION["usuario"]["usuario"];
-    $estado=$_POST["estado"];
 
 
-    $sql = "CALL ActualizarFicha('$id_ficha','$fecha_solicitud', '$anio_solicitud', '$descripcion','$fecha_entrevista','$nombre_encuentrador', '$nombre_encuestador','$nombre_supervisor','$modificado_por','$estado')";
+    $sql = "CALL ActualizarFicha('$id_ficha','$fecha_solicitud', '$anio_solicitud', '$descripcion','$modificado_por','$estado','$fecha_entrevista','$nombre_encuentrador', '$nombre_encuestador','$nombre_supervisor')";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 
