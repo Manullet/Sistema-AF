@@ -1,3 +1,8 @@
+<?php
+session_start();
+$_SESSION['url'] = 'vistas/Llenar_ficha.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
+?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -138,6 +143,20 @@
         background-color: #1e90ff;
     }
 </style>
+<?php
+include "../php/conexion_be.php";
+function obtenerNumeroFicha($conexion)
+{
+    // Obtener el número actual de fichas
+    $sql = "SELECT COUNT(*) as id_ficha FROM fichas";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+    $numeroFicha = $row['id_ficha'] + 1;
+
+    return $numeroFicha;
+}
+
+?>
 
 <div class="containertable">
     <div class="header">
@@ -221,90 +240,96 @@
         </div>
 
         <!-- Formularios -->
+        <!-- Formularios -->
         <div class="col-md-9">
             <!-- Datos de la ficha -->
-            <form id="datosFichaForm" class="form-section">
+            <form action="modelos/llenar_registro.php" method="POST" id="datosFichaForm" class="form-section">
                 <h3>Ficha</h3>
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="codigo">Código Ficha</label>
-                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha">
+                        
+            <input type="text" class="form-control" id="codigo" placeholder="Código Ficha" value="<?php echo obtenerNumeroFicha($conexion); ?>" readonly>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="fechaFicha">Fecha de Solicitud</label>
-                        <input type="date" class="form-control" id="fechaFicha" placeholder="Fecha ">
+                        <label for="fecha_solicitud">Fecha de Solicitud</label>
+                        <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="Fecha ">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="anioSolicitud">Año de Solicitud</label>
-                        <input type="number" class="form-control" id="anioSolicitud" placeholder="Año Actual">
+                        <label for="anio_solicitud">Año de Solicitud</label>
+                        <input type="number" class="form-control" id="anio_solicitud" name="anio_solicitud" placeholder="Año Actual">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="descripcion">Descripción</label>
-                        <input type="text" class="form-control" id="descripcion" placeholder="Descripción">
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label for="fechaEntrevista" class="form-label">Fecha de la Entrevista</label>
-                        <input type="date" class="form-control" id="fechaEntrevista" name="fechaEntrevista" placeholder="Fecha Actual">
+                        <label for="fecha_entrevista" class="form-label">Fecha de la Entrevista</label>
+                        <input type="date" class="form-control" id="fecha_entrevista" name="fecha_entrevista" placeholder="Fecha Actual">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="encuestador" class="form-label">Nombre Encuestador</label>
-                        <input type="text" class="form-control" id="encuestador" name="encuestador" placeholder="Nombre Encuestador">
+                        <label for="nombre_encuestador" class="form-label">Nombre Encuestador</label>
+                        <input type="text" class="form-control" id="nombre_encuestador" name="nombre_encuestador" placeholder="Nombre Encuestador">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="encuestado" class="form-label">Nombre Encuestado</label>
-                        <input type="text" class="form-control" id="encuestado" name="encuestado" placeholder="Nombre Encuestado">
+                        <label for="nombre_encuestado" class="form-label">Nombre Encuestado</label>
+                        <input type="text" class="form-control" id="nombre_encuestado" name="nombre_encuestado" placeholder="Nombre Encuestado">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="nombreS" class="form-label">Nombre Supervisor</label>
-                        <input type="text" class="form-control" id="nombreS" name="nombreS" placeholder="Nombre Supervisor">
+                        <label for="nombre_supervisor" class="form-label">Nombre Supervisor</label>
+                        <input type="text" class="form-control" id="nombre_supervisor" name="nombre_supervisor" placeholder="Nombre Supervisor">
                     </div>
                 </div>
                 <div class="modal-footer center-content-between">
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosTrabajadorForm')">Siguiente</button>
+                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosTrabajadorForm')" class="btn btn-actualizar">Siguiente</button>
+                   <!-- <button type="button" class="btn btn-info" onclick="navigateToForm('#datosTrabajadorForm')">Siguiente</button> -->
                 </div>
             </form>
 
+
             <!-- Formulario de Datos Generales -->
-            <form id="datosTrabajadorForm" class="form-section" style="display: none;">
+            <form action="modelos/datosTrabajadorForm.php" method="POST" id="datosTrabajadorForm" class="form-section" style="display: none;">
+                <!-- Agrega el campo formType -->
+                <input type="hidden" name="formType" value="datosTrabajador">
                 <!-- Datos del Trabajador -->
                 <h3>Datos Generales</h3>
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="primerNombre">Primer Nombre</label>
-                        <input type="text" class="form-control" id="primerNombre" placeholder="Primer Nombre">
+                        <input type="text" class="form-control" id="primerNombre" name="primerNombre" placeholder="Primer Nombre">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="segundoNombre">Segundo Nombre</label>
-                        <input type="text" class="form-control" id="segundoNombre" placeholder="Segundo Nombre">
+                        <input type="text" class="form-control" id="segundoNombre" name="segundoNombre" placeholder="Segundo Nombre">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="primerApellido">Primer Apellido</label>
-                        <input type="text" class="form-control" id="primerApellido" placeholder="Primer Apellido">
+                        <input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Primer Apellido">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="segundoApellido">Segundo Apellido</label>
-                        <input type="text" class="form-control" id="segundoApellido" placeholder="Segundo Apellido">
+                        <input type="text" class="form-control" id="segundoApellido" name="segundoApellido" placeholder="Segundo Apellido">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="identidadProductor" class="form-label">Número de identidad</label>
-                        <input type="text" class="form-control" id="identidadProductor" name="telefonoProductor" placeholder="Identidad">
+                        <input type="text" class="form-control" id="identidadProductor" name="identidadProductor" placeholder="Identidad">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="sexoProductor">Sexo</label>
-                        <select id="sexoProductor" class="form-control">
+                        <select id="sexoProductor" class="form-control" name="sexoProductor">
                             <option value="" disabled selected>Seleccione...</option>
-                            <option selected>Masculino</option>
-                            <option>Femenino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="fechaNacimiento">Fecha de nacimiento</label>
-                        <input type="date" class="form-control" id="fechaNacimiento" placeholder="Fecha de Nacimiento">
+                        <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="estadoCivilProductor" class="form-label">Estado Civil</label>
@@ -370,38 +395,126 @@
 
                 </div>
                 <div class="modal-footer center-content-between">
+
+                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUbiForm')" class="btn btn-actualizar">Siguiente</button>
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosFichaForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosUbiForm')">Siguiente</button>
+                   
                 </div>
             </form>
 
             <!-- Formulario de Ubicación Geográfica -->
-            <form id="datosUbiForm" class="form-section" style="display: none;">
+            <form action="modelos/datosUbiForm.php" method="POST" id="datosUbiForm" class="form-section" style="display: none;">
+                <!-- Agrega el campo formType -->
+                <input type="hidden" name="formType" value="datosUbi">
                 <h3>Ubicación Geográfica</h3>
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        <label for="departamento">Departamento</label>
-                        <select id="departamento" class="form-control">
-                            <option value="" disabled selected>Seleccione...</option>
+                        <label for="Id_Departamento">Departamento </label>
+                        <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
+                            $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay departamentos disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="municipio">Municipio</label>
-                        <select id="municipio" class="form-control">
-                            <option value="" disabled selected>Seleccione...</option>
+                        <label for="Id_Municipio">Municipio:</label>
+                        <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="aldea">Aldea</label>
-                        <select id="aldea" class="form-control">
-                            <option value="" disabled selected>Seleccione...</option>
+                        <label for="Id_Aldea">Aldea:</label>
+                        <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                            $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay aldeas disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="caserio">Caserío</label>
-                        <select id="caserio" class="form-control">
-                            <option value="" disabled selected>Seleccione...</option>
+                        <label for="Id_Cacerio">tbl_cacerios:</label>
+                        <select class="form-control" id="Id_Cacerio" name="Id_Cacerio" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                            $sql = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["Id_Cacerio"] . '">' . $row["Nombre_Cacerio"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay aldeas disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
@@ -441,9 +554,9 @@
                     <div class="form-group col-md-3">
                         <label>Vive en la finca el productor(a):</label>
                         <div>
-                            <input type="radio" id="viveFincaSi" name="viveFinca" value="Si">
+                            <input type="radio" id="viveFincaSi" name="viveFinca" value="S">
                             <label for="viveFincaSi">Si</label>
-                            <input type="radio" id="viveFincaNo" name="viveFinca" value="No">
+                            <input type="radio" id="viveFincaNo" name="viveFinca" value="N">
                             <label for="viveFincaNo">No</label>
                         </div>
                     </div>
@@ -454,14 +567,18 @@
                 </div>
 
                 <div class="modal-footer center-content-between">
+                    <button type="submit" id="guardarBtn" class="btn btn-actualizar">Guardar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPertenenciaForm')" class="btn btn-actualizar">Siguiente</button>
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosTrabajadorForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosPertenenciaForm')">Siguiente</button>
+                    
                 </div>
             </form>
+            
+
 
 
             <!-- Formulario de Pertenencia a Organizaciones -->
-            <form id="datosPertenenciaForm" class="form-section" style="display: none;">
+            <form action="modelos/datosPertenenciaForm.php" method="POST" id="datosPertenenciaForm" class="form-section" style="display: none;">
                 <h3>Pertenencia a Organizaciones</h3>
                 <br>
                 <div class="form-row">
@@ -525,12 +642,13 @@
                 </div>
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosUbiForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosHogarForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosHogarForm')" class="btn btn-actualizar">Siguiente</button>
+                   
                 </div>
             </form>
 
             <!-- Formulario de Composición del hogar -->
-            <form id="datosHogarForm" class="form-section" style="display: none;">
+            <form action="modelos/datosHogarForm.php" method="POST" id="datosHogarForm" class="form-section" style="display: none;">
                 <h3>Composición del Hogar</h3>
                 <br>
                 <div class="form-row">
@@ -569,12 +687,13 @@
                 </div>
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPertenenciaForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosEtniaForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosEtniaForm')" class="btn btn-actualizar">Siguiente</button>
+                   
                 </div>
             </form>
 
             <!-- Formulario de Etnicidad-->
-            <form id="datosEtniaForm" class="form-section" style="display: none;">
+            <form action="modelos/datosEtniaForm.php" method="POST" id="datosEtniaForm" class="form-section" style="display: none;">
                 <h3>Etnicidad</h3>
                 <br>
                 <div class="form-row">
@@ -645,12 +764,13 @@
                 </div>
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosHogarForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosRelevoForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosRelevoForm')" class="btn btn-actualizar">Siguiente</button>
+                  
                 </div>
             </form>
 
             <!-- Formulario de Relevo Generacional -->
-            <form id="datosRelevoForm" class="form-section" style="display: none;">
+            <form action="modelos/datosRelevoForm.php" method="POST" id="datosRelevoForm" class="form-section" style="display: none;">
                 <h3>Relevo Generacional</h3>
                 <br>
                 <div class="form-row">
@@ -677,12 +797,13 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosEtniaForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosMigraForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosMigraForm')" class="btn btn-actualizar">Siguiente</button>
+                    
                 </div>
             </form>
 
             <!-- Formulario de Migración Familiar -->
-            <form id="datosMigraForm" class="form-section" style="display: none;">
+            <form action="modelos/datosMigraForm.php" method="POST" id="datosMigraForm" class="form-section" style="display: none;">
                 <h3>Migración Familiar</h3>
                 <br>
                 <div class="form-row">
@@ -738,12 +859,13 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosRelevoForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosUnidadForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUnidadForm')" class="btn btn-actualizar">Siguiente</button>
+                    
                 </div>
             </form>
 
             <!-- Formulario de Información Básica de la Unidad Productiva -->
-            <form id="datosUnidadForm" class="form-section" style="display: none;">
+            <form action="modelos/datosUnidadForm.php" method="POST" id="datosUnidadForm" class="form-section" style="display: none;">
                 <h3>Información Básica de la Unidad Productiva</h3>
                 <br>
                 <div class="form-row">
@@ -841,12 +963,13 @@
                 </div>
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosMigraForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosAgricolaForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosAgricolaForm')" class="btn btn-actualizar">Siguiente</button>
+                    
                 </div>
             </form>
 
             <!-- Formulario de Produccion Agricola -->
-            <form id="datosAgricolaForm" class="form-section" style="display: none;">
+            <form action="modelos/datosAgricolaForm.php" method="POST" id="datosAgricolaForm" class="form-section" style="display: none;">
                 <h3>Información de Cultivos</h3>
                 <div class="cultivo-info">
                     <h4>Cultivo</h4>
@@ -928,12 +1051,13 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosUnidadForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosPecuariaForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPecuariaForm')" class="btn btn-actualizar">Siguiente</button>
+          
                 </div>
             </form>
             <!-- 10 -->
 
-            <form id="datosPecuariaForm" class="form-section" style="display: none;">
+            <form action="modelos/datosPecuariaForm.php" method="POST" id="datosPecuariaForm" class="form-section" style="display: none;">
                 <h3>Producción Pecuaria (Inventario)</h3>
                 <br>
 
@@ -1060,13 +1184,14 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosAgricolaForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosPrCoForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPrCoForm')" class="btn btn-actualizar">Siguiente</button>
+               
                 </div>
             </form>
 
             <!-- 11 -->
 
-            <form id="datosPrCoForm" class="form-section" style="display: none;">
+            <form action="modelos/datosPrCoForm.php" method="POST" id="datosPrCoForm" class="form-section" style="display: none;">
                 <h3>11. Producción y Comercialización Pecuaria</h3>
 
 
@@ -1166,13 +1291,14 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPecuariaForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosOtrosForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosOtrosForm')" class="btn btn-actualizar">Siguiente</button>
+                  
                 </div>
             </form>
 
             <!-- 12 -->
 
-            <form id="datosOtrosForm" class="form-section" style="display: none;">
+            <form action="modelos/datosOtrosForm.php" method="POST" id="datosOtrosForm" class="form-section" style="display: none;">
                 <h3>12. Otros ingresos en el hogar</h3>
 
                 <div class="row">
@@ -1231,13 +1357,14 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosCreditoForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosCreditoForm')" class="btn btn-actualizar">Siguiente</button>
+                    
                 </div>
             </form>
 
             <!-- 13 -->
 
-            <form id="datosCreditoForm" class="form-section" style="display: none;">
+            <form action="modelos/datosCreditoForm.php" method="POST" id="datosCreditoForm" class="form-section" style="display: none;">
                 <h3>13. Crédito para la producción agropecuaria</h3>
 
                 <!-- Pregunta sobre préstamos -->
@@ -1291,12 +1418,13 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosActividadesForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosActividadesForm')" class="btn btn-actualizar">Siguiente</button>
+                    
                 </div>
             </form>
 
             <!-- 14 -->
-            <form id="datosActividadesForm" class="form-section" style="display: none;">
+            <form action="modelos/datosActividadesForm.php" method="POST" id="datosActividadesForm" class="form-section" style="display: none;">
                 <h3>14. Actividades externas a la unidad productiva</h3>
 
                 <!-- Actividades fuera de la finca -->
@@ -1346,13 +1474,14 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosCreditoForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosPracticaForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPracticaForm')" class="btn btn-actualizar">Siguiente</button>
+                  
                 </div>
             </form>
 
-              <!-- 15 -->
+            <!-- 15 -->
 
-              <form id="datosPracticaForm" class="form-section" style="display: none;">
+            <form action="modelos/datosPracticaForm.php" method="POST" id="datosPracticaForm" class="form-section" style="display: none;">
                 <h3>15. Prácticas para producción en la unidad productiva</h3>
 
                 <div class="form-group">
@@ -1450,13 +1579,14 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosActividadesForm')">Regresar</button>
-                    <button type="button" class="btn btn-info" onclick="navigateToForm('#datosApoyoForm')">Siguiente</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosApoyoForm')" class="btn btn-actualizar">Siguiente</button>
+                    
                 </div>
             </form>
 
             <!-- 16 -->
 
-            <form id="datosApoyoForm" class="form-section" style="display: none;">
+            <form action="modelos/datosApoyoForm.php" method="POST" id="datosApoyoForm" class="form-section" style="display: none;">
                 <h3>16. Apoyo para la producción agropecuaria</h3>
 
                 <!-- Pregunta sobre la recepción de apoyo -->
@@ -1535,7 +1665,7 @@
                     <label for="atendidoNo">NO</label>
                 </div>
 
-                <div class="form-group seccionOculta" >
+                <div class="form-group seccionOculta">
                     <label>¿Usted sabe si algunos de sus productos son vendidos para el Programa de Alimentación Escolar?</label><br>
                     <input type="radio" id="productosVendidosSi" name="productosVendidosProgramaAlimentacion" value="Siyes">
                     <label for="productosVendidosSi">SI</label>
@@ -1572,7 +1702,8 @@
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPracticaForm')">Regresar</button>
-                    <button type="submit" class="btn btn-info">Enviar</button>
+                    <button type="submit" id="guardarBtn" class="btn btn-actualizar">Enviar</button>
+                    
                 </div>
             </form>
 
@@ -1852,3 +1983,486 @@
 
     document.addEventListener('DOMContentLoaded', manejarSeleccionApoyo);
 </script>
+1
+<script>
+      $(document).ready(function () {
+          $('#datosFichaForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/llenar_registro.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+2
+<script>
+      $(document).ready(function () {
+          $('#datosTrabajadorForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosTrabajadorForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+
+
+3
+<script>
+      $(document).ready(function () {
+          $('#datosUbiForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosUbiForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+
+4<script>
+      $(document).ready(function () {
+          $('#datosPertenenciaForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosPertenenciaForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+  5<script>
+      $(document).ready(function () {
+          $('#datosHogarForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosHogarForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+6<script>
+      $(document).ready(function () {
+          $('#datosEtniaForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosEtniaForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+7<script>
+      $(document).ready(function () {
+          $('#datosRelevoForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosRelevoForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+
+
+8<script>
+      $(document).ready(function () {
+          $('#datosMigraForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosMigraForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+
+
+9<script>
+      $(document).ready(function () {
+          $('#datosUnidadForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosUnidadForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+
+10<script>
+      $(document).ready(function () {
+          $('#datosAgricolaForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosAgricolaForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+
+11<script>
+      $(document).ready(function () {
+          $('#datosPecuariaForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosPecuariaForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+12<script>
+      $(document).ready(function () {
+          $('#datosPrCoForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosPrCoForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+
+13<script>
+      $(document).ready(function () {
+          $('#datosOtrosForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosOtrosForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+14<script>
+      $(document).ready(function () {
+          $('#datosCreditoForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosCreditoForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+
+15<script>
+      $(document).ready(function () {
+          $('#datosActividadesForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosActividadesForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+  16<script>
+      $(document).ready(function () {
+          $('#datosPracticaForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosPracticaForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
+
+  17<script>
+      $(document).ready(function () {
+          $('#datosApoyoForm').submit(function (e) {
+              e.preventDefault();  // Evitar la recarga de la página
+
+              // Realizar la solicitud AJAX
+              $.ajax({
+                  type: 'POST',
+                  url: 'modelos/datosApoyoForm.php',
+                  data: $(this).serialize(),
+                  success: function (response) {
+                      // Aquí puedes manejar la respuesta del servidor si es necesario
+                      console.log(response);
+                      // Deshabilita el botón después de hacer clic
+                      $('#guardarBtn').prop('disabled', true);
+                      // O puedes ocultar el botón si prefieres
+                      // $('#guardarBtn').hide();
+                  },
+                  error: function (error) {
+                      // Manejar el error si es necesario
+                      console.error(error);
+                  }
+              });
+          });
+      });
+  </script>
