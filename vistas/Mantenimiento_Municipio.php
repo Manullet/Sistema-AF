@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Municipio.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_Municipio.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,9 +63,9 @@ session_start();
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Código</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Descripción</th>
                     <th scope="col">Departamento</th>
+                    <th scope="col">Municipio</th>
+                    <th scope="col">Descripción</th>
                     <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
 
@@ -75,13 +75,16 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_municipios");
+                $sql = $conexion->query("SELECT M.*, D.Nombre_Departamento
+                FROM tbl_municipios M
+                INNER JOIN tbl_departamentos D ON M.Id_Departamento = D.Id_Departamento;
+                ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->Id_Municipio ?></td>
+                        <td><?= $datos->Nombre_Departamento ?></td>
                         <td><?= $datos->Nombre_Municipio ?></td>
                         <td><?= $datos->Descripcion ?></td>
-                        <td><?= $datos->Id_Departamento ?></td>
                         <td><?= $datos->Fecha_Creacion ?></td>
                         <td><?php
                             if ($datos->Estado == "A") {
@@ -222,42 +225,47 @@ session_start();
             <div class="modal-body">
                 <form action="modelos/agregar_municipio.php" method="POST">
                     <div class="row mb-3">
-                        <div class="col">
-                            <label for="Nombre_Municipio" class="form-label">Municipio</label>
-                            <input type="text" class="form-control" id="Nombre_Municipio" name="Nombre_Municipio">
+                        <div class="form-group">
+                            <label for="Id_Departamento">Departamento:</label>
+                            <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
+                                $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay departamentos disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
                         </div>
-                        <div class="col">
+                        <div class="col-6">
+                            <label for="Nombre_Municipio" class="form-label">Municipio</label>
+                            <input type="text" class="form-control" id="Nombre_Municipio" name="Nombre_Municipio" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-6">
                             <label for="Descripcion" class="form-label">Descripción</label>
                             <input type="text" class="form-control" id="Descripcion" name="Descripcion">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="Id_Departamento">Departamento:</label>
-                        <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
 
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                            $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay departamentos disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
 
 
 
@@ -382,6 +390,18 @@ session_start();
             });
         });
     });
+</script>
+<script>
+    function validateInput(input) {
+        var regex = /^[A-Za-z]+$/;
+        var error_message = document.getElementById('error_message');
+
+        if (!regex.test(input.value)) {
+            error_message.textContent = 'Solo se permiten letras en este campo.';
+        } else {
+            error_message.textContent = '';
+        }
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

@@ -449,5 +449,16 @@ function obtenerNumeroFicha($conexion)
         });
     });
 </script>
+<script>
+    function validateInput(input) {
+        var regex = /^[A-Za-z]+$/;
+        var error_message = document.getElementById('error_message');
 
+        if (!regex.test(input.value)) {
+            error_message.textContent = 'Solo se permiten letras en este campo.';
+        } else {
+            error_message.textContent = '';
+        }
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

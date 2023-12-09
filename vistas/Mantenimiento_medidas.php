@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_medidas.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_medidas.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@ session_start();
             <h1 class="poppins-font mb-2">MEDIDAS DE TIERRA</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-            <i class="bi bi-plus-square icono-grande"></i> Crear 
+                <i class="bi bi-plus-square icono-grande"></i> Crear
             </a>
         </div>
 
@@ -35,7 +35,7 @@ session_start();
         </div>
     </div>
 
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
@@ -57,7 +57,7 @@ session_start();
             console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
         });
     </script>
-    
+
     <div class="table-responsive">
 
         <table class="table table-hover">
@@ -140,19 +140,15 @@ session_start();
                             <div class="form-group">
                                 <label for="id_medida">Código</label>
                                 <input type="text" class="form-control" id="id_medida" name="id_medida" readonly>
-                            </div>   
+                            </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="medida">Medida</label>
-                            <select class="form-control" id="medida" name="medida" required>
-                            <option value="" disabled selected>Selecciona una medida</option>
-                                <option value="MZ">Manzanas</option>
-                                <option value="HA">Hectáreas</option>
-                                <option value="TAREAS">Tareas</option>
-                            </select>
+                        <div class="col">
+                            <label for="medida" class="form-label">Medida</label>
+                            <input type="text" class="form-control" id="medida" name="medida" placeholder="Ingresa la medida" required>
                         </div>
-                     </div>
-                    
+
+                    </div>
+
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -163,7 +159,7 @@ session_start();
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
-                            <option value="" disabled selected>Selecciona un estado</option>
+                                <option value="" disabled selected>Selecciona un estado</option>
                                 <option value="ACTIVO">Activo</option>
                                 <option value="INACTIVO">Inactivo</option>
                             </select>
@@ -194,13 +190,9 @@ session_start();
                     <div class="row mb-3">
                         <div class="col">
                             <label for="medida" class="form-label">Medida</label>
-                            <select class="form-control" id="medida" name="medida" required>
-                            <option value="" disabled selected>Selecciona una medida</option>
-                                <option value="MZ">Manzanas</option>
-                                <option value="HA">Hectáreas</option>
-                                <option value="TAREAS">Tareas</option>
-                            </select>
+                            <input type="text" class="form-control" id="medida" name="medida" placeholder="Ingresa la medida" required>
                         </div>
+
                         <div class="col">
                             <label for="descripcion" class="form-label">Descripción</label>
                             <input type="text" class="form-control" id="descripcion" name="descripcion">

@@ -63,9 +63,10 @@ session_start();
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Código</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Descripción</th>
+                    <th scope="col">Departamento</th>
                     <th scope="col">Municipio</th>
+                    <th scope="col">Aldea</th>
+                    <th scope="col">Descripción</th>
                     <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -74,13 +75,18 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_aldeas");
+                $sql = $conexion->query("SELECT A.*, D.Nombre_Departamento, M.Nombre_Municipio
+                FROM tbl_aldeas A
+                INNER JOIN tbl_departamentos D ON A.Id_Departamento = D.Id_Departamento
+                INNER JOIN tbl_municipios M ON A.Id_Municipio = M.Id_Municipio;
+                ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->Id_Aldea ?></td>
+                        <td><?= $datos->Nombre_Departamento ?></td>
+                        <td><?= $datos->Nombre_Municipio ?></td>
                         <td><?= $datos->Nombre_Aldea ?></td>
                         <td><?= $datos->Descripcion ?></td>
-                        <td><?= $datos->Id_Municipio ?></td>
                         <td><?= $datos->Fecha_Creacion ?></td>
                         <td><?php
                             if ($datos->Estado == "A") {
@@ -379,6 +385,18 @@ session_start();
             });
         });
     });
+</script>
+<script>
+    function validateInput(input) {
+        var regex = /^[A-Za-z]+$/;
+        var error_message = document.getElementById('error_message');
+
+        if (!regex.test(input.value)) {
+            error_message.textContent = 'Solo se permiten letras en este campo.';
+        } else {
+            error_message.textContent = '';
+        }
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

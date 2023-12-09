@@ -65,9 +65,9 @@ session_start();
                     <th scope="col">Código</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripción</th>
-                    <th scope="col">Estado</th>
+                    
                     <th scope="col">Fecha Creación</th>
-                    <th scope="col">Actualizado Por</th>
+                    <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
@@ -81,6 +81,8 @@ session_start();
                         <td><?= $datos->Id_Departamento ?></td>
                         <td><?= $datos->Nombre_Departamento ?></td>
                         <td><?= $datos->Descripcion ?></td>
+                       
+                        <td><?= $datos->Fecha_Creacion ?></td>
                         <td><?php
                             if ($datos->Estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
@@ -88,8 +90,6 @@ session_start();
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
-                        <td><?= $datos->Fecha_Creacion ?></td>
-                        <td><?= $datos->Modificado_Por ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->Id_Departamento ?>', '<?= $datos->Nombre_Departamento ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Estado ?>')">
@@ -323,6 +323,18 @@ session_start();
             });
         });
     });
+</script>
+<script>
+    function validateInput(input) {
+        var regex = /^[A-Za-z]+$/;
+        var error_message = document.getElementById('error_message');
+
+        if (!regex.test(input.value)) {
+            error_message.textContent = 'Solo se permiten letras en este campo.';
+        } else {
+            error_message.textContent = '';
+        }
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

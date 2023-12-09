@@ -1983,7 +1983,7 @@ function obtenerNumeroFicha($conexion)
 
     document.addEventListener('DOMContentLoaded', manejarSeleccionApoyo);
 </script>
-1
+
 <script>
       $(document).ready(function () {
           $('#datosFichaForm').submit(function (e) {
@@ -2011,7 +2011,7 @@ function obtenerNumeroFicha($conexion)
       });
   </script>
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-2
+
 <script>
       $(document).ready(function () {
           $('#datosTrabajadorForm').submit(function (e) {
@@ -2042,7 +2042,7 @@ function obtenerNumeroFicha($conexion)
 
 
 
-3
+
 <script>
       $(document).ready(function () {
           $('#datosUbiForm').submit(function (e) {
@@ -2072,7 +2072,7 @@ function obtenerNumeroFicha($conexion)
 
 
 
-4<script>
+<script>
       $(document).ready(function () {
           $('#datosPertenenciaForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2099,7 +2099,7 @@ function obtenerNumeroFicha($conexion)
       });
   </script>
 
-  5<script>
+  <script>
       $(document).ready(function () {
           $('#datosHogarForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2127,7 +2127,7 @@ function obtenerNumeroFicha($conexion)
   </script>
 
 
-6<script>
+<script>
       $(document).ready(function () {
           $('#datosEtniaForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2155,7 +2155,7 @@ function obtenerNumeroFicha($conexion)
   </script>
 
 
-7<script>
+<script>
       $(document).ready(function () {
           $('#datosRelevoForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2185,7 +2185,7 @@ function obtenerNumeroFicha($conexion)
 
 
 
-8<script>
+<script>
       $(document).ready(function () {
           $('#datosMigraForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2215,7 +2215,7 @@ function obtenerNumeroFicha($conexion)
 
 
 
-9<script>
+<script>
       $(document).ready(function () {
           $('#datosUnidadForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2244,7 +2244,7 @@ function obtenerNumeroFicha($conexion)
 
 
 
-10<script>
+<script>
       $(document).ready(function () {
           $('#datosAgricolaForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2273,7 +2273,7 @@ function obtenerNumeroFicha($conexion)
 
 
 
-11<script>
+<script>
       $(document).ready(function () {
           $('#datosPecuariaForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2301,7 +2301,7 @@ function obtenerNumeroFicha($conexion)
   </script>
 
 
-12<script>
+<script>
       $(document).ready(function () {
           $('#datosPrCoForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2330,7 +2330,7 @@ function obtenerNumeroFicha($conexion)
 
 
 
-13<script>
+<script>
       $(document).ready(function () {
           $('#datosOtrosForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2358,7 +2358,7 @@ function obtenerNumeroFicha($conexion)
   </script>
 
 
-14<script>
+<script>
       $(document).ready(function () {
           $('#datosCreditoForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2386,7 +2386,7 @@ function obtenerNumeroFicha($conexion)
   </script>
 
 
-15<script>
+<script>
       $(document).ready(function () {
           $('#datosActividadesForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2413,7 +2413,7 @@ function obtenerNumeroFicha($conexion)
       });
   </script>
 
-  16<script>
+<script>
       $(document).ready(function () {
           $('#datosPracticaForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
@@ -2440,7 +2440,7 @@ function obtenerNumeroFicha($conexion)
       });
   </script>
 
-  17<script>
+<script>
       $(document).ready(function () {
           $('#datosApoyoForm').submit(function (e) {
               e.preventDefault();  // Evitar la recarga de la página
