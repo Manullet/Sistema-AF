@@ -1,14 +1,23 @@
 <?php
 
+ob_start();
 include "../php/conexion_be.php";
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Id_Aldea = $_POST["Id_Aldea"];
+    $Id_Municipio = $_POST["Id_Municipio"];
+    $Id_Departamento = $_POST["Id_Departamento"];
+
+
+
+
     $Nombre_Cacerio=$_POST["Nombre_Cacerio"];
     $Descripcion=$_POST["Descripcion"];
-    $Id_Aldea=$_POST["Id_Aldea"];
+    $Creado_Por = $_SESSION["usuario"]["usuario"];
 
 
-    $sql = "CALL InsertarCacerio('$Nombre_Cacerio', '$Descripcion', '$Id_Aldea')";
+    $sql = "CALL InsertarCacerio('$Id_Aldea','$Id_Municipio','$Id_Departamento','$Nombre_Cacerio', '$Descripcion','$Creado_Por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

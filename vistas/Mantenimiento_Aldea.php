@@ -332,7 +332,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
-                    </div>
+                    
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
