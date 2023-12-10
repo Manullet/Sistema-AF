@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2023 a las 18:32:28
+-- Tiempo de generación: 10-12-2023 a las 10:51:30
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `bd_af`
+-- Base de datos: `bd_af_p`
 --
 
 DELIMITER $$
@@ -48,6 +48,31 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarActividadExterna` (IN `p_
             `estado` = p_Nuevo_Estado
         WHERE
             `id_actividad_ext` = p_Id_ActividadExterna;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarAldea` (IN `p_Id_Aldea` BIGINT, IN `p_Id_Departamento` BIGINT, IN `p_Id_Municipio` BIGINT, IN `p_Nombre_Aldea` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(50), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
+    -- Verificar si el registro a actualizar existe en la tabla tbl_aldeas
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_aldeas
+        WHERE Id_Aldea = p_Id_Aldea
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a actualizar no existe en la tabla tbl_aldeas';
+    ELSE
+        -- Realizar la actualización
+        UPDATE `tbl_aldeas`
+        SET
+            `Id_Departamento` = p_Id_Departamento,
+            `Id_Municipio` = p_Id_Municipio,
+            `Nombre_Aldea` = p_Nombre_Aldea,
+            `Descripcion` = p_Descripcion,
+            `Estado` = p_Nuevo_Estado,
+            `Modificado_Por` = p_Modificado_Por,
+            `Fecha_Modificacion` = CURRENT_TIMESTAMP()
+        WHERE
+            `Id_Aldea` = p_Id_Aldea;
     END IF;
 END$$
 
@@ -129,6 +154,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarBaseOrganizacion` (IN `p_
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarCacerio` (IN `p_Id_Cacerio` BIGINT, IN `p_Id_Aldea` BIGINT, IN `p_Id_Municipio` BIGINT, IN `p_Id_Departamento` BIGINT, IN `p_Nombre_Cacerio` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
+    -- Verificar si el registro a actualizar existe en la tabla tbl_cacerios
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_cacerios
+        WHERE Id_Cacerio = p_Id_Cacerio
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a actualizar no existe en la tabla tbl_cacerios';
+    ELSE
+        -- Realizar la actualización
+        UPDATE `tbl_cacerios`
+        SET
+            `Id_Aldea` = p_Id_Aldea,
+            `Id_Municipio` = p_Id_Municipio,
+            `Id_Departamento` = p_Id_Departamento,
+            `Nombre_Cacerio` = p_Nombre_Cacerio,
+            `Descripcion` = p_Descripcion,
+            `Estado` = p_Nuevo_Estado,
+            `Modificado_Por` = p_Modificado_Por,
+            `Fecha_Modificacion` = CURRENT_TIMESTAMP()
+        WHERE
+            `Id_Cacerio` = p_Id_Cacerio;
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarCreditoProduccion` (IN `p_Id_CreditoProduccion` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Ha_Solicitado_Creditos` ENUM('S','N'), IN `p_Id_Fuente_Credito` BIGINT, IN `p_Monto_Credito` DECIMAL(10,2), IN `p_Id_Motivos_No_Credito` BIGINT, IN `p_Descripcion` TEXT, IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
     -- Verificar si el registro a actualizar existe en la tabla tbl_credito_produccion
     IF NOT EXISTS (
@@ -154,6 +205,29 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarCreditoProduccion` (IN `p
             `estado` = p_Nuevo_Estado
         WHERE
             `id_credpro` = p_Id_CreditoProduccion;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarDepartamento` (IN `p_Id_Departamento` BIGINT, IN `p_Nombre_Departamento` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
+    -- Verificar si el registro a actualizar existe en la tabla tbl_departamentos
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_departamentos
+        WHERE Id_Departamento = p_Id_Departamento
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a actualizar no existe en la tabla tbl_departamentos';
+    ELSE
+        -- Realizar la actualización
+        UPDATE `tbl_departamentos`
+        SET
+            `Nombre_Departamento` = p_Nombre_Departamento,
+            `Descripcion` = p_Descripcion,
+            `Modificado_Por` = p_Modificado_Por,
+            `Fecha_Modificacion` = CURRENT_TIMESTAMP(),
+            `Estado` = p_Nuevo_Estado
+        WHERE
+            `Id_Departamento` = p_Id_Departamento;
     END IF;
 END$$
 
@@ -313,6 +387,30 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarMotivoNoCredito` (IN `id_
         `fecha_modificacion` = CURRENT_TIMESTAMP
     WHERE
         `id_motivos_no_credito` = id_motivo_no_credito_param;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarMunicipio` (IN `p_Id_Municipio` BIGINT, IN `p_Id_Departamento` BIGINT, IN `p_Nombre_Municipio` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(100), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
+    -- Verificar si el registro a actualizar existe en la tabla tbl_municipios
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_municipios
+        WHERE Id_Municipio = p_Id_Municipio
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a actualizar no existe en la tabla tbl_municipios';
+    ELSE
+        -- Realizar la actualización
+        UPDATE `tbl_municipios`
+        SET
+            `Id_Departamento` = p_Id_Departamento,
+            `Nombre_Municipio` = p_Nombre_Municipio,
+            `Descripcion` = p_Descripcion,
+            `Modificado_Por` = p_Modificado_Por,
+            `Fecha_Modificacion` = CURRENT_TIMESTAMP(),
+            `Estado` = p_Nuevo_Estado
+        WHERE
+            `Id_Municipio` = p_Id_Municipio;
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarNoCredito` (IN `p_Id_NoCredito` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Motivos_No_Credito` BIGINT, IN `p_Descripcion` TEXT, IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
@@ -697,6 +795,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUbicacionProductor` (IN `
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUsuario` (IN `p_Id_Usuario` BIGINT(20), IN `p_nombre_completo` VARCHAR(255), IN `p_correo` VARCHAR(255), IN `p_usuario` VARCHAR(255), IN `p_id_estado` BIGINT(20))   BEGIN
+    UPDATE usuario
+    SET
+        nombre_completo = p_nombre_completo,
+        correo = p_correo,
+        usuario = p_usuario,
+        id_estado = p_id_estado
+    WHERE
+        Id_Usuario = p_Id_Usuario;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteEtnia` (IN `etniaId` INT)   BEGIN
   UPDATE tbl_etnias SET estado = 0 WHERE id_etnia = etniaId;
 END$$
@@ -715,17 +824,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesactivarMotivo` (IN `id_motivo_pa
     `Estado` = 'INACTIVO',
     `Fecha_Actualizacion` = CURRENT_TIMESTAMP
   WHERE `Id_motivo` = id_motivo_param;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarAldea` (IN `newId_Aldea` BIGINT(20), IN `newNombre_Aldea` VARCHAR(100), IN `newDescripcion` VARCHAR(255), IN `newEstado` ENUM('A','I'), IN `newId_Municipio` BIGINT(20), IN `newModificado_Por` VARCHAR(50))   BEGIN
-    UPDATE tbl_aldeas
-    SET Nombre_Aldea = newNombre_Aldea,
-        Descripcion= newDescripcion,
-        Estado= newEstado,
-        Id_Municipio= newId_Municipio,
-        Fecha_Modificacion = CURRENT_TIMESTAMP(),
-Modificado_Por = newModificado_Por
-    WHERE Id_Aldea = newId_Aldea;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarApoyo` (IN `id_apoyo_produccion_param` INT, IN `tipo_apoyo_produccion_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
@@ -758,15 +856,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarCultivo` (IN `id_tipo_cultivo
   WHERE `id_tipo_cultivo` = id_tipo_cultivo_param;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarDepartamento` (IN `newId_Departamento` BIGINT(20), IN `newNombre_Departamento` VARCHAR(100), IN `newDescripcion` VARCHAR(255), IN `newEstado` ENUM('A','I'))   BEGIN
-    UPDATE tbl_departamentos
-    SET Nombre_Departamento = newNombre_Departamento,
-        Descripcion= newDescripcion,
-        Estado= newEstado,
-        Fecha_Modificacion = CURRENT_TIMESTAMP()
-    WHERE Id_Departamento = newId_Departamento;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarMedidaTierra` (IN `id_medida_param` INT, IN `medida_param` ENUM('MZ','HA','TAREAS'), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
   UPDATE `tbl_medidas_tierra`
   SET
@@ -785,16 +874,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarMotivo` (IN `id_motivo_param`
     `Estado` = estado_param,
     `Fecha_Actualizacion` = CURRENT_TIMESTAMP
   WHERE `Id_motivo` = id_motivo_param;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarMunicipio` (IN `newId_Municipio` BIGINT(20), IN `newNombre_Municipio` VARCHAR(100), IN `newDescripcion` VARCHAR(255), IN `newEstado` ENUM('A','I'), IN `newId_Departamento` BIGINT(20))   BEGIN
-    UPDATE tbl_municipios
-    SET Nombre_Municipio = newNombre_Municipio,
-        Descripcion= newDescripcion,
-        Estado= newEstado,
-        Id_Departamento= newId_Departamento,
-        Fecha_Modificacion = CURRENT_TIMESTAMP()
-    WHERE Id_Municipio = newId_Municipio;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarOrganizacion` (IN `id_organizacion_param` INT, IN `organizacion_param` VARCHAR(255), IN `id_tipo_organizacion_param` INT, IN `descripcion_param` TEXT)   BEGIN
@@ -906,6 +985,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarActividadExterna` (IN `p_Id
         -- Realizar la eliminación
         DELETE FROM `tbl_productor_actividad_externa`
         WHERE `id_actividad_ext` = p_Id_ActividadExterna;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarAldea` (IN `p_Id_Aldea` BIGINT)   BEGIN
+    -- Verificar si el registro a eliminar existe en la tabla tbl_aldeas
+    IF NOT EXISTS (
+        SELECT 1
+        FROM tbl_aldeas
+        WHERE Id_Aldea = p_Id_Aldea
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El registro a eliminar no existe en la tabla tbl_aldeas';
+    ELSE
+        -- Realizar la eliminación
+        DELETE FROM `tbl_aldeas`
+        WHERE `Id_Aldea` = p_Id_Aldea;
     END IF;
 END$$
 
@@ -1233,6 +1328,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarTrabajadorExterno` (IN `p_I
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarUsuario` (IN `p_id_usuario` INT)   BEGIN
+    DELETE FROM usuario WHERE Id_Usuario = p_id_usuario;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarActividadExterna` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Miembros_Actividades_Fuera_Finca` ENUM('S','N'), IN `p_Id_Tomador_Decisiones` BIGINT, IN `p_Descripcion` TEXT, IN `p_Creado_Por` VARCHAR(255))   BEGIN
     -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
     INSERT INTO `tbl_productor_actividad_externa` (
@@ -1261,10 +1360,30 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarActividadExterna` (IN `p_Id
     );
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarAldea` (IN `p_Nombre_Aldea` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Id_Municipio` BIGINT(20))   BEGIN
-    INSERT INTO tbl_aldeas (Nombre_Aldea, Descripcion, Estado, Id_Municipio, Id_Usuario,
-        Creado_Por, Fecha_Creacion, Modificado_Por, Fecha_Modificacion)
-    VALUES (p_Nombre_Aldea, p_Descripcion, 'A', p_Id_Municipio, '1','1',CURRENT_TIMESTAMP(),'1',CURRENT_TIMESTAMP());
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarAldea` (IN `p_Id_Departamento` BIGINT, IN `p_Id_Municipio` BIGINT, IN `p_Nombre_Aldea` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(50))   BEGIN
+    -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
+    INSERT INTO `tbl_aldeas` (
+        `Id_Departamento`,
+        `Id_Municipio`,
+        `Nombre_Aldea`,
+        `Descripcion`,
+        `Estado`,
+        `Creado_Por`,
+        `Fecha_Creacion`,
+        `Modificado_Por`,
+        `Fecha_Modificacion`
+    ) 
+    VALUES (
+        p_Id_Departamento,
+        p_Id_Municipio,
+        p_Nombre_Aldea,
+        p_Descripcion,
+        'A',
+        p_Creado_Por,
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP
+    );
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarApoyo` (IN `tipo_apoyo_produccion_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
@@ -1356,10 +1475,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarBaseOrganizacion` (IN `p_Id
     );
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarCacerio` (IN `p_Nombre_Cacerio` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Id_Aldea` BIGINT(20))   BEGIN
-    INSERT INTO tbl_cacerios (Nombre_Cacerio, Descripcion, Estado, Id_Aldea, Id_Usuario,
-        Creado_Por, Fecha_Creacion, Modificado_Por, Fecha_Modificacion)
-    VALUES (p_Nombre_Cacerio, p_Descripcion, 'A', p_Id_Aldea, '1','1',CURRENT_TIMESTAMP(),'1',CURRENT_TIMESTAMP());
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarCacerio` (IN `p_Id_Aldea` BIGINT, IN `p_Id_Municipio` BIGINT, IN `p_Id_Departamento` BIGINT, IN `p_Nombre_Cacerio` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
+    -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
+    INSERT INTO `tbl_cacerios` (
+        `Id_Aldea`,
+        `Id_Municipio`,
+        `Id_Departamento`,
+        `Nombre_Cacerio`,
+        `Descripcion`,
+        `Estado`,
+        `Creado_Por`,
+        `Fecha_Creacion`,
+        `Modificado_Por`,
+        `Fecha_Modificacion`
+    ) 
+    VALUES (
+        p_Id_Aldea,
+        p_Id_Municipio,
+        p_Id_Departamento,
+        p_Nombre_Cacerio,
+        p_Descripcion,
+        'A',
+        p_Creado_Por,
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP
+    );
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarComposicion` (IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_genero` ENUM('H','M'), IN `p_edad` INT, IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(25))   BEGIN
@@ -1426,25 +1567,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarCultivo` (IN `tipo_cultivo_
   VALUES (tipo_cultivo_param, descripcion_param, 'Manuel', 'Manuel', 'ACTIVO');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarDepartamento` (IN `p_Nombre_Departamento` VARCHAR(100), IN `p_Descripcion` VARCHAR(255))   BEGIN
-    INSERT INTO tbl_departamentos (
-        Nombre_Departamento,
-        Descripcion,
-        Estado,
-        Id_Usuario,
-        Creado_Por,
-        Fecha_Creacion,
-        Modificado_Por,
-        Fecha_Modificacion
-    ) VALUES (
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarDepartamento` (IN `p_Nombre_Departamento` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
+    -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
+    INSERT INTO `tbl_departamentos` (
+        `Nombre_Departamento`,
+        `Descripcion`,
+        `Creado_Por`,
+        `Fecha_Creacion`,
+        `Modificado_Por`,
+        `Fecha_Modificacion`,
+        `Estado`
+    ) 
+    VALUES (
         p_Nombre_Departamento,
         p_Descripcion,
-        'A',  -- Estado 'A' por defecto
-        '1',
-        '1',
-        CURRENT_TIMESTAMP(),
-        '1',
-        CURRENT_TIMESTAMP()
+        p_Creado_Por,
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP,
+        'A'
     );
 END$$
 
@@ -1529,6 +1670,38 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarFicha` (IN `p_Fecha_Solicit
         p_Nombre_Encuentrador,
         p_Nombre_Encuestador,
         p_Nombre_Supervisor
+    );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarfichaformulario` (IN `p_fecha_solicitud` DATE, IN `p_anio_solicitud` INT, IN `p_descripcion` VARCHAR(255), IN `p_fecha_entrevista` DATE, IN `p_nombre_encuestador` VARCHAR(50), IN `p_nombre_encuestado` VARCHAR(50), IN `p_nombre_supervisor` VARCHAR(50), IN `p_creado_por` VARCHAR(50))   BEGIN
+    DECLARE p_estado ENUM('A', 'I');
+    
+    -- Asignar automáticamente el estado
+    SET p_estado = 'A';
+
+    -- Insertar datos en la tabla
+    INSERT INTO fichas (
+        fecha_solicitud,
+        anio_solicitud,
+        descripcion,
+        creado_por,
+        fecha_creacion,
+        estado,
+        fecha_entrevista,
+        nombre_encuentrador,
+        nombre_encuestador,
+        nombre_supervisor
+    ) VALUES (
+        p_fecha_solicitud,
+        p_anio_solicitud,
+        p_descripcion,
+        p_creado_por,
+        CURRENT_TIMESTAMP(),
+        p_estado,
+        p_fecha_entrevista,
+        p_nombre_encuestador,
+        p_nombre_encuestado,
+        p_nombre_supervisor
     );
 END$$
 
@@ -1680,10 +1853,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarMotivoNoCredito` (IN `motiv
     );
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarMunicipio` (IN `p_Nombre_Municipio` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Id_Departamento` BIGINT(20))   BEGIN
-    INSERT INTO tbl_municipios (Nombre_Municipio, Descripcion, Estado, Id_Departamento, Id_Usuario,
-        Creado_Por, Fecha_Creacion, Modificado_Por, Fecha_Modificacion)
-    VALUES (p_Nombre_Municipio, p_Descripcion, 'A', p_Id_Departamento, '1','1',CURRENT_TIMESTAMP(),'1',CURRENT_TIMESTAMP());
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarMunicipio` (IN `p_Id_Departamento` BIGINT, IN `p_Nombre_Municipio` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(100))   BEGIN
+    -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
+    INSERT INTO `tbl_municipios` (
+        `Id_Departamento`,
+        `Nombre_Municipio`,
+        `Descripcion`,
+        `Creado_Por`,
+        `Fecha_Creacion`,
+        `Modificado_Por`,
+        `Fecha_Modificacion`,
+        `Estado`
+    ) 
+    VALUES (
+        p_Id_Departamento,
+        p_Nombre_Municipio,
+        p_Descripcion,
+        p_Creado_Por,
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP,
+        'A'
+    );
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarNoCredito` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Motivos_No_Credito` BIGINT, IN `p_Descripcion` TEXT, IN `p_Creado_Por` VARCHAR(255))   BEGIN
@@ -1991,6 +2182,65 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarProductor` (IN `p_id_ficha`
     );
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarProductorFormulario` (IN `p_primer_nombre` VARCHAR(255), IN `p_segundo_nombre` VARCHAR(255), IN `p_primer_apellido` VARCHAR(255), IN `p_segundo_apellido` VARCHAR(255), IN `p_identificacion` BIGINT(20), IN `p_fecha_nacimiento` DATE, IN `p_genero` VARCHAR(10), IN `p_estado_civil` VARCHAR(20), IN `p_nivel_escolaridad` VARCHAR(50), IN `p_ultimo_grado_escolar_aprobado` VARCHAR(50), IN `p_telefono_1` INT(11), IN `p_telefono_2` INT(11), IN `p_telefono_3` INT(11), IN `p_email_1` VARCHAR(255), IN `p_email_2` VARCHAR(255), IN `p_email_3` VARCHAR(255), IN `p_creado_por` VARCHAR(25), OUT `p_id_ficha` BIGINT(20))   BEGIN
+    -- Variable para almacenar el último id_ficha
+    DECLARE last_id bigint(20);
+
+    -- Obtener el último id_ficha
+    SELECT COALESCE(MAX(id_ficha), 0) INTO last_id FROM tbl_productor;
+
+    -- Incrementar el último id_ficha
+    SET last_id = last_id + 1;
+
+    -- Insertar el nuevo registro
+    INSERT INTO tbl_productor (
+        id_ficha,
+        primer_nombre,
+        segundo_nombre,
+        primer_apellido,
+        segundo_apellido,
+        identificacion,
+        fecha_nacimiento,
+        genero,
+        estado_civil,
+        nivel_escolaridad,
+        ultimo_grado_escolar_aprobado,
+        telefono_1,
+        telefono_2,
+        telefono_3,
+        email_1,
+        email_2,
+        email_3,
+        descripcion,
+        creado_por,
+        estado
+    ) VALUES (
+        last_id,
+        p_primer_nombre,
+        p_segundo_nombre,
+        p_primer_apellido,
+        p_segundo_apellido,
+        p_identificacion,
+        p_fecha_nacimiento,
+        p_genero,
+        p_estado_civil,
+        p_nivel_escolaridad,
+        p_ultimo_grado_escolar_aprobado,
+        p_telefono_1,
+        p_telefono_2,
+        p_telefono_3,
+        p_email_1,
+        p_email_2,
+        p_email_3,
+        'desc',
+        p_creado_por,
+        'A'
+    );
+
+    -- Asignar valores a las variables de salida
+    SET p_id_ficha = last_id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarRegistro` (IN `p_id_ficha` BIGINT, IN `p_id_organizacion` BIGINT, IN `p_id_productor` BIGINT, IN `p_descripcion` VARCHAR(255), IN `p_creado_por` BIGINT)   BEGIN
     DECLARE v_valid_productor BOOLEAN;
 
@@ -2246,6 +2496,73 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUbicacionProductor` (IN `p_
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUbicacionProductorFormulario` (IN `p_id_departamento` BIGINT(20), IN `p_id_municipio` BIGINT(20), IN `p_id_aldea` BIGINT(20), IN `p_id_caserio` BIGINT(20), IN `p_ubicacion_geografica` VARCHAR(255), IN `p_distancia_parcela_vivienda` DECIMAL(10,2), IN `p_latitud_parcela` VARCHAR(20), IN `p_longitud_parcela` VARCHAR(20), IN `p_msnm` DECIMAL(10,2), IN `p_direccion_1` VARCHAR(255), IN `p_direccion_2` VARCHAR(255), IN `p_direccion_3` VARCHAR(255), IN `p_vive_en_finca` ENUM('S','N'), IN `p_nombre_finca` VARCHAR(255), IN `p_creado_por` VARCHAR(50), OUT `p_id_ficha` BIGINT(20), OUT `p_id_productor` BIGINT(20))   BEGIN
+    -- Variable para almacenar el último id_productor
+    DECLARE last_id_productor bigint(20);
+
+    -- Variable para almacenar el último id_ficha
+    DECLARE last_id_ficha bigint(20);
+
+    -- Obtener el último id_productor
+    SELECT COALESCE(MAX(id_productor), 0) INTO last_id_productor FROM tbl_ubicacion_productor;
+
+    -- Incrementar el último id_productor
+    SET last_id_productor = last_id_productor + 1;
+
+    -- Obtener el último id_ficha
+    SELECT COALESCE(MAX(id_ficha), 0) INTO last_id_ficha FROM tbl_ubicacion_productor;
+
+    -- Incrementar el último id_ficha
+    SET last_id_ficha = last_id_ficha + 1;
+
+    -- Insertar el nuevo registro
+    INSERT INTO tbl_ubicacion_productor (
+        id_ficha,
+        id_productor,
+        id_departamento,
+        id_municipio,
+        id_aldea,
+        id_caserio,
+        ubicacion_geografica,
+        distancia_parcela_vivienda,
+        latitud_parcela,
+        longitud_parcela,
+        msnm,
+        direccion_1,
+        direccion_2,
+        direccion_3,
+        vive_en_finca,
+        nombre_finca,
+        descripcion,
+        creado_por,
+        estado
+    ) VALUES (
+        last_id_ficha,
+        last_id_productor,
+        p_id_departamento,
+        p_id_municipio,
+        p_id_aldea,
+        p_id_caserio,
+        p_ubicacion_geografica,
+        p_distancia_parcela_vivienda,
+        p_latitud_parcela,
+        p_longitud_parcela,
+        p_msnm,
+        p_direccion_1,
+        p_direccion_2,
+        p_direccion_3,
+        p_vive_en_finca,
+        p_nombre_finca,
+        'descripcion',
+        p_creado_por,
+        'A'
+    );
+
+    -- Asignar valores a las variables de salida
+    SET p_id_productor = last_id_productor;
+    SET p_id_ficha = last_id_ficha;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUnidadProductora` (IN `p_Id_Ubicacion` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Tipo_De_Manejo` ENUM('Propia','Alquilada','Prestada','Ejidal'), IN `p_Superficie_Produccion` DECIMAL(10,2), IN `p_Id_Medida_Produccion` BIGINT, IN `p_Superficie_Agricultura` DECIMAL(10,2), IN `p_Id_Medida_Agricultura` BIGINT, IN `p_Superficie_Ganaderia` DECIMAL(10,2), IN `p_Id_Medida_Ganaderia` BIGINT, IN `p_Superficie_Apicultura` DECIMAL(10,2), IN `p_Id_Medida_Apicultura` BIGINT, IN `p_Superficie_Forestal` DECIMAL(10,2), IN `p_Id_Medida_Forestal` BIGINT, IN `p_Superficie_Acuacultura` DECIMAL(10,2), IN `p_Numero_Estanques` INT, IN `p_Superficie_Agroturismo` DECIMAL(10,2), IN `p_Superficie_Otros` DECIMAL(10,2), IN `p_Otros_Descripcion` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
     DECLARE v_valid_producer BOOLEAN;
 
@@ -2316,6 +2633,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUnidadProductora` (IN `p_Id
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUsuario` (IN `p_nombre_completo` VARCHAR(255), IN `p_correo` VARCHAR(255), IN `p_usuario` VARCHAR(255), IN `p_contrasena` VARCHAR(255))   BEGIN
+    INSERT INTO usuario (nombre_completo, correo, usuario, contrasena, Id_rol, id_estado)
+    VALUES (p_nombre_completo, p_correo, p_usuario, p_contrasena, 2, 3);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertObejtos` (IN `newObjeto` VARCHAR(255), IN `newDescripcion` VARCHAR(255), IN `newActualizado_Por` VARCHAR(255), IN `newCreado_Por` VARCHAR(255))   BEGIN
     DECLARE currentDate TIMESTAMP;
     SET currentDate = NOW();
@@ -2347,13 +2669,96 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRoles` (IN `newNombre` VARCHA
     VALUES (newNombre, newDescripcion, 1, currentDate, 1, currentDate, 'Activo');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUsuario` (IN `newNombre` VARCHAR(255), IN `newCorreo` VARCHAR(255), IN `newUsuario` VARCHAR(255), IN `newContraseña` VARCHAR(255))   BEGIN
-    DECLARE currentDate TIMESTAMP;
-    DECLARE estado VARCHAR(255);
-  
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Temp_Agregar_Datos_Generales` (IN `p_primer_nombre` VARCHAR(255), IN `p_segundo_nombre` VARCHAR(255), IN `p_primer_apellido` VARCHAR(255), IN `p_segundo_apellido` VARCHAR(255), IN `p_identificacion` BIGINT, IN `p_fecha_nacimiento` DATE, IN `p_genero` VARCHAR(10), IN `p_estado_civil` VARCHAR(20), IN `p_nivel_escolaridad` VARCHAR(50), IN `p_ultimo_grado_escolar_aprobado` VARCHAR(50), IN `p_telefono_1` INT, IN `p_telefono_2` INT, IN `p_telefono_3` INT, IN `p_email_1` VARCHAR(255), IN `p_email_2` VARCHAR(255), IN `p_email_3` VARCHAR(255))   BEGIN
+    DECLARE last_id_ficha BIGINT;
 
-    INSERT INTO `usuario`(`Id_rol`, `Nombre`, `Correo`, `Usuario`, `Contraseña`, `Token`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Preguntas_Contestadas`, `Estado`, `Id_estado`, `Primera_Vez`, `Fecha_Vencimiento`, `Intentos_Preguntas`, `Preguntas_Correctas`, `Intentos_Fallidos`) 
-    VALUES (2, `newNombre`, `newCorreo`, `newUsuario`, `newContraseña`, '', currentDate, '', currentDate, 1, 1, 1, 1, CURRENT_TIMESTAMP, NULL, NULL, NULL);
+    -- Obtener el ID de la última ficha ingresada
+    SELECT MAX(id_ficha) INTO last_id_ficha FROM ficha;
+
+    -- Insertar datos en la tabla tbl_productor
+    INSERT INTO tbl_productor (
+        id_ficha,
+        primer_nombre,
+        segundo_nombre,
+        primer_apellido,
+        segundo_apellido,
+        identificacion,
+        fecha_nacimiento,
+        genero,
+        estado_civil,
+        nivel_escolaridad,
+        ultimo_grado_escolar_aprobado,
+        telefono_1,
+        telefono_2,
+        telefono_3,
+        email_1,
+        email_2,
+        email_3,
+        descripcion,
+        creado_por,
+        fecha_creacion,
+        modificado_por,
+        fecha_modificacion,
+        estado
+    ) VALUES (
+        last_id_ficha,
+        p_primer_nombre,
+        p_segundo_nombre,
+        p_primer_apellido,
+        p_segundo_apellido,
+        p_identificacion,
+        p_fecha_nacimiento,
+        p_genero,
+        p_estado_civil,
+        p_nivel_escolaridad,
+        p_ultimo_grado_escolar_aprobado,
+        p_telefono_1,
+        p_telefono_2,
+        p_telefono_3,
+        p_email_1,
+        p_email_2,
+        p_email_3,
+        ' ',
+       ' ',
+        CURRENT_TIMESTAMP,
+       ' ',
+        CURRENT_TIMESTAMP,
+        'A'
+    );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Temp_Insertar_Ficha` (IN `p_Fecha_Solicitud` DATE, IN `p_Anio_Solicitud` INT, IN `p_Descripcion` VARCHAR(255), IN `p_Fecha_Entrevista` DATE, IN `p_Nombre_Encuentrador` VARCHAR(50), IN `p_Nombre_Encuestador` VARCHAR(50), IN `p_Nombre_Supervisor` VARCHAR(50))   BEGIN
+    DECLARE id_ficha BIGINT;
+
+    -- Insertar datos en la tabla fichas
+    INSERT INTO `fichas` (
+        `fecha_solicitud`,
+        `anio_solicitud`,
+        `descripcion`,
+        `creado_por`,
+        `fecha_creacion`,
+        `modificado_por`,
+        `fecha_modificacion`,
+        `estado`,
+        `fecha_entrevista`,
+        `nombre_encuentrador`,
+        `nombre_encuestador`,
+        `nombre_supervisor`
+    ) 
+    VALUES (
+        p_Fecha_Solicitud,
+        p_Anio_Solicitud,
+        p_Descripcion,
+        '',
+        CURRENT_TIMESTAMP,
+        NULL,
+        CURRENT_TIMESTAMP,
+        'A',
+        p_Fecha_Entrevista,
+        p_Nombre_Encuentrador,
+        p_Nombre_Encuestador,
+        p_Nombre_Supervisor
+    );
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateEtnia` (IN `etniaId` INT, IN `nuevaEtnia` VARCHAR(255), IN `nuevaDescripcion` TEXT, IN `nuevoEstado` VARCHAR(50))   BEGIN
@@ -2433,17 +2838,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateRole` (IN `newIdRol` BIGINT(2
     WHERE Id_rol = newIdRol;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateUsuario` (IN `newId_Usuario` BIGINT(20), IN `newNombre` VARCHAR(255), IN `newUsuario` VARCHAR(255), IN `newCorreo` VARCHAR(255), IN `newEstado` ENUM('ACTIVO','INACTIVO','PENDIENTE'))   BEGIN
-    UPDATE usuario
-    SET Nombre = newNombre,
-         Usuario= newUsuario,
-         Correo= newCorreo,
-         Estado= newEstado,
-        Fecha_Actualizacion = CURRENT_TIMESTAMP
-    WHERE Id_Usuario = newId_Usuario;
-
-END$$
-
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -2515,7 +2909,13 @@ CREATE TABLE `fichas` (
 INSERT INTO `fichas` (`id_ficha`, `fecha_solicitud`, `anio_solicitud`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`, `fecha_entrevista`, `nombre_encuentrador`, `firma_productor`, `nombre_encuestador`, `firma_encuestador`, `nombre_supervisor`, `firma_supervisor`) VALUES
 (1, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:43:05', 'manu', '2023-12-01 04:16:28', 'I', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
 (2, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:57:36', 'manu', '2023-12-01 04:17:22', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
-(3, '2023-11-17', 2023, 'Creado', 'manu', '2023-11-20 06:00:21', 'manu', '2023-12-01 04:17:06', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL);
+(3, '2023-11-17', 2023, 'Creado', 'manu', '2023-11-20 06:00:21', 'manu', '2023-12-01 04:17:06', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
+(4, '2023-12-02', 2023, 'TierrasSana', '2023-12-02', '2023-12-03 04:08:37', NULL, '2023-12-03 04:08:37', 'A', '0000-00-00', 'nombre_encuestador', NULL, 'nombre_supervisor', NULL, 'manu', NULL),
+(5, '2023-12-03', 2023, 'afde', 'manu', '2023-12-03 08:25:20', NULL, '2023-12-03 08:25:20', 'A', '2023-12-03', '', NULL, 'ale', NULL, 'nombre_supervisor', NULL),
+(11, '2023-12-03', 2023, 'TierrasSana', '', '2023-12-03 21:18:54', NULL, '2023-12-03 21:18:54', 'A', '2023-12-03', 'manuel', NULL, 'kavin', NULL, 'danieola', NULL),
+(12, '0000-00-00', 0, '', '', '2023-12-03 23:20:51', NULL, '2023-12-03 23:20:51', 'A', '0000-00-00', '', NULL, '', NULL, '', NULL),
+(13, '2023-12-03', 2023, 'ADS', '', '2023-12-04 00:10:22', NULL, '2023-12-04 00:10:22', 'A', '2023-12-03', 'manuel', NULL, 'karlas', NULL, 'ale', NULL),
+(14, '0000-00-00', 0, '', '', '2023-12-10 04:30:32', NULL, '2023-12-10 04:30:32', 'A', '0000-00-00', '', NULL, '', NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -2592,18 +2992,18 @@ INSERT INTO `objetos` (`Id_objetos`, `Objeto`, `Descripcion`, `tipo_objeto`, `Cr
 
 CREATE TABLE `parametros` (
   `Id_parametros` bigint(20) NOT NULL,
-  `Id_Usuario` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `Parametro` varchar(255) NOT NULL,
   `Valor` varchar(255) NOT NULL,
   `Fecha_Creacion` timestamp NULL DEFAULT NULL,
   `Fecha_Actualizacion` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `parametros`
 --
 
-INSERT INTO `parametros` (`Id_parametros`, `Id_Usuario`, `Parametro`, `Valor`, `Fecha_Creacion`, `Fecha_Actualizacion`) VALUES
+INSERT INTO `parametros` (`Id_parametros`, `id`, `Parametro`, `Valor`, `Fecha_Creacion`, `Fecha_Actualizacion`) VALUES
 (2, 1, 'Intentos_Fallidos', '3', '2022-09-27 11:46:41', '2022-09-27 11:46:41'),
 (3, 1, 'Admin_Preguntas', '2', '2022-10-18 03:11:00', NULL),
 (4, 1, 'Vigencia_Usuario', '30', '2022-10-26 08:00:00', NULL),
@@ -2766,25 +3166,28 @@ CREATE TABLE `sesion` (
 
 CREATE TABLE `tbl_aldeas` (
   `Id_Aldea` bigint(20) NOT NULL,
+  `Id_Departamento` bigint(20) NOT NULL,
   `Id_Municipio` bigint(20) NOT NULL,
   `Nombre_Aldea` varchar(100) DEFAULT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
   `Estado` enum('A','I') DEFAULT NULL,
-  `Id_Usuario` bigint(20) DEFAULT NULL,
   `Creado_Por` varchar(50) NOT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Modificado_Por` varchar(50) NOT NULL,
+  `Modificado_Por` varchar(50) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_aldeas`
 --
 
-INSERT INTO `tbl_aldeas` (`Id_Aldea`, `Id_Municipio`, `Nombre_Aldea`, `Descripcion`, `Estado`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
-(1, 1, 'Agua Blanca', 'Aldea de talanga', 'A', 1, '1', '2023-11-05 04:52:40', '1', '2023-11-05 04:52:40'),
-(2, 2, 'la capa', 'aldea de yoro', 'A', 1, '1', '2023-11-05 05:20:52', '1', '2023-11-05 05:20:52'),
-(3, 4, 'sss', 'sss', 'I', 1, '1', '2023-11-05 06:47:24', 'manu', '2023-11-15 05:08:31');
+INSERT INTO `tbl_aldeas` (`Id_Aldea`, `Id_Departamento`, `Id_Municipio`, `Nombre_Aldea`, `Descripcion`, `Estado`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
+(1, 1, 1, 'Corozal', 'Corozal', 'A', '1', '2023-12-07 06:36:03', '1', '2023-12-07 06:36:03'),
+(2, 2, 3, 'Chapagua', 'Chapagua', 'A', '1', '2023-12-07 06:36:03', '1', '2023-12-07 06:36:03'),
+(3, 3, 5, 'Agua Salada.', 'Agua Salada.', 'A', '1', '2023-12-07 06:39:51', '1', '2023-12-07 06:39:51'),
+(4, 4, 7, 'Calzontes', 'Calzontes', 'A', '1', '2023-12-07 06:39:51', '1', '2023-12-07 06:39:51'),
+(5, 5, 9, 'Artemisales', 'Artemisales', 'A', '1', '2023-12-07 06:44:53', '1', '2023-12-07 06:44:53'),
+(10, 1, 1, 'prueba', '32wd', 'A', 'manu', '2023-12-10 04:36:19', NULL, '2023-12-10 04:36:19');
 
 -- --------------------------------------------------------
 
@@ -2831,13 +3234,6 @@ CREATE TABLE `tbl_apoyos_produccion` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_apoyos_produccion`
---
-
-INSERT INTO `tbl_apoyos_produccion` (`id_apoyo_prod`, `id_ficha`, `id_productor`, `id_apoyo_produccion`, `otros_detalles`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 'otros detalles', 'descrip', 'manu', '2023-11-30 17:42:02', 'manu', '2023-11-30 17:42:02', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -2859,13 +3255,6 @@ CREATE TABLE `tbl_apoyo_actividad_externa` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_apoyo_actividad_externa`
---
-
-INSERT INTO `tbl_apoyo_actividad_externa` (`id_apoyo_ext`, `id_ficha`, `id_productor`, `recibe_apoyo_prodagrícola`, `atencion_por_UAG`, `productos_vendidospor_pralesc`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 'S', 'S', 'descrip', 'manu', '2023-11-30 18:40:29', 'amnu', '2023-11-30 18:40:29', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -2885,13 +3274,6 @@ CREATE TABLE `tbl_base_organizacion` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_base_organizacion`
---
-
-INSERT INTO `tbl_base_organizacion` (`id_pertenece_organizacion`, `id_ficha`, `id_productor`, `pertenece_a_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 'descrt', 'manu', '2023-11-30 23:00:51', 'manu', '2023-11-30 23:00:51', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -2901,31 +3283,27 @@ INSERT INTO `tbl_base_organizacion` (`id_pertenece_organizacion`, `id_ficha`, `i
 CREATE TABLE `tbl_cacerios` (
   `Id_Cacerio` bigint(20) NOT NULL,
   `Id_Aldea` bigint(20) NOT NULL,
+  `Id_Municipio` bigint(20) NOT NULL,
+  `Id_Departamento` bigint(20) NOT NULL,
   `Nombre_Cacerio` varchar(100) DEFAULT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
   `Estado` enum('A','I') DEFAULT NULL,
-  `Id_Usuario` bigint(20) DEFAULT NULL,
-  `Creado_Por` bigint(20) NOT NULL,
-  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Modificado_Por` bigint(20) NOT NULL,
+  `Creado_Por` varchar(25) NOT NULL,
+  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Modificado_Por` varchar(25) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_cacerios`
 --
 
-INSERT INTO `tbl_cacerios` (`Id_Cacerio`, `Id_Aldea`, `Nombre_Cacerio`, `Descripcion`, `Estado`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
-(1, 1, 'Cacerio1', 'Descripción1', 'I', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-04 06:00:00'),
-(2, 2, 'Cacerio2', 'Descripción2', 'I', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-04 06:00:00'),
-(3, 1, 'Cacerio3', 'Descripción3', 'I', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-04 06:00:00'),
-(4, 2, 'Cacerio4', 'Descripción4', 'A', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-05 09:01:00'),
-(5, 1, 'Cacerio5', 'Descripción5', 'I', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-04 06:00:00'),
-(6, 2, 'Cacerio6', 'Descripción6', 'A', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-05 09:01:09'),
-(7, 1, 'Cacerio7', 'Descripción7', 'I', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-04 06:00:00'),
-(8, 2, 'Cacerio8', 'Descripción8', 'I', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-04 06:00:00'),
-(9, 1, 'Cacerio9', 'Descripción9', 'I', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-04 06:00:00'),
-(10, 2, 'Cacerio10', 'Descripción10', 'A', 1, 1, '2023-11-04 06:00:00', 1, '2023-11-05 09:00:53');
+INSERT INTO `tbl_cacerios` (`Id_Cacerio`, `Id_Aldea`, `Id_Municipio`, `Id_Departamento`, `Nombre_Cacerio`, `Descripcion`, `Estado`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
+(1, 1, 1, 1, 'cacerio 1', 'cacerio 1', 'A', '1', '2023-12-07 06:45:39', '1', '2023-12-07 06:45:39'),
+(2, 2, 3, 2, 'cacerio 2', 'cacerio 2', 'A', '1', '2023-12-07 06:47:43', '1', '2023-12-07 06:47:43'),
+(3, 3, 5, 3, 'caserio 3', 'caserio 3', 'A', '1', '2023-12-07 06:49:40', '1', '2023-12-07 06:49:40'),
+(4, 4, 7, 4, 'caserio 4', 'caserio 4', 'A', '1', '2023-12-07 06:51:00', '1', '2023-12-07 06:51:00'),
+(5, 5, 9, 5, 'caserio 5', 'caserio 5', 'A', '1', '2023-12-07 06:51:51', '1', '2023-12-07 06:51:51');
 
 -- --------------------------------------------------------
 
@@ -2952,8 +3330,7 @@ CREATE TABLE `tbl_composicion` (
 --
 
 INSERT INTO `tbl_composicion` (`id_ficha`, `id_composicion`, `id_productor`, `genero`, `edad`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 0, 1, 'H', 50, 'gqad', 'manu', '2023-11-20 10:08:52', NULL, '2023-11-20 10:08:52', 'A'),
-(1, 1, 1, 'H', 28, 'desct', 'manu', '2023-11-20 09:28:22', 'manu', '2023-11-20 09:28:22', 'A');
+(1, 1, 1, 'H', 28, 'eff', 'manu', '2023-12-10 00:35:11', 'manu', '2023-12-10 00:35:11', 'A');
 
 -- --------------------------------------------------------
 
@@ -2977,13 +3354,6 @@ CREATE TABLE `tbl_credito_produccion` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_credito_produccion`
---
-
-INSERT INTO `tbl_credito_produccion` (`id_credpro`, `id_ficha`, `id_productor`, `ha_solicitado_creditos`, `id_fuente_credito`, `monto_credito`, `id_motivos_no_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 1, 10000.00, 1, 'descrip', 'manu', '2023-11-30 06:36:23', 'manu', '2023-11-30 06:36:23', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -2992,23 +3362,38 @@ INSERT INTO `tbl_credito_produccion` (`id_credpro`, `id_ficha`, `id_productor`, 
 
 CREATE TABLE `tbl_departamentos` (
   `Id_Departamento` bigint(20) NOT NULL,
-  `Id_Usuario` bigint(20) DEFAULT NULL,
   `Nombre_Departamento` varchar(100) DEFAULT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
-  `Creado_Por` bigint(20) NOT NULL,
+  `Creado_Por` varchar(25) NOT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Modificado_Por` bigint(20) NOT NULL,
-  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Modificado_Por` varchar(25) DEFAULT NULL,
+  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_departamentos`
 --
 
-INSERT INTO `tbl_departamentos` (`Id_Departamento`, `Id_Usuario`, `Nombre_Departamento`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 'Francisco Morazan', 'Central', 1, '2023-11-05 04:15:22', 1, '2023-11-05 04:15:22', 'A'),
-(2, 1, 'Olancho', 'saasas', 1, '2023-11-05 04:41:44', 1, '2023-11-15 05:02:39', 'A');
+INSERT INTO `tbl_departamentos` (`Id_Departamento`, `Nombre_Departamento`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(1, 'Atlántida', 'Atlántida', '1', '2023-12-07 05:54:18', '1', '2023-12-07 05:54:18', 'A'),
+(2, 'Colón', 'Colón', '1', '2023-12-07 05:55:56', '1', '2023-12-07 05:55:56', 'A'),
+(3, 'Comayagua', 'Comayagua', '1', '2023-12-07 05:55:56', '1', '2023-12-07 05:55:56', 'A'),
+(4, 'Copán', 'Copán', '1', '2023-12-07 05:57:00', '1', '2023-12-07 05:57:00', 'A'),
+(5, 'Cortés', 'Cortés', '1', '2023-12-07 06:01:28', '1', '2023-12-07 06:01:28', 'A'),
+(6, 'Choluteca', 'Choluteca', '1', '2023-12-07 05:57:00', '1', '2023-12-07 05:57:00', 'A'),
+(7, 'El Paraíso', 'El Paraíso', '1', '2023-12-07 06:01:57', '1', '2023-12-07 06:01:57', 'A'),
+(8, 'Francisco Morazán', 'Francisco Morazán', '1', '2023-12-07 06:01:57', '1', '2023-12-07 06:01:57', 'A'),
+(9, 'Gracias a Dios', 'Gracias a Dios', '1', '2023-12-07 06:02:45', '1', '2023-12-07 06:02:45', 'A'),
+(10, 'Intibucá', 'Intibucá', '1', '2023-12-07 06:03:16', '1', '2023-12-07 06:03:16', 'A'),
+(11, 'Islas de la Bahía', 'Islas de la Bahía', '1', '2023-12-07 06:03:33', '1', '2023-12-07 06:03:33', 'A'),
+(12, 'La Paz', 'La Paz', '1', '2023-12-07 06:03:55', '1', '2023-12-07 06:03:55', 'A'),
+(13, 'Lempira', 'Lempira', '1', '2023-12-07 06:03:55', '1', '2023-12-07 06:03:55', 'A'),
+(14, 'Ocotepeque', 'Ocotepeque', '1', '2023-12-07 06:04:32', '1', '2023-12-07 06:04:32', 'A'),
+(15, 'Olancho', 'Olancho', '1', '2023-12-07 06:04:49', '1', '2023-12-07 06:04:49', 'A'),
+(16, 'Santa Bárbara', 'Santa Bárbara', '1', '2023-12-07 06:05:06', '1', '2023-12-07 06:05:06', 'A'),
+(17, 'Valle', 'Valle', '1', '2023-12-07 06:05:22', '1', '2023-12-07 06:05:22', 'A'),
+(18, 'Yoro', 'Yoro', '1', '2023-12-07 06:05:39', 'manu', '2023-12-09 21:32:00', 'A');
 
 -- --------------------------------------------------------
 
@@ -3065,15 +3450,6 @@ CREATE TABLE `tbl_etnias_por_productor` (
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_etnias_por_productor`
---
-
-INSERT INTO `tbl_etnias_por_productor` (`Id_etnicidad`, `id_ficha`, `id_productor`, `id_etnia`, `detalle_de_otros`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 8, 'Prueba de Detalle1', 'Agregar Descripcion', 'manu', '2023-11-13 06:01:50', 'manu', '2023-11-20 02:41:03', 'I'),
-(2, 2, 2, 7, 'Prueba de Detalleas', 'desc', 'manu', '2023-11-20 02:48:45', NULL, '2023-11-20 02:48:45', 'A'),
-(3, 1, 1, 11, 'Prueba de Detalleas', 'sisterna', 'manu', '2023-11-20 02:49:31', NULL, '2023-11-20 02:49:31', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3127,13 +3503,6 @@ CREATE TABLE `tbl_ingreso_familiar` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_ingreso_familiar`
---
-
-INSERT INTO `tbl_ingreso_familiar` (`Id_Ficha`, `Id_Productor`, `Id_Ingreso_Familiar`, `Id_Tipo_Negocio`, `Total_Ingreso`, `Id_Periodo_Ingreso`, `Descripcion_Otros`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 10000.00, 1, 'otros', 'descr', 'manu', '2023-11-30 20:41:42', 'manu', '2023-11-30 20:41:42', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3160,13 +3529,6 @@ CREATE TABLE `tbl_manejo_riego` (
   `Estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_manejo_riego`
---
-
-INSERT INTO `tbl_manejo_riego` (`Id_Manejo_Riego`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Tiene_Riego`, `Superficie_Riego`, `Id_Medida_Superficie_Riego`, `Id_Tipo_Riego`, `Fuente_Agua`, `Disponibilidad_Agua_Meses`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 1, 1, 'S', 10.20, 2, 1, 'pozo', 4, 'prueba', NULL, 'manu', '2023-11-27 06:38:13', 'manu', '2023-11-27 06:38:13', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3175,7 +3537,7 @@ INSERT INTO `tbl_manejo_riego` (`Id_Manejo_Riego`, `Id_Ficha`, `Id_Ubicacion`, `
 
 CREATE TABLE `tbl_medidas_tierra` (
   `id_medida` bigint(20) NOT NULL,
-  `medida` enum('MZ','HA','TAREAS','') DEFAULT NULL,
+  `medida` varchar(25) DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(255) DEFAULT NULL,
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -3190,7 +3552,8 @@ CREATE TABLE `tbl_medidas_tierra` (
 
 INSERT INTO `tbl_medidas_tierra` (`id_medida`, `medida`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'TAREAS', 'Son 5 tareas', NULL, '2023-11-04 14:08:58', NULL, '2023-11-04 14:08:58', 'ACTIVO'),
-(2, 'HA', 'Se compraron 2', 'Daniela', '2023-11-05 08:59:02', 'Daniela', '2023-11-05 08:59:02', 'INACTIVO');
+(2, 'HA', 'Se compraron 2', 'Daniela', '2023-11-05 08:59:02', 'Daniela', '2023-11-05 08:59:02', 'INACTIVO'),
+(4, 'MZ', 'desc', 'Daniela', '2023-12-04 00:00:52', 'Daniela', '2023-12-04 00:00:52', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -3214,15 +3577,6 @@ CREATE TABLE `tbl_migracion_familiar` (
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_migracion_familiar`
---
-
-INSERT INTO `tbl_migracion_familiar` (`id_ficha`, `id_productor`, `id_migracion`, `tiene_migrantes`, `migracion_dentro_pais`, `migracion_fuera_pais`, `id_tipo_motivos`, `remesas`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 'N', 'S', 4, 'N', 'no tengo familiares en el extrajero', 'manu', '2023-12-01 02:35:42', 'manu', '2023-12-01 03:21:30', 'A'),
-(2, 2, 2, 'N', 'S', 'S', 3, 'S', 'TierrasSana', 'manu', '2023-12-01 03:15:19', 'manu', '2023-12-01 03:21:39', 'A'),
-(1, 1, 4, 'S', 'N', 'S', 1, 'N', 'TierrasSana1', 'manu', '2023-12-01 03:21:59', 'manu', '2023-12-01 03:22:16', 'A');
 
 -- --------------------------------------------------------
 
@@ -3290,25 +3644,30 @@ INSERT INTO `tbl_motivos_no_creditos` (`id_motivos_no_credito`, `motivo_no_credi
 CREATE TABLE `tbl_municipios` (
   `Id_Municipio` bigint(20) NOT NULL,
   `Id_Departamento` bigint(20) NOT NULL,
-  `Id_Usuario` bigint(20) DEFAULT NULL,
   `Nombre_Municipio` varchar(100) DEFAULT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
-  `Creado_Por` bigint(20) NOT NULL,
+  `Creado_Por` varchar(25) NOT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Modificado_Por` bigint(20) NOT NULL,
-  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Estado` enum('A','I') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `Modificado_Por` varchar(25) DEFAULT NULL,
+  `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Estado` enum('A','I') DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_municipios`
 --
 
-INSERT INTO `tbl_municipios` (`Id_Municipio`, `Id_Departamento`, `Id_Usuario`, `Nombre_Municipio`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 1, 'Talanga', 'Talanga', 1, '2023-11-05 04:33:27', 1, '2023-11-05 04:33:27', 'A'),
-(2, 1, 1, 'Yoro', 'Dep. Yoro', 1, '2023-11-05 04:54:02', 1, '2023-11-05 04:54:02', 'A'),
-(4, 1, 1, 'COMAYAGUELA', '32wd', 1, '2023-11-05 06:24:59', 1, '2023-11-05 06:24:59', 'A'),
-(5, 2, 1, 'TEGUCIGALPA', 'DEP. ', 1, '2023-11-05 06:26:27', 1, '2023-11-05 09:01:26', 'I');
+INSERT INTO `tbl_municipios` (`Id_Municipio`, `Id_Departamento`, `Nombre_Municipio`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(1, 1, 'La Ceiba', 'La Ceiba', '1', '2023-12-07 06:26:42', '1', '2023-12-07 06:26:42', 'A'),
+(2, 1, 'El Porvenir', 'El Porvenir', '1', '2023-12-07 06:26:42', '1', '2023-12-07 06:26:42', 'A'),
+(3, 2, 'Trujillo', 'Trujillo', '1', '2023-12-07 06:28:16', '1', '2023-12-07 06:28:16', 'A'),
+(4, 2, 'Balfate', 'Balfate', '1', '2023-12-07 06:29:48', '1', '2023-12-07 06:29:48', 'A'),
+(5, 3, 'Comayagua', 'Comayagua', '1', '2023-12-07 06:30:29', '1', '2023-12-07 06:30:29', 'A'),
+(6, 3, 'Ajuterique', 'Ajuterique', '1', '2023-12-07 06:31:37', '1', '2023-12-07 06:31:37', 'A'),
+(7, 4, 'Santa Rosa de Copán', 'Santa Rosa de Copán', '1', '2023-12-07 06:32:16', '1', '2023-12-07 06:32:16', 'A'),
+(8, 4, 'Cabañas', 'Cabañas', '1', '2023-12-07 06:33:12', '1', '2023-12-07 06:33:12', 'A'),
+(9, 5, 'San Pedro Sula', 'San Pedro Sula', '1', '2023-12-07 06:33:54', '1', '2023-12-07 06:33:54', 'A'),
+(10, 5, 'Choloma', 'Choloma', '1', '2023-12-07 06:34:21', '1', '2023-12-07 06:34:21', 'A');
 
 -- --------------------------------------------------------
 
@@ -3329,13 +3688,6 @@ CREATE TABLE `tbl_no_creditos` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_no_creditos`
---
-
-INSERT INTO `tbl_no_creditos` (`id_nocred`, `id_ficha`, `id_productor`, `id_motivos_no_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 'no se', 'manu', '2023-11-30 05:18:26', 'manu', '2023-11-30 05:18:26', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3353,14 +3705,6 @@ CREATE TABLE `tbl_organizaciones` (
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_organizaciones`
---
-
-INSERT INTO `tbl_organizaciones` (`id_organizacion`, `organizacion`, `id_tipo_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Cooperativa Elga', 2, 'Cooperativa de ahorro', 'manu', '2023-11-16 06:22:34', 'manu', '2023-11-16 06:26:08', 'A'),
-(2, 'Cooperativa Sagrada Familia', 2, 'Prueba', 'manu', '2023-11-17 20:47:02', 'manu', '2023-11-17 20:47:02', 'A');
 
 -- --------------------------------------------------------
 
@@ -3381,16 +3725,27 @@ CREATE TABLE `tbl_organizaciones_por_productor` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `tbl_organizaciones_por_productor`
+-- Estructura de tabla para la tabla `tbl_parametros`
 --
 
-INSERT INTO `tbl_organizaciones_por_productor` (`id_ficha`, `id_productor`, `id_organizacion`, `Id_Organizacion_Productor`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 2, 4, 'desc', 'manu', '2023-11-17 20:51:46', 'manu', '2023-11-18 05:43:18', 'I'),
-(1, 1, 2, 5, 'desc', 'manu', '2023-11-17 20:51:52', 'manu', '2023-11-19 04:53:48', 'I'),
-(2, 2, 2, 9, 'SI', 'manu', '2023-11-17 21:08:34', 'manu', '2023-11-19 04:53:53', 'A'),
-(1, 1, 2, 12, 'TierrasSana', '0', '2023-11-19 04:33:58', 'manu', '2023-11-19 04:55:11', 'I'),
-(2, 2, 2, 13, 'edi', '0', '2023-11-19 04:35:37', 'manu', '2023-11-20 02:51:15', 'I');
+CREATE TABLE `tbl_parametros` (
+  `id_parametros` bigint(20) NOT NULL,
+  `id_usuario` bigint(20) NOT NULL,
+  `parametro` varchar(30) NOT NULL,
+  `valor` varchar(20) NOT NULL,
+  `Fecha_Creacion` datetime NOT NULL,
+  `Fecha_Modificacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_parametros`
+--
+
+INSERT INTO `tbl_parametros` (`id_parametros`, `id_usuario`, `parametro`, `valor`, `Fecha_Creacion`, `Fecha_Modificacion`) VALUES
+(1, 1, 'admin_dias_vigencia', '360', '2023-12-09 23:48:41', '2023-12-08 23:48:41');
 
 -- --------------------------------------------------------
 
@@ -3443,13 +3798,6 @@ CREATE TABLE `tbl_practicas_por_produccion` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_practicas_por_produccion`
---
-
-INSERT INTO `tbl_practicas_por_produccion` (`Id_Practica_Produccion`, `Id_Ficha`, `Id_Productor`, `Id_Tipo_Practica`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 'Siembre de Miaz', NULL, 'manu', '2023-11-27 04:18:18', 'manu', '2023-11-27 04:18:18', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3479,14 +3827,6 @@ CREATE TABLE `tbl_produccion_agricola_anterior` (
   `Estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_produccion_agricola_anterior`
---
-
-INSERT INTO `tbl_produccion_agricola_anterior` (`Id_Produccion_Anterior`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Cultivo`, `Superficie_Primera_Postrera`, `Id_Medida_Primera_Postrera`, `Produccion_Obtenida`, `Id_Medida_Produccion_Obtenida`, `Cantidad_Vendida`, `Id_Medida_Vendida`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 1, 1, 1, 12.00, 2, 100.00, 1, 10.00, 1, 1000.00, 'ale', 'descr', NULL, 'manu', '2023-11-27 08:58:20', 'manu', '2023-11-27 08:58:20', 'A'),
-(2, 2, 1, 2, 1, 12.00, 1, 12.00, 1, 12.00, 1, 12.00, 'sdxsf', 'desc1', NULL, 'manu', '2023-11-28 08:31:23', NULL, '2023-11-28 08:31:23', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3511,13 +3851,6 @@ CREATE TABLE `tbl_produccion_comercializacion` (
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_produccion_comercializacion`
---
-
-INSERT INTO `tbl_produccion_comercializacion` (`Id_Produccion_Comercio`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Produccion`, `Cantidad_Produccion`, `Id_Medida_Produccion`, `Cantidad_Vendida`, `Id_Medida_Venta`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 1, 12.00, 1, 10.00, 1, 1000.00, 'ale gomez', 'manu', '2023-11-29 09:00:16', 'manu', '2023-11-29 09:00:16', 'A');
 
 -- --------------------------------------------------------
 
@@ -3547,13 +3880,6 @@ CREATE TABLE `tbl_produccion_pecuaria` (
   `Estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_produccion_pecuaria`
---
-
-INSERT INTO `tbl_produccion_pecuaria` (`Id_Produccion_Pecuaria`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Año_Produccion`, `Id_Tipo_Pecuario`, `Cantidad_Hembras`, `Cantidad_Machos`, `Cantidad_Total`, `Descripcion_Otros`, `Precio_Venta`, `Id_Medida_Venta`, `Cantidad_Mercado`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 1, 1, 2023, 1, 10, 20, 30, 'asdased', 1000.00, 1, 12, 'descr', 'manu', '2023-11-29 04:58:38', 'manu', '2023-11-29 07:35:54', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3573,13 +3899,6 @@ CREATE TABLE `tbl_produccion_vendida` (
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_produccion_vendida`
---
-
-INSERT INTO `tbl_produccion_vendida` (`Id_Produccion_Vendida`, `Año_Venta`, `Id_Tipo_Pecuario`, `Precio_Venta`, `Id_Medida_Venta`, `Cantidad_Mercado`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 2000, 1, 1000.00, 2, 12, 'manu', '2023-11-29 08:14:11', 'manu', '2023-11-29 08:14:11', 'A');
 
 -- --------------------------------------------------------
 
@@ -3643,13 +3962,6 @@ CREATE TABLE `tbl_productor_actividad_externa` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_productor_actividad_externa`
---
-
-INSERT INTO `tbl_productor_actividad_externa` (`id_actividad_ext`, `id_ficha`, `id_productor`, `miembros_realizan_actividades_fuera_finca`, `id_tomador_decisiones`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 1, 'desvr', 'manu', '2023-11-30 08:03:46', 'manu', '2023-11-30 08:03:46', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3669,15 +3981,6 @@ CREATE TABLE `tbl_relevo_organizacion` (
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_relevo_organizacion`
---
-
-INSERT INTO `tbl_relevo_organizacion` (`id_ficha`, `id_productor`, `Id_Relevo`, `tendra_relevo`, `cuantos_relevos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 2, 'Relevo por la vida', 'manu', '2023-11-19 05:15:18', 'manu', '2023-11-19 05:15:18', 'A'),
-(2, 2, 14, 'S', 71, 'TierrasSana1', 'manu', '2023-11-19 22:37:46', 'manu', '2023-11-19 22:45:03', 'I'),
-(1, 1, 15, 'N', 565, 'yh', 'manu', '2023-11-19 22:39:31', 'manu', '2023-11-19 22:51:06', 'I');
 
 -- --------------------------------------------------------
 
@@ -3723,13 +4026,6 @@ CREATE TABLE `tbl_tipos_apoyo_produccion` (
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_tipos_apoyo_produccion`
---
-
-INSERT INTO `tbl_tipos_apoyo_produccion` (`id_apoyo_produccion`, `id_ficha`, `id_productor`, `id_tipos_apoyos`, `otros_detalles`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 'banano', 'descrip', 'manu', '2023-11-30 09:45:30', 'manu', '2023-11-30 09:45:30', 'A');
 
 -- --------------------------------------------------------
 
@@ -3905,7 +4201,8 @@ CREATE TABLE `tbl_tipo_riego` (
 --
 
 INSERT INTO `tbl_tipo_riego` (`id_tipo_riego`, `tipo_riego`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Pozo', 'Pozo', 'Manuel', '2023-11-02 05:23:18', 'Manuel', '2023-11-02 05:23:18', 'ACTIVO');
+(1, 'Pozo', 'Pozo', 'Manuel', '2023-11-02 05:23:18', 'Manuel', '2023-11-02 05:23:18', 'ACTIVO'),
+(3, 'pozo', 'desc', 'Manuel', '2023-12-04 00:04:42', 'Manuel', '2023-12-04 00:04:42', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -3978,13 +4275,6 @@ CREATE TABLE `tbl_trabajadores_externos` (
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_trabajadores_externos`
---
-
-INSERT INTO `tbl_trabajadores_externos` (`id_trabajador_ext`, `id_ficha`, `id_productor`, `id_tipo_trabajador`, `cantidad_trabajador`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 12, 'saas', 'manu', '2023-11-21 08:26:07', 'manu', '2023-11-21 08:26:07', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3995,10 +4285,10 @@ CREATE TABLE `tbl_ubicacion_productor` (
   `id_ficha` bigint(20) DEFAULT NULL,
   `id_productor` bigint(20) DEFAULT NULL,
   `id_ubicacion` bigint(20) NOT NULL,
-  `id_departamento` bigint(20) DEFAULT NULL,
-  `id_municipio` bigint(20) DEFAULT NULL,
-  `id_aldea` bigint(20) DEFAULT NULL,
-  `id_caserio` bigint(20) DEFAULT NULL,
+  `Id_Departamento` bigint(20) NOT NULL,
+  `Id_Municipio` bigint(20) NOT NULL,
+  `Id_Aldea` bigint(20) NOT NULL,
+  `Id_Cacerio` bigint(20) NOT NULL,
   `ubicacion_geografica` varchar(255) DEFAULT NULL,
   `distancia_parcela_vivienda` decimal(10,2) DEFAULT NULL,
   `latitud_parcela` varchar(20) DEFAULT NULL,
@@ -4016,14 +4306,6 @@ CREATE TABLE `tbl_ubicacion_productor` (
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_ubicacion_productor`
---
-
-INSERT INTO `tbl_ubicacion_productor` (`id_ficha`, `id_productor`, `id_ubicacion`, `id_departamento`, `id_municipio`, `id_aldea`, `id_caserio`, `ubicacion_geografica`, `distancia_parcela_vivienda`, `latitud_parcela`, `longitud_parcela`, `msnm`, `direccion_1`, `direccion_2`, `direccion_3`, `vive_en_finca`, `nombre_finca`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 4, 1, 1, 'Prueba ', 100.00, '11', '12', 13.00, 'Col. Arturo Quezada', 'Col. Arturo Quezada1', 'Col. Arturo Quezada2', 'S', 'Resi Quezada', 'Prueba', 'manu', '2023-11-13 03:29:27', 'manu', '2023-11-20 08:38:11', 'A'),
-(1, 1, 2, 1, 1, 1, 1, 'Prueba', NULL, NULL, NULL, NULL, 'Col.Quezada', NULL, NULL, 'S', 'Resi Quezada', 'Prueba', '1', '2023-11-13 03:31:13', '1', '2023-11-20 07:46:21', 'A');
 
 -- --------------------------------------------------------
 
@@ -4061,15 +4343,6 @@ CREATE TABLE `tbl_unidad_productora` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_unidad_productora`
---
-
-INSERT INTO `tbl_unidad_productora` (`Id_Ubicacion`, `Id_Ficha`, `Id_Unidad_Productiva`, `Id_Productor`, `Tipo_De_Manejo`, `Superficie_Produccion`, `Id_Medida_Produccion`, `Superficie_Agricultura`, `Id_Medida_Agricultura`, `Superficie_Ganaderia`, `Id_Medida_Ganaderia`, `Superficie_Apicultura`, `Id_Medida_Apicultura`, `Superficie_Forestal`, `Id_Medida_Forestal`, `Superficie_Acuacultura`, `Numero_Estanques`, `Superficie_Agroturismo`, `Superficie_Otros`, `Otros_Descripcion`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 'Propia', 10.10, 1, 21.00, 2, 10.00, 2, 25.00, 1, 10.00, 2, 45.00, 50, 41.00, 14.00, 'otros descripcion', 'desc', NULL, 'manu', '2023-11-23 06:16:24', 'manu', '2023-11-23 06:16:24', 'A'),
-(2, 2, 2, 2, 'Propia', 10.20, 2, 12.00, 1, 13.00, 1, 14.00, 1, 15.00, 2, 10.00, 50, 21.00, 0.00, 'Descripción de Otros', 'Descripción ', NULL, 'manu', '2023-11-25 06:30:55', NULL, '2023-11-25 06:30:55', 'A'),
-(2, 3, 3, 3, 'Alquilada', 10.20, 1, 12.00, 1, 13.00, 1, 14.00, 1, 15.00, 1, 10.00, 50, 21.00, 0.00, 'Descripción de Otros', 'Descripción', NULL, 'manu', '2023-11-25 06:48:11', NULL, '2023-11-25 06:48:11', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -4078,20 +4351,21 @@ INSERT INTO `tbl_unidad_productora` (`Id_Ubicacion`, `Id_Ficha`, `Id_Unidad_Prod
 
 CREATE TABLE `usuario` (
   `Id_Usuario` bigint(20) NOT NULL,
-  `Id_rol` bigint(20) NOT NULL,
-  `Nombre` varchar(255) NOT NULL,
-  `Correo` varchar(255) NOT NULL,
+  `id_rol` bigint(20) NOT NULL,
+  `nombre_completo` varchar(255) NOT NULL,
+  `correo` varchar(255) NOT NULL,
   `usuario` varchar(255) NOT NULL,
-  `Contraseña` varchar(255) NOT NULL,
+  `contrasena` varchar(255) NOT NULL,
   `Token` varchar(100) DEFAULT NULL,
-  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Fecha_Vencimiento_Token` datetime DEFAULT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `Actualizado_Por` bigint(20) NOT NULL,
   `Fecha_Actualizacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `Preguntas_Contestadas` int(11) NOT NULL,
-  `Estado` int(11) NOT NULL,
-  `Id_estado` bigint(20) NOT NULL,
-  `Primera_Vez` tinyint(1) NOT NULL,
-  `Fecha_Vencimiento` date NOT NULL,
+  `Estado` enum('ACTIVO','INACTIVO','PENDIENTE','BLOQUEADO') NOT NULL,
+  `id_estado` bigint(20) NOT NULL,
+  `Primera_Vez` enum('SI','NO') NOT NULL,
+  `fecha_vencimiento` timestamp NOT NULL DEFAULT current_timestamp(),
   `Intentos_Preguntas` int(3) DEFAULT NULL,
   `Preguntas_Correctas` int(3) DEFAULT NULL,
   `Intentos_Fallidos` int(11) DEFAULT NULL
@@ -4101,9 +4375,9 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`Id_Usuario`, `Id_rol`, `Nombre`, `Correo`, `usuario`, `Contraseña`, `Token`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Preguntas_Contestadas`, `Estado`, `Id_estado`, `Primera_Vez`, `Fecha_Vencimiento`, `Intentos_Preguntas`, `Preguntas_Correctas`, `Intentos_Fallidos`) VALUES
-(1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 1, 1, 1, '2023-10-31', NULL, NULL, 0),
-(2, 18, 'AS', 'AS', 'ASZ', '111', NULL, '2023-10-25 08:04:11', 1, '2023-10-31 08:04:11', 1, 1, 1, 1, '2023-10-31', NULL, NULL, NULL);
+INSERT INTO `usuario` (`Id_Usuario`, `id_rol`, `nombre_completo`, `correo`, `usuario`, `contrasena`, `Token`, `Fecha_Vencimiento_Token`, `fecha_creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Preguntas_Contestadas`, `Estado`, `id_estado`, `Primera_Vez`, `fecha_vencimiento`, `Intentos_Preguntas`, `Preguntas_Correctas`, `Intentos_Fallidos`) VALUES
+(1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', NULL, '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 'ACTIVO', 1, 'SI', '2023-10-31 06:00:00', NULL, NULL, 0),
+(9, 2, 'MANUEL FIGUEROA', 'manuelfigueroa2818@gmail.com', 'HARU', '$2y$10$WHs2RM.ozD3KRQu1Dq8Ks.adgThvWCNojDPlhvYpVulktVmlC18/q', NULL, NULL, '2023-12-10 14:00:24', 0, '2023-12-10 07:00:24', 0, 'ACTIVO', 1, 'SI', '1970-01-01 07:00:00', NULL, NULL, 0);
 
 --
 -- Índices para tablas volcadas
@@ -4131,8 +4405,7 @@ ALTER TABLE `objetos`
 -- Indices de la tabla `parametros`
 --
 ALTER TABLE `parametros`
-  ADD PRIMARY KEY (`Id_parametros`),
-  ADD KEY `Parametro_Usuario_id` (`Id_Usuario`);
+  ADD PRIMARY KEY (`Id_parametros`);
 
 --
 -- Indices de la tabla `permisos`
@@ -4167,8 +4440,8 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `tbl_aldeas`
   ADD PRIMARY KEY (`Id_Aldea`),
-  ADD KEY `FK_Aldea_Usuario` (`Id_Usuario`),
-  ADD KEY `FK_Aldea_Municipio` (`Id_Municipio`);
+  ADD KEY `fk_municipio_aldeas` (`Id_Municipio`),
+  ADD KEY `fk_departamento_aldeas` (`Id_Departamento`);
 
 --
 -- Indices de la tabla `tbl_apoyos`
@@ -4206,8 +4479,9 @@ ALTER TABLE `tbl_base_organizacion`
 --
 ALTER TABLE `tbl_cacerios`
   ADD PRIMARY KEY (`Id_Cacerio`),
-  ADD KEY `FK_Cacerio_Usuario` (`Id_Usuario`),
-  ADD KEY `FK_Caserio_Aldea` (`Id_Aldea`);
+  ADD KEY `fk_aldea_cacerios` (`Id_Aldea`),
+  ADD KEY `fk_municipio_cacerios` (`Id_Municipio`),
+  ADD KEY `fk_departamento_cacerios` (`Id_Departamento`);
 
 --
 -- Indices de la tabla `tbl_composicion`
@@ -4231,8 +4505,7 @@ ALTER TABLE `tbl_credito_produccion`
 -- Indices de la tabla `tbl_departamentos`
 --
 ALTER TABLE `tbl_departamentos`
-  ADD PRIMARY KEY (`Id_Departamento`),
-  ADD KEY `FK_Departamento_Usuario` (`Id_Usuario`);
+  ADD PRIMARY KEY (`Id_Departamento`);
 
 --
 -- Indices de la tabla `tbl_etnias`
@@ -4308,8 +4581,7 @@ ALTER TABLE `tbl_motivos_no_creditos`
 --
 ALTER TABLE `tbl_municipios`
   ADD PRIMARY KEY (`Id_Municipio`),
-  ADD KEY `FK_Municipio_Usuario` (`Id_Usuario`),
-  ADD KEY `FK_Municipio_Departamento` (`Id_Departamento`);
+  ADD KEY `fk_municipios_departamento` (`Id_Departamento`);
 
 --
 -- Indices de la tabla `tbl_no_creditos`
@@ -4335,6 +4607,12 @@ ALTER TABLE `tbl_organizaciones_por_productor`
   ADD KEY `fk_organizacion_por_productor` (`id_organizacion`),
   ADD KEY `fk_id_productor` (`id_productor`),
   ADD KEY `id_ficha` (`id_ficha`);
+
+--
+-- Indices de la tabla `tbl_parametros`
+--
+ALTER TABLE `tbl_parametros`
+  ADD PRIMARY KEY (`id_parametros`);
 
 --
 -- Indices de la tabla `tbl_periodicidad`
@@ -4502,12 +4780,12 @@ ALTER TABLE `tbl_trabajadores_externos`
 --
 ALTER TABLE `tbl_ubicacion_productor`
   ADD PRIMARY KEY (`id_ubicacion`),
-  ADD KEY `id_departamento` (`id_departamento`),
-  ADD KEY `id_municipio` (`id_municipio`),
-  ADD KEY `id_aldea` (`id_aldea`),
-  ADD KEY `id_caserio` (`id_caserio`),
   ADD KEY `id_productor` (`id_productor`),
-  ADD KEY `fk_id_ficha_ubicacion` (`id_ficha`);
+  ADD KEY `fk_id_ficha_ubicacion` (`id_ficha`),
+  ADD KEY `fk_departamento_ubicacion_productor` (`Id_Departamento`),
+  ADD KEY `fk_municipio_ubicacion_productor` (`Id_Municipio`),
+  ADD KEY `fk_aldea_ubicacion_productor` (`Id_Aldea`),
+  ADD KEY `fk_cacerio_ubicacion_productor` (`Id_Cacerio`);
 
 --
 -- Indices de la tabla `tbl_unidad_productora`
@@ -4528,13 +4806,11 @@ ALTER TABLE `tbl_unidad_productora`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`Id_Usuario`),
-  ADD KEY `Estado` (`Id_estado`),
-  ADD KEY `Rol` (`Id_rol`);
+  ADD KEY `Estado` (`id_estado`),
+  ADD KEY `Rol` (`id_rol`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
-ALTER TABLE `fichas`
-  MODIFY `id_ficha` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 
 --
@@ -4544,10 +4820,22 @@ ALTER TABLE `estado_usuario`
   MODIFY `id_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `fichas`
+--
+ALTER TABLE `fichas`
+  MODIFY `id_ficha` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT de la tabla `objetos`
 --
 ALTER TABLE `objetos`
   MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `parametros`
+--
+ALTER TABLE `parametros`
+  MODIFY `Id_parametros` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
@@ -4577,7 +4865,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tbl_aldeas`
 --
 ALTER TABLE `tbl_aldeas`
-  MODIFY `Id_Aldea` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Aldea` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyos`
@@ -4607,7 +4895,13 @@ ALTER TABLE `tbl_base_organizacion`
 -- AUTO_INCREMENT de la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
-  MODIFY `Id_Cacerio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id_Cacerio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_composicion`
+--
+ALTER TABLE `tbl_composicion`
+  MODIFY `id_composicion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_credito_produccion`
@@ -4619,7 +4913,7 @@ ALTER TABLE `tbl_credito_produccion`
 -- AUTO_INCREMENT de la tabla `tbl_departamentos`
 --
 ALTER TABLE `tbl_departamentos`
-  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etnias`
@@ -4655,7 +4949,7 @@ ALTER TABLE `tbl_manejo_riego`
 -- AUTO_INCREMENT de la tabla `tbl_medidas_tierra`
 --
 ALTER TABLE `tbl_medidas_tierra`
-  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_migracion_familiar`
@@ -4679,7 +4973,7 @@ ALTER TABLE `tbl_motivos_no_creditos`
 -- AUTO_INCREMENT de la tabla `tbl_municipios`
 --
 ALTER TABLE `tbl_municipios`
-  MODIFY `Id_Municipio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_Municipio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_no_creditos`
@@ -4698,6 +4992,12 @@ ALTER TABLE `tbl_organizaciones`
 --
 ALTER TABLE `tbl_organizaciones_por_productor`
   MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `tbl_parametros`
+--
+ALTER TABLE `tbl_parametros`
+  MODIFY `id_parametros` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_periodicidad`
@@ -4739,7 +5039,7 @@ ALTER TABLE `tbl_produccion_vendida`
 -- AUTO_INCREMENT de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
-  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_productor_actividad_externa`
@@ -4805,7 +5105,7 @@ ALTER TABLE `tbl_tipo_produccion`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_riego`
 --
 ALTER TABLE `tbl_tipo_riego`
-  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_trabajadores`
@@ -4826,6 +5126,12 @@ ALTER TABLE `tbl_trabajadores_externos`
   MODIFY `id_trabajador_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_ubicacion_productor`
+--
+ALTER TABLE `tbl_ubicacion_productor`
+  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_unidad_productora`
 --
 ALTER TABLE `tbl_unidad_productora`
@@ -4835,17 +5141,11 @@ ALTER TABLE `tbl_unidad_productora`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `parametros`
---
-ALTER TABLE `parametros`
-  ADD CONSTRAINT `Parametro_Usuario` FOREIGN KEY (`Id_Usuario`) REFERENCES `usuario` (`Id_Usuario`);
 
 --
 -- Filtros para la tabla `permisos`
@@ -4865,8 +5165,8 @@ ALTER TABLE `preguntas_usuario`
 -- Filtros para la tabla `tbl_aldeas`
 --
 ALTER TABLE `tbl_aldeas`
-  ADD CONSTRAINT `FK_Aldea_Municipio` FOREIGN KEY (`Id_Municipio`) REFERENCES `tbl_municipios` (`Id_Municipio`),
-  ADD CONSTRAINT `FK_Aldea_Usuario` FOREIGN KEY (`Id_Usuario`) REFERENCES `usuario` (`Id_Usuario`);
+  ADD CONSTRAINT `fk_departamento_aldeas` FOREIGN KEY (`Id_Departamento`) REFERENCES `tbl_departamentos` (`Id_Departamento`),
+  ADD CONSTRAINT `fk_municipio_aldeas` FOREIGN KEY (`Id_Municipio`) REFERENCES `tbl_municipios` (`Id_Municipio`);
 
 --
 -- Filtros para la tabla `tbl_apoyos_produccion`
@@ -4894,8 +5194,9 @@ ALTER TABLE `tbl_base_organizacion`
 -- Filtros para la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
-  ADD CONSTRAINT `FK_Cacerio_Usuario` FOREIGN KEY (`Id_Usuario`) REFERENCES `usuario` (`Id_Usuario`),
-  ADD CONSTRAINT `FK_Caserio_Aldea` FOREIGN KEY (`Id_Aldea`) REFERENCES `tbl_aldeas` (`Id_Aldea`);
+  ADD CONSTRAINT `fk_aldea_cacerios` FOREIGN KEY (`Id_Aldea`) REFERENCES `tbl_aldeas` (`Id_Aldea`),
+  ADD CONSTRAINT `fk_departamento_cacerios` FOREIGN KEY (`Id_Departamento`) REFERENCES `tbl_departamentos` (`Id_Departamento`),
+  ADD CONSTRAINT `fk_municipio_cacerios` FOREIGN KEY (`Id_Municipio`) REFERENCES `tbl_municipios` (`Id_Municipio`);
 
 --
 -- Filtros para la tabla `tbl_composicion`
@@ -4912,12 +5213,6 @@ ALTER TABLE `tbl_credito_produccion`
   ADD CONSTRAINT `fk_id_fuente_credito` FOREIGN KEY (`id_fuente_credito`) REFERENCES `tbl_fuentes_credito` (`id_fuente_credito`),
   ADD CONSTRAINT `fk_id_motivos_no_credito` FOREIGN KEY (`id_motivos_no_credito`) REFERENCES `tbl_motivos_no_creditos` (`id_motivos_no_credito`),
   ADD CONSTRAINT `fk_id_productor_credito_produccion` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
-
---
--- Filtros para la tabla `tbl_departamentos`
---
-ALTER TABLE `tbl_departamentos`
-  ADD CONSTRAINT `FK_Departamento_Usuario` FOREIGN KEY (`Id_Usuario`) REFERENCES `usuario` (`Id_Usuario`);
 
 --
 -- Filtros para la tabla `tbl_etnias_por_productor`
@@ -4958,8 +5253,7 @@ ALTER TABLE `tbl_migracion_familiar`
 -- Filtros para la tabla `tbl_municipios`
 --
 ALTER TABLE `tbl_municipios`
-  ADD CONSTRAINT `FK_Municipio_Departamento` FOREIGN KEY (`Id_Departamento`) REFERENCES `tbl_departamentos` (`Id_Departamento`),
-  ADD CONSTRAINT `FK_Municipio_Usuario` FOREIGN KEY (`Id_Usuario`) REFERENCES `usuario` (`Id_Usuario`);
+  ADD CONSTRAINT `fk_municipios_departamento` FOREIGN KEY (`Id_Departamento`) REFERENCES `tbl_departamentos` (`Id_Departamento`);
 
 --
 -- Filtros para la tabla `tbl_no_creditos`
@@ -5072,11 +5366,11 @@ ALTER TABLE `tbl_trabajadores_externos`
 -- Filtros para la tabla `tbl_ubicacion_productor`
 --
 ALTER TABLE `tbl_ubicacion_productor`
+  ADD CONSTRAINT `fk_aldea_ubicacion_productor` FOREIGN KEY (`Id_Aldea`) REFERENCES `tbl_aldeas` (`Id_Aldea`),
+  ADD CONSTRAINT `fk_cacerio_ubicacion_productor` FOREIGN KEY (`Id_Cacerio`) REFERENCES `tbl_cacerios` (`Id_Cacerio`),
+  ADD CONSTRAINT `fk_departamento_ubicacion_productor` FOREIGN KEY (`Id_Departamento`) REFERENCES `tbl_departamentos` (`Id_Departamento`),
   ADD CONSTRAINT `fk_id_ficha_ubicacion` FOREIGN KEY (`id_ficha`) REFERENCES `fichas` (`id_ficha`),
-  ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_1` FOREIGN KEY (`id_departamento`) REFERENCES `tbl_departamentos` (`Id_Departamento`),
-  ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_2` FOREIGN KEY (`id_municipio`) REFERENCES `tbl_municipios` (`Id_Municipio`),
-  ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_3` FOREIGN KEY (`id_aldea`) REFERENCES `tbl_aldeas` (`Id_Aldea`),
-  ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_4` FOREIGN KEY (`id_caserio`) REFERENCES `tbl_cacerios` (`Id_Cacerio`),
+  ADD CONSTRAINT `fk_municipio_ubicacion_productor` FOREIGN KEY (`Id_Municipio`) REFERENCES `tbl_municipios` (`Id_Municipio`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_5` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_6` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
 
