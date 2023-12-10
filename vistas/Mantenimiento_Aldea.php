@@ -258,17 +258,6 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             <div class="modal-body">
                 <form action="modelos/agregar_aldea.php" method="POST">
                     <div class="row mb-3">
-<<<<<<< Updated upstream
-                        <div class="col">
-                            <label for="Nombre_Aldea" class="form-label">Nombre Aldea</label>
-                            <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
-                            <span id="error_message" style="color: red;"></span>
-                        </div>
-                        <div class="col">
-                            <label for="Descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
-                            <span id="error_message" style="color: red;"></span>
-=======
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="Id_Departamento">Departamento:</label>
@@ -330,21 +319,18 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             </div>
                         </div>
 
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="Nombre_Aldea">Aldea</label>
-                                <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
-                                <span id="error_message" style="color: red;"></span>
-                            </div>
+                        <div class="col">
+                            <label for="Nombre_Aldea" class="form-label">Nombre Aldea</label>
+                            <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
 
 
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="Descripcion">Descripción</label>
-                                <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
+                        <div class="col">
+                            <label for="Descripcion" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                             </div>
->>>>>>> Stashed changes
                         </div>
                     </div>
 
@@ -472,11 +458,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         });
     });
 </script>
-<<<<<<< Updated upstream
 
-=======
 <!-- Agrega esto al final del archivo HTML que contiene el campo de texto -->
->>>>>>> Stashed changes
 <script>
     function validateInput(input) {
         var regex = /^[A-Za-z]+$/;
