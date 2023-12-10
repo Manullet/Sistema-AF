@@ -160,7 +160,7 @@ function obtenerNumeroFicha($conexion)
 
 <div class="containertable">
     <div class="header">
-        <h1 class="poppins-font mb-2">FICHA DE REGISTRO</h1>
+        <h1 class="poppins-font mb-2">FORMULARIO DE REGISTRO</h1>
         <div class="mb-4 border-bottom"></div>
     </div>
     <div class="main-content row">
@@ -243,7 +243,7 @@ function obtenerNumeroFicha($conexion)
         <!-- Formularios -->
         <div class="col-md-9">
             <!-- Datos de la ficha -->
-            <form action="modelos/llenar_registro.php" method="POST" id="datosFichaForm" class="form-section">
+            <form action="modelos/agregar_ficha.php" method="POST" id="datosFichaForm" class="form-section">
                 <h3>Ficha</h3>
                 <br>
                 <div class="form-row">
@@ -292,7 +292,7 @@ function obtenerNumeroFicha($conexion)
 
 
             <!-- Formulario de Datos Generales -->
-            <form action="modelos/datosTrabajadorForm.php" method="POST" id="datosTrabajadorForm" class="form-section" style="display: none;">
+            <form action="modelos/agregar_datos_productor.php" method="POST" id="datosTrabajadorForm" class="form-section" style="display: none;">
                 <!-- Agrega el campo formType -->
                 <input type="hidden" name="formType" value="datosTrabajador">
                 <!-- Datos del Trabajador -->
@@ -396,8 +396,9 @@ function obtenerNumeroFicha($conexion)
                 </div>
                 <div class="modal-footer center-content-between">
 
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUbiForm')" class="btn btn-actualizar">Siguiente</button>
+               
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosFichaForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUbiForm')" class="btn btn-actualizar">Siguiente</button>
                    
                 </div>
             </form>
@@ -567,9 +568,10 @@ function obtenerNumeroFicha($conexion)
                 </div>
 
                 <div class="modal-footer center-content-between">
-                    <button type="submit" id="guardarBtn" class="btn btn-actualizar">Guardar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPertenenciaForm')" class="btn btn-actualizar">Siguiente</button>
+                   
+                    
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosTrabajadorForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPertenenciaForm')" class="btn btn-actualizar">Siguiente</button>
                     
                 </div>
             </form>
@@ -1992,7 +1994,7 @@ function obtenerNumeroFicha($conexion)
               // Realizar la solicitud AJAX
               $.ajax({
                   type: 'POST',
-                  url: 'modelos/llenar_registro.php',
+                  url: 'modelos/agregar_ficha.php',
                   data: $(this).serialize(),
                   success: function (response) {
                       // Aquí puedes manejar la respuesta del servidor si es necesario
@@ -2020,7 +2022,7 @@ function obtenerNumeroFicha($conexion)
               // Realizar la solicitud AJAX
               $.ajax({
                   type: 'POST',
-                  url: 'modelos/datosTrabajadorForm.php',
+                  url: 'modelos/agregar_datos_productor.php',
                   data: $(this).serialize(),
                   success: function (response) {
                       // Aquí puedes manejar la respuesta del servidor si es necesario

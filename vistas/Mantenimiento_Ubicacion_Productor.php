@@ -44,7 +44,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
-            </seleSct>
+            </select>
             <span class="registros-text">Registros</span></label>
     </div>
     <!--  funcion para mostrar registros -->
@@ -92,7 +92,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             LEFT JOIN tbl_departamentos d ON up.id_departamento = d.Id_Departamento
             LEFT JOIN tbl_municipios m ON up.id_municipio = m.Id_Municipio
             LEFT JOIN tbl_aldeas a ON up.id_aldea = a.Id_Aldea
-            LEFT JOIN tbl_cacerios c ON up.id_caserio = c.Id_Cacerio
+            LEFT JOIN tbl_cacerios c ON up.Id_Cacerio = c.Id_Cacerio
             LEFT JOIN tbl_productor p ON up.id_productor = p.id_productor;
             ");
 

@@ -22,7 +22,7 @@
                 <li class="nav-item nav-item-custom">
                     <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Llenar_ficha.php','content-wrapper')">
                         <i class="bi bi-file-earmark-plus-fill"></i>
-                        <p>Llenar Ficha</p>
+                        <p>Llenar Formulario</p>
                     </a>
                 </li>
 

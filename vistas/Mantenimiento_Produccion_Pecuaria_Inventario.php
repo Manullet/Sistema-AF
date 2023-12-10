@@ -584,7 +584,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row mb-3">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Cantidad_Mercado">p_Cantidad_Mercado </label>
+                                <label for="Cantidad_Mercado">Cantidad Mercado </label>
                                 <input type="text" class="form-control" id="Cantidad_Mercado" name="Cantidad_Mercado" required>
                             </div>
                         </div>
