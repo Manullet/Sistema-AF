@@ -16,7 +16,7 @@ session_start();
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">CACERIOS</h1>
+            <h1 class="poppins-font mb-2">CASERIOS</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                 <i class="bi bi-plus-square icono-grande"></i> Crear
@@ -29,7 +29,7 @@ session_start();
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar cacerio..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar caserío..." aria-label="Search">
                 </div>
             </form>
         </div>
@@ -225,7 +225,7 @@ session_start();
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">Caceria</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">Caserío</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -234,12 +234,14 @@ session_start();
                 <form action="modelos/agregar_cacerio.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="Nombre_Cacerio" class="form-label">Nombre Cacerio</label>
-                            <input type="text" class="form-control" id="Nombre_Cacerio" name="Nombre_Cacerio">
+                            <label for="Nombre_Cacerio" class="form-label">Nombre Caserío</label>
+                            <input type="text" class="form-control" id="Nombre_Cacerio" name="Nombre_Cacerio" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                         <div class="col">
                             <label for="Descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion">
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
 

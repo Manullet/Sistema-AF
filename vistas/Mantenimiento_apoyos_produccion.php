@@ -218,8 +218,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="otros_detalles">otros_detalles</label>
-                                <input type="text" class="form-control" id="otros_detalles" name="otros_detalles" required>
+                                <label for="otros_detalles">Otros Detalles</label>
+                                <input type="text" class="form-control" id="otros_detalles" name="otros_detalles" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
                     </div>
@@ -251,7 +252,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="descripcion">descripcion</label>
+                                <label for="descripcion">Descripción</label>
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                         </div>
@@ -347,14 +348,15 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="otros_detalles">otros_detalles</label>
-                                <input type="text" class="form-control" id="otros_detalles" name="otros_detalles" required>
+                                <label for="otros_detalles">Otros Detalles</label>
+                                <input type="text" class="form-control" id="otros_detalles" name="otros_detalles"pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="id_apoyo_produccion">Tipo apoyos :</label>
-                                <select class="form-control" id="id_apoyo_produccion" name="id_apoyo_produccion" required>
+                                <select class="form-control" id="id_apoyo_produccion" name="id_apoyo_produccion"  required>
                                     <?php
                                     // Conexión a la base de datos
                                     include '../php/conexion_be.php';
@@ -380,8 +382,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="descripcion">descripcion</label>
-                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                                <label for="descripcion">Descripción</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
                     </div>

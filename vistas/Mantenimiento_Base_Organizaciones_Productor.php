@@ -16,7 +16,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">PERIODOS</h1>
+            <h1 class="poppins-font mb-2">PERTENENCIA A ORGANIZACIONES</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                 <i class="bi bi-plus-square icono-grande"></i> Crear
@@ -63,7 +63,6 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Nº</th>
                     <th scope="col">Nº Ficha</th>
                     <th scope="col">Productor</th>
                     <th scope="col">Pertenece Organizacion</th>
@@ -148,7 +147,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR PERIODOS</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR ORGANIZACIONES</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -232,8 +231,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
                     <div class="form-row">
                         <div class="col">
-                            <label for="descripcion" class="form-label">descripcion</label>
+                            <label for="descripcion" class="form-label">Descripción</label>
                             <input type="text" class="form-control" id="descripcion" name="descripcion">
+                         
                         </div>
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
@@ -334,8 +334,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             </div>
                         </div>
                         <div class="col">
-                            <label for="descripcion" class="form-label">descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
                     <div class="modal-footer">

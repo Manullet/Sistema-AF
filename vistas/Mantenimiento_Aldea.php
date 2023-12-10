@@ -219,7 +219,7 @@ session_start();
     <div class="modal-dialog"  role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">Municipio</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">Aldea</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -228,12 +228,14 @@ session_start();
                 <form action="modelos/agregar_aldea.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="Nombre_Aldea" class="form-label">Nombre Municipio</label>
-                            <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea">
+                            <label for="Nombre_Aldea" class="form-label">Nombre Aldea</label>
+                            <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                         <div class="col">
                             <label for="Descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion">
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -386,6 +388,7 @@ session_start();
         });
     });
 </script>
+
 <script>
     function validateInput(input) {
         var regex = /^[A-Za-z]+$/;

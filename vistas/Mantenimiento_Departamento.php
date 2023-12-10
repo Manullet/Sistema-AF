@@ -195,11 +195,13 @@ session_start();
                     <div class="row mb-3">
                         <div class="col">
                             <label for="Nombre_Departamento" class="form-label">Departamento</label>
-                            <input type="text" class="form-control" id="Nombre_Departamento" name="Nombre_Departamento">
+                            <input type="text" class="form-control" id="Nombre_Departamento" name="Nombre_Departamento" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                         <div class="col">
                             <label for="Descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion">
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
                    

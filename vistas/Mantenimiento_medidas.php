@@ -190,12 +190,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row mb-3">
                         <div class="col">
                             <label for="medida" class="form-label">Medida</label>
-                            <input type="text" class="form-control" id="medida" name="medida" placeholder="Ingresa la medida" required>
+                            <input type="text" class="form-control" id="medida" name="medida" placeholder="Ingresa la medida" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                            <span id="error_message" style="color: red;"></span>
                         </div>
 
                         <div class="col">
                             <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" >
+                            
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -318,6 +320,19 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             });
         });
     });
+</script>
+
+<script>
+    function validateInput(input) {
+        var regex = /^[A-Za-z]+$/;
+        var error_message = document.getElementById('error_message');
+
+        if (!regex.test(input.value)) {
+            error_message.textContent = 'Solo se permiten letras en este campo.';
+        } else {
+            error_message.textContent = '';
+        }
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

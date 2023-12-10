@@ -16,7 +16,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">PERIODOS</h1>
+            <h1 class="poppins-font mb-2">MIGRACION FAMILIAR</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                 <i class="bi bi-plus-square icono-grande"></i> Crear
@@ -63,7 +63,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Nº Codigo </th>
+                    <th scope="col">Nº Ficha </th>
 
                     <th scope="col">Productor</th>
                     <th scope="col">Tiene migrantes</th>
@@ -308,8 +308,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     </div>
                     <div class="form-row">
                         <div class="col">
-                            <label for="descripcion" class="form-label">Descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
@@ -464,7 +465,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="form-row">
                         <div class="col">
                             <label for="descripcion" class="form-label">Descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
                     <div class="modal-footer">

@@ -62,7 +62,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Código</th>
+                    <th scope="col">Nº Ficha</th>
                     <th scope="col">Tipo Cultivo</th>
                     <th scope="col">Produccion Obtenida </th>
                     <th scope="col">Precio de venta</th>

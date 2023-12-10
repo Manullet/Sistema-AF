@@ -164,6 +164,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             <div class="form-group">
                                 <label for="anio_solicitud">Año de Solicitud</label>
                                 <input type="text" class="form-control" id="anio_solicitud" name="anio_solicitud" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
                         <div class="col-6">
@@ -279,13 +280,15 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="nombre_encuentrador">Nombre Encuentador</label>
-                                <input type="text" class="form-control" id="nombre_encuentrador" name="nombre_encuentrador" required>
+                                <input type="text" class="form-control" id="nombre_encuentrador" name="nombre_encuentrador" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="nombre_encuestador">Nombre Encuestador</label>
-                                <input type="text" class="form-control" id="nombre_encuestador" name="nombre_encuestador" required>
+                                <input type="text" class="form-control" id="nombre_encuestador" name="nombre_encuestador" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
 
@@ -294,13 +297,15 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="nombre_supervisor">Nombre Supervisor</label>
-                                <input type="text" class="form-control" id="nombre_supervisor" name="nombre_supervisor" required>
+                                <input type="text" class="form-control" id="nombre_supervisor" name="nombre_supervisor" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="descripcion">Descripción</label>
-                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
 

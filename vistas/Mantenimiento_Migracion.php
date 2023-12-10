@@ -194,11 +194,13 @@ session_start();
                     <div class="row mb-3">
                         <div class="col">
                             <label for="Motivo" class="form-label">Motivo</label>
-                            <input type="text" class="form-control" id="Motivo" name="Motivo">
+                            <input type="text" class="form-control" id="Motivo" name="Motivo" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                         <div class="col">
-                            <label for="Descripcion" class="form-label">Descripcion </label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion">
+                            <label for="Descripcion" class="form-label">Descripción </label>
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
                    <!--  <div class="form-row">

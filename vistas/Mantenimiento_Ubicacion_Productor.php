@@ -44,7 +44,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="30">30</option>
-            </select>
+            </seleSct>
             <span class="registros-text">Registros</span></label>
     </div>
     <!--  funcion para mostrar registros -->
@@ -63,7 +63,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Ficha</th>
+                    <th scope="col">Nº Ficha</th>
                     <th scope="col">Productor</th>
                     <th scope="col">Nº ubicación</th>
                     <th scope="col">Departamento</th>

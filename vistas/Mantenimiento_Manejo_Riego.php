@@ -62,7 +62,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Código</th>
+                    <th scope="col">Nº Ficha</th>
                     <th scope="col">Productor</th>
                     <th scope="col">Tiene Riego</th>
                     <th scope="col">Fuente de Agua</th>
@@ -535,7 +535,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col">
                             <label for="Fuente_Agua" class="form-label">Fuente de Agua </label>
-                            <input type="text" class="form-control" id="Fuente_Agua" name="Fuente_Agua">
+                            <input type="text" class="form-control" id="Fuente_Agua" name="Fuente_Agua" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -546,7 +547,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
                         <div class="col">
                             <label for="Descripcion" class="form-label">Descripcion</label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion">
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
                     <div class="modal-footer">

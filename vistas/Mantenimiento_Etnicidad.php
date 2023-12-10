@@ -29,7 +29,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar ETNICIDAD..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar..." aria-label="Search">
                 </div>
             </form>
         </div>
@@ -371,12 +371,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col-6">
                             <label for="detalle_de_otros" class="form-label">Otros Detalles</label>
-                            <input type="text" class="form-control" id="detalle_de_otros" name="detalle_de_otros">
+                            <input type="text" class="form-control" id="detalle_de_otros" name="detalle_de_otros" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="descripcion"> Descripción</label>
-                                <input type="text" class="form-control" id="descripcion" name="descripcion" required>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                                <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
                     </div>

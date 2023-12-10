@@ -199,7 +199,8 @@ session_start();
                         </div>
                         <div class="col">
                             <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
                     <div class="row mb-3">

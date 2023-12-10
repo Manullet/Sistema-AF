@@ -16,7 +16,7 @@ session_start();
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
-            <h1 class="poppins-font mb-2">PERIODOS</h1>
+            <h1 class="poppins-font mb-2">COMPOSICION DEL HOGAR</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                 <i class="bi bi-plus-square icono-grande"></i> Crear
@@ -29,7 +29,7 @@ session_start();
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar periodos..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar..." aria-label="Search">
                 </div>
             </form>
         </div>
@@ -64,7 +64,6 @@ session_start();
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Nº Ficha</th>
-
                     <th scope="col">Productor</th>
                     <th scope="col">genero</th>
                     <th scope="col">edad</th>
@@ -156,7 +155,7 @@ session_start();
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR PERIODOS</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">EDITAR</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>

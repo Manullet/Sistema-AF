@@ -262,7 +262,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row mb-3">
                         <div class="col-6">
                             <label for="Descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion">
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
 
