@@ -292,7 +292,7 @@ function obtenerNumeroFicha($conexion)
 
 
             <!-- Formulario de Datos Generales -->
-            <form action="modelos/agregar_datos_productor.php" method="POST" id="datosTrabajadorForm" class="form-section" style="display: none;">
+            <form action="modelos/datosTrabajadorForm.php" method="POST" id="datosTrabajadorForm" class="form-section" style="display: none;">
                 <!-- Agrega el campo formType -->
                 <input type="hidden" name="formType" value="datosTrabajador">
                 <!-- Datos del Trabajador -->
@@ -492,7 +492,7 @@ function obtenerNumeroFicha($conexion)
                         </select>
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="Id_Cacerio">tbl_cacerios:</label>
+                        <label for="Id_Cacerio">Caseríos:</label>
                         <select class="form-control" id="Id_Cacerio" name="Id_Cacerio" required>
                             <?php
                             // Conexión a la base de datos
@@ -664,7 +664,7 @@ function obtenerNumeroFicha($conexion)
                             </div>
                             <div id="checkboxes" style="display: none;" class="form-control">
                                 <label for="uno">
-                                    <input type="checkbox" id="uno">0-10 años</label>
+                                    <input type="checkbox" id="uno" value ="1">0-10 años</label>
                                 <label for="dos">
                                     <input type="checkbox" id="dos">11-20 años</label>
                                 <label for="tres">
@@ -1675,31 +1675,7 @@ function obtenerNumeroFicha($conexion)
                     <label for="productosVendidosNo">NO</label>
                 </div>
 
-                <div class="form-group" id="seccionFinal">
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <label for="fechaEntrevista">Fecha de la entrevista:</label>
-                            <input type="text" class="form-control" id="fechaEntrevista" name="fechaEntrevista" placeholder="DD/MM/AAAA">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="nombreProductor">Nombre y firma del productor:</label>
-                            <input type="text" class="form-control" id="nombreProductor" name="nombreProductor">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="nombreEncuestador">Nombre y firma del encuestador:</label>
-                            <input type="text" class="form-control" id="nombreEncuestador" name="nombreEncuestador">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="nombreSupervisor">Nombre y firma del supervisor:</label>
-                            <input type="text" class="form-control" id="nombreSupervisor" name="nombreSupervisor">
-                        </div>
-
-                    </div>
-                </div>
+            
 
 
                 <div class="modal-footer center-content-between">
@@ -2022,7 +1998,7 @@ function obtenerNumeroFicha($conexion)
               // Realizar la solicitud AJAX
               $.ajax({
                   type: 'POST',
-                  url: 'modelos/agregar_datos_productor.php',
+                  url: 'modelos/datosTrabajadorForm.php',
                   data: $(this).serialize(),
                   success: function (response) {
                       // Aquí puedes manejar la respuesta del servidor si es necesario
