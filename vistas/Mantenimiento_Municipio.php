@@ -150,21 +150,51 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Nombre_Municipio"> Nombre </label>
+                                <label for="Id_Departamento">Departamento </label>
+                                <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
+                                    $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay departamentos disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Nombre_Municipio">Municipio</label>
                                 <input type="text" class="form-control" id="Nombre_Municipio" name="Nombre_Municipio" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+
+
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="Descripcion">Descripción</label>
                                 <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
+
+
+                        <div class="col-6">
                             <label for="Estado">Estado</label>
                             <select class="form-control" id="Estado" name="Estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
@@ -172,34 +202,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 <option value="I">Inactivo</option>
                             </select>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="Id_Departamento">Departamento </label>
-                        <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                            $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay departamentos disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
@@ -224,33 +227,35 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             </div>
             <div class="modal-body">
                 <form action="modelos/agregar_municipio.php" method="POST">
-                    <div class="row mb-3">
-                        <div class="form-group">
-                            <label for="Id_Departamento">Departamento:</label>
-                            <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
-                                <?php
-                                // Conexión a la base de datos
-                                include '../php/conexion_be.php';
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Id_Departamento">Departamento:</label>
+                                <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
 
-                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                                $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
+                                    $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
 
-                                // Ejecutar la consulta
-                                $result = mysqli_query($conexion, $sql);
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
 
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay departamentos disponibles</option>';
                                     }
-                                } else {
-                                    echo '<option value="">No hay departamentos disponibles</option>';
-                                }
 
-                                // Cierra la conexión a la base de datos
-                                mysqli_close($conexion);
-                                ?>
-                            </select>
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-6">
                             <label for="Nombre_Municipio" class="form-label">Municipio</label>

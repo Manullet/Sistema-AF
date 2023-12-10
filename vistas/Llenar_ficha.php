@@ -254,7 +254,7 @@ function obtenerNumeroFicha($conexion)
                     </div>
                     <div class="form-group col-md-3">
                         <label for="fecha_solicitud">Fecha de Solicitud</label>
-                        <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="Fecha ">
+                        <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="Fecha">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="anio_solicitud">Año de Solicitud</label>

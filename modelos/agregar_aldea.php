@@ -1,14 +1,18 @@
 <?php
-
+ob_start();
 include "../php/conexion_be.php";
+session_start();
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Id_Departamento=$_POST["Id_Departamento"];
+    $Id_Municipio=$_POST["Id_Municipio"];
     $Nombre_Aldea=$_POST["Nombre_Aldea"];
     $Descripcion=$_POST["Descripcion"];
-    $Id_Municipio=$_POST["Id_Municipio"];
+    $Creado_Por = $_SESSION["usuario"]["usuario"];
 
 
-    $sql = "CALL InsertarAldea('$Nombre_Aldea', '$Descripcion', '$Id_Municipio')";
+    $sql = "CALL InsertarAldea('$Id_Departamento','$Id_Municipio','$Nombre_Aldea', '$Descripcion','$Creado_Por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

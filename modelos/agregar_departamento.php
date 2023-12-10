@@ -1,13 +1,16 @@
 <?php
-
+ob_start();
 include "../php/conexion_be.php";
+session_start();
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Nombre_Departamento=$_POST["Nombre_Departamento"];
     $Descripcion=$_POST["Descripcion"];
+    $Creado_Por = $_SESSION["usuario"]["usuario"];
 
 
-    $sql = "CALL InsertarDepartamento('$Nombre_Departamento', '$Descripcion')";
+    $sql = "CALL InsertarDepartamento('$Nombre_Departamento', '$Descripcion', '$Creado_Por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");
