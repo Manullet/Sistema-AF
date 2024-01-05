@@ -249,8 +249,8 @@ function obtenerNumeroFicha($conexion)
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="codigo">Código Ficha</label>
-                        
-            <input type="text" class="form-control" id="codigo" placeholder="Código Ficha" value="<?php echo obtenerNumeroFicha($conexion); ?>" readonly>
+
+                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha" value="<?php echo obtenerNumeroFicha($conexion); ?>" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="fecha_solicitud">Fecha de Solicitud</label>
@@ -285,8 +285,8 @@ function obtenerNumeroFicha($conexion)
                     </div>
                 </div>
                 <div class="modal-footer center-content-between">
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosTrabajadorForm')" class="btn btn-actualizar">Siguiente</button>
-                   <!-- <button type="button" class="btn btn-info" onclick="navigateToForm('#datosTrabajadorForm')">Siguiente</button> -->
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosTrabajadorForm')" class="btn btn-actualizar">Siguiente</button>
+                    <!-- <button type="button" class="btn btn-info" onclick="navigateToForm('#datosTrabajadorForm')">Siguiente</button> -->
                 </div>
             </form>
 
@@ -396,10 +396,11 @@ function obtenerNumeroFicha($conexion)
                 </div>
                 <div class="modal-footer center-content-between">
 
-               
+
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosFichaForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUbiForm')" class="btn btn-actualizar">Siguiente</button>
-                   
+
+
                 </div>
             </form>
 
@@ -527,12 +528,12 @@ function obtenerNumeroFicha($conexion)
                         <input type="text" class="form-control" id="distanciaVivienda" name="distanciaVivienda" placeholder="Distancia entre parcela y vivienda(km/m)">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="longitudParcela" class="form-label">Longitud de la parcela:</label>
-                        <input type="text" class="form-control" id="longitudParcela" name="longitudParcela" placeholder="Longitud">
+                        <label for="latitudParcela" class="form-label">Latitud de la parcela:</label>
+                        <input type="text" class="form-control" id="latitudParcela" name="latitudParcela" placeholder="Longitud">
                     </div>
                     <div class="form-group col-md-3">
-                        <label for="latitudParcela" class="form-label">Latitud de la parcela:</label>
-                        <input type="text" class="form-control" id="latitudParcela" name="latitudParcela" placeholder="Latitud">
+                        <label for="longitudParcela" class="form-label">Longitudde la parcela:</label>
+                        <input type="text" class="form-control" id="longitudParcela" name="longitudParcela" placeholder="Latitud">
                     </div>
                 </div>
                 <div class="form-row">
@@ -568,14 +569,15 @@ function obtenerNumeroFicha($conexion)
                 </div>
 
                 <div class="modal-footer center-content-between">
-                   
-                    
+
+
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosTrabajadorForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPertenenciaForm')" class="btn btn-actualizar">Siguiente</button>
-                    
+
+
                 </div>
             </form>
-            
+
 
 
 
@@ -598,41 +600,40 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-8">
                         <label for="PerteneceOr">A qué organizaciones pertenece</label>
                         <br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="organizacion">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="organizacion" value="1">
                             <label class="form-check-label" for="inlineCheckbox1">
                                 Asociación
                             </label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="organizacion">
+                        <div class="form-check ">
+                            <input class="form-check-input" type="checkbox" name="organizacion" value="2">
                             <label class="form-check-label" for="inlineCheckbox2">
                                 Cooperativa
                             </label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="organizacion">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="organizacion" value="3">
                             <label class="form-check-label" for="inlineCheckbox3">
                                 Caja rural
                             </label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="organizacion">
+                        <div class="form-check ">
+                            <input class="form-check-input" type="checkbox" name="organizacion" value="4">
                             <label class="form-check-label" for="inlineCheckbox4">
                                 Patronato
                             </label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="organizacion">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="organizacion" value="5">
                             <label class="form-check-label" for="inlineCheckbox5">
                                 Junta de agua
                             </label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input type="checkbox" name="organizacion" value="otra" id="checkboxOtra" onchange="escribirOtra()">
-                            <label class="form-check-label" for="checkboxOtra"> Otra </label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="organizacion" value="otra" id="checkboxOtra" onchange="escribirOtra()">
+                            <label class="form-check-label" for="checkboxOtra">Otra </label>
                         </div>
-                        <br>
                         <div id="otrasOrgContainer" class="hidden">
                             <br>
                             <label for="otrasOrg">Indique el(los) nombre(s) de la(s) organización(es)</label>
@@ -645,7 +646,7 @@ function obtenerNumeroFicha($conexion)
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosUbiForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosHogarForm')" class="btn btn-actualizar">Siguiente</button>
-                   
+
                 </div>
             </form>
 
@@ -653,44 +654,74 @@ function obtenerNumeroFicha($conexion)
             <form action="modelos/datosHogarForm.php" method="POST" id="datosHogarForm" class="form-section" style="display: none;">
                 <h3>Composición del Hogar</h3>
                 <br>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <div class="multiselect">
-                            <div class="selectBox" onclick="showCheckboxes()">
-                                <select>
-                                    <option>Seleccionar Edades Mujeres</option>
-                                </select>
-                                <div class="overSelect"></div>
-                            </div>
-                            <div id="checkboxes" style="display: none;" class="form-control">
-                                <label for="uno">
-                                    <input type="checkbox" id="uno" value ="1">0-10 años</label>
-                                <label for="dos">
-                                    <input type="checkbox" id="dos">11-20 años</label>
-                                <label for="tres">
-                                    <input type="checkbox" id="tres">21-30 años</label>
-                                <label for="cuatro">
-                                    <input type="checkbox" id="cuatro">31-40 años</label>
-                                <label for="cinco">
-                                    <input type="checkbox" id="cinco">41-50 años</label>
-                                <label for="seis">
-                                    <input type="checkbox" id="seis">51-60 años</label>
-                                <label for="siete">
-                                    <input type="checkbox" id="siete">61-70 años</label>
-                                <label for="ocho">
-                                    <input type="checkbox" id="ocho">71-80 años</label>
-                                <label for="nueve">
-                                    <input type="checkbox" id="nueve">81-90 años</label>
-                                <label for="diez">
-                                    <input type="checkbox" id="diez">91+ años</label>
-                            </div>
+
+                <div class="row">
+                    <!-- EDAD -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="edad">Edades</label>
+                            <select class="form-control" id="edad" name="edad" onchange="mostrarOpcionesEdad(this.value)">
+                                <option value="">Seleccione una edad</option>
+                                <option value="0-10">0-10 años</option>
+                                <option value="11-20">11-20 años</option>
+                                <option value="21-30">21-30 años</option>
+                                <option value="31-40">31-40 años</option>
+                                <option value="41-50">41-50 años</option>
+                                <option value="51-60">51-60 años</option>
+                                <option value="61-70">61-70 años</option>
+                                <option value="71-80">71-80 años</option>
+                                <option value="81-90">81-90 años</option>
+                                <option value="91+">91+ años</option>
+                            </select>
                         </div>
                     </div>
+
+                    <!-- Género -->
+                    <div class="col-md-4">
+                        <div class="form-group" id="divGenero" style="display:none;">
+                            <label for="generoEdad">Género</label>
+                            <select class="form-control" id="generoEdad" name="generoEdad">
+                                <option value="" disabled>Seleccione...</option>
+                                <option value="Mujer">Mujer</option>
+                                <option value="Hombre">Hombre</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cantidad -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cantidad">Cantidad</label>
+                            <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Cantidad" min="1">
+                        </div>
+                    </div>
+                    <br>
+                    <!-- Botón Agregar -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <button type="button" class="btn btn-info" onclick="agregarEdad()"> Agregar</button>
+                    </div>
+                    <br>
+                    <br>
                 </div>
+
+                <br>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Edad</th>
+                            <th>Género</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTemporal" class="table-hover">
+                        <!-- Los elementos agregados aparecerán aquí -->
+                    </tbody>
+                </table>
+
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPertenenciaForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosEtniaForm')" class="btn btn-actualizar">Siguiente</button>
-                   
+
                 </div>
             </form>
 
@@ -704,52 +735,52 @@ function obtenerNumeroFicha($conexion)
                         <p>
                         <div class="form-group">
                             <div>
-                                <input type="radio" id="lencas" name="etnia" value="Lencas">
+                                <input type="radio" id="id_etnia" name="etnia" value="1">
                                 <label for="lencas">Lencas</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="pech" name="etnia" value="Pech">
+                                <input type="radio" id="pech" name="etnia" value="2">
                                 <label for="pech">Pech</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="tolupanes" name="etnia" value="Tolupanes">
+                                <input type="radio" id="tolupanes" name="etnia" value="3">
                                 <label for="tolupanes">Tolupanes</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="garifunas" name="etnia" value="Garífunas">
+                                <input type="radio" id="garifunas" name="etnia" value="4">
                                 <label for="garifunas">Garífunas</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="mayaChortis" name="etnia" value="Maya Chortís">
+                                <input type="radio" id="mayaChortis" name="etnia" value="5">
                                 <label for="mayaChortis">Maya Chortís</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="tawahkas" name="etnia" value="Tawahkas">
+                                <input type="radio" id="tawahkas" name="etnia" value="6">
                                 <label for="tawahkas">Tawahkas</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="misquitos" name="etnia" value="Misquitos">
+                                <input type="radio" id="misquitos" name="etnia" value="7">
                                 <label for="misquitos">Misquitos</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="nahua" name="etnia" value="Nahua">
+                                <input type="radio" id="nahua" name="etnia" value="8">
                                 <label for="nahua">Nahua</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="ladino" name="etnia" value="Ladino">
+                                <input type="radio" id="ladino" name="etnia" value="9">
                                 <label for="ladino">Ladino</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="negroHablaInglesa" name="etnia" value="Negro habla inglesa">
+                                <input type="radio" id="negroHablaInglesa" name="etnia" value="10">
                                 <label for="negroHablaInglesa">Negro habla inglesa</label>
                             </div>
 
@@ -767,7 +798,7 @@ function obtenerNumeroFicha($conexion)
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosHogarForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosRelevoForm')" class="btn btn-actualizar">Siguiente</button>
-                  
+
                 </div>
             </form>
 
@@ -779,7 +810,7 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-8">
                         <label>¿De las actividades agropecuarias que desarrolla, usted cree que la seguirán practicando alguno o algunos de los miembros del hogar?</label>
                         <div>
-                            <input type="radio" id="Si" name="viveFinca" value="Si" onclick="mostrarCuadro()">
+                            <input type="radio" id="Si" name="relevo" value="Si" onclick="mostrarCuadro()">
                             <label for="Si">Si</label>
                             <div id="cuantos" class="hidden">
                                 <div class="form-group col-md-8">
@@ -789,7 +820,7 @@ function obtenerNumeroFicha($conexion)
                                 </div>
                             </div>
                             <br>
-                            <input type="radio" id="No" name="viveFinca" value="No" onclick="navigateToForm('#datosMigraForm')">
+                            <input type="radio" id="No" name="relevo" value="No" onclick="navigateToForm('#datosMigraForm')">
                             <label for="No">No</label>
                         </div>
                     </div>
@@ -800,7 +831,7 @@ function obtenerNumeroFicha($conexion)
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosEtniaForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosMigraForm')" class="btn btn-actualizar">Siguiente</button>
-                    
+
                 </div>
             </form>
 
@@ -812,9 +843,9 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-5">
                         <label>Alguien del hogar ha emigrado?</label>
                         <div>
-                            <input type="radio" id="Si" name="migra" value="Si">
+                            <input type="radio" id="Si" name="migra" value="S">
                             <label for="Si">Si</label>
-                            <input type="radio" id="No" name="migra" value="No">
+                            <input type="radio" id="No" name="migra" value="N" checked>
                             <label for="No">No</label>
                         </div>
                     </div>
@@ -824,7 +855,7 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-5">
                         <label for="destino">¿Hacia dónde emigró?</label>
                         <div>
-                            <input type="radio" name="destino" value="dentro_del_pais" id="dentroDelPais"> <label for="dentroDelPais">Dentro del país</label>
+                            <input type="radio" name="destino" value="dentro_del_pais" id="dentroDelPais" checked> <label for="dentroDelPais">Dentro del país</label>
                             <br>
                             <input type="radio" name="destino" value="otro_pais" id="otroPais"> <label for="otroPais">Otro país</label>
                         </div>
@@ -835,13 +866,13 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-5">
                         <label for="destino">¿Por qué emigró?</label>
                         <div class="form-checkbox">
-                            <input type="checkbox" name="razon" value="estudio" id="estudio">
+                            <input type="checkbox" name="razon[]" value="estudio" id="estudio">
                             <label for="estudio">Estudio</label>
-                            <input type="checkbox" name="razon" value="trabajo" id="trabajo">
+                            <input type="checkbox" name="razon[]" value="trabajo" id="trabajo">
                             <label for="trabajo">Trabajo</label>
-                            <input type="checkbox" name="razon" value="violencia" id="violencia">
+                            <input type="checkbox" name="razon[]" value="violencia" id="violencia">
                             <label for="violencia">Violencia</label>
-                            <input type="checkbox" name="razon" value="cambio_climatico" id="cambioClimatico">
+                            <input type="checkbox" name="razon[]" value="cambio_climatico" id="cambioClimatico">
                             <label for="cambioClimatico">Cambio climático</label>
                         </div>
                     </div>
@@ -853,7 +884,7 @@ function obtenerNumeroFicha($conexion)
                         <div>
                             <input type="radio" name="remesas" value="si" id="siRemesas">
                             <label for="siRemesas">Si</label>
-                            <input type="radio" name="remesas" value="no" id="noRemesas">
+                            <input type="radio" name="remesas" value="no" id="noRemesas" checked>
                             <label for="noRemesas">No</label>
                         </div>
                     </div>
@@ -861,10 +892,10 @@ function obtenerNumeroFicha($conexion)
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosRelevoForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUnidadForm')" class="btn btn-actualizar">Siguiente</button>
-                    
+                    <button type="submit" id="guardarBtn" class="btn btn-actualizar" onclick="navigateToForm('#datosUnidadForm')">Siguiente</button>
                 </div>
             </form>
+
 
             <!-- Formulario de Información Básica de la Unidad Productiva -->
             <form action="modelos/datosUnidadForm.php" method="POST" id="datosUnidadForm" class="form-section" style="display: none;">
@@ -873,28 +904,46 @@ function obtenerNumeroFicha($conexion)
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="tierra">La tierra que maneja es</label>
-                        <div class="form-checkbox">
-                            <input type="checkbox" name="razon" value="propia" id="propia">
+                        <div class="form-radio">
+                            <input type="radio" name="razon" value="Propia" id="propia">
                             <label for="propia">Propia</label>
-                            <input type="checkbox" name="razon" value="alquilada" id="alquilada">
+                            <input type="radio" name="razon" value="Alquilada" id="alquilada">
                             <label for="alquilada">Alquilada</label>
-                            <input type="checkbox" name="razon" value="prestada" id="prestada">
+                            <input type="radio" name="razon" value="Prestada" id="prestada">
                             <label for="prestada">Prestada</label>
-                            <input type="checkbox" name="razon" value="ejidal" id="ejidal">
+                            <input type="radio" name="razon" value="Ejidal" id="ejidal">
                             <label for="ejidal">Ejidal</label>
                         </div>
-
                     </div>
                 </div>
+
 
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="produccion" class="form-label">Cuánta de esa área disponible es apta para la producción agropecuaria</label>
-                        <select class="form-control" id="produccion" name="produccion">
-                            <option value="" disabled selected>Seleccione...</option>
-                            <option value="ma">Manzanas</option>
-                            <option value="ha">Héctareas</option>
-                            <option value="tareas">Tareas</option>
+                        <select class="form-control" id="Id_Superficie_Forestal" name="Id_Superficie_Forestal" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
                         </select>
                     </div>
                 </div>
@@ -910,6 +959,38 @@ function obtenerNumeroFicha($conexion)
                             <label for="">Rubros</label>
                             <input type="text" name="rubrosAgricultura" id="rubrosAgricultura" class="cuadro-texto">
                             <br>
+
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="Id_Superficie_Ganaderia">Superficie Ganaderia:</label>
+                                    <select class="form-control" id="Id_Superficie_Ganaderia" name="Id_Superficie_Ganaderia" required>
+                                        <?php
+                                        // Conexión a la base de datos
+                                        include '../php/conexion_be.php';
+
+                                        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                        $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                        // Ejecutar la consulta
+                                        $result = mysqli_query($conexion, $sql);
+
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                                echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                            }
+                                        } else {
+                                            echo '<option value="">No hay municipios disponibles</option>';
+                                        }
+
+                                        // Cierra la conexión a la base de datos
+                                        mysqli_close($conexion);
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
                             <label for="areaGanaderia">Superficie dedicada a Ganadería</label>
                             <input type="text" name="areaGanaderia" id="areaGanaderia" placeholder="(mz)(ha)(tareas)" class="cuadro-texto">
                             <br>
@@ -917,13 +998,79 @@ function obtenerNumeroFicha($conexion)
                             <input type="text" name="rubrosGanaderia" id="rubrosGanaderia" class="cuadro-texto">
                             <br>
 
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="Id_Superficie_Apicultura">Superficie Apicultura:</label>
+                                    <select class="form-control" id="Id_Superficie_Apicultura" name="Id_Superficie_Apicultura" required>
+                                        <?php
+                                        // Conexión a la base de datos
+                                        include '../php/conexion_be.php';
+
+                                        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                        $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                        // Ejecutar la consulta
+                                        $result = mysqli_query($conexion, $sql);
+
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                                echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                            }
+                                        } else {
+                                            echo '<option value="">No hay municipios disponibles</option>';
+                                        }
+
+                                        // Cierra la conexión a la base de datos
+                                        mysqli_close($conexion);
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
+
                             <label for="areaApicultura">Superficie dedicada a Apicultura</label>
                             <input type="text" name="areaApicultura" id="areaApicultura" placeholder="(colmenas)(otro)" class="cuadro-texto">
                             <br>
 
+
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="Id_Superficie_Forestal">Superficie Forestal:</label>
+                                    <select class="form-control" id="Id_Superficie_Forestal" name="Id_Superficie_Forestal" required>
+                                        <?php
+                                        // Conexión a la base de datos
+                                        include '../php/conexion_be.php';
+
+                                        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                        $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                        // Ejecutar la consulta
+                                        $result = mysqli_query($conexion, $sql);
+
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                                echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                            }
+                                        } else {
+                                            echo '<option value="">No hay municipios disponibles</option>';
+                                        }
+
+                                        // Cierra la conexión a la base de datos
+                                        mysqli_close($conexion);
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
+
                             <label for="areaForestal">Superficie dedicada a Forestal</label>
                             <input type="text" name="areaForestal" id="areaForestal" placeholder="(mz)(ha)(tareas)" class="cuadro-texto">
                             <br>
+
                             <label for="">Rubros</label>
                             <input type="text" name="rubrosForestal" id="rubrosForestal" class="cuadro-texto">
                             <br>
@@ -950,11 +1097,63 @@ function obtenerNumeroFicha($conexion)
                         <input type="radio" name="sistemaRiego" value="Si"> Si
                         <input type="radio" name="sistemaRiego" value="No"> No<br>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Medida_Riego">Medida de Riego </label>
+                                <select class="form-control" id="Medida_Riego" name="Medida_Riego" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                         <label for="areaRiego">Área bajo riego</label>
                         <input type="text" name="areaRiego" id="areaRiego" placeholder="(Ha.)(Mz.)(Tarea)" class="cuadro-texto"> <br>
 
                         <label for="tipoRiego">Tipo de Riego</label>
-                        <input type="text" name="tipoRiego" id="tipoRiego" class="cuadro-texto"><br>
+                        <select class="form-control" id="tipoRiego" name="tipoRiego" required>
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT id_tipo_riego, tipo_riego FROM tbl_tipo_riego";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["id_tipo_riego"] . '">' . $row["tipo_riego"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
 
                         <label for="fuenteAgua">Fuente de agua</label>
                         <input type="text" name="fuenteAgua" id="fuenteAgua" class="cuadro-texto"><br>
@@ -966,9 +1165,11 @@ function obtenerNumeroFicha($conexion)
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosMigraForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosAgricolaForm')" class="btn btn-actualizar">Siguiente</button>
-                    
+
                 </div>
             </form>
+
+
 
             <!-- Formulario de Produccion Agricola -->
             <form action="modelos/datosAgricolaForm.php" method="POST" id="datosAgricolaForm" class="form-section" style="display: none;">
@@ -980,7 +1181,30 @@ function obtenerNumeroFicha($conexion)
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nombreCultivo">Nombre del Cultivo</label>
-                                <input type="text" class="form-control" id="nombreCultivo" name="nombreCultivo">
+                                <select class="form-control" id="nombreCultivo" name="nombreCultivo" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_tipo_cultivo, tipo_cultivo FROM tbl_tipo_cultivo";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_cultivo"] . '">' . $row["tipo_cultivo"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -998,8 +1222,31 @@ function obtenerNumeroFicha($conexion)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="areaSembrada">Área Sembrada (mz)(ha)(tareas)</label>
-                                <input type="text" class="form-control" id="areaSembrada" name="areaSembrada">
+                                <label for="areaSembrada">Área Sembrada</label>
+                                <select class="form-control" id="areaSembrada" name="areaSembrada" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -1014,7 +1261,30 @@ function obtenerNumeroFicha($conexion)
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="unidadMedidaProduccion">Unidad de Medida de Producción</label>
-                                <input type="text" class="form-control" id="unidadMedidaProduccion" name="unidadMedidaProduccion">
+                                <select class="form-control" id="unidadMedidaProduccion" name="unidadMedidaProduccion" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -1030,7 +1300,30 @@ function obtenerNumeroFicha($conexion)
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="unidadMedidaVenta">Unidad de Medida de Venta</label>
-                                <input type="text" class="form-control" id="unidadMedidaVenta" name="unidadMedidaVenta">
+                                <select class="form-control" id="unidadMedidaVenta" name="unidadMedidaVenta" required>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                    $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay municipios disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -1054,7 +1347,7 @@ function obtenerNumeroFicha($conexion)
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosUnidadForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPecuariaForm')" class="btn btn-actualizar">Siguiente</button>
-          
+
                 </div>
             </form>
             <!-- 10 -->
@@ -1068,17 +1361,29 @@ function obtenerNumeroFicha($conexion)
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="tipoAnimal">Tipo de Animal</label>
-                            <select class="form-control" id="tipoAnimal" name="tipoAnimal" onchange="mostrarOpcionesGenero(this.value)">
-                                <option value="">Seleccione un animal</option>
-                                <option value="Bovinos">Bovinos</option>
-                                <option value="Caprino">Caprino</option>
-                                <option value="Ovino">Ovino</option>
-                                <option value="Cerdo">Cerdo</option>
-                                <option value="PollosEngorde">Pollos de Engorde</option>
-                                <option value="Aves">Aves</option>
-                                <option value="Peces">Peces</option>
-                                <option value="Camarones">Camarones</option>
-                                <option value="Otros">Otros</option>
+                            <select class="form-control" id="tipoAnimal" name="tipoAnimal">
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_tipo_pecuario"] . '">' . $row["tipo_pecuario"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -1129,16 +1434,29 @@ function obtenerNumeroFicha($conexion)
                     <!-- Tipo de Animal -->
                     <div class="col-md-3">
                         <label for="tipoAnimal">Tipo de Animal</label>
-                        <select class="form-control" id="tipoAnimalU" name="tipoAnimalU">
-                            <option value="Bovinos">Bovinos</option>
-                            <option value="Caprino">Caprino</option>
-                            <option value="Ovino">Ovino</option>
-                            <option value="Cerdo">Cerdo</option>
-                            <option value="PollosEngorde">Pollos de Engorde</option>
-                            <option value="Aves">Aves</option>
-                            <option value="Peces">Peces</option>
-                            <option value="Camarones">Camarones</option>
-                            <option value="Otros">Otros</option>
+                        <select class="form-control" id="tipoAnimal" name="tipoAnimal">
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["id_tipo_pecuario"] . '">' . $row["tipo_pecuario"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
                         </select>
                     </div>
 
@@ -1150,8 +1468,31 @@ function obtenerNumeroFicha($conexion)
 
                     <!-- Unidad de Medida -->
                     <div class="col-md-3">
-                        <label for="unidadMedida">Unidad de medida</label>
-                        <input type="text" class="form-control" id="unidadMedida" name="unidadMedida">
+                        <label for="unidadMedida">Unidad de medida:</label>
+                        <select class="form-control" id="unidadMedida" name="unidadMedida">
+                            <?php
+                            // Conexión a la base de datos
+                            include '../php/conexion_be.php';
+
+                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                            // Ejecutar la consulta
+                            $result = mysqli_query($conexion, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                    echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                }
+                            } else {
+                                echo '<option value="">No hay municipios disponibles</option>';
+                            }
+
+                            // Cierra la conexión a la base de datos
+                            mysqli_close($conexion);
+                            ?>
+                        </select>
                     </div>
 
                     <!-- Mercado y botón Agregar -->
@@ -1187,7 +1528,7 @@ function obtenerNumeroFicha($conexion)
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosAgricolaForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPrCoForm')" class="btn btn-actualizar">Siguiente</button>
-               
+
                 </div>
             </form>
 
@@ -1202,13 +1543,29 @@ function obtenerNumeroFicha($conexion)
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="tipoProduccion">Tipo de Producción</label>
-                            <select class="form-control" id="tipoProduccion" name="tipoProduccion">
-                                <option value="Leche">Leche</option>
-                                <option value="Carne">Carne</option>
-                                <option value="DerivadosLeche">Derivados de leche</option>
-                                <option value="Huevos">Huevos</option>
-                                <option value="Apicola">Apícola</option>
-                                <option value="Transformacion">Producto de Transformación</option>
+                            <select class="form-control" id="tipoProduccion" name="tipoProduccion" required>
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_tipo_produccion, tipo_produccion FROM tbl_tipo_produccion";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_tipo_produccion"] . '">' . $row["tipo_produccion"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -1217,10 +1574,29 @@ function obtenerNumeroFicha($conexion)
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="periodicidad">Periodicidad</label>
-                            <select class="form-control" id="periodicidad" name="periodicidad">
-                                <option value="Semanal">Semanal</option>
-                                <option value="Mensual">Mensual</option>
-                                <option value="Anual">Anual</option>
+                            <select class="form-control" id="unidadMedidaVenta" name="unidadMedidaVenta" required>
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_periodo, periodo FROM tbl_periodicidad";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_periodo"] . '">' . $row["periodo"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -1229,7 +1605,30 @@ function obtenerNumeroFicha($conexion)
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="unidadMedidaPC">Unidad de medida</label>
-                            <input type="text" class="form-control" id="unidadMedidaPC" name="unidadMedidaPC">
+                            <select class="form-control" id="unidadMedidaPC" name="unidadMedidaPC" required>
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -1294,11 +1693,19 @@ function obtenerNumeroFicha($conexion)
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPecuariaForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosOtrosForm')" class="btn btn-actualizar">Siguiente</button>
-                  
+
                 </div>
             </form>
 
             <!-- 12 -->
+
+            <!-- 12 -->
+
+            <?php
+            include "../php/conexion_be.php";
+            include "../modelos/datosOtrosForm.php";
+           $tiposIngreso = obtenerTiposIngreso();
+            ?>
 
             <form action="modelos/datosOtrosForm.php" method="POST" id="datosOtrosForm" class="form-section" style="display: none;">
                 <h3>12. Otros ingresos en el hogar</h3>
@@ -1309,18 +1716,11 @@ function obtenerNumeroFicha($conexion)
                         <div class="form-group">
                             <label for="tipoIngreso">Tipo de Ingreso</label>
                             <select class="form-control" id="tipoIngreso" name="tipoIngreso">
-                                <option value="Negocio">Negocio</option>
-                                <option value="VentaServicio">Venta de servicio</option>
-                                <option value="JornalAgricola">Jornal agrícola</option>
-                                <option value="CorteCafe">Corte de café</option>
-                                <option value="jornalNoAgricola">Jornal no agricola</option>
-                                <option value="alquileres">Alquileres</option>
-                                <option value="RemesaExterior">Remesa del exterior</option>
-                                <option value="RemesaNacional">Remesa nacional</option>
-                                <option value="Bono">Bono</option>
-                                <option value="SalarioProfesional">Salario profesional</option>
-                                <option value="Artesania">Artesanía</option>
-                                <option value="Otro">Otro</option>
+                                <?php foreach ($tiposIngreso as $tipo) : ?>
+                                    <option value="<?php echo htmlspecialchars($tipo['id_tipo_negocio']); ?>">
+                                        <?php echo htmlspecialchars($tipo['tipo_negocio']); ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -1329,7 +1729,7 @@ function obtenerNumeroFicha($conexion)
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="cantidadIngreso">Cantidad</label>
-                            <input type="number" class="form-control" id="cantidadIngreso" name="cantidadIngreso" min="0" step="0.01" placeholder="Ingrese la cantidad">
+                            <input type="text" class="form-control" id="cantidadIngreso" name="cantidadIngreso" placeholder="Ingrese la cantidad" onkeyup="formatoMoneda(this);">
                         </div>
                     </div>
 
@@ -1355,16 +1755,19 @@ function obtenerNumeroFicha($conexion)
                     </tbody>
                 </table>
 
-
-
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosCreditoForm')" class="btn btn-actualizar">Siguiente</button>
-                    
                 </div>
             </form>
 
+
+
+
             <!-- 13 -->
+            <?php
+            include "../modelos/datosCreditoForm.php";
+            ?>
 
             <form action="modelos/datosCreditoForm.php" method="POST" id="datosCreditoForm" class="form-section" style="display: none;">
                 <h3>13. Crédito para la producción agropecuaria</h3>
@@ -1381,51 +1784,34 @@ function obtenerNumeroFicha($conexion)
                 <!-- Opciones si la respuesta es SI -->
                 <div class="form-group" id="opcionesPrestamoSi" style="display: none;">
                     <label>¿A quién acude?</label><br>
-                    <input type="checkbox" id="banca" name="fuentePrestamo" value="Banca">
-                    <label for="banca">A la banca</label>
-                    <input type="checkbox" id="amigo" name="fuentePrestamo" value="Amigo">
-                    <label for="amigo">A un amigo</label>
-                    <input type="checkbox" id="familiar" name="fuentePrestamo" value="Familiar">
-                    <label for="familiar">A un familiar</label>
-                    <input type="checkbox" id="cooperativa" name="fuentePrestamo" value="Cooperativa">
-                    <label for="cooperativa">A una cooperativa</label>
-                    <input type="checkbox" id="prestamista" name="fuentePrestamo" value="Prestamista">
-                    <label for="prestamista">A un prestamista</label>
-                    <input type="checkbox" id="microfinanciera" name="fuentePrestamo" value="Microfinanciera">
-                    <label for="microfinanciera">A una microfinanciera</label>
-                    <input type="checkbox" id="cajaRural" name="fuentePrestamo" value="CajaRural">
-                    <label for="cajaRural">A una caja rural</label>
-                    <input type="checkbox" id="otroFuente" name="fuentePrestamo" value="Otro">
-                    <label for="otroFuente">Otro</label>
+                    <?php foreach ($fuentesCredito as $fuente) : ?>
+                        <input type="checkbox" id="fuente_<?php echo $fuente['id_fuente_credito']; ?>" name="fuentePrestamo" value="<?php echo $fuente['fuente_credito']; ?>">
+                        <label for="fuente_<?php echo $fuente['id_fuente_credito']; ?>"><?php echo $fuente['descripcion']; ?></label><br>
+                    <?php endforeach; ?>
                 </div>
 
                 <!-- Opciones si la respuesta es NO -->
                 <div class="form-group" id="opcionesPrestamoNo" style="display: none;">
                     <label>¿Por qué no ha solicitado préstamos agropecuarios?</label><br>
-                    <input type="checkbox" id="centralRiesgos" name="motivoNoPrestamo" value="CentralRiesgos">
-                    <label for="centralRiesgos">Estoy en la central de riesgos</label>
-                    <input type="checkbox" id="muchosRequisitos" name="motivoNoPrestamo" value="MuchosRequisitos">
-                    <label for="muchosRequisitos">Son muchos los requisitos</label>
-                    <input type="checkbox" id="noNecesitado" name="motivoNoPrestamo" value="NoNecesitado">
-                    <label for="noNecesitado">No lo he necesitado</label>
-                    <input type="checkbox" id="noCapacidadPago" name="motivoNoPrestamo" value="NoCapacidadPago">
-                    <label for="noCapacidadPago">No tengo capacidad de pago</label>
-                    <input type="checkbox" id="temorRechazo" name="motivoNoPrestamo" value="TemorRechazo">
-                    <label for="temorRechazo">Temor al rechazo</label>
-                    <input type="checkbox" id="temorNoPago" name="motivoNoPrestamo" value="TemorNoPago">
-                    <label for="temorNoPago">Temor a no pagarlo</label>
-                    <input type="checkbox" id="interesAlto" name="motivoNoPrestamo" value="InteresAlto">
-                    <label for="interesAlto">Tasas de interés muy altas </label>
+                    <?php foreach ($motivosNoCredito as $motivo) : ?>
+                        <input type="checkbox" id="motivo_<?php echo $motivo['id_motivos_no_credito']; ?>" name="motivoNoPrestamo" value="<?php echo $motivo['motivo_no_credito']; ?>">
+                        <label for="motivo_<?php echo $motivo['id_motivos_no_credito']; ?>"><?php echo $motivo['descripcion']; ?></label><br>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosActividadesForm')" class="btn btn-actualizar">Siguiente</button>
-                    
+
                 </div>
             </form>
 
+
             <!-- 14 -->
+            <?php
+            include "../modelos/datosActividadesForm.php";
+            ?>
+
             <form action="modelos/datosActividadesForm.php" method="POST" id="datosActividadesForm" class="form-section" style="display: none;">
                 <h3>14. Actividades externas a la unidad productiva</h3>
 
@@ -1460,28 +1846,29 @@ function obtenerNumeroFicha($conexion)
 
 
                 <!-- Tomador de decisiones -->
+
                 <div class="form-group" id="seccionTomadorDecisiones" style="display: none;">
                     <h4>14.1. ¿Quién es el tomador de decisiones con relación a las actividades agropecuarias de la finca?</h4>
-                    <input type="checkbox" id="esposoDecision" name="tomadorDecisiones" value="Esposo">
-                    <label for="esposoDecision">Esposo</label>
-                    <input type="checkbox" id="esposaDecision" name="tomadorDecisiones" value="Esposa">
-                    <label for="esposaDecision">Esposa</label>
-                    <input type="checkbox" id="consensoFamilia" name="tomadorDecisiones" value="ConsensoFamilia">
-                    <label for="consensoFamilia">Consenso en familia</label>
-                    <input type="checkbox" id="familiarDecision" name="tomadorDecisiones" value="Familiar">
-                    <label for="familiarDecision">Un familiar</label>
-                    <input type="checkbox" id="administradorDecision" name="tomadorDecisiones" value="Administrador">
-                    <label for="administradorDecision">Un administrador</label>
+                    <?php foreach ($tomadoresDecisiones as $tomador) : ?>
+                        <div>
+                            <input type="checkbox" id="tomador_<?php echo $tomador['id_tipo_tomador']; ?>" name="tomadorDecisiones" value="<?php echo $tomador['tomador']; ?>">
+                            <label for="tomador_<?php echo $tomador['id_tipo_tomador']; ?>"><?php echo $tomador['descripcion']; ?></label>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosCreditoForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPracticaForm')" class="btn btn-actualizar">Siguiente</button>
-                  
+
                 </div>
             </form>
 
-            <!-- 15 -->
+             <!-- 15 -->
+
+             <?php
+            include "../modelos/datosPracticaForm.php";
+            ?>
 
             <form action="modelos/datosPracticaForm.php" method="POST" id="datosPracticaForm" class="form-section" style="display: none;">
                 <h3>15. Prácticas para producción en la unidad productiva</h3>
@@ -1489,100 +1876,28 @@ function obtenerNumeroFicha($conexion)
                 <div class="form-group">
                     <label>Seleccione las prácticas que realiza en su finca:</label>
                     <div class="row">
-                        <div class="col-md-3"> <!-- Primera columna -->
-                            <input type="checkbox" id="quema" name="practicas" value="quema">
-                            <label for="quema">Quema</label><br>
-                            <input type="checkbox" id="riega" name="practicas" value="riega">
-                            <label for="riega">Riega</label><br>
-                            <input type="checkbox" id="manejoRastrojo" name="practicas" value="manejoRastrojo">
-                            <label for="manejoRastrojo">Manejo de rastrojo</label><br>
-                            <input type="checkbox" id="ceroLabranzas" name="practicas" value="ceroLabranzas">
-                            <label for="ceroLabranzas">Cero labranzas</label><br>
-                            <input type="checkbox" id="labranzaMinima" name="practicas" value="labranzaMinima">
-                            <label for="labranzaMinima">Labranza mínima</label><br>
-                            <input type="checkbox" id="siembraHilerasSurcos" name="practicas" value="siembraHilerasSurcos">
-                            <label for="siembraHilerasSurcos">Siembra en hileras o surcos</label><br>
-                            <input type="checkbox" id="curvasNivel" name="practicas" value="curvasNivel">
-                            <label for="curvasNivel">Curvas a nivel</label><br>
-                            <input type="checkbox" id="cultivosAsocio" name="practicas" value="cultivosAsocio">
-                            <label for="cultivosAsocio">Cultivos en asocio</label><br>
-                            <input type="checkbox" id="desparasitantes" name="practicas" value="desparasitantes">
-                            <label for="desparasitantes">Desparasitantes</label><br>
-                            <input type="checkbox" id="preparacionSueloTractor" name="practicas" value="preparacionSueloTractor">
-                            <label for="preparacionSueloTractor">Preparación de suelo con tractor</label><br>
-
-                        </div>
-                        <div class="col-md-3">
-                            <input type="checkbox" id="cultivoRelevo" name="practicas" value="cultivoRelevo">
-                            <label for="cultivoRelevo">Cultivo en relevo</label><br>
-                            <input type="checkbox" id="tierraDescanso" name="practicas" value="tierraDescanso">
-                            <label for="tierraDescanso">Tierra en descanso</label><br>
-                            <input type="checkbox" id="barrerasVivas" name="practicas" value="barrerasVivas">
-                            <label for="barrerasVivas">Barreras vivas</label><br>
-                            <input type="checkbox" id="barrerasMuertas" name="practicas" value="barrerasMuertas">
-                            <label for="barrerasMuertas">Barreras muertas</label><br>
-                            <input type="checkbox" id="abonoOrganico" name="practicas" value="abonoOrganico">
-                            <label for="abonoOrganico">Abono orgánico</label><br>
-                            <input type="checkbox" id="abonoSintetico" name="practicas" value="abonoSintetico">
-                            <label for="abonoSintetico">Abono sintético</label><br>
-                            <input type="checkbox" id="cosechaAgua" name="practicas" value="cosechaAgua">
-                            <label for="cosechaAgua">Cosecha de agua</label><br>
-                            <input type="checkbox" id="manejoHumedad" name="practicas" value="manejoHumedad">
-                            <label for="manejoHumedad">Manejo de humedad</label><br>
-                            <input type="checkbox" id="semillaCriolla" name="practicas" value="semillaCriolla">
-                            <label for="semillaCriolla">Semilla criolla</label><br>
-                            <input type="checkbox" id="semillaMejorada" name="practicas" value="semillaMejorada">
-                            <label for="semillaMejorada">Semilla mejorada</label><br>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="checkbox" id="huertoFamiliar" name="practicas" value="huertoFamiliar">
-                            <label for="huertoFamiliar">Huerto familiar</label><br>
-                            <input type="checkbox" id="almacenamientoGrano" name="practicas" value="almacenamientoGrano">
-                            <label for="almacenamientoGrano">Almacenamiento de grano</label><br>
-                            <input type="checkbox" id="agriculturaProtegida" name="practicas" value="agriculturaProtegida">
-                            <label for="agriculturaProtegida">Agricultura protegida</label><br>
-                            <input type="checkbox" id="secadoraSolar" name="practicas" value="secadoraSolar">
-                            <label for="secadoraSolar">Secadora solar</label><br>
-                            <input type="checkbox" id="usoInsecticidas" name="practicas" value="usoInsecticidas">
-                            <label for="usoInsecticidas">Uso de insecticidas</label><br>
-                            <input type="checkbox" id="usoFungicidas" name="practicas" value="usoFungicidas">
-                            <label for="usoFungicidas">Uso de fungicidas</label><br>
-                            <input type="checkbox" id="usoAcaricidas" name="practicas" value="usoAcaricidas">
-                            <label for="usoAcaricidas">Uso de acaricidas</label><br>
-                            <input type="checkbox" id="usoHerbicidas" name="practicas" value="usoHerbicidas">
-                            <label for="usoHerbicidas">Uso de herbicidas</label><br>
-                            <input type="checkbox" id="podas" name="practicas" value="podas">
-                            <label for="podas">Podas</label><br>
-                            <input type="checkbox" id="sistemaAgroforestal" name="practicas" value="sistemaAgroforestal">
-                            <label for="sistemaAgroforestal">Sistema agroforestal</label><br>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="checkbox" id="controlSombra" name="practicas" value="controlSombra">
-                            <label for="controlSombra">Control de sombra</label><br>
-                            <input type="checkbox" id="sistemaSilvopastoril" name="practicas" value="sistemaSilvopastoril">
-                            <label for="sistemaSilvopastoril">Sistema silvopastoril</label><br>
-                            <input type="checkbox" id="terrazas" name="practicas" value="terrazas">
-                            <label for="terrazas">Terrazas</label><br>
-                            <input type="checkbox" id="cultivoCobertura" name="practicas" value="cultivoCobertura">
-                            <label for="cultivoCobertura">Cultivo de cobertura</label><br>
-                            <input type="checkbox" id="bancoProteina" name="practicas" value="bancoProteina">
-                            <label for="bancoProteina">Banco de proteína</label><br>
-                            <input type="checkbox" id="pastosMejorados" name="practicas" value="pastosMejorados">
-                            <label for="pastosMejorados">Pastos mejorados</label><br>
-                            <input type="checkbox" id="aplicacionVacunas" name="practicas" value="aplicacionVacunas">
-                            <label for="aplicacionVacunas">Aplicación de vacunas</label><br>
-                            <input type="checkbox" id="vitaminas" name="practicas" value="vitaminas">
-                            <label for="vitaminas">Vitaminas</label><br>
-                            <input type="checkbox" id="preparacionSueloTraccionAnimal" name="practicas" value="preparacionSueloTraccionAnimal">
-                            <label for="preparacionSueloTraccionAnimal">Preparación de suelo con tracción animal</label><br>
-                        </div>
+                        <?php $columns = 4; // Número de columnas deseado 
+                        ?>
+                        <?php $columnWidth = 12 / $columns; // Ancho de columna basado en un sistema de cuadrícula de 12 columnas 
+                        ?>
+                        <?php foreach ($practicasProductivas as $index => $practica) : ?>
+                            <?php if ($index % $columns == 0 && $index != 0) : ?>
+                    </div>
+                    <div class="row"> <!-- Cierra la fila actual y comienza una nueva cada 'n' prácticas -->
+                    <?php endif; ?>
+                    <div class="col-md-<?php echo $columnWidth; ?>">
+                        <input type="checkbox" id="practica_<?php echo $practica['id_tipo_practica']; ?>" name="practicas" value="<?php echo $practica['tipo_practica']; ?>">
+                        <label for="practica_<?php echo $practica['id_tipo_practica']; ?>"><?php echo $practica['tipo_practica']; ?></label>
+                    </div>
+                <?php endforeach; ?>
                     </div>
                 </div>
+
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosActividadesForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosApoyoForm')" class="btn btn-actualizar">Siguiente</button>
-                    
+
                 </div>
             </form>
 
@@ -1675,13 +1990,13 @@ function obtenerNumeroFicha($conexion)
                     <label for="productosVendidosNo">NO</label>
                 </div>
 
-            
+
 
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPracticaForm')">Regresar</button>
                     <button type="submit" id="guardarBtn" class="btn btn-actualizar">Enviar</button>
-                    
+
                 </div>
             </form>
 
@@ -1690,6 +2005,33 @@ function obtenerNumeroFicha($conexion)
 </div>
 </div>
 </div>
+<!-- Tu HTML existente -->
+
+<script>
+    $(document).ready(function() {
+        $("#datosApoyoForm").submit(function(event) {
+            event.preventDefault();
+            
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "modelos/datosApoyoForm.php",
+                data: formData,
+                success: function(response) {
+                    alert("Formulario registrado con éxito");
+
+                    // Redirigir a la página de bienvenida
+                    window.location.href = "bienvenida.php";
+                },
+                error: function(error) {
+                    console.error("Error en la petición AJAX", error);
+                }
+            });
+        });
+    });
+</script>
+
 
 
 
@@ -1802,6 +2144,40 @@ function obtenerNumeroFicha($conexion)
         document.getElementById('tipoAnimal').value = '';
         document.getElementById('generoAnimal').value = '';
         document.getElementById('cantidadAnimal').value = '';
+    }
+</script>
+<script>
+    function agregarEdad() {
+        var Edad = document.getElementById('edad').value;
+        var generoEdad = document.getElementById('generoEdad').value;
+        var cantidad = document.getElementById('cantidad').value;
+
+        // Crear una nueva fila
+        var fila = "<tr><td>" + Edad + "</td><td>" + generoEdad + "</td><td>" + cantidad + "</td></tr>";
+
+        // Agregar la fila a la tabla
+        document.getElementById('tablaTemporal').innerHTML += fila;
+
+        //Limpiar los campos después de agregar
+        document.getElementById('edad').value = '';
+        document.getElementById('generoEdad').value = '';
+        document.getElementById('cantidad').value = '';
+    }
+</script>
+
+<script>
+    function mostrarOpcionesEdad(Edad) {
+        var divGenero = document.getElementById("divGenero");
+        var generoEdad = document.getElementById("generoEdad");
+
+        // Mostrar el campo de género solo si se selecciona una edad
+        if (Edad !== "") {
+            divGenero.style.display = "block";
+        } else {
+            divGenero.style.display = "none";
+            // Reiniciar el valor del campo de género cuando no se selecciona una edad
+            generoEdad.value = "";
+        }
     }
 </script>
 
@@ -1963,484 +2339,505 @@ function obtenerNumeroFicha($conexion)
 </script>
 
 <script>
-      $(document).ready(function () {
-          $('#datosFichaForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
+    $(document).ready(function() {
+        $('#datosFichaForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/agregar_ficha.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
-            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<script>
-      $(document).ready(function () {
-          $('#datosTrabajadorForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosTrabajadorForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
-
-
-
-
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/agregar_ficha.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
-      $(document).ready(function () {
-          $('#datosUbiForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
+    $(document).ready(function() {
+        $('#datosTrabajadorForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosUbiForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
-
-
-
-<script>
-      $(document).ready(function () {
-          $('#datosPertenenciaForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosPertenenciaForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
-
-  <script>
-      $(document).ready(function () {
-          $('#datosHogarForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosHogarForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
-
-
-<script>
-      $(document).ready(function () {
-          $('#datosEtniaForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosEtniaForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
-
-
-<script>
-      $(document).ready(function () {
-          $('#datosRelevoForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosRelevoForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosTrabajadorForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 
 
 
 
 <script>
-      $(document).ready(function () {
-          $('#datosMigraForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
+    $(document).ready(function() {
+        $('#datosUbiForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosMigraForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosUbiForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#datosPertenenciaForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosPertenenciaForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#datosHogarForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosHogarForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#datosEtniaForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosEtniaForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#datosRelevoForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosRelevoForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 
 
 
 
 <script>
-      $(document).ready(function () {
-          $('#datosUnidadForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
+    $(document).ready(function() {
+        $('#datosMigraForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosUnidadForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosMigraForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 
-
-
-<script>
-      $(document).ready(function () {
-          $('#datosAgricolaForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosAgricolaForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
 
 
 
 <script>
-      $(document).ready(function () {
-          $('#datosPecuariaForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
+    $(document).ready(function() {
+        $('#datosUnidadForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosPecuariaForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
-
-
-<script>
-      $(document).ready(function () {
-          $('#datosPrCoForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosPrCoForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosUnidadForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 
 
 
 <script>
-      $(document).ready(function () {
-          $('#datosOtrosForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
+    $(document).ready(function() {
+        $('#datosAgricolaForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosOtrosForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosAgricolaForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 
-
-<script>
-      $(document).ready(function () {
-          $('#datosCreditoForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosCreditoForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
 
 
 <script>
-      $(document).ready(function () {
-          $('#datosActividadesForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
+    $(document).ready(function() {
+        $('#datosPecuariaForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosActividadesForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosPecuariaForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
 
-<script>
-      $(document).ready(function () {
-          $('#datosPracticaForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
-
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosPracticaForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
 
 <script>
-      $(document).ready(function () {
-          $('#datosApoyoForm').submit(function (e) {
-              e.preventDefault();  // Evitar la recarga de la página
+    $(document).ready(function() {
+        $('#datosPrCoForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-              // Realizar la solicitud AJAX
-              $.ajax({
-                  type: 'POST',
-                  url: 'modelos/datosApoyoForm.php',
-                  data: $(this).serialize(),
-                  success: function (response) {
-                      // Aquí puedes manejar la respuesta del servidor si es necesario
-                      console.log(response);
-                      // Deshabilita el botón después de hacer clic
-                      $('#guardarBtn').prop('disabled', true);
-                      // O puedes ocultar el botón si prefieres
-                      // $('#guardarBtn').hide();
-                  },
-                  error: function (error) {
-                      // Manejar el error si es necesario
-                      console.error(error);
-                  }
-              });
-          });
-      });
-  </script>
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosPrCoForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#datosOtrosForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosOtrosForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#datosCreditoForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosCreditoForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#datosActividadesForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosActividadesForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#datosPracticaForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosPracticaForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#datosApoyoForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosApoyoForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<!-- ------------- MONEDAS ------------->
+<script>
+    function formatoMoneda(input) {
+
+        let valor = input.value.replace(/[^0-9.]/g, "");
+
+        valor = parseFloat(valor).toString();
+
+        let [integerPart, decimalPart] = valor.split('.');
+        if (decimalPart) {
+            decimalPart = decimalPart.substr(0, 2);
+            valor = integerPart + '.' + decimalPart;
+        }
+
+        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        input.value = valor;
+    }
+</script>

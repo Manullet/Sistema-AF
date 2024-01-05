@@ -1,0 +1,65 @@
+<?php
+ob_start();
+include "../php/conexion_be.php";
+session_start();
+
+// Verifica si se ha enviado un formulario
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Obtener datos del formulario
+    $creado_por = $_SESSION["usuario"]["usuario"]; // Reemplaza con la lógica adecuada para obtener el nombre de usuario
+
+    // Verifica si se seleccionó "Si" para migración
+    if (isset($_POST['migra']) && $_POST['migra'] == 'S') {
+        $tiene_migrantes = 'S';
+    } else {
+        $tiene_migrantes = 'N';
+    }
+
+    // Obtiene el destino de migración
+    $migracion_dentro_pais = isset($_POST['destino']) && $_POST['destino'] == 'dentro_del_pais' ? 'S' : 'N';
+    $migracion_fuera_pais = isset($_POST['destino']) && $_POST['destino'] == 'otro_pais' ? 'S' : 'N';
+
+    // Obtiene los motivos de migración
+    $motivos_seleccionados = isset($_POST['razon']) ? $_POST['razon'] : array();
+
+    // Obtener los ID de los motivos seleccionados
+    $id_tipo_motivos = array();
+    foreach ($motivos_seleccionados as $motivo) {
+        // Escapar el motivo para evitar inyección de SQL
+        $motivo_escapado = mysqli_real_escape_string($conexion, $motivo);
+
+        // Consulta para obtener el ID del motivo seleccionado
+        $query = "SELECT Id_motivo FROM tbl_motivos_migracion WHERE Motivo = '$motivo_escapado'";
+        $result = mysqli_query($conexion, $query);
+
+        if ($result) {
+            // Verificar si se encontró el ID del motivo
+            if ($row = mysqli_fetch_assoc($result)) {
+                $id_tipo_motivos[] = $row['Id_motivo'];
+            }
+        } else {
+            echo "Error al obtener ID del motivo: " . mysqli_error($conexion);
+        }
+    }
+
+    // Verifica si se envían remesas
+    $remesas = isset($_POST['remesas']) && $_POST['remesas'] == 'si' ? 'S' : 'N';
+
+    // Llamar al procedimiento almacenado
+    $id_tipo_motivos_str = implode(',', array_map('intval', $id_tipo_motivos));
+    $sql = "CALL InsertMigracionFamiliarData('$tiene_migrantes', '$migracion_dentro_pais', '$migracion_fuera_pais', '$id_tipo_motivos_str', '$remesas', '$creado_por')";
+
+    if (mysqli_query($conexion, $sql)) {
+        // Redirige a la siguiente página
+        header("Location: siguiente_pagina.php");
+        exit(); // Detener la ejecución del script
+    } else {
+        echo "Error al guardar los datos: " . mysqli_error($conexion);
+    }
+
+    // Cierra la conexión a la base de datos
+    mysqli_close($conexion);
+}
+?>
+<!-- Tu formulario HTML sigue aquí -->

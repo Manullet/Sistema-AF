@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-12-2023 a las 10:51:30
+-- Tiempo de generación: 05-01-2024 a las 23:35:47
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -1600,6 +1600,47 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarEtnia` (IN `etniaParam` VAR
     VALUES (etniaParam, descripcionParam, usuarioCreador, fechaCreacionParam, usuarioModificador, NOW(), estadoParam);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarEtniaProductor` (IN `p_id_etnia` BIGINT(20), IN `p_creado_por` VARCHAR(50))   BEGIN
+   DECLARE last_id_productor BIGINT;
+    DECLARE last_id_ficha BIGINT;
+    
+    -- Obtener el último ID de productor insertado
+    SELECT MAX(id_productor) INTO last_id_productor FROM tbl_productor;
+    
+    -- Verificar si se encontró el último ID de productor
+    IF last_id_productor IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID del productor.';
+    END IF;
+    
+    -- Obtener el último ID de ficha insertado
+    SELECT MAX(id_ficha) INTO last_id_ficha FROM fichas;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ficha IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ficha.';
+    END IF;
+
+
+
+
+
+  INSERT INTO tbl_etnias_por_productor (
+    id_ficha,
+    id_productor,
+    id_etnia,
+    creado_por,
+    fecha_creacion,
+    estado
+  ) VALUES (
+    last_id_ficha,
+    last_id_productor,
+    p_id_etnia,
+    p_creado_por,
+    CURRENT_TIMESTAMP(),
+    'A'
+  );
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarEtniasPorProductor` (IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_id_etnia` BIGINT, IN `p_detalle_de_otros` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
     DECLARE v_valid_productor BOOLEAN;
 
@@ -2360,7 +2401,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoOrganizacion` (IN `tipo
   VALUES (tipo_organizacion_param, descripcion_param, 'Kevin', 'Kevin', 'ACTIVO');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoPecuario` (IN `p_tipo_pecuario` ENUM('b','o','c'), IN `p_raza_con_genero` ENUM('s','n'), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(50))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoPecuario` (IN `p_tipo_pecuario` VARCHAR(255), IN `p_raza_con_genero` ENUM('s','n'), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(50))   BEGIN
     INSERT INTO `tbl_tipo_pecuarios` (
         `tipo_pecuario`,
         `raza_con_genero`,
@@ -2638,11 +2679,80 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUsuario` (IN `p_nombre_comp
     VALUES (p_nombre_completo, p_correo, p_usuario, p_contrasena, 2, 3);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertMigracionFamiliarData` (IN `p_tiene_migrantes` ENUM('S','N'), IN `p_migracion_dentro_pais` ENUM('S','N'), IN `p_migracion_fuera_pais` ENUM('S','N'), IN `p_id_tipo_motivos` VARCHAR(255), IN `p_remesas` ENUM('S','N'), IN `p_creado_por` VARCHAR(50))   BEGIN
+  DECLARE last_id_productor BIGINT;
+  DECLARE last_id_ficha BIGINT;
+  
+  -- Obtener el último ID de productor insertado
+  SELECT MAX(id_productor) INTO last_id_productor FROM tbl_productor;
+  
+  -- Verificar si se encontró el último ID de productor
+  IF last_id_productor IS NULL THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID del productor.';
+  END IF;
+  
+  -- Obtener el último ID de ficha insertado
+  SELECT MAX(id_ficha) INTO last_id_ficha FROM fichas;
+  
+  -- Verificar si se encontró el último ID de ficha
+  IF last_id_ficha IS NULL THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ficha.';
+  END IF;
+
+  INSERT INTO tbl_migracion_familiar (
+    id_ficha,
+    id_productor,
+    tiene_migrantes,
+    migracion_dentro_pais,
+    migracion_fuera_pais,
+    id_tipo_motivos,
+    remesas,
+    creado_por,
+    estado
+  )
+  VALUES (
+    last_id_ficha,
+    last_id_productor,
+    p_tiene_migrantes,
+    p_migracion_dentro_pais,
+    p_migracion_fuera_pais,
+    p_id_tipo_motivos,
+    p_remesas,
+    p_creado_por,
+    'A'
+  );
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertObejtos` (IN `newObjeto` VARCHAR(255), IN `newDescripcion` VARCHAR(255), IN `newActualizado_Por` VARCHAR(255), IN `newCreado_Por` VARCHAR(255))   BEGIN
     DECLARE currentDate TIMESTAMP;
     SET currentDate = NOW();
  INSERT INTO objetos(Objeto, Descripcion, Actualizado_Por, Creado_Por, Fecha_Creacion,Fecha_Actualizacon, Status)
     VALUES (newObjeto , newDescripcion, newActualizado_Por, newCreado_Por, currentDate, currentDate,'Activo');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertOrganizationData` (IN `p_pertenece_a_organizacion` ENUM('S','N'), IN `p_creado_por` VARCHAR(255))   BEGIN
+    DECLARE last_id_productor BIGINT;
+    DECLARE last_id_ficha BIGINT;
+    
+    -- Obtener el último ID de productor insertado
+    SELECT MAX(id_productor) INTO last_id_productor FROM tbl_productor;
+    
+    -- Verificar si se encontró el último ID de productor
+    IF last_id_productor IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID del productor.';
+    END IF;
+    
+    -- Obtener el último ID de ficha insertado
+    SELECT MAX(id_ficha) INTO last_id_ficha FROM fichas;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ficha IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ficha.';
+    END IF;
+  
+    -- Insertar datos en la tabla tbl_base_organizacion
+    INSERT INTO tbl_base_organizacion (id_productor, id_ficha, pertenece_a_organizacion, estado, creado_por, fecha_creacion, modificado_por, fecha_modificacion)
+    VALUES (last_id_productor, last_id_ficha, p_pertenece_a_organizacion, 'A', p_creado_por, CURRENT_TIMESTAMP, NULL , CURRENT_TIMESTAMP);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPermisos` (IN `newId_rol` BIGINT(20), IN `newId_objetos` BIGINT(20), IN `newpermiso_eliminacion` VARCHAR(10), IN `newpermiso_actualizacion` VARCHAR(10), IN `newpermiso_consulta` VARCHAR(10), IN `newpermiso_insercion` VARCHAR(10), IN `newCreado_Por` BIGINT(20), IN `newEstado` ENUM('ACTIVO','INACTIVO'))   BEGIN
@@ -2661,6 +2771,101 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPreguntas` (IN `newPregunta` 
     VALUES (newPregunta, newActualizado_Por, newCreador_Por, currentDate, currentDate);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `INSERTProduccion_AgrAnterior` (IN `p_Id_Tipo_Cultivo` BIGINT(20), IN `p_Superficie_Primera_Postrera` ENUM('Primera','Postrera'), IN `p_Id_Medida_Primera_Postrera` BIGINT(20), IN `p_Produccion_Obtenida` DECIMAL(10,2), IN `p_Id_Medida_Produccion_Obtenida` BIGINT(20), IN `p_Cantidad_Vendida` DECIMAL(10,2), IN `p_Id_Medida_Vendida` BIGINT(20), IN `p_Precio_Venta` DECIMAL(10,2), IN `p_A_Quien_Se_Vendio` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
+    DECLARE last_id_productor BIGINT;
+    DECLARE last_id_ficha BIGINT;
+    DECLARE last_id_ubicacion_productor BIGINT;
+    
+    -- Obtener el último ID de productor insertado
+    SELECT MAX(id_productor) INTO last_id_productor FROM tbl_productor;
+    
+    -- Verificar si se encontró el último ID de productor
+    IF last_id_productor IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID del productor.';
+    END IF;
+    
+    -- Obtener el último ID de ficha insertado
+    SELECT MAX(id_ficha) INTO last_id_ficha FROM fichas;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ficha IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ficha.';
+    END IF;
+
+    -- Obtener el último ID de ubicacion_productor insertado
+    SELECT MAX(id_ubicacion) INTO last_id_ubicacion_productor FROM tbl_ubicacion_productor;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ubicacion_productor IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ubicacion.';
+    END IF;
+
+    -- Insertar datos en tbl_unidad_productora
+    INSERT INTO tbl_produccion_agricola_anterior (
+        Id_Ubicacion,
+        Id_Ficha,
+        Id_Productor,
+        Id_Tipo_Cultivo,
+        Superficie_Primera_Postrera,
+        Id_Medida_Primera_Postrera,
+        Produccion_Obtenida,
+        Id_Medida_Produccion_Obtenida,
+        Cantidad_Vendida,
+        Id_Medida_Vendida,
+        Precio_Venta,
+        A_Quien_Se_Vendio,
+        Creado_Por,
+        Fecha_Creacion,
+        Modificado_Por,
+        Fecha_Modificacion,
+        estado
+    ) VALUES (
+        last_id_ubicacion_productor,
+        last_id_ficha,
+        last_id_productor,
+        p_Id_Tipo_Cultivo,
+        p_Superficie_Primera_Postrera,
+        p_Id_Medida_Primera_Postrera,
+        p_Produccion_Obtenida,
+        p_Id_Medida_Produccion_Obtenida,
+        p_Cantidad_Vendida,
+        p_Id_Medida_Vendida,
+        p_Precio_Venta,
+        p_A_Quien_Se_Vendio,
+        p_Creado_Por,
+        CURRENT_TIMESTAMP(),
+        NULL,
+        CURRENT_TIMESTAMP(),
+        'A'
+    );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRelevoData` (IN `p_tendra_relevo` ENUM('S','N'), IN `p_cuantos_relevos` INT, IN `p_creado_por` VARCHAR(50))   BEGIN
+   DECLARE last_id_productor BIGINT;
+    DECLARE last_id_ficha BIGINT;
+    
+    -- Obtener el último ID de productor insertado
+    SELECT MAX(id_productor) INTO last_id_productor FROM tbl_productor;
+    
+    -- Verificar si se encontró el último ID de productor
+    IF last_id_productor IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID del productor.';
+    END IF;
+    
+    -- Obtener el último ID de ficha insertado
+    SELECT MAX(id_ficha) INTO last_id_ficha FROM fichas;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ficha IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ficha.';
+    END IF;
+
+
+
+  INSERT INTO tbl_relevo_organizacion (id_ficha,id_productor,tendra_relevo, cuantos_relevos, creado_por,fecha_creacion ,estado)
+  VALUES (last_id_ficha, last_id_productor, p_tendra_relevo, p_cuantos_relevos, p_creado_por,  CURRENT_TIMESTAMP(),'A');
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRoles` (IN `newNombre` VARCHAR(255), IN `newDescripcion` VARCHAR(255))   BEGIN
     DECLARE currentDate TIMESTAMP;  -- Declarar la variable currentDate
     SET currentDate = NOW();  -- Obtener la fecha y hora actuales
@@ -2669,62 +2874,124 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRoles` (IN `newNombre` VARCHA
     VALUES (newNombre, newDescripcion, 1, currentDate, 1, currentDate, 'Activo');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Temp_Agregar_Datos_Generales` (IN `p_primer_nombre` VARCHAR(255), IN `p_segundo_nombre` VARCHAR(255), IN `p_primer_apellido` VARCHAR(255), IN `p_segundo_apellido` VARCHAR(255), IN `p_identificacion` BIGINT, IN `p_fecha_nacimiento` DATE, IN `p_genero` VARCHAR(10), IN `p_estado_civil` VARCHAR(20), IN `p_nivel_escolaridad` VARCHAR(50), IN `p_ultimo_grado_escolar_aprobado` VARCHAR(50), IN `p_telefono_1` INT, IN `p_telefono_2` INT, IN `p_telefono_3` INT, IN `p_email_1` VARCHAR(255), IN `p_email_2` VARCHAR(255), IN `p_email_3` VARCHAR(255))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `TempInsertarUnidadProductoraYRiego` (IN `p_Tipo_De_Manejo` ENUM('Propia','Alquilada','Prestada','Ejidal'), IN `p_Superficie_Produccion` DECIMAL(10,2), IN `p_Id_Medida_Produccion` BIGINT(20), IN `p_Superficie_Agricultura` DECIMAL(10,2), IN `p_Id_Medida_Agricultura` BIGINT(20), IN `p_Superficie_Ganaderia` DECIMAL(10,2), IN `p_Id_Medida_Ganaderia` BIGINT(20), IN `p_Superficie_Apicultura` DECIMAL(10,2), IN `p_Id_Medida_Apicultura` BIGINT(20), IN `p_Superficie_Forestal` DECIMAL(10,2), IN `p_Id_Medida_Forestal` BIGINT(20), IN `p_Superficie_Acuacultura` DECIMAL(10,2), IN `p_Numero_Estanques` INT, IN `p_Superficie_Agroturismo` DECIMAL(10,2), IN `p_Superficie_Otros` DECIMAL(10,2), IN `p_Creado_Por` VARCHAR(255), IN `p_Tiene_Riego` ENUM('S','N'), IN `p_Superficie_Riego` DECIMAL(10,2), IN `p_Id_Medida_Superficie_Riego` BIGINT(20), IN `p_Id_Tipo_Riego` BIGINT(20), IN `p_Fuente_Agua` VARCHAR(255), IN `p_Disponibilidad_Agua_Meses` INT)   BEGIN
+
+    DECLARE last_id_productor BIGINT;
     DECLARE last_id_ficha BIGINT;
+    DECLARE last_id_ubicacion_productor BIGINT;
+    
+    -- Obtener el último ID de productor insertado
+    SELECT MAX(id_productor) INTO last_id_productor FROM tbl_productor;
+    
+    -- Verificar si se encontró el último ID de productor
+    IF last_id_productor IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID del productor.';
+    END IF;
+    
+    -- Obtener el último ID de ficha insertado
+    SELECT MAX(id_ficha) INTO last_id_ficha FROM fichas;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ficha IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ficha.';
+    END IF;
 
-    -- Obtener el ID de la última ficha ingresada
-    SELECT MAX(id_ficha) INTO last_id_ficha FROM ficha;
+   -- Obtener el último ID de ubicacion_productor insertado
+    SELECT MAX(id_ubicacion) INTO last_id_ubicacion_productor FROM tbl_ubicacion_productor;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ubicacion_productor IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ubicacion.';
+    END IF;
 
-    -- Insertar datos en la tabla tbl_productor
-    INSERT INTO tbl_productor (
-        id_ficha,
-        primer_nombre,
-        segundo_nombre,
-        primer_apellido,
-        segundo_apellido,
-        identificacion,
-        fecha_nacimiento,
-        genero,
-        estado_civil,
-        nivel_escolaridad,
-        ultimo_grado_escolar_aprobado,
-        telefono_1,
-        telefono_2,
-        telefono_3,
-        email_1,
-        email_2,
-        email_3,
-        descripcion,
-        creado_por,
-        fecha_creacion,
-        modificado_por,
-        fecha_modificacion,
-        estado
-    ) VALUES (
-        last_id_ficha,
-        p_primer_nombre,
-        p_segundo_nombre,
-        p_primer_apellido,
-        p_segundo_apellido,
-        p_identificacion,
-        p_fecha_nacimiento,
-        p_genero,
-        p_estado_civil,
-        p_nivel_escolaridad,
-        p_ultimo_grado_escolar_aprobado,
-        p_telefono_1,
-        p_telefono_2,
-        p_telefono_3,
-        p_email_1,
-        p_email_2,
-        p_email_3,
-        ' ',
-       ' ',
-        CURRENT_TIMESTAMP,
-       ' ',
-        CURRENT_TIMESTAMP,
-        'A'
-    );
+  -- Insertar datos en tbl_unidad_productora
+  INSERT INTO tbl_unidad_productora (
+    Id_Ubicacion,
+    Id_Ficha,
+    Id_Productor,
+    Tipo_De_Manejo,
+    Superficie_Produccion,
+    Id_Medida_Produccion,
+    Superficie_Agricultura,
+    Id_Medida_Agricultura,
+    Superficie_Ganaderia,
+    Id_Medida_Ganaderia,
+    Superficie_Apicultura,
+    Id_Medida_Apicultura,
+    Superficie_Forestal,
+    Id_Medida_Forestal,
+    Superficie_Acuacultura,
+    Numero_Estanques,
+    Superficie_Agroturismo,
+    Superficie_Otros,
+    Creado_Por,
+    Descripcion,
+    Fecha_Creacion,
+    Modificado_Por,
+    Fecha_Modificacion,
+    estado
+  ) VALUES (
+    last_id_ubicacion_productor,
+    last_id_ficha,
+    last_id_productor,
+    p_Tipo_De_Manejo,
+    p_Superficie_Produccion,
+    p_Id_Medida_Produccion,
+    p_Superficie_Agricultura,
+    p_Id_Medida_Agricultura,
+    p_Superficie_Ganaderia,
+    p_Id_Medida_Ganaderia,
+    p_Superficie_Apicultura,
+    p_Id_Medida_Apicultura,
+    p_Superficie_Forestal,
+    p_Id_Medida_Forestal,
+    p_Superficie_Acuacultura,
+    p_Numero_Estanques,
+    p_Superficie_Agroturismo,
+    p_Superficie_Otros,
+    p_Creado_Por,
+    NULL,
+    CURRENT_TIMESTAMP(),
+    NULL,
+    CURRENT_TIMESTAMP() ,
+    'A'
+  );
+
+INSERT INTO tbl_manejo_riego (
+    Id_Ficha,
+    Id_Ubicacion,
+    Id_Productor,
+    Tiene_Riego,
+    Superficie_Riego,
+    Id_Medida_Superficie_Riego,
+    Id_Tipo_Riego,
+    Fuente_Agua,
+    Disponibilidad_Agua_Meses,
+    Descripcion,
+    Creado_Por,
+    Fecha_Creacion,
+    Modificado_Por,
+    Fecha_Modificacion,
+    Estado
+  ) VALUES (
+    last_id_ficha,
+    last_id_ubicacion_productor,
+    last_id_productor,
+    p_Tiene_Riego,
+    p_Superficie_Riego,
+    p_Id_Medida_Superficie_Riego,
+    p_Id_Tipo_Riego,
+    p_Fuente_Agua,
+    p_Disponibilidad_Agua_Meses,
+    NULL,
+    p_Creado_Por,
+    CURRENT_TIMESTAMP(),
+    NULL,
+    CURRENT_TIMESTAMP(),
+    'A'
+  );
+
+ 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Temp_Insertar_Ficha` (IN `p_Fecha_Solicitud` DATE, IN `p_Anio_Solicitud` INT, IN `p_Descripcion` VARCHAR(255), IN `p_Fecha_Entrevista` DATE, IN `p_Nombre_Encuentrador` VARCHAR(50), IN `p_Nombre_Encuestador` VARCHAR(50), IN `p_Nombre_Supervisor` VARCHAR(50))   BEGIN
@@ -2758,6 +3025,138 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Temp_Insertar_Ficha` (IN `p_Fecha_S
         p_Nombre_Encuentrador,
         p_Nombre_Encuestador,
         p_Nombre_Supervisor
+    );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Temp_Insertar_Productor` (IN `p_primer_nombre` VARCHAR(255), IN `p_segundo_nombre` VARCHAR(255), IN `p_primer_apellido` VARCHAR(255), IN `p_segundo_apellido` VARCHAR(255), IN `p_identificacion` BIGINT, IN `p_fecha_nacimiento` DATE, IN `p_genero` VARCHAR(10), IN `p_estado_civil` VARCHAR(20), IN `p_nivel_escolaridad` VARCHAR(50), IN `p_ultimo_grado_escolar_aprobado` VARCHAR(50), IN `p_telefono_1` INT, IN `p_telefono_2` INT, IN `p_telefono_3` INT, IN `p_email_1` VARCHAR(255), IN `p_email_2` VARCHAR(255), IN `p_email_3` VARCHAR(255), IN `p_creado_por` VARCHAR(255))   BEGIN
+    DECLARE last_id_ficha BIGINT;
+    
+    -- Obtener el último ID de ficha insertado
+    SELECT MAX(id_ficha) INTO last_id_ficha FROM fichas;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ficha IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error al obtener el ID de la ficha.';
+    END IF;
+
+    -- Insertar datos en la tabla productor
+    INSERT INTO tbl_productor (
+        id_ficha,
+        primer_nombre,
+        segundo_nombre,
+        primer_apellido,
+        segundo_apellido,
+        identificacion,
+        fecha_nacimiento,
+        genero,
+        estado_civil,
+        nivel_escolaridad,
+        ultimo_grado_escolar_aprobado,
+        telefono_1,
+        telefono_2,
+        telefono_3,
+        email_1,
+        email_2,
+        email_3,
+        creado_por,
+        fecha_creacion,
+        modificado_por,
+        fecha_modificacion,
+        estado
+    ) VALUES (
+        last_id_ficha,
+        p_primer_nombre,
+        p_segundo_nombre,
+        p_primer_apellido,
+        p_segundo_apellido,
+        p_identificacion,
+        p_fecha_nacimiento,
+        p_genero,
+        p_estado_civil,
+        p_nivel_escolaridad,
+        p_ultimo_grado_escolar_aprobado,
+        p_telefono_1,
+        p_telefono_2,
+        p_telefono_3,
+        p_email_1,
+        p_email_2,
+        p_email_3,
+        p_creado_por,
+        CURRENT_TIMESTAMP(),
+        NULL,
+        CURRENT_TIMESTAMP(),
+        'A'
+    );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Temp_Insertar_Ubicacion_Productor` (IN `p_Id_Departamento` BIGINT, IN `p_Id_Municipio` BIGINT, IN `p_Id_Aldea` BIGINT, IN `p_Id_Cacerio` BIGINT, IN `p_ubicacion_geografica` VARCHAR(255), IN `p_distancia_parcela_vivienda` DECIMAL(10,2), IN `p_latitud_parcela` VARCHAR(20), IN `p_longitud_parcela` VARCHAR(20), IN `p_msnm` DECIMAL(10,2), IN `p_direccion_1` VARCHAR(255), IN `p_direccion_2` VARCHAR(255), IN `p_direccion_3` VARCHAR(255), IN `p_vive_en_finca` ENUM('S','N'), IN `p_nombre_finca` VARCHAR(255), IN `p_creado_por` VARCHAR(50))   BEGIN
+    DECLARE last_id_productor BIGINT;
+    DECLARE last_id_ficha BIGINT;
+    
+    -- Obtener el último ID de productor insertado
+    SELECT MAX(id_productor) INTO last_id_productor FROM tbl_productor;
+    
+    -- Verificar si se encontró el último ID de productor
+    IF last_id_productor IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID del productor.';
+    END IF;
+    
+    -- Obtener el último ID de ficha insertado
+    SELECT MAX(id_ficha) INTO last_id_ficha FROM fichas;
+    
+    -- Verificar si se encontró el último ID de ficha
+    IF last_id_ficha IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al obtener el ID de la ficha.';
+    END IF;
+
+    -- Insertar datos en la tabla ubicacion_productor
+    INSERT INTO tbl_ubicacion_productor (
+        id_ficha,
+        id_productor,
+        Id_Departamento,
+        Id_Municipio,
+        Id_Aldea,
+        Id_Cacerio,
+        ubicacion_geografica,
+        distancia_parcela_vivienda,
+        latitud_parcela,
+        longitud_parcela,
+        msnm,
+        direccion_1,
+        direccion_2,
+        direccion_3,
+        vive_en_finca,
+        nombre_finca,
+        descripcion,
+        creado_por,
+        fecha_creacion,
+        modificado_por,
+        fecha_modificacion,
+        estado
+    ) VALUES (
+        last_id_ficha,
+        last_id_productor,  
+        p_Id_Departamento,
+        p_Id_Municipio,
+        p_Id_Aldea,
+        p_Id_Cacerio,
+        p_ubicacion_geografica,
+        p_distancia_parcela_vivienda,
+        p_latitud_parcela,
+        p_longitud_parcela,
+        p_msnm,
+        p_direccion_1,
+        p_direccion_2,
+        p_direccion_3,
+        p_vive_en_finca,
+        p_nombre_finca,
+        NULL,
+        p_creado_por,
+        CURRENT_TIMESTAMP(),
+        NULL,
+        CURRENT_TIMESTAMP(),
+        'A'
     );
 END$$
 
@@ -2910,12 +3309,9 @@ INSERT INTO `fichas` (`id_ficha`, `fecha_solicitud`, `anio_solicitud`, `descripc
 (1, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:43:05', 'manu', '2023-12-01 04:16:28', 'I', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
 (2, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:57:36', 'manu', '2023-12-01 04:17:22', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
 (3, '2023-11-17', 2023, 'Creado', 'manu', '2023-11-20 06:00:21', 'manu', '2023-12-01 04:17:06', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
-(4, '2023-12-02', 2023, 'TierrasSana', '2023-12-02', '2023-12-03 04:08:37', NULL, '2023-12-03 04:08:37', 'A', '0000-00-00', 'nombre_encuestador', NULL, 'nombre_supervisor', NULL, 'manu', NULL),
-(5, '2023-12-03', 2023, 'afde', 'manu', '2023-12-03 08:25:20', NULL, '2023-12-03 08:25:20', 'A', '2023-12-03', '', NULL, 'ale', NULL, 'nombre_supervisor', NULL),
-(11, '2023-12-03', 2023, 'TierrasSana', '', '2023-12-03 21:18:54', NULL, '2023-12-03 21:18:54', 'A', '2023-12-03', 'manuel', NULL, 'kavin', NULL, 'danieola', NULL),
-(12, '0000-00-00', 0, '', '', '2023-12-03 23:20:51', NULL, '2023-12-03 23:20:51', 'A', '0000-00-00', '', NULL, '', NULL, '', NULL),
-(13, '2023-12-03', 2023, 'ADS', '', '2023-12-04 00:10:22', NULL, '2023-12-04 00:10:22', 'A', '2023-12-03', 'manuel', NULL, 'karlas', NULL, 'ale', NULL),
-(14, '0000-00-00', 0, '', '', '2023-12-10 04:30:32', NULL, '2023-12-10 04:30:32', 'A', '0000-00-00', '', NULL, '', NULL, '', NULL);
+(20, '2023-12-12', 2023, 'prueba1', '2023-12-12', '2023-12-12 21:46:03', NULL, '2023-12-12 21:46:03', 'A', '0000-00-00', 'Enrique', NULL, 'Manuel', NULL, 'Mfigue', NULL),
+(21, '2023-12-14', 2023, 'TierrasSana', '2023-12-01', '2023-12-12 22:14:11', NULL, '2023-12-12 22:14:11', 'A', '0000-00-00', 'Francisco Morazan', NULL, 'Manuel', NULL, 'Mfigue', NULL),
+(23, '0000-00-00', 0, '', '', '2023-12-13 00:05:03', NULL, '2023-12-13 00:05:03', 'A', '0000-00-00', '', NULL, '', NULL, 'Mfigue', NULL);
 
 -- --------------------------------------------------------
 
@@ -3187,7 +3583,8 @@ INSERT INTO `tbl_aldeas` (`Id_Aldea`, `Id_Departamento`, `Id_Municipio`, `Nombre
 (3, 3, 5, 'Agua Salada.', 'Agua Salada.', 'A', '1', '2023-12-07 06:39:51', '1', '2023-12-07 06:39:51'),
 (4, 4, 7, 'Calzontes', 'Calzontes', 'A', '1', '2023-12-07 06:39:51', '1', '2023-12-07 06:39:51'),
 (5, 5, 9, 'Artemisales', 'Artemisales', 'A', '1', '2023-12-07 06:44:53', '1', '2023-12-07 06:44:53'),
-(10, 1, 1, 'prueba', '32wd', 'A', 'manu', '2023-12-10 04:36:19', NULL, '2023-12-10 04:36:19');
+(10, 1, 1, 'prueba', '32wd', 'A', 'manu', '2023-12-10 04:36:19', NULL, '2023-12-10 04:36:19'),
+(13, 20, 12, 'aldeafinal', 'final', 'A', 'Mfigue', '2023-12-10 15:55:54', NULL, '2023-12-10 15:55:54');
 
 -- --------------------------------------------------------
 
@@ -3303,7 +3700,8 @@ INSERT INTO `tbl_cacerios` (`Id_Cacerio`, `Id_Aldea`, `Id_Municipio`, `Id_Depart
 (2, 2, 3, 2, 'cacerio 2', 'cacerio 2', 'A', '1', '2023-12-07 06:47:43', '1', '2023-12-07 06:47:43'),
 (3, 3, 5, 3, 'caserio 3', 'caserio 3', 'A', '1', '2023-12-07 06:49:40', '1', '2023-12-07 06:49:40'),
 (4, 4, 7, 4, 'caserio 4', 'caserio 4', 'A', '1', '2023-12-07 06:51:00', '1', '2023-12-07 06:51:00'),
-(5, 5, 9, 5, 'caserio 5', 'caserio 5', 'A', '1', '2023-12-07 06:51:51', '1', '2023-12-07 06:51:51');
+(5, 5, 9, 5, 'caserio 5', 'caserio 5', 'A', '1', '2023-12-07 06:51:51', '1', '2023-12-07 06:51:51'),
+(9, 13, 12, 20, 'caseriofinal', 'final', 'A', 'Mfigue', '2023-12-10 15:56:16', NULL, '2023-12-10 15:56:16');
 
 -- --------------------------------------------------------
 
@@ -3393,7 +3791,8 @@ INSERT INTO `tbl_departamentos` (`Id_Departamento`, `Nombre_Departamento`, `Desc
 (15, 'Olancho', 'Olancho', '1', '2023-12-07 06:04:49', '1', '2023-12-07 06:04:49', 'A'),
 (16, 'Santa Bárbara', 'Santa Bárbara', '1', '2023-12-07 06:05:06', '1', '2023-12-07 06:05:06', 'A'),
 (17, 'Valle', 'Valle', '1', '2023-12-07 06:05:22', '1', '2023-12-07 06:05:22', 'A'),
-(18, 'Yoro', 'Yoro', '1', '2023-12-07 06:05:39', 'manu', '2023-12-09 21:32:00', 'A');
+(18, 'Yoro', 'Yoro', '1', '2023-12-07 06:05:39', 'manu', '2023-12-09 21:32:00', 'A'),
+(20, 'DepFinal', 'desc', 'Mfigue', '2023-12-10 15:53:57', NULL, '2023-12-10 15:53:57', 'A');
 
 -- --------------------------------------------------------
 
@@ -3409,7 +3808,7 @@ CREATE TABLE `tbl_etnias` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` int(11) DEFAULT NULL
+  `estado` enum('A','I') NOT NULL DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -3417,18 +3816,17 @@ CREATE TABLE `tbl_etnias` (
 --
 
 INSERT INTO `tbl_etnias` (`id_etnia`, `etnia`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Etnia 1', 'Prueba', 'Usuario1', '2023-11-04 09:04:51', 'Usuario1', '2023-11-04 09:04:51', 1),
-(2, 'Etnia 2', 'Descripción de Etnia 2', 'Usuario2', '2023-11-04 09:04:51', 'Usuario2', '2023-11-04 09:04:51', 0),
-(3, 'Etnia 3', 'Descripción de Etnia 3', 'Usuario3', '2023-11-04 09:04:51', 'Usuario3', '2023-11-04 09:04:51', 0),
-(4, 'Etnia 4', 'Descripción de Etnia 4', 'Usuario4', '2023-11-04 09:04:51', 'Usuario4', '2023-11-04 09:04:51', 1),
-(5, 'Etnia 5', 'Descripción de Etnia 5', 'Usuario5', '2023-11-04 09:04:51', 'Usuario5', '2023-11-04 09:04:51', 0),
-(6, 'Etnia 6', 'Descripción de Etnia 6', 'Usuario6', '2023-11-04 09:04:51', 'Usuario6', '2023-11-04 09:04:51', 1),
-(7, 'Etnia 7', 'Descripción de Etnia 7', 'Usuario7', '2023-11-04 09:04:51', 'Usuario7', '2023-11-04 09:04:51', 1),
-(8, 'Etnia 8', 'Descripción de Etnia 8', 'Usuario8', '2023-11-04 09:04:51', 'Usuario8', '2023-11-04 09:04:51', 0),
-(9, 'Etnia 9', 'Descripción de Etnia 9', 'Usuario9', '2023-11-04 09:04:51', 'Usuario9', '2023-11-04 09:04:51', 1),
-(10, 'Etnia 10', 'Descripción de Etnia 10', 'Usuario10', '2023-11-04 09:04:51', 'Usuario10', '2023-11-04 09:04:51', 0),
-(11, 'Etnia 11', 'Descripción de Etnia 11', 'Usuario11', '2023-11-04 09:04:51', 'Usuario11', '2023-11-04 09:04:51', 0),
-(12, 'Etnia 12', 'Descripción de Etnia ', 'Usuario12', '2023-11-05 03:38:42', 'Usuario12', '2023-11-05 03:38:42', 0);
+(1, 'Lenca', 'Prueba', 'Usuario1', '2023-12-11 20:37:01', 'Usuario1', '2023-12-11 20:37:01', 'A'),
+(2, 'Pech', 'Descripción de Etnia 2', 'Usuario2', '2023-12-11 20:40:44', 'Usuario2', '2023-12-11 20:40:44', 'A'),
+(3, 'Tolupanes', 'Descripción de Etnia 3', 'Usuario3', '2023-12-11 20:41:13', 'Usuario3', '2023-12-11 20:41:13', 'A'),
+(4, 'Garífunas', 'Descripción de Etnia 4', 'Usuario4', '2023-12-11 20:38:19', 'Usuario4', '2023-12-11 20:38:19', 'A'),
+(5, 'Maya Chortís', 'Descripción de Etnia 5', 'Usuario5', '2023-12-11 20:41:19', 'Usuario5', '2023-12-11 20:41:19', 'A'),
+(6, 'Tawahkas', 'Descripción de Etnia 6', 'Usuario6', '2023-12-11 20:38:42', 'Usuario6', '2023-12-11 20:38:42', 'A'),
+(7, 'Misquitos', 'Descripción de Etnia 7', 'Usuario7', '2023-12-11 20:38:52', 'Usuario7', '2023-12-11 20:38:52', 'A'),
+(8, 'Nahua', 'Descripción de Etnia 8', 'Usuario8', '2023-12-11 20:41:25', 'Usuario8', '2023-12-11 20:41:25', 'A'),
+(9, 'Ladino', 'Descripción de Etnia 9', 'Usuario9', '2023-12-11 20:39:08', 'Usuario9', '2023-12-11 20:39:08', 'A'),
+(10, 'Negro habla inglesa', 'Descripción de Etnia 10', 'Usuario10', '2023-12-11 20:41:33', 'Usuario10', '2023-12-11 20:41:33', 'A'),
+(11, 'Otros(Especifique)', 'Descripción de Etnia 11', 'Usuario11', '2023-12-11 20:41:38', 'Usuario11', '2023-12-11 20:41:38', 'A');
 
 -- --------------------------------------------------------
 
@@ -3437,7 +3835,7 @@ INSERT INTO `tbl_etnias` (`id_etnia`, `etnia`, `descripcion`, `creado_por`, `fec
 --
 
 CREATE TABLE `tbl_etnias_por_productor` (
-  `Id_etnicidad` int(11) NOT NULL,
+  `Id_etnicidad` bigint(11) NOT NULL,
   `id_ficha` bigint(20) DEFAULT NULL,
   `id_productor` bigint(20) DEFAULT NULL,
   `id_etnia` bigint(20) NOT NULL,
@@ -3447,8 +3845,15 @@ CREATE TABLE `tbl_etnias_por_productor` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('A','I') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_etnias_por_productor`
+--
+
+INSERT INTO `tbl_etnias_por_productor` (`Id_etnicidad`, `id_ficha`, `id_productor`, `id_etnia`, `detalle_de_otros`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(20, 20, 20, 5, NULL, NULL, 'Mfigue', '2023-12-12 21:47:58', NULL, '2023-12-12 21:47:58', 'A');
 
 -- --------------------------------------------------------
 
@@ -3464,7 +3869,7 @@ CREATE TABLE `tbl_fuentes_credito` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` varchar(50) DEFAULT NULL
+  `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -3472,14 +3877,13 @@ CREATE TABLE `tbl_fuentes_credito` (
 --
 
 INSERT INTO `tbl_fuentes_credito` (`id_fuente_credito`, `fuente_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Fuente 1', 'Descripción Fuente 1', 'usuario1', '2023-11-05 03:41:44', 'usuario1', '2023-11-05 03:41:44', '1'),
-(2, 'Fuente 2', 'Descripción Fuente 2', 'usuario1', '2023-11-05 00:43:53', 'usuario1', '2023-11-05 00:43:53', '0'),
-(3, 'Fuente 3', 'Descripción Fuente 3', 'usuario1', '2023-11-05 00:43:53', 'usuario1', '2023-11-05 00:43:53', '0'),
-(4, 'Fuente 4', 'Descripción Fuente 4', 'usuario1', '2023-11-05 00:43:53', 'usuario1', '2023-11-05 00:43:53', '0'),
-(5, 'Fuente 5', 'Descripción Fuente 5', 'usuario1', '2023-11-05 00:43:53', 'usuario1', '2023-11-05 00:43:53', '0'),
-(6, 'Fuente 6', 'Descripción Fuente 6', 'usuario1', '2023-11-05 00:43:53', 'usuario1', '2023-11-05 00:43:53', '0'),
-(7, 'Fuente 7', 'Descripción Fuente 7', 'usuario1', '2023-11-05 03:41:29', 'usuario1', '2023-11-05 03:41:29', '1'),
-(8, 'Fuente 8', 'Descripción Fuente 8', 'usuario1', '2023-11-05 00:43:53', 'usuario1', '2023-11-05 00:43:53', '1');
+(1, 'Banca', 'Bancos', 'usuario1', '2023-12-11 10:25:53', 'usuario1', '2023-12-11 10:25:53', 'A'),
+(2, 'Amigos', 'Amigos cercanos', 'usuario1', '2023-12-11 10:26:08', 'usuario1', '2023-12-11 10:26:08', 'A'),
+(3, 'Familia', 'Familiares', 'usuario1', '2023-12-11 10:26:24', 'usuario1', '2023-12-11 10:26:24', 'A'),
+(4, 'Cooperativa', 'Cooperativas', 'usuario1', '2023-12-11 10:27:00', 'usuario1', '2023-12-11 10:27:00', 'A'),
+(5, 'Prestamistas', 'Prestamistas', 'usuario1', '2023-12-11 10:27:19', 'usuario1', '2023-12-11 10:27:19', 'A'),
+(6, 'Microfinanciera', 'Microfinanciera', 'usuario1', '2023-12-11 10:27:40', 'usuario1', '2023-12-11 10:27:40', 'A'),
+(7, 'Caja rural', 'Caja rural', 'usuario1', '2023-12-11 10:27:58', 'usuario1', '2023-12-11 10:27:58', 'A');
 
 -- --------------------------------------------------------
 
@@ -3529,6 +3933,13 @@ CREATE TABLE `tbl_manejo_riego` (
   `Estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_manejo_riego`
+--
+
+INSERT INTO `tbl_manejo_riego` (`Id_Manejo_Riego`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Tiene_Riego`, `Superficie_Riego`, `Id_Medida_Superficie_Riego`, `Id_Tipo_Riego`, `Fuente_Agua`, `Disponibilidad_Agua_Meses`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(4, 21, 46, 21, 'S', 10.00, 3, 1, 'pozo comunitario', 1, NULL, NULL, 'manu', '2023-12-12 22:19:38', NULL, '2023-12-12 22:19:38', 'A');
+
 -- --------------------------------------------------------
 
 --
@@ -3553,7 +3964,8 @@ CREATE TABLE `tbl_medidas_tierra` (
 INSERT INTO `tbl_medidas_tierra` (`id_medida`, `medida`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'TAREAS', 'Son 5 tareas', NULL, '2023-11-04 14:08:58', NULL, '2023-11-04 14:08:58', 'ACTIVO'),
 (2, 'HA', 'Se compraron 2', 'Daniela', '2023-11-05 08:59:02', 'Daniela', '2023-11-05 08:59:02', 'INACTIVO'),
-(4, 'MZ', 'desc', 'Daniela', '2023-12-04 00:00:52', 'Daniela', '2023-12-04 00:00:52', 'ACTIVO');
+(3, 'MZ', 'desc', 'Daniela', '2023-12-11 01:56:55', 'Daniela', '2023-12-11 01:56:55', 'ACTIVO'),
+(4, 'CM', 'CM (Centimetro)', 'manu', '2023-12-11 01:57:01', 'manu', '2023-12-11 01:57:01', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -3578,6 +3990,13 @@ CREATE TABLE `tbl_migracion_familiar` (
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_migracion_familiar`
+--
+
+INSERT INTO `tbl_migracion_familiar` (`id_ficha`, `id_productor`, `id_migracion`, `tiene_migrantes`, `migracion_dentro_pais`, `migracion_fuera_pais`, `id_tipo_motivos`, `remesas`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(20, 20, 20, 'S', 'S', 'N', 1, 'S', NULL, 'Mfigue', '2023-12-12 21:48:14', NULL, '2023-12-12 21:48:14', 'A');
+
 -- --------------------------------------------------------
 
 --
@@ -3592,7 +4011,7 @@ CREATE TABLE `tbl_motivos_migracion` (
   `Fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `Modificado_por` varchar(255) DEFAULT NULL,
   `Fecha_Actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `Estado` enum('A','I') DEFAULT NULL
+  `Estado` enum('A','I') NOT NULL DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -3600,15 +4019,10 @@ CREATE TABLE `tbl_motivos_migracion` (
 --
 
 INSERT INTO `tbl_motivos_migracion` (`Id_motivo`, `Motivo`, `Descripcion`, `Creado_por`, `Fecha_creacion`, `Modificado_por`, `Fecha_Actualizacion`, `Estado`) VALUES
-(1, 'Trabajo', 'No encontre empleo', 'Manuel', '2023-10-31 03:56:32', 'Manuel', '2023-10-31 03:56:32', ''),
-(2, 'JUBILACION', 'RESIDENCIA', NULL, '2023-10-31 04:58:55', NULL, '2023-10-31 04:58:55', ''),
-(3, 'JUBILACION', 'Vive alla', 'Manuel', '2023-10-31 05:07:18', 'Manuel', '2023-11-04 05:20:37', ''),
-(4, 'JUBILACION', 'por ', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2023-10-31 05:33:43', ''),
-(5, 'DXFCVGBH', 'FVGJHBKJNK', 'Manuel', '2023-10-31 05:34:00', 'Manuel', '2023-10-31 05:34:00', ''),
-(6, 'FD', 'eyey', 'Manuel', '2023-10-31 05:39:54', 'Manuel', '2023-10-31 07:08:35', ''),
-(7, 'JUBILACION SI', 'asdgrrfqeafqe', 'Manuel', '2023-10-31 07:02:30', 'Manuel', '2023-10-31 07:08:24', ''),
-(8, 'edi', 'E3QERRR3E', 'Manuel', '2023-10-31 07:55:37', 'Manuel', '2023-11-22 06:04:15', 'A'),
-(9, 's', 'asd', 'Manuel', '2023-11-01 05:51:35', 'Manuel', '2023-11-22 06:03:23', 'A');
+(1, 'Estudio', 'por el Estudio', 'Manuel', '2023-10-31 03:56:32', 'Manuel', '2023-12-11 23:07:04', 'A'),
+(2, 'Trabajo', 'No encuentra Trabajo en el país.', 'manuel', '2023-10-31 04:58:55', 'manuel', '2023-12-11 23:08:12', 'A'),
+(3, 'Violencia', 'Violencia familiar o amenazas', 'Manuel', '2023-10-31 05:07:18', 'Manuel', '2023-12-11 23:09:08', 'A'),
+(4, 'Cambio climático', 'Cambio climático o desastre natural', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2023-12-11 23:09:56', 'A');
 
 -- --------------------------------------------------------
 
@@ -3632,8 +4046,14 @@ CREATE TABLE `tbl_motivos_no_creditos` (
 --
 
 INSERT INTO `tbl_motivos_no_creditos` (`id_motivos_no_credito`, `motivo_no_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Estado de crédito critico', 'por no pagar ', 'manu', '2023-11-26 05:44:41', 'manu', '2023-11-26 05:46:17', 'I'),
-(2, 'lista negra', 'por falta de pagos', 'manu', '2023-11-30 05:53:46', 'manu', '2023-11-30 05:53:46', 'A');
+(4, 'Estoy en la central de riesgos', 'Estoy en la central de riesgos', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
+(5, 'Muchos requisitos', 'Son muchos los requisitos', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:04:30', 'A'),
+(6, 'No lo he necesitado', 'No lo he necesitado', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
+(7, 'No tengo capacidad de pago', 'No tengo capacidad de pago', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
+(8, 'Temor al rechazo', 'Temor al rechazo', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
+(9, 'Temor a no pagarlo', 'Temor a no pagarlo', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
+(10, 'Tasas de interés muy altas', 'Tasas de interés muy altas', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
+(11, 'Prueba', 'Prueba', 'manu', '2023-12-11 12:07:40', NULL, '2023-12-11 12:07:40', 'A');
 
 -- --------------------------------------------------------
 
@@ -3667,7 +4087,8 @@ INSERT INTO `tbl_municipios` (`Id_Municipio`, `Id_Departamento`, `Nombre_Municip
 (7, 4, 'Santa Rosa de Copán', 'Santa Rosa de Copán', '1', '2023-12-07 06:32:16', '1', '2023-12-07 06:32:16', 'A'),
 (8, 4, 'Cabañas', 'Cabañas', '1', '2023-12-07 06:33:12', '1', '2023-12-07 06:33:12', 'A'),
 (9, 5, 'San Pedro Sula', 'San Pedro Sula', '1', '2023-12-07 06:33:54', '1', '2023-12-07 06:33:54', 'A'),
-(10, 5, 'Choloma', 'Choloma', '1', '2023-12-07 06:34:21', '1', '2023-12-07 06:34:21', 'A');
+(10, 5, 'Choloma', 'Choloma', '1', '2023-12-07 06:34:21', '1', '2023-12-07 06:34:21', 'A'),
+(12, 20, 'Munifinal', 'final', 'Mfigue', '2023-12-10 15:54:22', NULL, '2023-12-10 15:54:22', 'A');
 
 -- --------------------------------------------------------
 
@@ -3769,14 +4190,13 @@ CREATE TABLE `tbl_periodicidad` (
 --
 
 INSERT INTO `tbl_periodicidad` (`id_periodo`, `periodo`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'marzo', 'descr', 'Manuel', '2023-10-31 19:41:24', 'Manuel', '2023-11-22 06:06:30', 'A'),
-(2, 'se', 'se', NULL, '2023-10-31 21:03:54', NULL, '2023-10-31 21:03:54', ''),
-(3, 'e', 'e', NULL, '2023-10-31 21:17:57', NULL, '2023-10-31 21:33:04', ''),
-(4, 'adsda', 'dfa', NULL, '2023-10-31 21:36:39', NULL, '2023-11-01 04:46:23', ''),
-(9, 'rwewe', 'gdgd', 'Manuel', '2023-11-01 04:45:38', 'Manuel', '2023-11-01 06:07:37', ''),
-(10, '', '', 'Manuel', '2023-11-07 04:42:54', 'Manuel', '2023-11-07 04:42:54', ''),
-(11, '', '', 'Manuel', '2023-11-13 04:28:49', 'Manuel', '2023-11-13 04:28:49', ''),
-(12, '', '', 'Manuel', '2023-11-16 04:35:41', 'Manuel', '2023-11-16 04:35:41', '');
+(1, 'bimestral', 'bimestral', 'Manuel', '2023-10-31 19:41:24', 'Manuel', '2023-12-11 01:33:12', 'A'),
+(2, 'Trimestral', 'Trimestral', NULL, '2023-10-31 21:03:54', NULL, '2023-12-11 01:33:07', 'A'),
+(3, 'Cuatrimestral', 'Cuatrimestral', 'manu', '2023-12-11 01:31:47', 'manu', '2023-12-11 01:31:47', 'A'),
+(4, 'Semestre', 'Semestre', 'manu', '2023-12-11 01:32:23', 'manu', '2023-12-11 01:32:23', 'A'),
+(5, 'Semanal', 'Semanal', 'manu', '2023-12-11 01:33:15', 'manu', '2023-12-11 01:33:15', 'A'),
+(6, 'Quincenal', 'Quincenal', 'manu', '2023-12-11 01:34:18', 'manu', '2023-12-11 01:34:18', 'A'),
+(7, 'Mensual', 'Mensual', 'manu', '2023-12-11 01:35:19', 'manu', '2023-12-11 01:35:19', 'A');
 
 -- --------------------------------------------------------
 
@@ -3810,7 +4230,7 @@ CREATE TABLE `tbl_produccion_agricola_anterior` (
   `Id_Ubicacion` bigint(20) DEFAULT NULL,
   `Id_Productor` bigint(20) DEFAULT NULL,
   `Id_Tipo_Cultivo` bigint(20) DEFAULT NULL,
-  `Superficie_Primera_Postrera` decimal(10,2) DEFAULT NULL,
+  `Superficie_Primera_Postrera` enum('Primera','Postrera') DEFAULT NULL,
   `Id_Medida_Primera_Postrera` bigint(20) DEFAULT NULL,
   `Produccion_Obtenida` decimal(10,2) DEFAULT NULL,
   `Id_Medida_Produccion_Obtenida` bigint(20) DEFAULT NULL,
@@ -3819,13 +4239,20 @@ CREATE TABLE `tbl_produccion_agricola_anterior` (
   `Precio_Venta` decimal(10,2) DEFAULT NULL,
   `A_Quien_Se_Vendio` varchar(255) DEFAULT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
-  `Id_Usuario` bigint(20) DEFAULT NULL,
   `Creado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_produccion_agricola_anterior`
+--
+
+INSERT INTO `tbl_produccion_agricola_anterior` (`Id_Produccion_Anterior`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Cultivo`, `Superficie_Primera_Postrera`, `Id_Medida_Primera_Postrera`, `Produccion_Obtenida`, `Id_Medida_Produccion_Obtenida`, `Cantidad_Vendida`, `Id_Medida_Vendida`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(4, 1, 1, 1, 1, '', 1, 124.00, 1, 12.00, 1, 23.00, 'ale sabillon', 'desc', 'Mfigue', '2023-12-11 21:09:56', NULL, '2023-12-11 21:09:56', 'A'),
+(5, 20, 45, 20, 4, 'Primera', 3, 1233.00, 3, 1000.00, 3, 100.00, 'pulperia carlos', NULL, 'Mfigue', '2023-12-12 21:49:16', NULL, '2023-12-12 21:49:16', 'A');
 
 -- --------------------------------------------------------
 
@@ -3940,7 +4367,10 @@ CREATE TABLE `tbl_productor` (
 INSERT INTO `tbl_productor` (`id_ficha`, `id_productor`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `identificacion`, `fecha_nacimiento`, `genero`, `estado_civil`, `nivel_escolaridad`, `ultimo_grado_escolar_aprobado`, `telefono_1`, `telefono_2`, `telefono_3`, `email_1`, `email_2`, `email_3`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 1, 'Manuel', 'Jesus', 'Figueroa', 'Barahona', 801200205125, '2001-08-28', 'M', 'Soltero', 'Universitario', 'Bachillerato', 31373917, NULL, NULL, 'manuel_figueroa@gmail.com', NULL, NULL, 'Creado por Manuel', '1', '2023-11-13 03:26:44', '1', '2023-11-13 03:26:44', 'A'),
 (2, 2, 'Kevin', 'ale', 'vaca', 'vaca', 801200205125, '2023-11-17', 'M', 'Soltero', 'Universitario', 'Bachillerato', 31373917, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-17 20:59:25', NULL, '2023-11-17 20:59:25', 'A'),
-(3, 3, 'manuel', 'jesus', 'figueroaas', 'barahona', 801200205125, '2023-11-20', 'Masculino', 'Casado(a)', 'universitario', 'universitario', 31673917, 31673917, 31673917, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manu@unah.hn', 'prueba', '0', '2023-11-20 06:54:47', '0', '2023-11-20 06:54:47', 'I');
+(3, 3, 'manuel', 'jesus', 'figueroaas', 'barahona', 801200205125, '2023-11-20', 'Masculino', 'Casado(a)', 'universitario', 'universitario', 31673917, 31673917, 31673917, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manu@unah.hn', 'prueba', '0', '2023-11-20 06:54:47', '0', '2023-11-20 06:54:47', 'I'),
+(20, 20, 'manuel', 'jesus', 'figueroa', 'barahona', 801200205125, '2023-12-12', 'Masculino', 'Soltero(a)', 'primaria', '5', 31673917, 14253652, 36251445, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', NULL, 'Mfigue', '2023-12-12 21:46:37', NULL, '2023-12-12 21:46:37', 'A'),
+(21, 21, '', '', '', '', 0, '0000-00-00', '', '', '', '', 0, 0, 0, '', '', '', NULL, 'Mfigue', '2023-12-12 22:14:12', NULL, '2023-12-12 22:14:12', 'A'),
+(23, 23, '', '', '', '', 0, '0000-00-00', '', '', '', '', 0, 0, 0, '', '', '', NULL, 'Mfigue', '2023-12-13 00:05:05', NULL, '2023-12-13 00:05:05', 'A');
 
 -- --------------------------------------------------------
 
@@ -3982,6 +4412,15 @@ CREATE TABLE `tbl_relevo_organizacion` (
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_relevo_organizacion`
+--
+
+INSERT INTO `tbl_relevo_organizacion` (`id_ficha`, `id_productor`, `Id_Relevo`, `tendra_relevo`, `cuantos_relevos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(20, 20, 20, 'S', 23, NULL, 'Mfigue', '2023-12-12 21:48:04', NULL, '2023-12-12 21:48:04', 'A'),
+(21, 21, 21, 'N', 0, NULL, 'Mfigue', '2023-12-12 22:14:16', NULL, '2023-12-12 22:14:16', 'A'),
+(23, 23, 23, 'N', 0, NULL, 'Mfigue', '2023-12-13 00:05:28', NULL, '2023-12-13 00:05:28', 'A');
+
 -- --------------------------------------------------------
 
 --
@@ -3996,7 +4435,7 @@ CREATE TABLE `tbl_tipos_apoyos` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('ACTIVO','INACTIVO','','') DEFAULT NULL
+  `estado` enum('ACTIVO','INACTIVO') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -4004,8 +4443,21 @@ CREATE TABLE `tbl_tipos_apoyos` (
 --
 
 INSERT INTO `tbl_tipos_apoyos` (`id_tipo_apoyos`, `tipo_apoyos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Bono', 'Bono ganadero', 'Daniela', '2023-11-04 13:29:36', 'Daniela', '2023-11-04 13:29:36', 'ACTIVO'),
-(2, 'Bono A', 'Bono Agricultor 1', 'Daniela', '2023-11-05 08:59:41', 'Daniela', '2023-11-05 08:59:41', 'INACTIVO');
+(1, 'Crédito', 'Descripción del apoyo de Crédito', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(2, 'Semilla', 'Descripción del apoyo de Semilla', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(3, 'Fertilizante', 'Descripción del apoyo de Fertilizante', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(4, 'Capacitación', 'Descripción del apoyo de Capacitación', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(5, 'Asistencia técnica', 'Descripción del apoyo de Asistencia técnica', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(6, 'Herramientas de trabajo', 'Descripción del apoyo de Herramientas de trabajo', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(7, 'Sistema de riego', 'Descripción del apoyo de Sistema de riego', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(8, 'Equipo agrícola', 'Descripción del apoyo de Equipo agrícola', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(9, 'Silos', 'Descripción del apoyo de Silos', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(10, 'Cosechadoras de agua', 'Descripción del apoyo de Cosechadoras de agua', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(11, 'Pie de cría', 'Descripción del apoyo de Pie de cría', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(12, 'Información de precios', 'Descripción del apoyo de Información de precios', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(13, 'Comercialización/mercados', 'Descripción del apoyo de Comercialización/mercados', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(14, 'Organización rural', 'Descripción del apoyo de Organización rural', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(15, 'Transformación de productos', 'Descripción del apoyo de Transformación de productos', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -4074,7 +4526,16 @@ CREATE TABLE `tbl_tipo_negocios` (
 --
 
 INSERT INTO `tbl_tipo_negocios` (`id_tipo_negocio`, `tipo_negocio`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Granja', 'venta de huevos', '1', '2023-11-22 06:09:26', '1', '2023-11-22 06:09:26', 'A');
+(1, 'Venta de servicio', 'Venta de servicios', 'Kevin', '2023-12-11 09:36:51', 'Kevin', '2023-12-11 09:36:51', ''),
+(4, 'Jornal agricola', 'Jornal agricola', 'Kevin', '2023-12-11 09:37:31', 'Kevin', '2023-12-11 09:37:31', ''),
+(5, 'Corte de café', 'Café', NULL, '2023-12-11 10:08:49', NULL, '2023-12-11 10:08:49', ''),
+(6, 'Jornal no agrícola', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
+(7, 'Alquileres', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
+(8, 'Remesa del exterior', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
+(9, 'Remesa nacional', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
+(10, 'Bono', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
+(11, 'Salario profesional', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
+(12, 'Artesanía', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -4109,7 +4570,7 @@ INSERT INTO `tbl_tipo_organizacion` (`id_tipo_organizacion`, `tipo_organizacion`
 
 CREATE TABLE `tbl_tipo_pecuarios` (
   `id_tipo_pecuario` bigint(20) NOT NULL,
-  `tipo_pecuario` enum('b','o','c') NOT NULL,
+  `tipo_pecuario` varchar(25) NOT NULL,
   `raza_con_genero` enum('s','n') DEFAULT NULL,
   `descripcion` text DEFAULT NULL,
   `creado_por` varchar(50) DEFAULT NULL,
@@ -4124,9 +4585,15 @@ CREATE TABLE `tbl_tipo_pecuarios` (
 --
 
 INSERT INTO `tbl_tipo_pecuarios` (`id_tipo_pecuario`, `tipo_pecuario`, `raza_con_genero`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'b', 's', 'asasa', 'manu', '2023-11-26 06:00:00', 'manu', NULL, 'A'),
-(2, 'o', 's', 'prueba', 'manu', '2023-11-26 06:13:32', 'manu', '2023-11-26 06:13:32', 'I'),
-(3, 'c', 's', 'desc', 'manu', '2023-11-26 06:29:31', NULL, '2023-11-26 06:30:00', 'A');
+(1, 'Bovinos', 's', 'asasa', 'manu', '2023-11-26 06:00:00', 'manu', '2023-12-11 01:15:58', 'A'),
+(2, 'Ovinos', 's', 'prueba', 'manu', '2023-11-26 06:13:32', 'manu', '2023-12-11 01:15:45', 'A'),
+(3, 'Caprinos', 's', 'Caprinos', 'manu', '2023-11-26 06:29:31', 'manu', '2023-12-11 01:15:30', 'A'),
+(4, 'Cerdo', 's', 'Cerdos', 'Mfigue', '2023-12-11 01:11:16', NULL, '2023-12-11 01:11:49', 'A'),
+(5, 'Pollo de Engorde', 's', 'Pollo de Engorde', 'manu', '2023-12-11 01:11:57', 'manu', '2023-12-11 01:11:57', 'A'),
+(6, 'Aves', 'n', 'Aves', 'manu', '2023-12-11 01:12:58', 'manu', '2023-12-11 01:12:58', 'A'),
+(7, 'Peces', 'n', 'Peces', 'manu', '2023-12-11 01:13:38', 'manu', '2023-12-11 01:13:38', NULL),
+(8, 'Camarones', 'n', 'Camarones', 'manu', '2023-12-11 01:14:08', 'manu', '2023-12-11 01:14:08', 'A'),
+(9, 'Otros', 'n', 'Otras especies', 'manu', '2023-12-11 01:14:44', 'manu', '2023-12-11 01:14:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -4150,7 +4617,45 @@ CREATE TABLE `tbl_tipo_practicas_productivas` (
 --
 
 INSERT INTO `tbl_tipo_practicas_productivas` (`id_tipo_practica`, `tipo_practica`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Siembra', 'Maiz', '1', '2023-11-22 06:14:52', '1', '2023-11-22 06:14:52', 'A');
+(1, 'Quema', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(2, 'Riega', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(3, 'Manejo de rastrojo', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(4, 'Cero labranzas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(5, 'Labranza mínima', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(6, 'Siembra en hileras o surcos', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(7, 'Curvas a nivel', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(8, 'Cultivos en asoci', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(9, 'Desparasitantes', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(10, 'Preparación de suelo con tractor', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(11, 'Cultivo en relevo', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(12, 'Tierra en descanso', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(13, 'Barreras vivas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(14, 'Barreras muertas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(15, 'Abono orgánico', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(16, 'Abono sintético', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(17, 'Cosecha de agua', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(18, 'Manejo de humedad', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(19, 'Semilla criolla', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(20, 'Semilla mejorada', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(21, 'Huerto familiar', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(22, 'Almacenamiento de grano', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(23, 'Agricultura protegida', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(24, 'Secadora solar', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(25, 'Uso de insecticidas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(26, 'Uso de fungicidas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(27, 'Uso de acaricidas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(28, 'Uso de herbicidas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(29, 'Podas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(30, 'Sistema agroforestal', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(31, 'Control de sombra', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(32, 'Sistema silvopastoril', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(33, 'Terrazas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(34, 'Cultivo de cobertura', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(35, 'Banco de proteína', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(36, 'Pastos mejorados', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(37, 'Aplicación de vacunas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(38, 'Vitaminas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(39, 'Preparación de suelo con tracción animal', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A');
 
 -- --------------------------------------------------------
 
@@ -4175,9 +4680,14 @@ CREATE TABLE `tbl_tipo_produccion` (
 
 INSERT INTO `tbl_tipo_produccion` (`id_tipo_produccion`, `tipo_produccion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'Maiz', 'Maiz Blanco', '1', '2023-11-04 06:06:10', '1', '2023-11-04 06:06:10', 'ACTIVO'),
-(2, 'Cafe', 'CAfe de palo', 'Kevin', '2023-11-05 01:55:51', 'Kevin', '2023-11-05 01:55:51', 'INACTIVO'),
-(3, 'a', 'a', 'Kevin', '2023-11-05 01:55:45', 'Kevin', '2023-11-05 01:55:45', 'ACTIVO'),
-(4, 'sd', 'sd', 'Kevin', '2023-11-04 06:17:09', 'Kevin', '2023-11-04 06:17:09', 'ACTIVO');
+(2, 'Cafe', 'Cafe de palo', 'Kevin', '2023-12-11 01:48:11', 'Kevin', '2023-12-11 01:48:11', 'ACTIVO'),
+(3, 'Frijol', 'Frijol', 'Kevin', '2023-12-11 01:43:56', 'Kevin', '2023-12-11 01:43:56', 'ACTIVO'),
+(4, 'Palma', 'Palma', 'Kevin', '2023-12-11 01:44:24', 'Kevin', '2023-12-11 01:44:24', 'ACTIVO'),
+(5, 'Caña de Azúcar', 'Caña de Azúcar', 'manu', '2023-12-11 01:44:45', 'manu', '2023-12-11 01:44:45', 'ACTIVO'),
+(6, 'Sorgo', 'Sorgo', 'manu', '2023-12-11 01:45:19', 'manu', '2023-12-11 01:45:19', 'ACTIVO'),
+(7, 'Naranja', 'Naranja', 'manu', '2023-12-11 01:45:19', 'manu', '2023-12-11 01:45:19', 'ACTIVO'),
+(8, 'Banano', 'Banano', 'manu', '2023-12-11 01:46:35', 'manu', '2023-12-11 01:46:35', 'ACTIVO'),
+(9, 'Melón', 'Melón', 'manu', '2023-12-11 01:47:49', 'manu', '2023-12-11 01:47:49', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -4201,8 +4711,7 @@ CREATE TABLE `tbl_tipo_riego` (
 --
 
 INSERT INTO `tbl_tipo_riego` (`id_tipo_riego`, `tipo_riego`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Pozo', 'Pozo', 'Manuel', '2023-11-02 05:23:18', 'Manuel', '2023-11-02 05:23:18', 'ACTIVO'),
-(3, 'pozo', 'desc', 'Manuel', '2023-12-04 00:04:42', 'Manuel', '2023-12-04 00:04:42', 'ACTIVO');
+(1, 'Pozo', 'Pozo', 'Manuel', '2023-11-02 05:23:18', 'Manuel', '2023-11-02 05:23:18', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -4307,6 +4816,16 @@ CREATE TABLE `tbl_ubicacion_productor` (
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_ubicacion_productor`
+--
+
+INSERT INTO `tbl_ubicacion_productor` (`id_ficha`, `id_productor`, `id_ubicacion`, `Id_Departamento`, `Id_Municipio`, `Id_Aldea`, `Id_Cacerio`, `ubicacion_geografica`, `distancia_parcela_vivienda`, `latitud_parcela`, `longitud_parcela`, `msnm`, `direccion_1`, `direccion_2`, `direccion_3`, `vive_en_finca`, `nombre_finca`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 1, 1, 1, 1, 'col. quezada', 12.00, '1', '2', 3.00, 'col. quezada', 'col. quezada', 'col. quezada', 'S', 'col. quezada', 'col. quezada', 'manu', '2023-12-10 14:50:00', 'manu', '2023-12-10 14:50:00', 'A'),
+(20, 20, 45, 1, 1, 1, 1, 'Comayagua', 1.00, '2', '3', 4.00, 'col arturo quezada', 'bloque 15 ', 'avenida 7 casa 3323', 'S', 'la quezada', NULL, 'Mfigue', '2023-12-12 21:47:27', NULL, '2023-12-12 21:47:27', 'A'),
+(21, 21, 46, 1, 1, 1, 1, '', 0.00, '', '', 0.00, '', '', '', '', '', NULL, 'Mfigue', '2023-12-12 22:14:12', NULL, '2023-12-12 22:14:12', 'A'),
+(23, 23, 48, 1, 1, 1, 1, '', 0.00, '', '', 0.00, '', '', '', '', '', NULL, 'Mfigue', '2023-12-13 00:05:06', NULL, '2023-12-13 00:05:06', 'A');
+
 -- --------------------------------------------------------
 
 --
@@ -4335,13 +4854,19 @@ CREATE TABLE `tbl_unidad_productora` (
   `Superficie_Otros` decimal(10,2) DEFAULT NULL,
   `Otros_Descripcion` varchar(255) DEFAULT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
-  `Id_Usuario` bigint(20) DEFAULT NULL,
   `Creado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_unidad_productora`
+--
+
+INSERT INTO `tbl_unidad_productora` (`Id_Ubicacion`, `Id_Ficha`, `Id_Unidad_Productiva`, `Id_Productor`, `Tipo_De_Manejo`, `Superficie_Produccion`, `Id_Medida_Produccion`, `Superficie_Agricultura`, `Id_Medida_Agricultura`, `Superficie_Ganaderia`, `Id_Medida_Ganaderia`, `Superficie_Apicultura`, `Id_Medida_Apicultura`, `Superficie_Forestal`, `Id_Medida_Forestal`, `Superficie_Acuacultura`, `Numero_Estanques`, `Superficie_Agroturismo`, `Superficie_Otros`, `Otros_Descripcion`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(46, 21, 6, 21, 'Propia', 100.00, 2, 100.00, 2, 100.00, 2, 100.00, 2, 10.00, 3, 10.00, 3, 15.00, 100.00, NULL, NULL, 'manu', '2023-12-12 22:19:38', NULL, '2023-12-12 22:19:38', 'A');
 
 -- --------------------------------------------------------
 
@@ -4377,7 +4902,9 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`Id_Usuario`, `id_rol`, `nombre_completo`, `correo`, `usuario`, `contrasena`, `Token`, `Fecha_Vencimiento_Token`, `fecha_creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Preguntas_Contestadas`, `Estado`, `id_estado`, `Primera_Vez`, `fecha_vencimiento`, `Intentos_Preguntas`, `Preguntas_Correctas`, `Intentos_Fallidos`) VALUES
 (1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', NULL, '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 'ACTIVO', 1, 'SI', '2023-10-31 06:00:00', NULL, NULL, 0),
-(9, 2, 'MANUEL FIGUEROA', 'manuelfigueroa2818@gmail.com', 'HARU', '$2y$10$WHs2RM.ozD3KRQu1Dq8Ks.adgThvWCNojDPlhvYpVulktVmlC18/q', NULL, NULL, '2023-12-10 14:00:24', 0, '2023-12-10 07:00:24', 0, 'ACTIVO', 1, 'SI', '1970-01-01 07:00:00', NULL, NULL, 0);
+(9, 2, 'MANUEL FIGUEROA', 'manuelfigueroa2818@gmail.com', 'HARU', '$2y$10$WHs2RM.ozD3KRQu1Dq8Ks.adgThvWCNojDPlhvYpVulktVmlC18/q', NULL, NULL, '2023-12-10 14:00:24', 0, '2023-12-10 07:00:24', 0, 'ACTIVO', 1, 'SI', '1970-01-01 07:00:00', NULL, NULL, 0),
+(11, 2, 'MANUEL FIGUEROA BARAHONA', 'mdfigueroa@unah.hn', 'MANUBARA', '$2y$10$UF/ahTJn5okUojk8aTN/uOiuWNJ2AnDdySKNNewLKLaC7WtZORzTu', NULL, NULL, '2023-12-10 22:25:54', 0, '2023-12-10 15:25:54', 0, 'ACTIVO', 1, 'SI', '2024-12-04 22:25:54', NULL, NULL, 0),
+(12, 2, 'CARLOS VACA', 'manubara200128@gmail.com', 'Mfigue', '$2y$10$08C2B2YxjR4bCwgiCT.mp.8oPSMexgt9Zg74R7JdpUTDrIllT14ty', NULL, NULL, '2023-12-10 15:29:09', 0, '2023-12-10 15:29:09', 0, 'ACTIVO', 1, 'SI', '2023-12-10 15:29:09', NULL, NULL, 0);
 
 --
 -- Índices para tablas volcadas
@@ -4823,7 +5350,7 @@ ALTER TABLE `estado_usuario`
 -- AUTO_INCREMENT de la tabla `fichas`
 --
 ALTER TABLE `fichas`
-  MODIFY `id_ficha` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_ficha` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `objetos`
@@ -4865,7 +5392,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tbl_aldeas`
 --
 ALTER TABLE `tbl_aldeas`
-  MODIFY `Id_Aldea` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id_Aldea` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyos`
@@ -4895,7 +5422,7 @@ ALTER TABLE `tbl_base_organizacion`
 -- AUTO_INCREMENT de la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
-  MODIFY `Id_Cacerio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id_Cacerio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_composicion`
@@ -4913,7 +5440,7 @@ ALTER TABLE `tbl_credito_produccion`
 -- AUTO_INCREMENT de la tabla `tbl_departamentos`
 --
 ALTER TABLE `tbl_departamentos`
-  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etnias`
@@ -4925,7 +5452,7 @@ ALTER TABLE `tbl_etnias`
 -- AUTO_INCREMENT de la tabla `tbl_etnias_por_productor`
 --
 ALTER TABLE `tbl_etnias_por_productor`
-  MODIFY `Id_etnicidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_fuentes_credito`
@@ -4943,7 +5470,7 @@ ALTER TABLE `tbl_ingreso_familiar`
 -- AUTO_INCREMENT de la tabla `tbl_manejo_riego`
 --
 ALTER TABLE `tbl_manejo_riego`
-  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_medidas_tierra`
@@ -4955,7 +5482,7 @@ ALTER TABLE `tbl_medidas_tierra`
 -- AUTO_INCREMENT de la tabla `tbl_migracion_familiar`
 --
 ALTER TABLE `tbl_migracion_familiar`
-  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_migracion`
@@ -4967,13 +5494,13 @@ ALTER TABLE `tbl_motivos_migracion`
 -- AUTO_INCREMENT de la tabla `tbl_motivos_no_creditos`
 --
 ALTER TABLE `tbl_motivos_no_creditos`
-  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_municipios`
 --
 ALTER TABLE `tbl_municipios`
-  MODIFY `Id_Municipio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id_Municipio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_no_creditos`
@@ -5015,7 +5542,7 @@ ALTER TABLE `tbl_practicas_por_produccion`
 -- AUTO_INCREMENT de la tabla `tbl_produccion_agricola_anterior`
 --
 ALTER TABLE `tbl_produccion_agricola_anterior`
-  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_comercializacion`
@@ -5039,7 +5566,7 @@ ALTER TABLE `tbl_produccion_vendida`
 -- AUTO_INCREMENT de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
-  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_productor_actividad_externa`
@@ -5051,13 +5578,13 @@ ALTER TABLE `tbl_productor_actividad_externa`
 -- AUTO_INCREMENT de la tabla `tbl_relevo_organizacion`
 --
 ALTER TABLE `tbl_relevo_organizacion`
-  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyos`
 --
 ALTER TABLE `tbl_tipos_apoyos`
-  MODIFY `id_tipo_apoyos` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo_apoyos` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyo_produccion`
@@ -5075,7 +5602,7 @@ ALTER TABLE `tbl_tipo_cultivo`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_negocios`
 --
 ALTER TABLE `tbl_tipo_negocios`
-  MODIFY `id_tipo_negocio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tipo_negocio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_organizacion`
@@ -5087,19 +5614,19 @@ ALTER TABLE `tbl_tipo_organizacion`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_pecuarios`
 --
 ALTER TABLE `tbl_tipo_pecuarios`
-  MODIFY `id_tipo_pecuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_pecuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_practicas_productivas`
 --
 ALTER TABLE `tbl_tipo_practicas_productivas`
-  MODIFY `id_tipo_practica` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_tipo_practica` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_produccion`
 --
 ALTER TABLE `tbl_tipo_produccion`
-  MODIFY `id_tipo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_riego`
@@ -5129,19 +5656,19 @@ ALTER TABLE `tbl_trabajadores_externos`
 -- AUTO_INCREMENT de la tabla `tbl_ubicacion_productor`
 --
 ALTER TABLE `tbl_ubicacion_productor`
-  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_unidad_productora`
 --
 ALTER TABLE `tbl_unidad_productora`
-  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restricciones para tablas volcadas

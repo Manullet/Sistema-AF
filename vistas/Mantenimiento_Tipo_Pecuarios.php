@@ -78,24 +78,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->id_tipo_pecuario  ?></td>
-                        <td><?php
-                            $tipo_pecuario = $datos->tipo_pecuario; // Supongamos que $datos->tipo_pecuario contiene el tipo de pecuario ("ovino", "bovino", "caprino").
-
-                            switch ($tipo_pecuario) {
-                                case "b":
-                                    echo '<span >Bovino</span>';
-                                    break;
-                                case "o":
-                                    echo '<span >Ovino</span>';
-                                    break;
-                                case "c":
-                                    echo '<span >Caprino</span>';
-                                    break;
-                                default:
-                                    echo '<span class="badge bg-danger">Tipo Desconocido</span>';
-                            }
-                            ?>
-                        </td>
+                        <td><?= $datos->tipo_pecuario ?></td>
                         <td><?php
                             if ($datos->raza_con_genero == "s") {
                                 echo '<span class="badge bg-success">Si</span>';
@@ -168,19 +151,16 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                            <label for="tipo_pecuario" class="form-label">Tipo de pecuario</label>
-                            <select class="form-control" id="tipo_pecuario" name="tipo_pecuario">
-                                <option value="b">Bovino</option>
-                                <option value="o">Ovino</option>
-                                <option value="caprino">Caprino</option>
-                            </select>
+                                <label for="tipo_pecuario" class="form-label">Tipo de pecuario</label>
+                                <input type="text" class="form-control" id="tipo_pecuario" name="tipo_pecuario" placeholder="Ingrese el tipo de pecuario">
                             </div>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                            <label for="raza_con_genero" class="form-label">Tipo de pecuario</label>
+                                <label for="raza_con_genero" class="form-label">Tipo de pecuario</label>
                                 <select class="form-control" id="raza_con_genero" name="raza_con_genero">
                                     <option value="s">Si</option>
                                     <option value="n">No</option>
@@ -228,14 +208,13 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             <div class="modal-body">
                 <form action="modelos/agregar_tipo_pecuario.php" method="POST">
                     <div class="row mb-3">
-                        <div class="col">
-                            <label for="tipo_pecuario" class="form-label">Tipo de pecuario</label>
-                            <select class="form-control" id="tipo_pecuario" name="tipo_pecuario">
-                                <option value="b">Bovino</option>
-                                <option value="o">Ovino</option>
-                                <option value="caprino">Caprino</option>
-                            </select>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="tipo_pecuario" class="form-label">Tipo de pecuario</label>
+                                <input type="text" class="form-control" id="tipo_pecuario" name="tipo_pecuario" placeholder="Ingrese el tipo de pecuario">
+                            </div>
                         </div>
+
 
                         <div class="col">
                             <div class="form-group">
