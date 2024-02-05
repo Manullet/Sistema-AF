@@ -6,17 +6,17 @@ $nuevaContrasena = $_POST['nuevaContrasena'];
 $confirmarContrasena =$_POST['confirmarContrasena'];
 
 $validar_contrasenaActual = mysqli_query($conexion, "SELECT * FROM usuario WHERE 
-contraseña='$contrasenaActual'");
+contrasena='$contrasenaActual'");
 
 
 if(mysqli_num_rows($validar_contrasenaActual) > 0){
    
 
-   $validar_nuevaContrasena = mysqli_query($conexion, "SELECT * FROM usuario WHERE contraseña='$contrasenaActual'");
+   $validar_nuevaContrasena = mysqli_query($conexion, "SELECT * FROM usuario WHERE contrasena='$contrasenaActual'");
 
    if (mysqli_num_rows($validar_nuevaContrasena)>0) {
 
-    $cambio_contraseña = mysqli_query($conexion, "UPDATE usuario SET contraseña='$confirmarContrasena'");
+    $cambio_contraseña = mysqli_query($conexion, "UPDATE usuario SET contrasena='$confirmarContrasena'");
     echo '
 
         <script>
