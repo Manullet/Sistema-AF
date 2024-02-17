@@ -156,87 +156,83 @@
         </form>
     </div>
     <script>
-        document.getElementById('formResetPass').addEventListener('submit', function(event) {
-            event.preventDefault();
+    document.getElementById('formResetPass').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-            const email = document.getElementById('txtEmailReset').value;
-            const opcionCorreo = document.getElementById('op_correo').checked;
-            const opcionPreguntas = document.getElementById('op_preguntas').checked;
+        const email = document.getElementById('txtEmailReset').value;
+        const opcionCorreo = document.getElementById('op_correo').checked;
+        const opcionPreguntas = document.getElementById('op_preguntas').checked;
 
-            if (!email) {
-                Swal.fire(
-                    'Campo Requerido',
-                    'Por favor, ingresa tu correo electrónico.',
-                    'error'
-                );
-                return;
-            }
+        if (!email) {
+            Swal.fire(
+                'Campo Requerido',
+                'Por favor, ingresa tu correo electrónico.',
+                'error'
+            );
+            return;
+        }
 
-            if (!opcionCorreo && !opcionPreguntas) {
-                Swal.fire(
-                    'Opción no seleccionada',
-                    'Por favor, elige una opción de recuperación.',
-                    'warning'
-                );
-                return;
-            }
+        if (!opcionCorreo && !opcionPreguntas) {
+            Swal.fire(
+                'Opción no seleccionada',
+                'Por favor, elige una opción de recuperación.',
+                'warning'
+            );
+            return;
+        }
 
-            // Verificar si la opción seleccionada es preguntas secretas
-            if (opcionPreguntas) {
-                Swal.fire(
-                    'Método en Desarrollo',
-                    'La opción de recuperación por preguntas secretas está en desarrollo. Por favor, utiliza el método de correo electrónico.',
-                    'warning'
-                );
-                return; // Finaliza la ejecución del script aquí
-            }
+        const datos = {
+            email: email,
+            metodoRecuperacion: opcionPreguntas ? 'preguntas' : 'correo'
+        };
 
-            // Continúa con la ejecución solo si la opción de correo está seleccionada
-            const datos = {
-                email: email,
-                metodoRecuperacion: 'correo' // Solo se utilizará el método correo
-            };
-
-            $.ajax({
-                type: 'POST',
-                url: 'procesarCorreo.php',
-                data: datos,
-                dataType: 'text',
-                success: function(response) {
-                    if (response.includes('Información procesada correctamente y token generado')) {
+        $.ajax({
+            type: 'POST',
+            url: 'procesarCorreo.php',
+            data: datos,
+            dataType: 'text',
+            success: function(response) {
+                if (response.includes('Información procesada correctamente y token generado')) {
+                    if (opcionPreguntas) {
+                        // Si la validación es correcta y se eligieron preguntas secretas, redirigir a la página
+                        window.location.href = 'reset_contraseña_preguntas.php?email=' + encodeURIComponent(email);
+                    } else {
+                        // Si la validación es correcta y se eligió recuperación por correo, informar al usuario
                         Swal.fire({
                             title: 'Enviado',
                             text: 'Se ha enviado un enlace de recuperación a tu correo electrónico.',
                             icon: 'success'
                         }).then((result) => {
-                            if (result.value) {
+                            if (result.isConfirmed) {
                                 window.location.href = '../index.php';
                             }
                         });
-                    } else if (response.includes('Correo no encontrado en la base de datos')) {
-                        Swal.fire(
-                            'Error',
-                            'No se encontró una cuenta con ese correo electrónico.',
-                            'error'
-                        );
-                    } else {
-                        Swal.fire(
-                            'Error',
-                            'Hubo un problema al procesar tu solicitud.',
-                            'error'
-                        );
                     }
-                },
-                error: function(xhr, status, error) {
+                } else if (response.includes('Correo no encontrado en la base de datos')) {
                     Swal.fire(
                         'Error',
-                        'Hubo un problema al enviar la información: ' + error,
+                        'No se encontró una cuenta con ese correo electrónico.',
+                        'error'
+                    );
+                } else {
+                    // Manejar otros errores o respuestas inesperadas
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al procesar tu solicitud.',
                         'error'
                     );
                 }
-            });
+            },
+            error: function(xhr, status, error) {
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al enviar la información: ' + error,
+                    'error'
+                );
+            }
         });
-    </script>
+    });
+</script>
 
 </body>
 
