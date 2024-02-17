@@ -47,6 +47,7 @@ if (!isset($_SESSION['id_usuario'])) {
             margin-bottom: 20px;
             position: relative;
         }
+        
 
         label {
             display: block;
