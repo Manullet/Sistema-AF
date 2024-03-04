@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-01-2024 a las 23:35:47
+-- Tiempo de generación: 04-03-2024 a las 04:12:33
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -2169,10 +2169,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarProduccionVendida` (IN `p_A
     );
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarProductor` (IN `p_id_ficha` BIGINT, IN `p_id_productor` BIGINT, IN `p_primer_nombre` VARCHAR(255), IN `p_segundo_nombre` VARCHAR(255), IN `p_primer_apellido` VARCHAR(255), IN `p_segundo_apellido` VARCHAR(255), IN `p_identificacion` BIGINT, IN `p_fecha_nacimiento` DATE, IN `p_genero` VARCHAR(10), IN `p_estado_civil` VARCHAR(20), IN `p_nivel_escolaridad` VARCHAR(50), IN `p_ultimo_grado_escolar_aprobado` VARCHAR(50), IN `p_telefono_1` INT, IN `p_telefono_2` INT, IN `p_telefono_3` INT, IN `p_email_1` VARCHAR(255), IN `p_email_2` VARCHAR(255), IN `p_email_3` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` BIGINT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarProductor` (IN `p_id_ficha` BIGINT, IN `p_primer_nombre` VARCHAR(255), IN `p_segundo_nombre` VARCHAR(255), IN `p_primer_apellido` VARCHAR(255), IN `p_segundo_apellido` VARCHAR(255), IN `p_identificacion` BIGINT, IN `p_fecha_nacimiento` DATE, IN `p_genero` VARCHAR(10), IN `p_estado_civil` VARCHAR(20), IN `p_nivel_escolaridad` VARCHAR(50), IN `p_ultimo_grado_escolar_aprobado` VARCHAR(50), IN `p_telefono_1` INT, IN `p_telefono_2` INT, IN `p_telefono_3` INT, IN `p_email_1` VARCHAR(255), IN `p_email_2` VARCHAR(255), IN `p_email_3` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` BIGINT)   BEGIN
     INSERT INTO tbl_productor (
         id_ficha,
-        id_productor,
         primer_nombre,
         segundo_nombre,
         primer_apellido,
@@ -2197,7 +2196,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarProductor` (IN `p_id_ficha`
         estado
     ) VALUES (
         p_id_ficha,
-        p_id_productor,
         p_primer_nombre,
         p_segundo_nombre,
         p_primer_apellido,
@@ -2755,6 +2753,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertOrganizationData` (IN `p_pert
     VALUES (last_id_productor, last_id_ficha, p_pertenece_a_organizacion, 'A', p_creado_por, CURRENT_TIMESTAMP, NULL , CURRENT_TIMESTAMP);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertOrUpdatePermiso` (IN `p_id_rol` INT, IN `p_permiso_eliminacion` VARCHAR(255), IN `p_id_objeto` INT, IN `p_permiso_actualizacion` VARCHAR(255), IN `p_permiso_insercion` VARCHAR(255), IN `p_Actualizado_Por` VARCHAR(255))   BEGIN
+    INSERT INTO permisos (id_rol, permiso_eliminacion, id_objeto, permiso_actualizacion, permiso_insercion, Actualizado_Por, Fecha_Actualizacion) 
+    VALUES (p_id_rol, p_permiso_eliminacion, p_id_objeto, p_permiso_actualizacion, p_permiso_insercion, p_Actualizado_Por, NOW())
+    ON DUPLICATE KEY UPDATE 
+    permiso_eliminacion = VALUES(permiso_eliminacion),
+    permiso_actualizacion = VALUES(permiso_actualizacion),
+    permiso_insercion = VALUES(permiso_insercion),
+    Actualizado_Por = VALUES(Actualizado_Por),
+    Fecha_Actualizacion = NOW();
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPermisos` (IN `newId_rol` BIGINT(20), IN `newId_objetos` BIGINT(20), IN `newpermiso_eliminacion` VARCHAR(10), IN `newpermiso_actualizacion` VARCHAR(10), IN `newpermiso_consulta` VARCHAR(10), IN `newpermiso_insercion` VARCHAR(10), IN `newCreado_Por` BIGINT(20), IN `newEstado` ENUM('ACTIVO','INACTIVO'))   BEGIN
     DECLARE currentDate TIMESTAMP;  
     
@@ -3246,14 +3255,53 @@ DELIMITER ;
 --
 
 CREATE TABLE `bitacoras` (
-  `Id_bitacoras` bigint(20) NOT NULL,
-  `Fecha` datetime NOT NULL,
-  `Tabla` varchar(255) NOT NULL,
-  `Accion` varchar(255) NOT NULL,
-  `Descripcion` varchar(255) NOT NULL,
-  `Id_Usuario` bigint(20) NOT NULL,
-  `Id_objetos` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `id_bitacora` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  `ejecutor` varchar(30) NOT NULL,
+  `actividad_realizada` varchar(50) NOT NULL,
+  `informacion_actual` varchar(300) DEFAULT NULL,
+  `informacion_anterior` varchar(300) DEFAULT NULL,
+  `tabla` text DEFAULT NULL,
+  `informacion_eliminada` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `bitacoras`
+--
+
+INSERT INTO `bitacoras` (`id_bitacora`, `fecha`, `ejecutor`, `actividad_realizada`, `informacion_actual`, `informacion_anterior`, `tabla`, `informacion_eliminada`) VALUES
+(1, '2024-02-25 04:39:00', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 25, fecha_solicitud: 2024-02-24, anio_solicitud: 2020, descripcion: asbcvc, estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: dsasasaas', NULL, 'fichas', NULL),
+(2, '2024-02-25 04:39:27', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 25, fecha_solicitud: 2024-02-24, anio_solicitud: 2020, descripcion: asbcvc, estado: I, fecha_entrevista: 2024-02-24, nombre_encuestador: ttttt', 'Información anterior = id_ficha: 25, fecha_solicitud: 2024-02-24 anio_solicitud: 2020, descripcion: asbcvcA, fecha_entrevista: 0000-00-00, nombre_encuestador: dsasasaas', 'fichas', NULL),
+(3, '2024-02-25 04:39:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 25, fecha_solicitud: 2024-02-24, anio_solicitud: 2020, descripcion: asbcvc, estado: I, fecha_entrevista: 2024-02-24, nombre_encuestador: ttttt'),
+(4, '2024-02-25 04:41:04', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 24, id_productor: 0, primer_nombre: manuel, segundo_nombre: Manuel, primer_apellido: figueroaas, segundo_apellido: barahona, identificacion: 801200205125, fecha_nacimiento: 2024-02-24, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 3167', NULL, 'tbl_productor', NULL),
+(5, '2024-02-25 04:42:00', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 23, id_productor: 23, primer_nombre: manuel, segundo_nombre: manuel, primer_apellido: figueroa, segundo_apellido: ALE, identificacion: 801200205125, fecha_nacimiento: 2024-02-24, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 7', 'Información anterior = id_ficha: 23, id_productor: 23, primer_nombre: , segundo_nombre: , primer_apellido: , segundo_apellido: , identificacion: 0, fecha_nacimiento: 0000-00-00, genero: , email_1: , telefono_1: 0', 'tbl_productor', NULL),
+(6, '2024-02-25 04:43:44', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_productor', 'Información eliminada = id_ficha: 23, id_productor: 23, primer_nombre: manuel, segundo_nombre: manuel, primer_apellido: figueroa, segundo_apellido: ALE, identificacion: 801200205125, fecha_nacimiento: 2024-02-24, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 7'),
+(7, '2024-02-26 02:59:23', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 26, fecha_solicitud: 2024-02-25, anio_solicitud: 2023, descripcion: TierrasSana, estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: Manuel', NULL, 'fichas', NULL),
+(8, '2024-02-26 03:00:17', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_productor', 'Información eliminada = id_ficha: 24, id_productor: 0, primer_nombre: manuel, segundo_nombre: Manuel, primer_apellido: figueroaas, segundo_apellido: barahona, identificacion: 801200205125, fecha_nacimiento: 2024-02-24, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 3167'),
+(9, '2024-02-26 03:00:53', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 26, id_productor: 0, primer_nombre: manuelfigueroa2818@gmail.com, segundo_nombre: daasdw, primer_apellido: figueroaas, segundo_apellido: barahona, identificacion: 801200205125, fecha_nacimiento: 2024-02-25, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, tele', NULL, 'tbl_productor', NULL),
+(10, '2024-02-26 03:06:27', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_productor', 'Información eliminada = id_ficha: 26, id_productor: 0, primer_nombre: manuelfigueroa2818@gmail.com, segundo_nombre: daasdw, primer_apellido: figueroaas, segundo_apellido: barahona, identificacion: 801200205125, fecha_nacimiento: 2024-02-25, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 31673917'),
+(11, '2024-02-26 03:06:56', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 26, id_productor: 24, primer_nombre: manuel, segundo_nombre: Manuel, primer_apellido: figueroa, segundo_apellido: barahona, identificacion: 801200205125, fecha_nacimiento: 2024-02-25, genero: Femenino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 3167', NULL, 'tbl_productor', NULL),
+(12, '2024-02-26 03:10:30', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_productor', 'Información eliminada = id_ficha: 21, id_productor: 21, primer_nombre: , segundo_nombre: , primer_apellido: , segundo_apellido: , identificacion: 0, fecha_nacimiento: 0000-00-00, genero: , email_1: , telefono_1: 0'),
+(13, '2024-02-26 03:11:13', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 21, fecha_solicitud: 2023-12-14, anio_solicitud: 2023, descripcion: TierrasSana, estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: Manuel'),
+(14, '2024-02-28 04:02:57', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 26, fecha_solicitud: 2024-02-25, anio_solicitud: 2023, descripcion: TierrasSana, estado: I, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'Información anterior = id_ficha: 26, fecha_solicitud: 2024-02-25 anio_solicitud: 2023, descripcion: TierrasSanaA, fecha_entrevista: 0000-00-00, nombre_encuestador: Manuel', 'fichas', NULL),
+(15, '2024-02-28 04:03:10', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 26, fecha_solicitud: 2024-02-25, anio_solicitud: 2023, descripcion: TierrasSana, estado: I, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'Información anterior = id_ficha: 26, fecha_solicitud: 2024-02-25 anio_solicitud: 2023, descripcion: TierrasSanaI, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'fichas', NULL),
+(16, '2024-02-28 04:03:14', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 26, fecha_solicitud: 2024-02-25, anio_solicitud: 2023, descripcion: TierrasSana, estado: I, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'Información anterior = id_ficha: 26, fecha_solicitud: 2024-02-25 anio_solicitud: 2023, descripcion: TierrasSanaI, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'fichas', NULL),
+(17, '2024-02-28 04:03:26', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 26, fecha_solicitud: 2024-02-25, anio_solicitud: 2023, descripcion: TierrasSana, estado: A, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'Información anterior = id_ficha: 26, fecha_solicitud: 2024-02-25 anio_solicitud: 2023, descripcion: TierrasSanaI, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'fichas', NULL),
+(18, '2024-02-28 04:03:37', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 26, fecha_solicitud: 2024-02-25, anio_solicitud: 2023, descripcion: TierrasSana, estado: I, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel1', 'Información anterior = id_ficha: 26, fecha_solicitud: 2024-02-25 anio_solicitud: 2023, descripcion: TierrasSanaA, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'fichas', NULL),
+(19, '2024-02-28 04:04:01', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 27, fecha_solicitud: 2024-02-27, anio_solicitud: 2020, descripcion: TierrasSana, estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: Manuel', NULL, 'fichas', NULL),
+(20, '2024-02-28 04:04:16', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 27, fecha_solicitud: 2024-02-27, anio_solicitud: 2020, descripcion: TierrasSana, estado: A, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'Información anterior = id_ficha: 27, fecha_solicitud: 2024-02-27 anio_solicitud: 2020, descripcion: TierrasSanaA, fecha_entrevista: 0000-00-00, nombre_encuestador: Manuel', 'fichas', NULL),
+(21, '2024-02-28 04:04:26', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 27, fecha_solicitud: 2024-02-27, anio_solicitud: 2020, descripcion: TierrasSana, estado: A, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'Información anterior = id_ficha: 27, fecha_solicitud: 2024-02-27 anio_solicitud: 2020, descripcion: TierrasSanaA, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'fichas', NULL),
+(22, '2024-02-28 04:04:36', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 27, fecha_solicitud: 2024-02-27, anio_solicitud: 2020, descripcion: TierrasSana, estado: A, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'Información anterior = id_ficha: 27, fecha_solicitud: 2024-02-27 anio_solicitud: 2020, descripcion: TierrasSanaA, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'fichas', NULL),
+(23, '2024-02-28 04:04:54', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 27, fecha_solicitud: 2024-02-27, anio_solicitud: 2020, descripcion: TierrasSana, estado: A, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'Información anterior = id_ficha: 27, fecha_solicitud: 2024-02-27 anio_solicitud: 2020, descripcion: TierrasSanaA, fecha_entrevista: 2024-02-27, nombre_encuestador: Manuel', 'fichas', NULL),
+(24, '2024-02-28 04:05:58', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 28, fecha_solicitud: 2024-02-27, anio_solicitud: 2020, descripcion: TierrasSana, estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: lic', NULL, 'fichas', NULL),
+(25, '2024-02-28 04:09:44', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 28, fecha_solicitud: 2024-02-27, anio_solicitud: 2020, descripcion: TierrasSana, estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: lic'),
+(26, '2024-02-28 04:12:50', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 27, id_productor: 25, primer_nombre: ENRIQUE, segundo_nombre: DANIEL, primer_apellido: BUESO, segundo_apellido: MORALES, identificacion: 801200205125, fecha_nacimiento: 2024-02-27, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 31313131', NULL, 'tbl_productor', NULL),
+(27, '2024-02-28 04:13:18', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 27, id_productor: 25, primer_nombre: ENRIQUE, segundo_nombre: DANIEL, primer_apellido: BUESO, segundo_apellido: MORALES, identificacion: 801200205125, fecha_nacimiento: 2024-02-27, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 31313131', 'Información anterior = id_ficha: 27, id_productor: 25, primer_nombre: ENRIQUE, segundo_nombre: DANIEL, primer_apellido: BUESO, segundo_apellido: MORALES, identificacion: 801200205125, fecha_nacimiento: 2024-02-27, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 31313131', 'tbl_productor', NULL),
+(28, '2024-02-28 04:14:07', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 27, id_productor: 25, primer_nombre: ENRIQUE, segundo_nombre: DANIEL, primer_apellido: BUESO, segundo_apellido: MORALES, identificacion: 801200205125, fecha_nacimiento: 2024-02-27, genero: Femenino, email_1: ENRIQUE@UNAH.COM, telefono_1: 31313131', 'Información anterior = id_ficha: 27, id_productor: 25, primer_nombre: ENRIQUE, segundo_nombre: DANIEL, primer_apellido: BUESO, segundo_apellido: MORALES, identificacion: 801200205125, fecha_nacimiento: 2024-02-27, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 31313131', 'tbl_productor', NULL),
+(29, '2024-02-28 05:00:06', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 29, fecha_solicitud: 2024-02-27, anio_solicitud: 2023, descripcion: TierrasSana, estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ENRIQUE', NULL, 'fichas', NULL),
+(30, '2024-02-28 05:00:45', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 29, id_productor: 26, primer_nombre: ENRIQUE, segundo_nombre: ENRIQUE, primer_apellido: ENRIQUE, segundo_apellido: ENRIQUE, identificacion: 801200205125, fecha_nacimiento: 2024-02-27, genero: Masculino, email_1: manuelfigueroa2818@gmail.com, telefono_1: 31673917', NULL, 'tbl_productor', NULL),
+(31, '2024-02-28 05:12:22', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 30, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion: , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', NULL, 'fichas', NULL),
+(32, '2024-02-28 05:12:23', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 30, id_productor: 27, primer_nombre: , segundo_nombre: , primer_apellido: , segundo_apellido: , identificacion: 0, fecha_nacimiento: 0000-00-00, genero: , email_1: , telefono_1: 0', NULL, 'tbl_productor', NULL);
 
 -- --------------------------------------------------------
 
@@ -3310,8 +3358,39 @@ INSERT INTO `fichas` (`id_ficha`, `fecha_solicitud`, `anio_solicitud`, `descripc
 (2, '2023-11-17', 2023, 'Prueba', 'manu', '2023-11-17 20:57:36', 'manu', '2023-12-01 04:17:22', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
 (3, '2023-11-17', 2023, 'Creado', 'manu', '2023-11-20 06:00:21', 'manu', '2023-12-01 04:17:06', 'A', '2023-11-17', 'manu', NULL, 'manu', NULL, 'manu', NULL),
 (20, '2023-12-12', 2023, 'prueba1', '2023-12-12', '2023-12-12 21:46:03', NULL, '2023-12-12 21:46:03', 'A', '0000-00-00', 'Enrique', NULL, 'Manuel', NULL, 'Mfigue', NULL),
-(21, '2023-12-14', 2023, 'TierrasSana', '2023-12-01', '2023-12-12 22:14:11', NULL, '2023-12-12 22:14:11', 'A', '0000-00-00', 'Francisco Morazan', NULL, 'Manuel', NULL, 'Mfigue', NULL),
-(23, '0000-00-00', 0, '', '', '2023-12-13 00:05:03', NULL, '2023-12-13 00:05:03', 'A', '0000-00-00', '', NULL, '', NULL, 'Mfigue', NULL);
+(23, '2024-02-13', 0, 'TierrasSana', '', '2023-12-13 00:05:03', 'Mfigue', '2024-02-14 04:50:25', 'A', '2024-02-13', 'asdd', NULL, 'asdasd', NULL, 'Mfigue', NULL),
+(24, '2024-02-24', 2023, 'TierrasSana', '2024-02-24', '2024-02-25 04:37:44', NULL, '2024-02-25 04:37:44', 'A', '0000-00-00', 'Enrique', NULL, 'kevin', NULL, 'Mfigue', NULL),
+(26, '2024-02-25', 2023, 'TierrasSana', '2024-02-17', '2024-02-26 02:59:23', 'Mfigue', '2024-02-28 04:03:37', 'I', '2024-02-27', 'Enrique1', NULL, 'Manuel1', NULL, 'Mfigue', NULL),
+(27, '2024-02-27', 2020, 'TierrasSana', '2024-02-27', '2024-02-28 04:04:01', 'Mfigue', '2024-02-28 04:04:54', 'A', '2024-02-27', 'saasa', NULL, 'Manuel', NULL, 'w', NULL),
+(29, '2024-02-27', 2023, 'TierrasSana', '2024-02-27', '2024-02-28 05:00:06', NULL, '2024-02-28 05:00:06', 'A', '0000-00-00', 'ENRIQUE', NULL, 'ENRIQUE', NULL, 'Mfigue', NULL),
+(30, '0000-00-00', 0, '', '', '2024-02-28 05:12:22', NULL, '2024-02-28 05:12:22', 'A', '0000-00-00', '', NULL, '', NULL, 'Mfigue', NULL);
+
+--
+-- Disparadores `fichas`
+--
+DELIMITER $$
+CREATE TRIGGER `DeleteFichas` AFTER DELETE ON `fichas` FOR EACH ROW BEGIN
+INSERT INTO bitacoras(ejecutor, actividad_realizada, informacion_eliminada, tabla)VALUES(
+CURRENT_USER, 'Se eliminó', concat('Información eliminada = id_ficha: ', OLD.id_ficha, ', fecha_solicitud: ',OLD.fecha_solicitud, ', anio_solicitud: ',OLD.anio_solicitud, ', descripcion: ', OLD.descripcion, ', estado: ',OLD.estado, ', fecha_entrevista: ',OLD.fecha_entrevista, ', nombre_encuestador: ',OLD.nombre_encuestador), 'fichas');
+
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `InsertFichas` AFTER INSERT ON `fichas` FOR EACH ROW BEGIN
+INSERT INTO bitacoras(ejecutor, actividad_realizada, informacion_actual, tabla)VALUES(
+CURRENT_USER, 'Se insertó', concat('Información actual = id_ficha: ', NEW.id_ficha, ', fecha_solicitud: ',NEW.fecha_solicitud, ', anio_solicitud: ',NEW.anio_solicitud, ', descripcion: ', NEW.descripcion, ', estado: ',NEW.estado, ', fecha_entrevista: ',NEW.fecha_entrevista, ', nombre_encuestador: ',NEW.nombre_encuestador), 'fichas');
+
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `UpdateFichas` AFTER UPDATE ON `fichas` FOR EACH ROW BEGIN
+INSERT INTO bitacoras(ejecutor, actividad_realizada, informacion_anterior, informacion_actual, tabla)VALUES(CURRENT_USER, 'Se actualizó', concat('Información anterior = id_ficha: ', OLD.id_ficha, ', fecha_solicitud: ',OLD.fecha_solicitud, ' anio_solicitud: ',OLD.anio_solicitud, ', descripcion: ', OLD.descripcion, '',OLD.estado, ', fecha_entrevista: ',OLD.fecha_entrevista, ', nombre_encuestador: ',OLD.nombre_encuestador), concat('Información actualizada = id_ficha: ', NEW.id_ficha, ', fecha_solicitud: ',NEW.fecha_solicitud, ', anio_solicitud: ',NEW.anio_solicitud, ', descripcion: ', NEW.descripcion, ', estado: ',NEW.estado, ', fecha_entrevista: ',NEW.fecha_entrevista, ', nombre_encuestador: ',NEW.nombre_encuestador), 'fichas');
+
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -3378,7 +3457,8 @@ CREATE TABLE `objetos` (
 INSERT INTO `objetos` (`Id_objetos`, `Objeto`, `Descripcion`, `tipo_objeto`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacon`, `Status`) VALUES
 (1, 'login', 'inicio de sesion', 'pantalla', 1, '2023-10-18 12:32:23', 1, '2023-10-20 12:32:23', 'ACTIVO'),
 (5, '2', 'Bienvenida', '', 1, '2023-10-28 12:10:23', 1, '2023-10-28 12:10:23', 'ACTIVO'),
-(7, 'Pantalla', 'Pantalla Usuario', '', 1, '2023-10-29 07:45:02', 1, '2023-10-29 07:45:17', 'INACTIVO');
+(7, 'Pantalla', 'Pantalla Usuario', '', 1, '2023-10-29 07:45:02', 1, '2023-10-29 07:45:17', 'INACTIVO'),
+(8, 'consulttor', 'consultor de abc', '', 1, '2024-02-03 04:42:32', 1, '2024-02-03 04:42:32', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -3416,27 +3496,15 @@ INSERT INTO `parametros` (`Id_parametros`, `id`, `Parametro`, `Valor`, `Fecha_Cr
 --
 
 CREATE TABLE `permisos` (
-  `Id_Permisos` bigint(20) NOT NULL,
+  `id_permisos` bigint(20) NOT NULL,
   `Id_rol` bigint(20) NOT NULL,
-  `Id_objetos` bigint(20) NOT NULL,
-  `permiso_eliminacion` varchar(10) NOT NULL,
-  `permiso_actualizacion` varchar(10) NOT NULL,
-  `permiso_consulta` varchar(10) NOT NULL,
-  `permiso_insercion` varchar(10) NOT NULL,
-  `Creado_Por` bigint(20) NOT NULL,
-  `Fecha_Creacion` timestamp NULL DEFAULT NULL,
-  `Actualizado_Por` bigint(20) NOT NULL,
-  `Fecha_Actualizacion` timestamp NULL DEFAULT NULL,
-  `Estado` enum('ACTIVO','INACTIVO','','') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Volcado de datos para la tabla `permisos`
---
-
-INSERT INTO `permisos` (`Id_Permisos`, `Id_rol`, `Id_objetos`, `permiso_eliminacion`, `permiso_actualizacion`, `permiso_consulta`, `permiso_insercion`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Estado`) VALUES
-(1, 1, 1, 'SI', 'SI', 'SI', 'SI', 1, '2023-10-17 12:35:58', 1, '2023-10-19 12:35:58', 'ACTIVO'),
-(2, 2, 1, 'NO', 'SI', 'SI', 'SI', 1, '2023-10-29 08:57:24', 1, '2023-10-29 08:58:04', 'INACTIVO');
+  `permiso_eliminacion` int(11) NOT NULL,
+  `id_objeto` int(10) NOT NULL,
+  `permiso_actualizacion` int(11) NOT NULL,
+  `permiso_insercion` int(11) NOT NULL,
+  `Actualizado_Por` varchar(255) NOT NULL,
+  `Fecha_Actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -3701,7 +3769,7 @@ INSERT INTO `tbl_cacerios` (`Id_Cacerio`, `Id_Aldea`, `Id_Municipio`, `Id_Depart
 (3, 3, 5, 3, 'caserio 3', 'caserio 3', 'A', '1', '2023-12-07 06:49:40', '1', '2023-12-07 06:49:40'),
 (4, 4, 7, 4, 'caserio 4', 'caserio 4', 'A', '1', '2023-12-07 06:51:00', '1', '2023-12-07 06:51:00'),
 (5, 5, 9, 5, 'caserio 5', 'caserio 5', 'A', '1', '2023-12-07 06:51:51', '1', '2023-12-07 06:51:51'),
-(9, 13, 12, 20, 'caseriofinal', 'final', 'A', 'Mfigue', '2023-12-10 15:56:16', NULL, '2023-12-10 15:56:16');
+(9, 13, 12, 20, 'caseriofinal', 'final', 'A', 'Mfigue', '2024-02-22 05:22:29', 'Mfigue', '2024-02-22 05:22:29');
 
 -- --------------------------------------------------------
 
@@ -3728,7 +3796,8 @@ CREATE TABLE `tbl_composicion` (
 --
 
 INSERT INTO `tbl_composicion` (`id_ficha`, `id_composicion`, `id_productor`, `genero`, `edad`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'H', 28, 'eff', 'manu', '2023-12-10 00:35:11', 'manu', '2023-12-10 00:35:11', 'A');
+(1, 1, 1, 'H', 28, 'eff', 'manu', '2023-12-10 00:35:11', 'manu', '2023-12-10 00:35:11', 'A'),
+(27, 3, 25, 'M', 50, 'PRUEBA', 'Mfigue', '2024-02-28 04:35:30', NULL, '2024-02-28 04:35:30', 'A');
 
 -- --------------------------------------------------------
 
@@ -3792,7 +3861,7 @@ INSERT INTO `tbl_departamentos` (`Id_Departamento`, `Nombre_Departamento`, `Desc
 (16, 'Santa Bárbara', 'Santa Bárbara', '1', '2023-12-07 06:05:06', '1', '2023-12-07 06:05:06', 'A'),
 (17, 'Valle', 'Valle', '1', '2023-12-07 06:05:22', '1', '2023-12-07 06:05:22', 'A'),
 (18, 'Yoro', 'Yoro', '1', '2023-12-07 06:05:39', 'manu', '2023-12-09 21:32:00', 'A'),
-(20, 'DepFinal', 'desc', 'Mfigue', '2023-12-10 15:53:57', NULL, '2023-12-10 15:53:57', 'A');
+(20, 'DepFinal', 'desc', 'Mfigue', '2023-12-10 15:53:57', 'Mfigue', '2024-02-22 05:15:30', 'I');
 
 -- --------------------------------------------------------
 
@@ -3826,7 +3895,8 @@ INSERT INTO `tbl_etnias` (`id_etnia`, `etnia`, `descripcion`, `creado_por`, `fec
 (8, 'Nahua', 'Descripción de Etnia 8', 'Usuario8', '2023-12-11 20:41:25', 'Usuario8', '2023-12-11 20:41:25', 'A'),
 (9, 'Ladino', 'Descripción de Etnia 9', 'Usuario9', '2023-12-11 20:39:08', 'Usuario9', '2023-12-11 20:39:08', 'A'),
 (10, 'Negro habla inglesa', 'Descripción de Etnia 10', 'Usuario10', '2023-12-11 20:41:33', 'Usuario10', '2023-12-11 20:41:33', 'A'),
-(11, 'Otros(Especifique)', 'Descripción de Etnia 11', 'Usuario11', '2023-12-11 20:41:38', 'Usuario11', '2023-12-11 20:41:38', 'A');
+(11, 'Otros(Especifique)', 'Descripción de Etnia 11', 'Usuario11', '2023-12-11 20:41:38', 'Usuario11', '2023-12-11 20:41:38', 'A'),
+(13, '', '', 'usuario1', '1970-01-01 07:00:00', 'usuario1', '2024-02-26 04:19:49', '');
 
 -- --------------------------------------------------------
 
@@ -3853,7 +3923,9 @@ CREATE TABLE `tbl_etnias_por_productor` (
 --
 
 INSERT INTO `tbl_etnias_por_productor` (`Id_etnicidad`, `id_ficha`, `id_productor`, `id_etnia`, `detalle_de_otros`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(20, 20, 20, 5, NULL, NULL, 'Mfigue', '2023-12-12 21:47:58', NULL, '2023-12-12 21:47:58', 'A');
+(20, 20, 20, 5, 'Prueba de Detalle1', 'TierrasSana', 'Mfigue', '2023-12-12 21:47:58', 'Mfigue', '2024-02-26 03:11:40', 'A'),
+(24, 27, 25, 7, 'PRUEBAS', 'HOLAMUNDO', 'Mfigue', '2024-02-28 04:16:36', 'Mfigue', '2024-02-28 04:17:19', 'A'),
+(25, 29, 26, 2, NULL, NULL, 'Mfigue', '2024-02-28 05:01:29', NULL, '2024-02-28 05:01:29', 'A');
 
 -- --------------------------------------------------------
 
@@ -3883,7 +3955,7 @@ INSERT INTO `tbl_fuentes_credito` (`id_fuente_credito`, `fuente_credito`, `descr
 (4, 'Cooperativa', 'Cooperativas', 'usuario1', '2023-12-11 10:27:00', 'usuario1', '2023-12-11 10:27:00', 'A'),
 (5, 'Prestamistas', 'Prestamistas', 'usuario1', '2023-12-11 10:27:19', 'usuario1', '2023-12-11 10:27:19', 'A'),
 (6, 'Microfinanciera', 'Microfinanciera', 'usuario1', '2023-12-11 10:27:40', 'usuario1', '2023-12-11 10:27:40', 'A'),
-(7, 'Caja rural', 'Caja rural', 'usuario1', '2023-12-11 10:27:58', 'usuario1', '2023-12-11 10:27:58', 'A');
+(7, 'Caja rural', 'Caja rural', 'usuario1', '2024-02-26 04:20:33', 'usuario1', '2024-02-26 04:20:33', '');
 
 -- --------------------------------------------------------
 
@@ -3933,13 +4005,6 @@ CREATE TABLE `tbl_manejo_riego` (
   `Estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `tbl_manejo_riego`
---
-
-INSERT INTO `tbl_manejo_riego` (`Id_Manejo_Riego`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Tiene_Riego`, `Superficie_Riego`, `Id_Medida_Superficie_Riego`, `Id_Tipo_Riego`, `Fuente_Agua`, `Disponibilidad_Agua_Meses`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(4, 21, 46, 21, 'S', 10.00, 3, 1, 'pozo comunitario', 1, NULL, NULL, 'manu', '2023-12-12 22:19:38', NULL, '2023-12-12 22:19:38', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -3963,7 +4028,7 @@ CREATE TABLE `tbl_medidas_tierra` (
 
 INSERT INTO `tbl_medidas_tierra` (`id_medida`, `medida`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'TAREAS', 'Son 5 tareas', NULL, '2023-11-04 14:08:58', NULL, '2023-11-04 14:08:58', 'ACTIVO'),
-(2, 'HA', 'Se compraron 2', 'Daniela', '2023-11-05 08:59:02', 'Daniela', '2023-11-05 08:59:02', 'INACTIVO'),
+(2, 'HA', 'Se compraron 2', 'Daniela', '2024-02-26 03:52:35', 'Daniela', '2024-02-26 03:52:35', 'ACTIVO'),
 (3, 'MZ', 'desc', 'Daniela', '2023-12-11 01:56:55', 'Daniela', '2023-12-11 01:56:55', 'ACTIVO'),
 (4, 'CM', 'CM (Centimetro)', 'manu', '2023-12-11 01:57:01', 'manu', '2023-12-11 01:57:01', 'ACTIVO');
 
@@ -3995,7 +4060,8 @@ CREATE TABLE `tbl_migracion_familiar` (
 --
 
 INSERT INTO `tbl_migracion_familiar` (`id_ficha`, `id_productor`, `id_migracion`, `tiene_migrantes`, `migracion_dentro_pais`, `migracion_fuera_pais`, `id_tipo_motivos`, `remesas`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(20, 20, 20, 'S', 'S', 'N', 1, 'S', NULL, 'Mfigue', '2023-12-12 21:48:14', NULL, '2023-12-12 21:48:14', 'A');
+(20, 20, 20, 'S', 'S', 'N', 1, 'S', NULL, 'Mfigue', '2023-12-12 21:48:14', NULL, '2023-12-12 21:48:14', 'A'),
+(29, 26, 25, 'S', 'S', 'N', 1, 'N', NULL, 'Mfigue', '2024-02-28 05:01:38', NULL, '2024-02-28 05:01:38', 'A');
 
 -- --------------------------------------------------------
 
@@ -4022,7 +4088,8 @@ INSERT INTO `tbl_motivos_migracion` (`Id_motivo`, `Motivo`, `Descripcion`, `Crea
 (1, 'Estudio', 'por el Estudio', 'Manuel', '2023-10-31 03:56:32', 'Manuel', '2023-12-11 23:07:04', 'A'),
 (2, 'Trabajo', 'No encuentra Trabajo en el país.', 'manuel', '2023-10-31 04:58:55', 'manuel', '2023-12-11 23:08:12', 'A'),
 (3, 'Violencia', 'Violencia familiar o amenazas', 'Manuel', '2023-10-31 05:07:18', 'Manuel', '2023-12-11 23:09:08', 'A'),
-(4, 'Cambio climático', 'Cambio climático o desastre natural', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2023-12-11 23:09:56', 'A');
+(4, 'Cambio climático', 'Cambio climático o desastre natural', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2023-12-11 23:09:56', 'A'),
+(10, 'JUBILACION', 'Prueba', 'Manuel', '2024-02-26 03:50:11', 'Manuel', '2024-02-26 03:50:20', '');
 
 -- --------------------------------------------------------
 
@@ -4052,8 +4119,7 @@ INSERT INTO `tbl_motivos_no_creditos` (`id_motivos_no_credito`, `motivo_no_credi
 (7, 'No tengo capacidad de pago', 'No tengo capacidad de pago', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
 (8, 'Temor al rechazo', 'Temor al rechazo', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
 (9, 'Temor a no pagarlo', 'Temor a no pagarlo', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
-(10, 'Tasas de interés muy altas', 'Tasas de interés muy altas', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A'),
-(11, 'Prueba', 'Prueba', 'manu', '2023-12-11 12:07:40', NULL, '2023-12-11 12:07:40', 'A');
+(10, 'Tasas de interés muy altas', 'Tasas de interés muy altas', 'admin', '2023-12-11 12:03:51', NULL, '2023-12-11 12:03:51', 'A');
 
 -- --------------------------------------------------------
 
@@ -4126,6 +4192,14 @@ CREATE TABLE `tbl_organizaciones` (
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_organizaciones`
+--
+
+INSERT INTO `tbl_organizaciones` (`id_organizacion`, `organizacion`, `id_tipo_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 'Cooperativa Sagrada familia', 2, 'Cooperativa Sagrada familia', 'manuel', '2024-02-28 04:24:55', 'manuel', '2024-02-28 04:26:18', 'A'),
+(2, 'Cooperativa Elga', 2, 'Cooperativa Elga', 'manuel', '2024-02-28 04:26:28', 'manuel', '2024-02-28 04:26:28', 'A');
 
 -- --------------------------------------------------------
 
@@ -4252,7 +4326,8 @@ CREATE TABLE `tbl_produccion_agricola_anterior` (
 
 INSERT INTO `tbl_produccion_agricola_anterior` (`Id_Produccion_Anterior`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Cultivo`, `Superficie_Primera_Postrera`, `Id_Medida_Primera_Postrera`, `Produccion_Obtenida`, `Id_Medida_Produccion_Obtenida`, `Cantidad_Vendida`, `Id_Medida_Vendida`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
 (4, 1, 1, 1, 1, '', 1, 124.00, 1, 12.00, 1, 23.00, 'ale sabillon', 'desc', 'Mfigue', '2023-12-11 21:09:56', NULL, '2023-12-11 21:09:56', 'A'),
-(5, 20, 45, 20, 4, 'Primera', 3, 1233.00, 3, 1000.00, 3, 100.00, 'pulperia carlos', NULL, 'Mfigue', '2023-12-12 21:49:16', NULL, '2023-12-12 21:49:16', 'A');
+(5, 20, 45, 20, 4, 'Primera', 3, 1233.00, 3, 1000.00, 3, 100.00, 'pulperia carlos', NULL, 'Mfigue', '2023-12-12 21:49:16', NULL, '2023-12-12 21:49:16', 'A'),
+(7, 29, 49, 26, 4, 'Primera', 4, 555.00, 2, 56.00, 2, 34.00, 'carlos', NULL, 'Mfigue', '2024-02-28 05:02:44', NULL, '2024-02-28 05:02:44', 'A');
 
 -- --------------------------------------------------------
 
@@ -4369,8 +4444,36 @@ INSERT INTO `tbl_productor` (`id_ficha`, `id_productor`, `primer_nombre`, `segun
 (2, 2, 'Kevin', 'ale', 'vaca', 'vaca', 801200205125, '2023-11-17', 'M', 'Soltero', 'Universitario', 'Bachillerato', 31373917, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-11-17 20:59:25', NULL, '2023-11-17 20:59:25', 'A'),
 (3, 3, 'manuel', 'jesus', 'figueroaas', 'barahona', 801200205125, '2023-11-20', 'Masculino', 'Casado(a)', 'universitario', 'universitario', 31673917, 31673917, 31673917, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manu@unah.hn', 'prueba', '0', '2023-11-20 06:54:47', '0', '2023-11-20 06:54:47', 'I'),
 (20, 20, 'manuel', 'jesus', 'figueroa', 'barahona', 801200205125, '2023-12-12', 'Masculino', 'Soltero(a)', 'primaria', '5', 31673917, 14253652, 36251445, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', NULL, 'Mfigue', '2023-12-12 21:46:37', NULL, '2023-12-12 21:46:37', 'A'),
-(21, 21, '', '', '', '', 0, '0000-00-00', '', '', '', '', 0, 0, 0, '', '', '', NULL, 'Mfigue', '2023-12-12 22:14:12', NULL, '2023-12-12 22:14:12', 'A'),
-(23, 23, '', '', '', '', 0, '0000-00-00', '', '', '', '', 0, 0, 0, '', '', '', NULL, 'Mfigue', '2023-12-13 00:05:05', NULL, '2023-12-13 00:05:05', 'A');
+(26, 24, 'manuel', 'Manuel', 'figueroa', 'barahona', 801200205125, '2024-02-25', 'Femenino', 'Casado(a)', 'universitario', 'universitario', 3167, 36251445, 36251445, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'thjt', '0', '2024-02-26 03:06:56', NULL, '2024-02-26 03:06:56', 'A'),
+(27, 25, 'ENRIQUE', 'DANIEL', 'BUESO', 'MORALES', 801200205125, '2024-02-27', 'Femenino', 'Casado(a)', 'MASTER', 'universitario', 31313131, 31313131, 32058341, 'ENRIQUE@UNAH.COM', 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'PRUEBA', '0', '2024-02-28 04:14:07', '0', '2024-02-28 04:14:07', 'A'),
+(29, 26, 'ENRIQUE', 'ENRIQUE', 'ENRIQUE', 'ENRIQUE', 801200205125, '2024-02-27', 'Masculino', 'Casado(a)', 'universitaria', '7', 31673917, 31673917, 31313131, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', NULL, 'Mfigue', '2024-02-28 05:00:45', NULL, '2024-02-28 05:00:45', 'A'),
+(30, 27, '', '', '', '', 0, '0000-00-00', '', '', '', '', 0, 0, 0, '', '', '', NULL, 'Mfigue', '2024-02-28 05:12:23', NULL, '2024-02-28 05:12:23', 'A');
+
+--
+-- Disparadores `tbl_productor`
+--
+DELIMITER $$
+CREATE TRIGGER `DeleteProductor` AFTER DELETE ON `tbl_productor` FOR EACH ROW BEGIN
+INSERT INTO bitacoras(ejecutor, actividad_realizada, informacion_eliminada, tabla)VALUES(CURRENT_USER, 'Se eliminó', concat('Información eliminada = id_ficha: ', OLD.id_ficha, ', id_productor: ',OLD.id_productor, ', primer_nombre: ',OLD.primer_nombre, ', segundo_nombre: ', OLD.segundo_nombre, ', primer_apellido: ',OLD.primer_apellido, ', segundo_apellido: ',OLD.segundo_apellido, ', identificacion: ',OLD.identificacion, ', fecha_nacimiento: ',OLD.fecha_nacimiento, ', genero: ',OLD.genero, ', email_1: ',OLD.email_1,', telefono_1: ',OLD.telefono_1), 'tbl_productor');
+
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `InsertProductor` AFTER INSERT ON `tbl_productor` FOR EACH ROW BEGIN
+INSERT INTO bitacoras(ejecutor, actividad_realizada, informacion_actual, tabla)VALUES(CURRENT_USER, 'Se insertó', concat('Información actual = id_ficha: ', NEW.id_ficha, ', id_productor: ',NEW.id_productor, ', primer_nombre: ',NEW.primer_nombre, ', segundo_nombre: ', NEW.segundo_nombre, ', primer_apellido: ',NEW.primer_apellido, ', segundo_apellido: ',NEW.segundo_apellido, ', identificacion: ',NEW.identificacion, ', fecha_nacimiento: ',NEW.fecha_nacimiento, ', genero: ',NEW.genero,', email_1: ',NEW.email_1,', telefono_1: ',NEW.telefono_1), 'tbl_productor');
+
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `UpdateProductor` AFTER UPDATE ON `tbl_productor` FOR EACH ROW BEGIN
+INSERT INTO bitacoras(ejecutor, actividad_realizada, informacion_anterior, informacion_actual, tabla)VALUES(
+CURRENT_USER, 'Se actualizó', concat('Información anterior = id_ficha: ', OLD.id_ficha, ', id_productor: ',OLD.id_productor, ', primer_nombre: ',OLD.primer_nombre, ', segundo_nombre: ', OLD.segundo_nombre, ', primer_apellido: ',OLD.primer_apellido, ', segundo_apellido: ',OLD.segundo_apellido, ', identificacion: ',OLD.identificacion, ', fecha_nacimiento: ',OLD.fecha_nacimiento, ', genero: ',OLD.genero, ', email_1: ',OLD.email_1,', telefono_1: ',OLD.telefono_1 ), concat('Información actualizada = id_ficha: ', NEW.id_ficha, ', id_productor: ',NEW.id_productor, ', primer_nombre: ',NEW.primer_nombre, ', segundo_nombre: ', NEW.segundo_nombre, ', primer_apellido: ',NEW.primer_apellido, ', segundo_apellido: ',NEW.segundo_apellido, ', identificacion: ',NEW.identificacion, ', fecha_nacimiento: ',NEW.fecha_nacimiento, ', genero: ',NEW.genero,', email_1: ',NEW.email_1,', telefono_1: ',NEW.telefono_1), 'tbl_productor');
+
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -4417,9 +4520,10 @@ CREATE TABLE `tbl_relevo_organizacion` (
 --
 
 INSERT INTO `tbl_relevo_organizacion` (`id_ficha`, `id_productor`, `Id_Relevo`, `tendra_relevo`, `cuantos_relevos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(20, 20, 20, 'S', 23, NULL, 'Mfigue', '2023-12-12 21:48:04', NULL, '2023-12-12 21:48:04', 'A'),
-(21, 21, 21, 'N', 0, NULL, 'Mfigue', '2023-12-12 22:14:16', NULL, '2023-12-12 22:14:16', 'A'),
-(23, 23, 23, 'N', 0, NULL, 'Mfigue', '2023-12-13 00:05:28', NULL, '2023-12-13 00:05:28', 'A');
+(20, 20, 20, 'S', 23, 'TierrasSana', 'Mfigue', '2023-12-12 21:48:04', 'Mfigue', '2024-02-28 04:28:40', 'A'),
+(27, 25, 24, 'S', 36, 'TierrasSana', 'Mfigue', '2024-02-28 04:28:23', 'Mfigue', '2024-02-28 04:29:00', 'I'),
+(29, 26, 25, 'S', 12, NULL, 'Mfigue', '2024-02-28 05:01:34', NULL, '2024-02-28 05:01:34', 'A'),
+(30, 27, 26, 'N', 0, NULL, 'Mfigue', '2024-02-28 05:12:26', NULL, '2024-02-28 05:12:26', 'A');
 
 -- --------------------------------------------------------
 
@@ -4529,13 +4633,14 @@ INSERT INTO `tbl_tipo_negocios` (`id_tipo_negocio`, `tipo_negocio`, `descripcion
 (1, 'Venta de servicio', 'Venta de servicios', 'Kevin', '2023-12-11 09:36:51', 'Kevin', '2023-12-11 09:36:51', ''),
 (4, 'Jornal agricola', 'Jornal agricola', 'Kevin', '2023-12-11 09:37:31', 'Kevin', '2023-12-11 09:37:31', ''),
 (5, 'Corte de café', 'Café', NULL, '2023-12-11 10:08:49', NULL, '2023-12-11 10:08:49', ''),
-(6, 'Jornal no agrícola', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
-(7, 'Alquileres', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
-(8, 'Remesa del exterior', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
-(9, 'Remesa nacional', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
-(10, 'Bono', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
-(11, 'Salario profesional', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL),
-(12, 'Artesanía', NULL, NULL, '2023-12-11 09:46:37', NULL, '2023-12-11 09:46:37', NULL);
+(6, 'Jornal no agrícola', 'Jornal no agrícola', NULL, '2024-02-26 04:13:13', NULL, '2024-02-26 04:13:13', ''),
+(7, 'Alquileres', 'Alquileres', NULL, '2024-02-26 04:13:20', NULL, '2024-02-26 04:13:20', ''),
+(8, 'Remesa del exterior', 'Remesa del exterior', NULL, '2024-02-26 04:13:29', NULL, '2024-02-26 04:13:29', ''),
+(9, 'Remesa nacional', 'Remesa nacional', NULL, '2024-02-26 04:13:39', NULL, '2024-02-26 04:13:39', ''),
+(10, 'Bono', 'Bono', NULL, '2024-02-26 04:13:47', NULL, '2024-02-26 04:13:47', ''),
+(11, 'Salario profesional', 'Salario profesional', NULL, '2024-02-26 04:13:55', NULL, '2024-02-26 04:13:55', ''),
+(12, 'Artesanía', 'Artesanía', NULL, '2024-02-26 04:14:06', NULL, '2024-02-26 04:14:06', ''),
+(13, 'Bancario1', 'prueba1', 'Kevin', '2024-02-26 04:12:35', 'Kevin', '2024-02-26 04:12:35', '');
 
 -- --------------------------------------------------------
 
@@ -4654,7 +4759,7 @@ INSERT INTO `tbl_tipo_practicas_productivas` (`id_tipo_practica`, `tipo_practica
 (35, 'Banco de proteína', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
 (36, 'Pastos mejorados', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
 (37, 'Aplicación de vacunas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
-(38, 'Vitaminas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(38, 'Vitaminas', 'Vitaminas', NULL, '2024-02-26 04:23:59', NULL, '2024-02-26 04:23:59', ''),
 (39, 'Preparación de suelo con tracción animal', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A');
 
 -- --------------------------------------------------------
@@ -4687,7 +4792,8 @@ INSERT INTO `tbl_tipo_produccion` (`id_tipo_produccion`, `tipo_produccion`, `des
 (6, 'Sorgo', 'Sorgo', 'manu', '2023-12-11 01:45:19', 'manu', '2023-12-11 01:45:19', 'ACTIVO'),
 (7, 'Naranja', 'Naranja', 'manu', '2023-12-11 01:45:19', 'manu', '2023-12-11 01:45:19', 'ACTIVO'),
 (8, 'Banano', 'Banano', 'manu', '2023-12-11 01:46:35', 'manu', '2023-12-11 01:46:35', 'ACTIVO'),
-(9, 'Melón', 'Melón', 'manu', '2023-12-11 01:47:49', 'manu', '2023-12-11 01:47:49', 'ACTIVO');
+(9, 'Melón', 'Melón', 'manu', '2023-12-11 01:47:49', 'manu', '2023-12-11 01:47:49', 'ACTIVO'),
+(11, 'sandía', 'prueba', 'Kevin', '2024-02-26 04:01:58', 'Kevin', '2024-02-26 04:01:58', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -4813,7 +4919,7 @@ CREATE TABLE `tbl_ubicacion_productor` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('A','I') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -4823,8 +4929,8 @@ CREATE TABLE `tbl_ubicacion_productor` (
 INSERT INTO `tbl_ubicacion_productor` (`id_ficha`, `id_productor`, `id_ubicacion`, `Id_Departamento`, `Id_Municipio`, `Id_Aldea`, `Id_Cacerio`, `ubicacion_geografica`, `distancia_parcela_vivienda`, `latitud_parcela`, `longitud_parcela`, `msnm`, `direccion_1`, `direccion_2`, `direccion_3`, `vive_en_finca`, `nombre_finca`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 1, 1, 1, 1, 1, 1, 'col. quezada', 12.00, '1', '2', 3.00, 'col. quezada', 'col. quezada', 'col. quezada', 'S', 'col. quezada', 'col. quezada', 'manu', '2023-12-10 14:50:00', 'manu', '2023-12-10 14:50:00', 'A'),
 (20, 20, 45, 1, 1, 1, 1, 'Comayagua', 1.00, '2', '3', 4.00, 'col arturo quezada', 'bloque 15 ', 'avenida 7 casa 3323', 'S', 'la quezada', NULL, 'Mfigue', '2023-12-12 21:47:27', NULL, '2023-12-12 21:47:27', 'A'),
-(21, 21, 46, 1, 1, 1, 1, '', 0.00, '', '', 0.00, '', '', '', '', '', NULL, 'Mfigue', '2023-12-12 22:14:12', NULL, '2023-12-12 22:14:12', 'A'),
-(23, 23, 48, 1, 1, 1, 1, '', 0.00, '', '', 0.00, '', '', '', '', '', NULL, 'Mfigue', '2023-12-13 00:05:06', NULL, '2023-12-13 00:05:06', 'A');
+(29, 26, 49, 1, 1, 1, 1, 'Comayagua', 10.00, '2', '2', 10.00, 'Residencial Arturo Quezada bloque 15 casa 3317', 'Residencial Arturo Quezada bloque 15 casa 3317', 'Residencial Arturo Quezada bloque 15 casa 3317', 'S', 'la quezada', NULL, 'Mfigue', '2024-02-28 05:01:03', NULL, '2024-02-28 05:01:03', 'A'),
+(30, 27, 50, 1, 1, 1, 1, '', 0.00, '', '', 0.00, '', '', '', '', '', NULL, 'Mfigue', '2024-02-28 05:12:23', NULL, '2024-02-28 05:12:23', 'A');
 
 -- --------------------------------------------------------
 
@@ -4866,7 +4972,7 @@ CREATE TABLE `tbl_unidad_productora` (
 --
 
 INSERT INTO `tbl_unidad_productora` (`Id_Ubicacion`, `Id_Ficha`, `Id_Unidad_Productiva`, `Id_Productor`, `Tipo_De_Manejo`, `Superficie_Produccion`, `Id_Medida_Produccion`, `Superficie_Agricultura`, `Id_Medida_Agricultura`, `Superficie_Ganaderia`, `Id_Medida_Ganaderia`, `Superficie_Apicultura`, `Id_Medida_Apicultura`, `Superficie_Forestal`, `Id_Medida_Forestal`, `Superficie_Acuacultura`, `Numero_Estanques`, `Superficie_Agroturismo`, `Superficie_Otros`, `Otros_Descripcion`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(46, 21, 6, 21, 'Propia', 100.00, 2, 100.00, 2, 100.00, 2, 100.00, 2, 10.00, 3, 10.00, 3, 15.00, 100.00, NULL, NULL, 'manu', '2023-12-12 22:19:38', NULL, '2023-12-12 22:19:38', 'A');
+(1, 1, 10, 1, 'Alquilada', 12.00, 1, 13.00, 1, 14.00, 1, 14.00, 1, 15.00, 1, 10.00, 50, 21.00, 3.00, 'PRUEBA', 'PRUEBA1', 'Mfigue', '2024-02-28 04:40:44', NULL, '2024-02-28 04:40:44', 'A');
 
 -- --------------------------------------------------------
 
@@ -4904,11 +5010,17 @@ INSERT INTO `usuario` (`Id_Usuario`, `id_rol`, `nombre_completo`, `correo`, `usu
 (1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', NULL, '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 'ACTIVO', 1, 'SI', '2023-10-31 06:00:00', NULL, NULL, 0),
 (9, 2, 'MANUEL FIGUEROA', 'manuelfigueroa2818@gmail.com', 'HARU', '$2y$10$WHs2RM.ozD3KRQu1Dq8Ks.adgThvWCNojDPlhvYpVulktVmlC18/q', NULL, NULL, '2023-12-10 14:00:24', 0, '2023-12-10 07:00:24', 0, 'ACTIVO', 1, 'SI', '1970-01-01 07:00:00', NULL, NULL, 0),
 (11, 2, 'MANUEL FIGUEROA BARAHONA', 'mdfigueroa@unah.hn', 'MANUBARA', '$2y$10$UF/ahTJn5okUojk8aTN/uOiuWNJ2AnDdySKNNewLKLaC7WtZORzTu', NULL, NULL, '2023-12-10 22:25:54', 0, '2023-12-10 15:25:54', 0, 'ACTIVO', 1, 'SI', '2024-12-04 22:25:54', NULL, NULL, 0),
-(12, 2, 'CARLOS VACA', 'manubara200128@gmail.com', 'Mfigue', '$2y$10$08C2B2YxjR4bCwgiCT.mp.8oPSMexgt9Zg74R7JdpUTDrIllT14ty', NULL, NULL, '2023-12-10 15:29:09', 0, '2023-12-10 15:29:09', 0, 'ACTIVO', 1, 'SI', '2023-12-10 15:29:09', NULL, NULL, 0);
+(13, 2, 'Enrique', 'manuelfigueroa2818@gmail.com', 'Enri', '$2y$10$pwhObKfogmDRxnB57iSfr.ux6s2E3HJYB6snkAg8LXmRaxrOAfiK6', NULL, NULL, '2024-02-18 20:26:49', 0, '2024-02-18 20:26:49', 0, 'ACTIVO', 1, 'SI', '2024-02-18 20:26:49', NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `bitacoras`
+--
+ALTER TABLE `bitacoras`
+  ADD PRIMARY KEY (`id_bitacora`);
 
 --
 -- Indices de la tabla `estado_usuario`
@@ -4933,14 +5045,6 @@ ALTER TABLE `objetos`
 --
 ALTER TABLE `parametros`
   ADD PRIMARY KEY (`Id_parametros`);
-
---
--- Indices de la tabla `permisos`
---
-ALTER TABLE `permisos`
-  ADD PRIMARY KEY (`Id_Permisos`),
-  ADD KEY `Permisos_Objeto` (`Id_objetos`),
-  ADD KEY `Permisos_Rol` (`Id_rol`);
 
 --
 -- Indices de la tabla `preguntas`
@@ -5341,6 +5445,12 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `bitacoras`
+--
+ALTER TABLE `bitacoras`
+  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
 -- AUTO_INCREMENT de la tabla `estado_usuario`
 --
 ALTER TABLE `estado_usuario`
@@ -5350,25 +5460,19 @@ ALTER TABLE `estado_usuario`
 -- AUTO_INCREMENT de la tabla `fichas`
 --
 ALTER TABLE `fichas`
-  MODIFY `id_ficha` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_ficha` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `objetos`
 --
 ALTER TABLE `objetos`
-  MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `parametros`
 --
 ALTER TABLE `parametros`
   MODIFY `Id_parametros` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT de la tabla `permisos`
---
-ALTER TABLE `permisos`
-  MODIFY `Id_Permisos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
@@ -5398,25 +5502,25 @@ ALTER TABLE `tbl_aldeas`
 -- AUTO_INCREMENT de la tabla `tbl_apoyos`
 --
 ALTER TABLE `tbl_apoyos`
-  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyos_produccion`
 --
 ALTER TABLE `tbl_apoyos_produccion`
-  MODIFY `id_apoyo_prod` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_apoyo_prod` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyo_actividad_externa`
 --
 ALTER TABLE `tbl_apoyo_actividad_externa`
-  MODIFY `id_apoyo_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_apoyo_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_base_organizacion`
 --
 ALTER TABLE `tbl_base_organizacion`
-  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_cacerios`
@@ -5428,31 +5532,31 @@ ALTER TABLE `tbl_cacerios`
 -- AUTO_INCREMENT de la tabla `tbl_composicion`
 --
 ALTER TABLE `tbl_composicion`
-  MODIFY `id_composicion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_composicion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_credito_produccion`
 --
 ALTER TABLE `tbl_credito_produccion`
-  MODIFY `id_credpro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_credpro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_departamentos`
 --
 ALTER TABLE `tbl_departamentos`
-  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etnias`
 --
 ALTER TABLE `tbl_etnias`
-  MODIFY `id_etnia` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_etnia` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etnias_por_productor`
 --
 ALTER TABLE `tbl_etnias_por_productor`
-  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_fuentes_credito`
@@ -5464,37 +5568,37 @@ ALTER TABLE `tbl_fuentes_credito`
 -- AUTO_INCREMENT de la tabla `tbl_ingreso_familiar`
 --
 ALTER TABLE `tbl_ingreso_familiar`
-  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_manejo_riego`
 --
 ALTER TABLE `tbl_manejo_riego`
-  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_medidas_tierra`
 --
 ALTER TABLE `tbl_medidas_tierra`
-  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_migracion_familiar`
 --
 ALTER TABLE `tbl_migracion_familiar`
-  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_migracion`
 --
 ALTER TABLE `tbl_motivos_migracion`
-  MODIFY `Id_motivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id_motivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_no_creditos`
 --
 ALTER TABLE `tbl_motivos_no_creditos`
-  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_municipios`
@@ -5506,19 +5610,19 @@ ALTER TABLE `tbl_municipios`
 -- AUTO_INCREMENT de la tabla `tbl_no_creditos`
 --
 ALTER TABLE `tbl_no_creditos`
-  MODIFY `id_nocred` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_nocred` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_organizaciones`
 --
 ALTER TABLE `tbl_organizaciones`
-  MODIFY `id_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_organizaciones_por_productor`
 --
 ALTER TABLE `tbl_organizaciones_por_productor`
-  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_parametros`
@@ -5530,156 +5634,149 @@ ALTER TABLE `tbl_parametros`
 -- AUTO_INCREMENT de la tabla `tbl_periodicidad`
 --
 ALTER TABLE `tbl_periodicidad`
-  MODIFY `id_periodo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_periodo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_practicas_por_produccion`
 --
 ALTER TABLE `tbl_practicas_por_produccion`
-  MODIFY `Id_Practica_Produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id_Practica_Produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_agricola_anterior`
 --
 ALTER TABLE `tbl_produccion_agricola_anterior`
-  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_comercializacion`
 --
 ALTER TABLE `tbl_produccion_comercializacion`
-  MODIFY `Id_Produccion_Comercio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Produccion_Comercio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_pecuaria`
 --
 ALTER TABLE `tbl_produccion_pecuaria`
-  MODIFY `Id_Produccion_Pecuaria` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Produccion_Pecuaria` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_vendida`
 --
 ALTER TABLE `tbl_produccion_vendida`
-  MODIFY `Id_Produccion_Vendida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Produccion_Vendida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
-  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_productor_actividad_externa`
 --
 ALTER TABLE `tbl_productor_actividad_externa`
-  MODIFY `id_actividad_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_actividad_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_relevo_organizacion`
 --
 ALTER TABLE `tbl_relevo_organizacion`
-  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyos`
 --
 ALTER TABLE `tbl_tipos_apoyos`
-  MODIFY `id_tipo_apoyos` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_tipo_apoyos` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyo_produccion`
 --
 ALTER TABLE `tbl_tipos_apoyo_produccion`
-  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_cultivo`
 --
 ALTER TABLE `tbl_tipo_cultivo`
-  MODIFY `id_tipo_cultivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_tipo_cultivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_negocios`
 --
 ALTER TABLE `tbl_tipo_negocios`
-  MODIFY `id_tipo_negocio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_tipo_negocio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_organizacion`
 --
 ALTER TABLE `tbl_tipo_organizacion`
-  MODIFY `id_tipo_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_pecuarios`
 --
 ALTER TABLE `tbl_tipo_pecuarios`
-  MODIFY `id_tipo_pecuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_tipo_pecuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_practicas_productivas`
 --
 ALTER TABLE `tbl_tipo_practicas_productivas`
-  MODIFY `id_tipo_practica` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_tipo_practica` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_produccion`
 --
 ALTER TABLE `tbl_tipo_produccion`
-  MODIFY `id_tipo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_tipo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_riego`
 --
 ALTER TABLE `tbl_tipo_riego`
-  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_trabajadores`
 --
 ALTER TABLE `tbl_tipo_trabajadores`
-  MODIFY `id_tipo_trabajador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo_trabajador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_toma_decisiones`
 --
 ALTER TABLE `tbl_toma_decisiones`
-  MODIFY `id_tipo_tomador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_tomador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_trabajadores_externos`
 --
 ALTER TABLE `tbl_trabajadores_externos`
-  MODIFY `id_trabajador_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_trabajador_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_ubicacion_productor`
 --
 ALTER TABLE `tbl_ubicacion_productor`
-  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_unidad_productora`
 --
 ALTER TABLE `tbl_unidad_productora`
-  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `permisos`
---
-ALTER TABLE `permisos`
-  ADD CONSTRAINT `Permisos_Objeto` FOREIGN KEY (`Id_objetos`) REFERENCES `objetos` (`Id_objetos`),
-  ADD CONSTRAINT `Permisos_Rol` FOREIGN KEY (`Id_rol`) REFERENCES `roles` (`Id_rol`);
 
 --
 -- Filtros para la tabla `preguntas_usuario`
