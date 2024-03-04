@@ -82,6 +82,9 @@ session_start();
                         <td><?= $datos->Descripcion ?></td>
                         <td><?= $datos->STATUS ?></td>
                         <td>
+                        <button class="btn btn-primary btn-permisos" data-toggle="modal" data-target="#modalCrear" data-id="<?= $datos->Id_rol ?>" data-nombre="<?= $datos->nombre ?>" onclick="ObtenerRol(this)">
+                            <i class="fa fa-eye"></i> Permisos
+                        </button>
                         <button class="btn btn-primary btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_rol ?>', '<?= $datos->Nombre ?>', '<?= $datos->Descripcion ?>', '<?= $datos->STATUS ?>')">Editar</button>
 
                                 <form method="POST" action="php/delete_roles.php" style="display: inline;"> 
@@ -110,6 +113,71 @@ session_start();
         </ul>
     </nav>
 </div>
+<!-- Modal crear Permisos -->
+<div class="modal fade" id="modalCrear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Listado de Permisos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <h2><span id="nombreRolSeleccionado"></span></h2> <!-- Mostrar el nombre del rol -->
+                <h2>Rol: <span id="idRolSeleccionado"></span></h2> <!--  Mostrar el ID del rol -->
+                <form id="permissionForm" method="POST" action="vistas/guardar_permisos.php">
+                    <input type="hidden" id="Id_rol_modal" name="Id_rol">
+                    <table class="table table-hover">
+                        <thead class="table-dark text-center" style="background-color: #343A40;">
+                            <tr>
+                                <th>Objeto</th>
+                                <th>Crear</th>
+                                <th>Actualizar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <?php
+                            include "../php/conexion_be.php";
+
+                            // Obtener los datos de la tabla objetos de la base de datos
+                            $sql = $conexion->query("SELECT Id_objetos, Objeto FROM objetos");
+
+
+                            // Recorre los datos obtenidos de la base de datos
+                            while ($datos = $sql->fetch_object()) {
+                                echo "<tr>";
+                                echo "<td>" . $datos->Objeto . "</td>";
+                                echo "<td><input type='checkbox' name='crear_" . $datos->Id_objetos . "' value='1'></td>";
+                                echo "<td><input type='checkbox' name='actualizar_" . $datos->Id_objetos . "' value='1'></td>";
+                                echo "<td><input type='checkbox' name='eliminar_" . $datos->Id_objetos . "' value='1'></td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function ObtenerRol(button) {
+        var idRol = button.getAttribute("data-id");
+        var nombreRol = button.getAttribute("data-nombre");
+        document.getElementById("Id_rol_modal").value = idRol;
+        document.getElementById("nombreRolSeleccionado").textContent = nombreRol;
+        document.getElementById("idRolSeleccionado").textContent = idRol;
+    }
+</script>
 
 
 <!-- Modal para editar ROLES -->
