@@ -6,6 +6,13 @@ session_start();
 
 // Verifica si se ha enviado un formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $idFicha=$_SESSION['id_ficha'];
+
+    $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+   
+    $idProductor = $row['id_productor'];
 
     // Obtener datos del formulario
     $creado_por = $_SESSION["usuario"]["usuario"]; // Reemplaza con la lógica adecuada para obtener el nombre de usuario
@@ -20,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Llamar al procedimiento almacenado
-    $sql = "CALL InsertRelevoData('$tendra_relevo', '$cuantos_relevos', '$creado_por')";
+    $sql = "CALL InsertRelevoData($idFicha, $idProductor, '$tendra_relevo', '$cuantos_relevos', '$creado_por')";
 
     if (mysqli_query($conexion, $sql)) {
         // Redirige a la siguiente página

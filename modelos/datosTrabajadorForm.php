@@ -1,5 +1,4 @@
 <?php
-
 ob_start();
 // Incluye el archivo de conexión
 include "../php/conexion_be.php";
@@ -9,6 +8,12 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Obtener datos del formulario (ajusta los nombres según tus campos)
+    /*if(isset($_SESSION['id_ficha'])){
+        $idFicha=$_SESSION['id_ficha'];
+    }*/
+
+    $idFicha=$_SESSION['id_ficha'];
+
     $primerNombre = $_POST['primerNombre'];
     $segundoNombre = $_POST['segundoNombre'];
     $primerApellido = $_POST['primerApellido'];
@@ -29,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Llamar al procedimiento almacenado
     $sql = "CALL Temp_Insertar_Productor(
+         '$idFicha',
         '$primerNombre',
         '$segundoNombre',
         '$primerApellido',
@@ -50,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (mysqli_query($conexion, $sql)) {
         // Redirige a la siguiente página
-        header("Location: ../bienvenida.php?success=true&message=La Pregunta se actualizó correctamente#datosUbiForm");
+        //header("Location: ../bienvenida.php?success=true&message=La Pregunta se actualizó correctamente#datosUbiForm");
         exit(); // Detener la ejecución del script
     } else {
         echo "Error al guardar los datos: " . mysqli_error($conexion);

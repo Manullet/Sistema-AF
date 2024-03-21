@@ -6,6 +6,14 @@ session_start();
 // Verifica si se ha enviado un formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $idFicha=$_SESSION['id_ficha'];
+
+    $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+   
+    $idProductor = $row['id_productor'];
+
     // Obtener datos del formulario
     $creado_por = $_SESSION["usuario"]["usuario"];
 
@@ -17,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Llamar al procedimiento almacenado
-    $sql = "CALL InsertarEtniaProductor('$id_etnia', '$creado_por')";
+    $sql = "CALL InsertarEtniaProductor($idFicha,$idProductor,'$id_etnia', '$creado_por')";
 
     if (mysqli_query($conexion, $sql)) {
         // Redirige a la siguiente página

@@ -8,6 +8,14 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Obtener datos del formulario
+    $idFicha=$_SESSION['id_ficha'];
+
+    $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+
+    $idProductor = $row['id_productor'];
+
     $Id_Departamento = $_POST['Id_Departamento'];
     $Id_Municipio = $_POST['Id_Municipio'];
     $Id_Aldea = $_POST['Id_Aldea'];
@@ -26,7 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Llamar al procedimiento almacenado
     $sql = "CALL Temp_Insertar_Ubicacion_Productor(
-        
+        $idFicha,
+        $idProductor,
         '$Id_Departamento', 
         '$Id_Municipio', 
         '$Id_Aldea', 

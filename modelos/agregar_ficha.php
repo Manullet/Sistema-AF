@@ -4,24 +4,21 @@ include "../php/conexion_be.php";
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    $idFicha=$_SESSION['id_ficha'];
     $fecha_solicitud=$_POST["fecha_solicitud"];
     $anio_solicitud=$_POST["anio_solicitud"];
 
     $descripcion=$_POST["descripcion"];
     $fecha_entrevista=$_POST["fecha_entrevista"];
 
-    $nombre_encuentrador=$_POST["nombre_encuentrador"];
     $nombre_encuestador=$_POST["nombre_encuestador"];
+    $nombre_encuestado=$_POST["nombre_encuestado"];
     $nombre_supervisor=$_POST["nombre_supervisor"];
 
-
-
-    
     $creado_por = $_SESSION["usuario"]["usuario"];
 
 
-    $sql = "CALL InsertarFicha('$fecha_solicitud', '$anio_solicitud', '$descripcion','$fecha_entrevista','$nombre_encuentrador', '$nombre_encuestador','$nombre_supervisor','$creado_por')";
+    $sql = "CALL InsertarFicha($idFicha,'$fecha_solicitud', '$anio_solicitud', '$descripcion','$fecha_entrevista','$nombre_encuestador', '$nombre_encuestado','$nombre_supervisor','$creado_por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

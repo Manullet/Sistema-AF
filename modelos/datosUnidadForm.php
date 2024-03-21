@@ -7,7 +7,21 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener los datos del formulario
-    $p_Tipo_De_Manejo = $_POST['tipoManejo'];
+    $idFicha=$_SESSION['id_ficha'];
+
+    $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+   
+    $idProductor = $row['id_productor'];
+
+    $sql = "SELECT id_ubicacion from tbl_ubicacion_productor where id_productor=$idProductor limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+   
+    $idUbicacion = $row['id_ubicacion'];
+
+    $p_Tipo_De_Manejo = $_POST['razon'];
     $p_Superficie_Produccion = $_POST['superficieProduccion'];
     $p_Id_Medida_Produccion = $_POST['medidaProduccion'];
     $p_Superficie_Agricultura = $_POST['superficieAgricultura'];
@@ -32,6 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Llamar al procedimiento almacenado
     $query = "CALL TempInsertarUnidadProductoraYRiego(
+        $idUbicacion,
+        $idFicha,
+        $idProductor,
         '$p_Tipo_De_Manejo',
         '$p_Superficie_Produccion',
         '$p_Id_Medida_Produccion',

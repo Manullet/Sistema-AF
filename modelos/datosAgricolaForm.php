@@ -5,6 +5,20 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener los datos del formulario
+    $idFicha=$_SESSION['id_ficha'];
+
+    $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+   
+    $idProductor = $row['id_productor'];
+
+    $sql = "SELECT id_ubicacion from tbl_ubicacion_productor where id_productor=$idProductor limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+   
+    $idUbicacion = $row['id_ubicacion'];
+
     $p_Id_Tipo_Cultivo = $_POST['nombreCultivo'];
     $p_Superficie_Primera_Postrera = $_POST['tipoSiembra'];
     $p_Id_Medida_Primera_Postrera = $_POST['areaSembrada'];
@@ -19,6 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Llamar al procedimiento almacenado
     $query = "CALL INSERTProduccion_AgrAnterior(
+        $idUbicacion,
+        $idFicha,
+        $idProductor,
         $p_Id_Tipo_Cultivo,
         '$p_Superficie_Primera_Postrera',
         $p_Id_Medida_Primera_Postrera,

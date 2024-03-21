@@ -6,6 +6,14 @@ session_start();
 // Verifica si se ha enviado un formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $idFicha=$_SESSION['id_ficha'];
+
+    $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+   
+    $idProductor = $row['id_productor'];
+
     // Obtener datos del formulario
     $creado_por = $_SESSION["usuario"]["usuario"]; // Reemplaza con la lógica adecuada para obtener el nombre de usuario
 
@@ -19,6 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtiene el destino de migración
     $migracion_dentro_pais = isset($_POST['destino']) && $_POST['destino'] == 'dentro_del_pais' ? 'S' : 'N';
     $migracion_fuera_pais = isset($_POST['destino']) && $_POST['destino'] == 'otro_pais' ? 'S' : 'N';
+
+    // Verifica si se envían remesas
+    $remesas = isset($_POST['remesas']) && $_POST['remesas'] == 'si' ? 'S' : 'N';
 
     // Obtiene los motivos de migración
     $motivos_seleccionados = isset($_POST['razon']) ? $_POST['razon'] : array();
@@ -41,19 +52,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Error al obtener ID del motivo: " . mysqli_error($conexion);
         }
+
     }
 
-    // Verifica si se envían remesas
-    $remesas = isset($_POST['remesas']) && $_POST['remesas'] == 'si' ? 'S' : 'N';
-
-    // Llamar al procedimiento almacenado
-    $id_tipo_motivos_str = implode(',', array_map('intval', $id_tipo_motivos));
-    $sql = "CALL InsertMigracionFamiliarData('$tiene_migrantes', '$migracion_dentro_pais', '$migracion_fuera_pais', '$id_tipo_motivos_str', '$remesas', '$creado_por')";
-
-    if (mysqli_query($conexion, $sql)) {
+    foreach($id_tipo_motivos as $id_motivo){
+        // Llamar al procedimiento almacenado
+        $sql = "CALL InsertMigracionFamiliarData($idFicha, $idProductor, '$tiene_migrantes', '$migracion_dentro_pais', '$migracion_fuera_pais', '$id_motivo', '$remesas', '$creado_por')";
+        $result = mysqli_query($conexion, $sql);
+    }
+    
+    if ($result) {
         // Redirige a la siguiente página
-        header("Location: siguiente_pagina.php");
-        exit(); // Detener la ejecución del script
+        //header("Location: siguiente_pagina.php");
+        //exit(); // Detener la ejecución del script
     } else {
         echo "Error al guardar los datos: " . mysqli_error($conexion);
     }

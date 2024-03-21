@@ -2,6 +2,23 @@
 session_start();
 $_SESSION['url'] = 'vistas/Llenar_ficha.php';
 $_SESSION['content-wrapper'] = 'content-wrapper';
+
+include "../php/conexion_be.php";
+
+    // Obtener el número actual de fichas
+    $sql = "SELECT id_ficha from fichas order by id_ficha desc limit 1";
+    $result = $conexion->query($sql);
+    $row = $result->fetch_assoc();
+
+    if($row>0){
+        $numeroFicha = $row['id_ficha'] + 1;
+    }else{
+        $numeroFicha = 1;
+    }
+
+    $_SESSION['id_ficha']=$numeroFicha;
+
+
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -250,7 +267,7 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-3">
                         <label for="codigo">Código Ficha</label>
 
-                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha" value="<?php echo obtenerNumeroFicha($conexion); ?>" readonly>
+                        <input type="text" class="form-control" id="codigo" placeholder="Código Ficha" value="<?php echo  $numeroFicha; ?>" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="fecha_solicitud">Fecha de Solicitud</label>
@@ -414,6 +431,7 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-3">
                         <label for="Id_Departamento">Departamento </label>
                         <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                            <option value="" selected disabled>Seleccione una opción</option>
                             <?php
                             // Conexión a la base de datos
                             include '../php/conexion_be.php';
@@ -441,82 +459,19 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-3">
                         <label for="Id_Municipio">Municipio:</label>
                         <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT Id_Municipio, Nombre_Municipio FROM Tbl_Municipios";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay municipios disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
+                            
                         </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Id_Aldea">Aldea:</label>
                         <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
-                            $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay aldeas disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
+                            <option value="" selected disabled>Seleccione una opción</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Id_Cacerio">Caseríos:</label>
                         <select class="form-control" id="Id_Cacerio" name="Id_Cacerio" required>
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
-                            $sql = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["Id_Cacerio"] . '">' . $row["Nombre_Cacerio"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay aldeas disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
+                            <option value="" selected disabled>Seleccione una opción</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
@@ -591,7 +546,7 @@ function obtenerNumeroFicha($conexion)
                         <div>
                             <input type="radio" id="si" name="pertenece" value="si" onclick="mostrarOrganizaciones()">
                             <label for="si"> Si </label>
-                            <input type="radio" id="no" name="pertenece" value="no" onclick="navigateToForm('#datosHogarForm')">
+                            <input type="radio" id="no" name="pertenece" value="no">
                             <label for="no"> No </label>
                         </div>
                     </div>
@@ -600,47 +555,7 @@ function obtenerNumeroFicha($conexion)
                     <div class="form-group col-md-8">
                         <label for="PerteneceOr">A qué organizaciones pertenece</label>
                         <br>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="organizacion" value="1">
-                            <label class="form-check-label" for="inlineCheckbox1">
-                                Asociación
-                            </label>
-                        </div>
-                        <div class="form-check ">
-                            <input class="form-check-input" type="checkbox" name="organizacion" value="2">
-                            <label class="form-check-label" for="inlineCheckbox2">
-                                Cooperativa
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="organizacion" value="3">
-                            <label class="form-check-label" for="inlineCheckbox3">
-                                Caja rural
-                            </label>
-                        </div>
-                        <div class="form-check ">
-                            <input class="form-check-input" type="checkbox" name="organizacion" value="4">
-                            <label class="form-check-label" for="inlineCheckbox4">
-                                Patronato
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="organizacion" value="5">
-                            <label class="form-check-label" for="inlineCheckbox5">
-                                Junta de agua
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="organizacion" value="otra" id="checkboxOtra" onchange="escribirOtra()">
-                            <label class="form-check-label" for="checkboxOtra">Otra </label>
-                        </div>
-                        <div id="otrasOrgContainer" class="hidden">
-                            <br>
-                            <label for="otrasOrg">Indique el(los) nombre(s) de la(s) organización(es)</label>
-                            <input type="text" class="cuadro-texto" id="otrasOrg" name="otrasOrg" placeholder="Escriba aquí...">
-                        </div>
-                        <br>
-
+                        <div class="form-checkbox" id="CheckboxOrganizacion"> </div>
                     </div>
                 </div>
                 <div class="modal-footer center-content-between">
@@ -820,7 +735,7 @@ function obtenerNumeroFicha($conexion)
                                 </div>
                             </div>
                             <br>
-                            <input type="radio" id="No" name="relevo" value="No" onclick="navigateToForm('#datosMigraForm')">
+                            <input type="radio" id="No" name="relevo" value="No">
                             <label for="No">No</label>
                         </div>
                     </div>
@@ -865,15 +780,8 @@ function obtenerNumeroFicha($conexion)
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label for="destino">¿Por qué emigró?</label>
-                        <div class="form-checkbox">
-                            <input type="checkbox" name="razon[]" value="estudio" id="estudio">
-                            <label for="estudio">Estudio</label>
-                            <input type="checkbox" name="razon[]" value="trabajo" id="trabajo">
-                            <label for="trabajo">Trabajo</label>
-                            <input type="checkbox" name="razon[]" value="violencia" id="violencia">
-                            <label for="violencia">Violencia</label>
-                            <input type="checkbox" name="razon[]" value="cambio_climatico" id="cambioClimatico">
-                            <label for="cambioClimatico">Cambio climático</label>
+                        <div class="form-checkbox" id="CheckboxMigracion">
+                            
                         </div>
                     </div>
                 </div>
@@ -1390,7 +1298,7 @@ function obtenerNumeroFicha($conexion)
 
                     <!-- Género -->
                     <div class="col-md-4">
-                        <div class="form-group" id="divGenero" style="display:none;">
+                        <div class="form-group" id="divGenero">
                             <label for="generoAnimal">Género</label>
                             <select class="form-control" id="generoAnimal" name="generoAnimal">
                                 <option value="Hembra">Hembra</option>
@@ -1423,7 +1331,7 @@ function obtenerNumeroFicha($conexion)
                             <th>Cantidad</th>
                         </tr>
                     </thead>
-                    <tbody id="tablaTemporal" class="table-hover">
+                    <tbody id="tablaTemporalAnimales" class="table-hover">
                         <!-- Los elementos agregados aparecerán aquí -->
                     </tbody>
                 </table>
@@ -1434,7 +1342,7 @@ function obtenerNumeroFicha($conexion)
                     <!-- Tipo de Animal -->
                     <div class="col-md-3">
                         <label for="tipoAnimal">Tipo de Animal</label>
-                        <select class="form-control" id="tipoAnimal" name="tipoAnimal">
+                        <select class="form-control" id="tipoAnimalU" name="tipoAnimalU">
                             <?php
                             // Conexión a la base de datos
                             include '../php/conexion_be.php';
@@ -1537,13 +1445,12 @@ function obtenerNumeroFicha($conexion)
             <form action="modelos/datosPrCoForm.php" method="POST" id="datosPrCoForm" class="form-section" style="display: none;">
                 <h3>11. Producción y Comercialización Pecuaria</h3>
 
-
                 <div class="row">
                     <!-- Formulario para tipo de producción -->
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="tipoProduccion">Tipo de Producción</label>
-                            <select class="form-control" id="tipoProduccion" name="tipoProduccion" required>
+                            <select class="form-control" id="tipoProduccion" name="tipoProduccion">
                                 <?php
                                 // Conexión a la base de datos
                                 include '../php/conexion_be.php';
@@ -1573,8 +1480,8 @@ function obtenerNumeroFicha($conexion)
                     <!-- Periodicidad -->
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="periodicidad">Periodicidad</label>
-                            <select class="form-control" id="unidadMedidaVenta" name="unidadMedidaVenta" required>
+                            <label for="unidadMedidaVenta">Periodicidad</label>
+                            <select class="form-control" id="periodoTiempo" name="periodoTiempo">
                                 <?php
                                 // Conexión a la base de datos
                                 include '../php/conexion_be.php';
@@ -1605,7 +1512,7 @@ function obtenerNumeroFicha($conexion)
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="unidadMedidaPC">Unidad de medida</label>
-                            <select class="form-control" id="unidadMedidaPC" name="unidadMedidaPC" required>
+                            <select class="form-control" id="unidadMedidaPC" name="unidadMedidaPC">
                                 <?php
                                 // Conexión a la base de datos
                                 include '../php/conexion_be.php';
@@ -1683,7 +1590,7 @@ function obtenerNumeroFicha($conexion)
                                     <th>A quién le vendió</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaDatosTemporal">
+                            <tbody id="tablaDatosPecuaria">
                                 <!-- Las filas agregadas se visualizarán aquí -->
                             </tbody>
                         </table>
@@ -1700,13 +1607,6 @@ function obtenerNumeroFicha($conexion)
             <!-- 12 -->
 
             <!-- 12 -->
-
-            <?php
-            include "../php/conexion_be.php";
-            include "../modelos/datosOtrosForm.php";
-           $tiposIngreso = obtenerTiposIngreso();
-            ?>
-
             <form action="modelos/datosOtrosForm.php" method="POST" id="datosOtrosForm" class="form-section" style="display: none;">
                 <h3>12. Otros ingresos en el hogar</h3>
 
@@ -1716,11 +1616,28 @@ function obtenerNumeroFicha($conexion)
                         <div class="form-group">
                             <label for="tipoIngreso">Tipo de Ingreso</label>
                             <select class="form-control" id="tipoIngreso" name="tipoIngreso">
-                                <?php foreach ($tiposIngreso as $tipo) : ?>
-                                    <option value="<?php echo htmlspecialchars($tipo['id_tipo_negocio']); ?>">
-                                        <?php echo htmlspecialchars($tipo['tipo_negocio']); ?>
-                                    </option>
-                                <?php endforeach; ?>
+                            <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_tipo_negocio, tipo_negocio FROM tbl_tipo_negocios ORDER BY id_tipo_negocio ASC";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_tipo_negocio"] . '">' . $row["tipo_negocio"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay tipos de negocio disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -1765,10 +1682,6 @@ function obtenerNumeroFicha($conexion)
 
 
             <!-- 13 -->
-            <?php
-            include "../modelos/datosCreditoForm.php";
-            ?>
-
             <form action="modelos/datosCreditoForm.php" method="POST" id="datosCreditoForm" class="form-section" style="display: none;">
                 <h3>13. Crédito para la producción agropecuaria</h3>
 
@@ -1783,20 +1696,12 @@ function obtenerNumeroFicha($conexion)
 
                 <!-- Opciones si la respuesta es SI -->
                 <div class="form-group" id="opcionesPrestamoSi" style="display: none;">
-                    <label>¿A quién acude?</label><br>
-                    <?php foreach ($fuentesCredito as $fuente) : ?>
-                        <input type="checkbox" id="fuente_<?php echo $fuente['id_fuente_credito']; ?>" name="fuentePrestamo" value="<?php echo $fuente['fuente_credito']; ?>">
-                        <label for="fuente_<?php echo $fuente['id_fuente_credito']; ?>"><?php echo $fuente['descripcion']; ?></label><br>
-                    <?php endforeach; ?>
+                    
                 </div>
 
                 <!-- Opciones si la respuesta es NO -->
                 <div class="form-group" id="opcionesPrestamoNo" style="display: none;">
-                    <label>¿Por qué no ha solicitado préstamos agropecuarios?</label><br>
-                    <?php foreach ($motivosNoCredito as $motivo) : ?>
-                        <input type="checkbox" id="motivo_<?php echo $motivo['id_motivos_no_credito']; ?>" name="motivoNoPrestamo" value="<?php echo $motivo['motivo_no_credito']; ?>">
-                        <label for="motivo_<?php echo $motivo['id_motivos_no_credito']; ?>"><?php echo $motivo['descripcion']; ?></label><br>
-                    <?php endforeach; ?>
+                    
                 </div>
 
                 <div class="modal-footer center-content-between">
@@ -1808,10 +1713,6 @@ function obtenerNumeroFicha($conexion)
 
 
             <!-- 14 -->
-            <?php
-            include "../modelos/datosActividadesForm.php";
-            ?>
-
             <form action="modelos/datosActividadesForm.php" method="POST" id="datosActividadesForm" class="form-section" style="display: none;">
                 <h3>14. Actividades externas a la unidad productiva</h3>
 
@@ -1849,12 +1750,7 @@ function obtenerNumeroFicha($conexion)
 
                 <div class="form-group" id="seccionTomadorDecisiones" style="display: none;">
                     <h4>14.1. ¿Quién es el tomador de decisiones con relación a las actividades agropecuarias de la finca?</h4>
-                    <?php foreach ($tomadoresDecisiones as $tomador) : ?>
-                        <div>
-                            <input type="checkbox" id="tomador_<?php echo $tomador['id_tipo_tomador']; ?>" name="tomadorDecisiones" value="<?php echo $tomador['tomador']; ?>">
-                            <label for="tomador_<?php echo $tomador['id_tipo_tomador']; ?>"><?php echo $tomador['descripcion']; ?></label>
-                        </div>
-                    <?php endforeach; ?>
+                    <div class="form-checkbox" id="CheckboxDecisiones"></div>
                 </div>
 
                 <div class="modal-footer center-content-between">
@@ -1866,40 +1762,21 @@ function obtenerNumeroFicha($conexion)
 
              <!-- 15 -->
 
-             <?php
-            include "../modelos/datosPracticaForm.php";
-            ?>
+                <form action="modelos/datosPracticaForm.php" method="POST" id="datosPracticaForm" class="form-section" style="display: none;">
+                    <h3>15. Prácticas para producción en la unidad productiva</h3>
 
-            <form action="modelos/datosPracticaForm.php" method="POST" id="datosPracticaForm" class="form-section" style="display: none;">
-                <h3>15. Prácticas para producción en la unidad productiva</h3>
-
-                <div class="form-group">
-                    <label>Seleccione las prácticas que realiza en su finca:</label>
-                    <div class="row">
-                        <?php $columns = 4; // Número de columnas deseado 
-                        ?>
-                        <?php $columnWidth = 12 / $columns; // Ancho de columna basado en un sistema de cuadrícula de 12 columnas 
-                        ?>
-                        <?php foreach ($practicasProductivas as $index => $practica) : ?>
-                            <?php if ($index % $columns == 0 && $index != 0) : ?>
+                    <div class="form-group">
+                        <label>Seleccione las prácticas que realiza en su finca:</label>
+                        <div class="form-checkbox" id="CheckboxPracticas"></div>
                     </div>
-                    <div class="row"> <!-- Cierra la fila actual y comienza una nueva cada 'n' prácticas -->
-                    <?php endif; ?>
-                    <div class="col-md-<?php echo $columnWidth; ?>">
-                        <input type="checkbox" id="practica_<?php echo $practica['id_tipo_practica']; ?>" name="practicas" value="<?php echo $practica['tipo_practica']; ?>">
-                        <label for="practica_<?php echo $practica['id_tipo_practica']; ?>"><?php echo $practica['tipo_practica']; ?></label>
+
+
+                    <div class="modal-footer center-content-between">
+                        <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosActividadesForm')">Regresar</button>
+                        <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosApoyoForm')" class="btn btn-actualizar">Siguiente</button>
+
                     </div>
-                <?php endforeach; ?>
-                    </div>
-                </div>
-
-
-                <div class="modal-footer center-content-between">
-                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosActividadesForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosApoyoForm')" class="btn btn-actualizar">Siguiente</button>
-
-                </div>
-            </form>
+                </form>
 
             <!-- 16 -->
 
@@ -1932,46 +1809,7 @@ function obtenerNumeroFicha($conexion)
 
                 <div class="form-group seccionOculta">
                     <label>¿Qué tipo de apoyo recibe? (selección múltiple)</label>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <input type="checkbox" id="credito" name="tipoApoyo" value="Credito">
-                            <label for="credito">Crédito</label><br>
-                            <input type="checkbox" id="semilla" name="tipoApoyo" value="Semilla">
-                            <label for="semilla">Semilla</label><br>
-                            <input type="checkbox" id="fertilizante" name="tipoApoyo" value="Fertilizante">
-                            <label for="fertilizante">Fertilizante</label><br>
-                            <input type="checkbox" id="capacitacion" name="tipoApoyo" value="Capacitacion">
-                            <label for="capacitacion">Capacitación</label><br>
-                            <input type="checkbox" id="asistenciaTecnica" name="tipoApoyo" value="AsistenciaTecnica">
-                            <label for="asistenciaTecnica">Asistencia técnica</label><br>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="checkbox" id="herramientasTrabajo" name="tipoApoyo" value="HerramientasTrabajo">
-                            <label for="herramientasTrabajo">Herramientas de trabajo</label><br>
-                            <input type="checkbox" id="sistemaRiego" name="tipoApoyo" value="SistemaRiego">
-                            <label for="sistemaRiego">Sistema de riego</label><br>
-                            <input type="checkbox" id="equipoAgricola" name="tipoApoyo" value="EquipoAgricola">
-                            <label for="equipoAgricola">Equipo agrícola</label><br>
-                            <input type="checkbox" id="silos" name="tipoApoyo" value="Silos">
-                            <label for="silos">Silos</label><br>
-                            <input type="checkbox" id="cosechadorasAgua" name="tipoApoyo" value="CosechadorasAgua">
-                            <label for="cosechadorasAgua">Cosechadoras de agua</label><br>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="checkbox" id="pieDeCria" name="tipoApoyo" value="PieDeCria">
-                            <label for="pieDeCria">Pie de cría</label><br>
-                            <input type="checkbox" id="informacionPrecios" name="tipoApoyo" value="InformacionPrecios">
-                            <label for="informacionPrecios">Información de precios</label><br>
-                            <input type="checkbox" id="comercializacionMercados" name="tipoApoyo" value="ComercializacionMercados">
-                            <label for="comercializacionMercados">Comercialización/mercados</label><br>
-                            <input type="checkbox" id="organizacionRural" name="tipoApoyo" value="OrganizacionRural">
-                            <label for="organizacionRural">Organización rural</label><br>
-                            <input type="checkbox" id="transformacionProductos" name="tipoApoyo" value="TransformacionProductos">
-                            <label for="transformacionProductos">Transformación de productos</label><br>
-                            <label for="otroTipoApoyo">Otro (especifique)</label>
-                            <input type="text" class="form-control" id="otroTipoApoyo" name="otroTipoApoyo">
-                        </div>
-                    </div>
+                    <div class="form-checkbox" id="CheckboxApoyo"></div>
                 </div>
 
                 <div class="form-group seccionOculta">
@@ -2006,6 +1844,8 @@ function obtenerNumeroFicha($conexion)
 </div>
 </div>
 <!-- Tu HTML existente -->
+
+<script src="assets/js/selectsUbicacionDinamicos.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -2130,15 +1970,21 @@ function obtenerNumeroFicha($conexion)
 
 <script>
     function agregarATabla() {
-        var tipoAnimal = document.getElementById('tipoAnimal').value;
+        var tipoAnimal = document.getElementById('tipoAnimal');
         var generoAnimal = document.getElementById('generoAnimal').value;
         var cantidadAnimal = document.getElementById('cantidadAnimal').value;
 
+        if(generoAnimal==''){
+            generoAnimal='No aplica'
+        }
+
+        var tipoAnimalName = tipoAnimal.options[tipoAnimal.selectedIndex].text;
+
         // Crear una nueva fila
-        var fila = "<tr><td>" + tipoAnimal + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td></tr>";
+        var fila = "<tr><td>" + tipoAnimalName + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td></tr>";
 
         // Agregar la fila a la tabla
-        document.getElementById('tablaTemporal').innerHTML += fila;
+        document.getElementById('tablaTemporalAnimales').innerHTML += fila;
 
         //Limpiar los campos después de agregar
         document.getElementById('tipoAnimal').value = '';
@@ -2183,13 +2029,14 @@ function obtenerNumeroFicha($conexion)
 
 <script>
     function agregarAUnidadesVendidas() {
-        var tipoAnimal = document.getElementById('tipoAnimalU').value;
+        var tipoAnimal = document.getElementById('tipoAnimalU');
         var precioVenta = document.getElementById('precioVentaU').value;
         var unidadMedida = document.getElementById('unidadMedida').value;
         var mercado = document.getElementById('mercado').value;
 
+        var tipoAnimalName = tipoAnimal.options[tipoAnimal.selectedIndex].text;
         // Crear una nueva fila para la tabla de unidades vendidas
-        var filaUnidadesVendidas = "<tr><td>" + tipoAnimal + "</td><td>" + precioVenta + "</td><td>" + unidadMedida + "</td><td>" + mercado + "</td></tr>";
+        var filaUnidadesVendidas = "<tr><td>" + tipoAnimalName + "</td><td>" + precioVenta + "</td><td>" + unidadMedida + "</td><td>" + mercado + "</td></tr>";
 
         // Agregar la fila a la tabla correspondiente
         document.getElementById('tablaUnidadesVendidas').innerHTML += filaUnidadesVendidas;
@@ -2204,29 +2051,35 @@ function obtenerNumeroFicha($conexion)
 
 <script>
     function agregarATablaProduccion() {
-        var tipoProduccion = document.getElementById('tipoProduccion').value;
-        var periodicidad = document.getElementById('periodicidad').value;
-        var unidadMedida = document.getElementById('unidadMedidaPC').value;
+        var tipoProduccion = document.getElementById('tipoProduccion');
+        var periodicidad = document.getElementById('periodoTiempo');
+        var unidadMedida = document.getElementById('unidadMedidaPC');
         var cantidadVendida = document.getElementById('cantidadVendidaPC').value;
         var precioVenta = document.getElementById('precioVentaPC').value;
         var cliente = document.getElementById('cliente').value;
 
+        console.log(periodicidad.value)
+
+        var tipoProduccionName = tipoProduccion.options[tipoProduccion.selectedIndex].text;
+        var periodicidadName = periodicidad.options[periodicidad.selectedIndex].text;
+        var unidadMedidaName = unidadMedida.options[unidadMedida.selectedIndex].text;
+
         // Crear una nueva fila para la tabla
         var nuevaFila = `<tr>
-                        <td>${tipoProduccion}</td>
-                        <td>${periodicidad}</td>
-                        <td>${unidadMedida}</td>
+                        <td>${tipoProduccionName}</td>
+                        <td>${periodicidadName}</td>
+                        <td>${unidadMedidaName}</td>
                         <td>${cantidadVendida}</td>
                         <td>${precioVenta}</td>
                         <td>${cliente}</td>
                      </tr>`;
 
         // Agregar la nueva fila a la tabla
-        document.getElementById('tablaDatosTemporal').innerHTML += nuevaFila;
+        document.getElementById('tablaDatosPecuaria').innerHTML += nuevaFila;
 
         // Limpiar los campos después de agregar
         document.getElementById('tipoProduccion').value = '';
-        document.getElementById('periodicidad').value = '';
+        document.getElementById('unidadMedidaVenta').value = '';
         document.getElementById('unidadMedidaPC').value = '';
         document.getElementById('cantidadVendidaPC').value = '';
         document.getElementById('precioVentaPC').value = '';
@@ -2236,12 +2089,13 @@ function obtenerNumeroFicha($conexion)
 
 <script>
     function agregarIngreso() {
-        var tipoIngreso = document.getElementById('tipoIngreso').value;
+        var tipoIngreso = document.getElementById('tipoIngreso');
         var cantidadIngreso = document.getElementById('cantidadIngreso').value;
 
+        var tipoIngresoName = tipoIngreso.options[tipoIngreso.selectedIndex].text;
         // Crear una nueva fila para la tabla
         var nuevaFila = `<tr>
-                        <td>${tipoIngreso}</td>
+                        <td>${tipoIngresoName}</td>
                         <td>${cantidadIngreso}</td>
                      </tr>`;
 
@@ -2394,7 +2248,47 @@ function obtenerNumeroFicha($conexion)
 </script>
 
 
+<script>
+    $(document).ready(function() {
+        $('#datosHogarForm').submit(function(e) {
+        // Captura los datos de la tabla
+        const tablaTemporal = document.getElementById('tablaTemporal');
+        const filas = tablaTemporal.querySelectorAll('tr');
 
+        // Array para almacenar los datos
+        const datos = [];
+
+        // Iterar sobre las filas y obtener los datos de cada celda
+        filas.forEach(fila => {
+            const celdas = fila.querySelectorAll('td');
+            const filaDatos = [];
+            celdas.forEach(celda => {
+                filaDatos.push(celda.textContent.trim());
+            });
+            datos.push(filaDatos);
+        });
+
+        // Convertir los datos a JSON
+        const datosJSON = JSON.stringify(datos);
+
+        // Enviar los datos al servidor mediante una solicitud AJAX
+        $.ajax({
+            url: 'modelos/datosHogarForm.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: datosJSON,
+            success: function(response) {
+                // Manejar la respuesta del servidor
+                console.log(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Manejar errores
+                console.error('Error:', errorThrown);
+            }
+        });
+    });
+});
+</script>
 
 <script>
     $(document).ready(function() {
@@ -2426,6 +2320,44 @@ function obtenerNumeroFicha($conexion)
 
 
 <script>
+    $("#CheckboxOrganizacion").load("demo.txt", function (responseTxt, statusTxt, xhr)  {
+        let contenedor=document.getElementById('CheckboxOrganizacion')
+        $.ajax({
+            url: "modelos/cargarDatosCheckbox.php",
+            type: "GET",
+            data: {checkbox:'Organizacion'},
+            success: function(data) {
+            const nombres=JSON.parse(data)
+        
+            var label = document.createElement("label");
+            nombres.forEach(nombre => {
+                    
+                    // Crear un nuevo elemento checkbox
+                    var checkbox = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    checkbox.type = 'checkbox';
+                    checkbox.id = 'miCheckbox';
+                    checkbox.name = 'organizacion[]';
+
+                    // Establecer el valor del checkbox
+                    checkbox.value = nombre.nombre;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'miCheckbox';
+                    label.appendChild(document.createTextNode(nombre.nombre));
+
+                    var br = document.createElement("br");
+
+                    contenedor.appendChild(checkbox);
+                    contenedor.appendChild(label);
+                    contenedor.appendChild(br);
+                }) 
+            },
+        });
+
+    })
+
     $(document).ready(function() {
         $('#datosPertenenciaForm').submit(function(e) {
             e.preventDefault(); // Evitar la recarga de la página
@@ -2539,6 +2471,42 @@ function obtenerNumeroFicha($conexion)
 
 
 <script>
+    $("#CheckboxMigracion").load("demo.txt", function (responseTxt, statusTxt, xhr)  {
+        let contenedor=document.getElementById('CheckboxMigracion')
+        $.ajax({
+            url: "modelos/cargarDatosCheckbox.php",
+            type: "GET",
+            data: {checkbox:'Migracion'},
+            success: function(data) {
+            const motivos=JSON.parse(data)
+        
+            motivos.forEach(motivo => {
+                    // Crear un nuevo elemento checkbox
+                    var checkbox = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    checkbox.type = 'checkbox';
+                    checkbox.id = 'miCheckbox';
+                    checkbox.name = 'razon[]';
+
+                    // Establecer el valor del checkbox
+                    checkbox.value = motivo.motivo;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'miCheckbox';
+                    label.appendChild(document.createTextNode(motivo.motivo));
+                    var br = document.createElement("br");
+                    
+                    contenedor.appendChild(checkbox);
+                    contenedor.appendChild(label);
+                    contenedor.appendChild(br);
+                }) 
+            },
+        });
+
+    })
+
+
     $(document).ready(function() {
         $('#datosMigraForm').submit(function(e) {
             e.preventDefault(); // Evitar la recarga de la página
@@ -2628,55 +2596,116 @@ function obtenerNumeroFicha($conexion)
 
 <script>
     $(document).ready(function() {
-        $('#datosPecuariaForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
+        document.getElementById('divGenero').style.display = "none"
 
-            // Realizar la solicitud AJAX
+        $('#datosPecuariaForm').submit(function(e) {
+            // Captura los datos de la primera tabla
+            const tablaTemporal1 = document.getElementById('tablaTemporalAnimales');
+            const filas1 = tablaTemporal1.querySelectorAll('tr');
+            const datos1 = [];
+
+            filas1.forEach(fila => {
+                const celdas = fila.querySelectorAll('td');
+                const filaDatos = [];
+                celdas.forEach(celda => {
+                    filaDatos.push(celda.textContent.trim());
+                });
+                datos1.push(filaDatos);
+            });
+
+            // Convertir los datos de la primera tabla a JSON
+            const datosJSON1 = JSON.stringify(datos1);
+
+            // Captura los datos de la segunda tabla
+            const tablaTemporal2 = document.getElementById('tablaUnidadesVendidas');
+            const filas2 = tablaTemporal2.querySelectorAll('tr');
+            const datos2 = [];
+
+            filas2.forEach(fila => {
+                const celdas = fila.querySelectorAll('td');
+                const filaDatos = [];
+                celdas.forEach(celda => {
+                    filaDatos.push(celda.textContent.trim());
+                });
+                datos2.push(filaDatos);
+            });
+
+            // Convertir los datos de la segunda tabla a JSON
+            const datosJSON2 = JSON.stringify(datos2);
+
+            // Combinar ambos conjuntos de datos si es necesario
+            const datosTotales = {
+                "tabla1": datosJSON1,
+                "tabla2": datosJSON2
+            };
+
+            const datosJSON = JSON.stringify(datosTotales);
+
+            // Enviar los datos al servidor mediante una solicitud AJAX
             $.ajax({
-                type: 'POST',
                 url: 'modelos/datosPecuariaForm.php',
-                data: $(this).serialize(),
+                type: 'POST',
+                contentType: 'application/json',
+                data: datosJSON,
                 success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    // Manejar la respuesta del servidor
                     console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
                 },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Manejar errores
+                    console.error('Error:', errorThrown);
                 }
             });
+
+            // Evitar que se envíe el formulario normalmente
+            e.preventDefault();
         });
-    });
+});
+
 </script>
 
 
 <script>
     $(document).ready(function() {
         $('#datosPrCoForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
+            // Captura los datos de la tabla
+            const tablaTemporal = document.getElementById('tablaDatosPecuaria');
+            const filas = tablaTemporal.querySelectorAll('tr');
 
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/datosPrCoForm.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
+                // Array para almacenar los datos
+                const datos = [];
+
+                // Iterar sobre las filas y obtener los datos de cada celda
+                filas.forEach(fila => {
+                    const celdas = fila.querySelectorAll('td');
+                    const filaDatos = [];
+                    celdas.forEach(celda => {
+                        filaDatos.push(celda.textContent.trim());
+                    });
+                    datos.push(filaDatos);
+                });
+
+                // Convertir los datos a JSON
+                const datosJSON = JSON.stringify(datos);
+
+                // Enviar los datos al servidor mediante una solicitud AJAX
+                $.ajax({
+                    url: 'modelos/datosPrCoForm.php',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: datosJSON,
+                    success: function(response) {
+                        // Manejar la respuesta del servidor
+                        console.log(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // Manejar errores
+                        console.error('Error:', errorThrown);
+                    }
+                });
+
+                 // Evitar que se envíe el formulario normalmente
+            e.preventDefault();
         });
     });
 </script>
@@ -2686,32 +2715,142 @@ function obtenerNumeroFicha($conexion)
 <script>
     $(document).ready(function() {
         $('#datosOtrosForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
+            // Captura los datos de la tabla
+            const tablaTemporal = document.getElementById('tablaIngresos');
+            const filas = tablaTemporal.querySelectorAll('tr');
 
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/datosOtrosForm.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
+                // Array para almacenar los datos
+                const datos = [];
+
+                // Iterar sobre las filas y obtener los datos de cada celda
+                filas.forEach(fila => {
+                    const celdas = fila.querySelectorAll('td');
+                    const filaDatos = [];
+                    celdas.forEach(celda => {
+                        filaDatos.push(celda.textContent.trim());
+                    });
+                    datos.push(filaDatos);
+                });
+
+                // Convertir los datos a JSON
+                const datosJSON = JSON.stringify(datos);
+                console.log(datosJSON)
+
+                // Enviar los datos al servidor mediante una solicitud AJAX
+                $.ajax({
+                    url: 'modelos/datosOtrosForm.php',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: datosJSON,
+                    success: function(response) {
+                        // Manejar la respuesta del servidor
+                        console.log(response);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // Manejar errores
+                        console.error('Error:', errorThrown);
+                    }
+                });
+
+                 // Evitar que se envíe el formulario normalmente
+            e.preventDefault();
         });
     });
 </script>
 
 
 <script>
+    $("#opcionesPrestamoSi").load("demo.txt", function (responseTxt, statusTxt, xhr)  {
+        let contenedor=document.getElementById('opcionesPrestamoSi')
+        $.ajax({
+            url: "modelos/cargarDatosCheckbox.php",
+            type: "GET",
+            data: {checkbox:'OpcionesPrestamo'},
+            success: function(data) {
+            const nombres=JSON.parse(data)
+        
+            var label = document.createElement("label");
+
+            label.innerText = "¿A quien acude?";
+            label.setAttribute("for", "miCheckbox");
+            contenedor.appendChild(label);
+
+            var br = document.createElement("br");
+            contenedor.appendChild(br);
+            nombres.forEach(nombre => {
+                    
+                    // Crear un nuevo elemento checkbox
+                    var checkbox = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    checkbox.type = 'checkbox';
+                    checkbox.id = 'miCheckbox';
+                    checkbox.name = 'fuentePrestamo[]';
+
+                    // Establecer el valor del checkbox
+                    checkbox.value = nombre.nombre;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'miCheckbox';
+                    label.appendChild(document.createTextNode(nombre.nombre));
+
+                    var br = document.createElement("br");
+
+                    contenedor.appendChild(checkbox);
+                    contenedor.appendChild(label);
+                    contenedor.appendChild(br);
+                }) 
+            },
+        });
+
+    })
+
+
+    $("#opcionesPrestamoNo").load("demo.txt", function (responseTxt, statusTxt, xhr)  {
+        let contenedor=document.getElementById('opcionesPrestamoNo')
+        $.ajax({
+            url: "modelos/cargarDatosCheckbox.php",
+            type: "GET",
+            data: {checkbox:'MotivoNoPrestamo'},
+            success: function(data) {
+            const nombres=JSON.parse(data)
+        
+            var label = document.createElement("label");
+
+            label.innerText = "¿Por qué no ha solicitado préstamos agropecuarios?";
+            label.setAttribute("for", "miCheckbox");
+            contenedor.appendChild(label);
+
+            var br = document.createElement("br");
+            contenedor.appendChild(br);
+            nombres.forEach(nombre => {
+                    // Crear un nuevo elemento checkbox
+                    var checkbox = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    checkbox.type = 'checkbox';
+                    checkbox.id = 'miCheckbox';
+                    checkbox.name = 'motivoNoPrestamo[]';
+
+                    // Establecer el valor del checkbox
+                    checkbox.value = nombre.nombre;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'miCheckbox';
+                    label.appendChild(document.createTextNode(nombre.nombre));
+
+                    var br = document.createElement("br");
+                    
+                    contenedor.appendChild(checkbox);
+                    contenedor.appendChild(label);
+                    contenedor.appendChild(br);
+                }) 
+            },
+        });
+
+    })
+
+    
     $(document).ready(function() {
         $('#datosCreditoForm').submit(function(e) {
             e.preventDefault(); // Evitar la recarga de la página
@@ -2740,6 +2879,41 @@ function obtenerNumeroFicha($conexion)
 
 
 <script>
+    $("#CheckboxDecisiones").load("demo.txt", function (responseTxt, statusTxt, xhr)  {
+        let contenedor=document.getElementById('CheckboxDecisiones')
+        $.ajax({
+            url: "modelos/cargarDatosCheckbox.php",
+            type: "GET",
+            data: {checkbox:'TomadorDecisiones'},
+            success: function(data) {
+            const motivos=JSON.parse(data)
+        
+            motivos.forEach(motivo => {
+                    // Crear un nuevo elemento checkbox
+                    var checkbox = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    checkbox.type = 'checkbox';
+                    checkbox.id = 'miCheckbox';
+                    checkbox.name = 'tomador[]';
+
+                    // Establecer el valor del checkbox
+                    checkbox.value = motivo.nombre;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'miCheckbox';
+                    label.appendChild(document.createTextNode(motivo.nombre));
+                    var br = document.createElement("br");
+                    
+                    contenedor.appendChild(checkbox);
+                    contenedor.appendChild(label);
+                    contenedor.appendChild(br);
+                }) 
+            },
+        });
+
+    })
+
     $(document).ready(function() {
         $('#datosActividadesForm').submit(function(e) {
             e.preventDefault(); // Evitar la recarga de la página
@@ -2767,6 +2941,41 @@ function obtenerNumeroFicha($conexion)
 </script>
 
 <script>
+    $("#CheckboxPracticas").load("demo.txt", function (responseTxt, statusTxt, xhr)  {
+        let contenedor=document.getElementById('CheckboxPracticas')
+        $.ajax({
+            url: "modelos/cargarDatosCheckbox.php",
+            type: "GET",
+            data: {checkbox:'Practicas'},
+            success: function(data) {
+            const motivos=JSON.parse(data)
+        
+            motivos.forEach(motivo => {
+                    // Crear un nuevo elemento checkbox
+                    var checkbox = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    checkbox.type = 'checkbox';
+                    checkbox.id = 'miCheckbox';
+                    checkbox.name = 'practicas[]';
+
+                    // Establecer el valor del checkbox
+                    checkbox.value = motivo.nombre;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'miCheckbox';
+                    label.appendChild(document.createTextNode(motivo.nombre));
+                    var br = document.createElement("br");
+                    
+                    contenedor.appendChild(checkbox);
+                    contenedor.appendChild(label);
+                    contenedor.appendChild(br);
+                }) 
+            },
+        });
+
+    })
+
     $(document).ready(function() {
         $('#datosPracticaForm').submit(function(e) {
             e.preventDefault(); // Evitar la recarga de la página
@@ -2794,6 +3003,57 @@ function obtenerNumeroFicha($conexion)
 </script>
 
 <script>
+    $("#CheckboxApoyo").load("demo.txt", function (responseTxt, statusTxt, xhr)  {
+        let contenedor=document.getElementById('CheckboxApoyo')
+        $.ajax({
+            url: "modelos/cargarDatosCheckbox.php",
+            type: "GET",
+            data: {checkbox:'Apoyo'},
+            success: function(data) {
+            const motivos=JSON.parse(data)
+        
+            motivos.forEach(motivo => {
+                    // Crear un nuevo elemento checkbox
+                    var checkbox = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    checkbox.type = 'checkbox';
+                    checkbox.id = 'miCheckbox';
+                    checkbox.name = 'apoyo[]';
+
+                    // Establecer el valor del checkbox
+                    checkbox.value = motivo.nombre;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'miCheckbox';
+                    label.appendChild(document.createTextNode(motivo.nombre));
+                    var br = document.createElement("br");
+                    
+                    contenedor.appendChild(checkbox);
+                    contenedor.appendChild(label);
+                    contenedor.appendChild(br);
+                }) 
+
+                var input = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    input.type = 'text';
+                    input.id = 'otroTipoApoyo';
+                    input.name = 'otroTipoApoyo';
+                    input.placeholder='Escriba aqui...'
+                    input.addClassList('cuadro-texto');
+
+
+                    var label2 = document.createElement('label');
+                    label2.htmlFor = 'otroTipoApoyo';
+                    label2.appendChild(document.createTextNode('Otro (especifique)'));
+                    container.appendChild(label2);
+                    container.appendChild(input);
+            },
+        });
+
+    })
+
     $(document).ready(function() {
         $('#datosApoyoForm').submit(function(e) {
             e.preventDefault(); // Evitar la recarga de la página
