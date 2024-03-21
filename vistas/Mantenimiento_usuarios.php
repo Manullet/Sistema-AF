@@ -48,11 +48,11 @@ if(isset($_SESSION['usuario'])) {
         <div>
             <h1 class="poppins-font mb-2">MANTENIMIENTO USUARIOS</h1>
             <br>
-            <?php if ($permiso_insercion == 1) : ?>
+            <?php if ($permiso_insercion == 1) : ?><!-- esto se agrega a todos los botones de creaer -->
                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                     <i class="nav-icon bi bi-people-fill"></i> Crear usuario
                 </a>
-            <?php endif; ?>
+            <?php endif; ?><!-- esto se agrega a todos los botones de creaer -->
         </div>
 
         <div class="mb-4 border-bottom">
@@ -113,15 +113,15 @@ if(isset($_SESSION['usuario'])) {
                             }
                             ?></td>
                         <td>
-                        <?php if ($permiso_actualizacion == 1) : ?>
+                        <?php if ($permiso_actualizacion == 1) : ?><!-- esto se agrega a todos los botones de actualizar -->
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar(
                                 '<?= $datos->Id_Usuario ?>', '<?= $datos->nombre_completo ?>', '<?= $datos->usuario ?>', '<?= $datos->correo ?>', '<?= $datos->id_estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                        <?php endif; ?>
+                        <?php endif; ?><!-- esto se agrega a todos los botones de actualizar -->
 
-                        <?php if ($permiso_eliminacion == 1) : ?>
+                        <?php if ($permiso_eliminacion == 1) : ?><!-- esto se agrega a todos los botones de eliminar -->
                             <form id="deleteForm" method="POST" action="modelos\delete_usuario.php" style="display: inline;">
                                 <input type="hidden" name="id" value="<?= $datos->id ?>">
                                 <button type="submit" class="btn btn-eliminar">
@@ -129,7 +129,7 @@ if(isset($_SESSION['usuario'])) {
                                     Eliminar
                                 </button>
                             </form>
-                        <?php endif; ?>
+                        <?php endif; ?><!-- esto se agrega a todos los botones de eliminar -->
                         </td>
                     </tr>
                 <?php }

@@ -1,7 +1,7 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_Organizaciones.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
+$_SESSION['url'] = 'vistas/Mantenimiento_Organizaciones.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@ session_start();
             <h1 class="poppins-font mb-2">ORGANIZACIONES</h1>
             <br>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
-            <i class="bi bi-plus-square icono-grande"></i> Crear 
+                <i class="bi bi-plus-square icono-grande"></i> Crear
             </a>
         </div>
 
@@ -66,24 +66,33 @@ session_start();
                     <th scope="col">Organización</th>
                     <th scope="col">Tipo de organización</th>
                     <th scope="col">Descripción</th>
-
+                    <th scope="col">estado</th>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
             </thead>
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM tbl_organizaciones");
+                $sql = $conexion->query("SELECT o.id_organizacion, o.organizacion, o.descripcion , o.estado ,t.tipo_organizacion AS tipo_organizacion
+                FROM tbl_organizaciones o
+                INNER JOIN tbl_tipo_organizacion t ON o.id_tipo_organizacion = t.id_tipo_organizacion;
+                ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
                         <td><?= $datos->id_organizacion ?></td>
                         <td><?= $datos->organizacion ?></td>
-                        <td><?= $datos->id_tipo_organizacion ?></td>
+                        <td><?= $datos->tipo_organizacion ?></td>
                         <td><?= $datos->descripcion ?></td>
-                        <!-- FALTA ESTADO -->
+                        <td><?php
+                            if ($datos->estado == "A") {
+                                echo '<span class="badge bg-success">Activo</span>';
+                            } else {
+                                echo '<span class="badge bg-danger">Inactivo</span>';
+                            }
+                            ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_organizacion ?>', '<?= $datos->organizacion ?>', '<?= $datos->id_tipo_organizacion ?>', '<?= $datos->descripcion ?>')">
+                             ('<?= $datos->id_organizacion ?>', '<?= $datos->organizacion ?>', '<?= $datos->id_tipo_organizacion ?>', '<?= $datos->descripcion ?>','<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
@@ -146,12 +155,34 @@ session_start();
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="id_tipo_organizacion">Tipo de organización</label>
-                                <input type="text" class="form-control" id="id_tipo_organizacion" name="id_tipo_organizacion" required>
+                                <label for="id_tipo_organizacion">Organizacion</label>
+                                <select class="form-control" id="id_tipo_organizacion" name="id_tipo_organizacion" required>
+                                    <option value="" disabled selected>Selecciona una Organizacion</option>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_organizacion, tipo_organizacion FROM tbl_tipo_organizacion";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_organizacion"] . '">' . $row["tipo_organizacion"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="descripcion">Descripción</label>
@@ -159,6 +190,17 @@ session_start();
                             </div>
                         </div>
                     </div>
+                    <div class="col-6">
+                        <div class="form-group ">
+                            <label for="estado">Estado</label>
+                            <select class="form-control" id="estado" name="estado" required>
+                                <option value="" disabled selected>Selecciona un estado</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
@@ -182,13 +224,44 @@ session_start();
             <div class="modal-body">
                 <form action="modelos/agregar_organizaciones.php" method="POST">
                     <div class="row mb-3">
-                        <div class="col">
+                        <div class="col-6">
                             <label for="organizacion" class="form-label">Organización</label>
                             <input type="text" class="form-control" id="organizacion" name="organizacion">
                         </div>
-                        <div class="col">
+
+                        <div class="col-6">
                             <label for="descripcion" class="form-label">Descripción</label>
                             <input type="text" class="form-control" id="descripcion" name="descripcion">
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="id_tipo_organizacion">organizacion</label>
+                                <select class="form-control" id="id_tipo_organizacion" name="id_tipo_organizacion" required>
+                                    <option value="" disabled selected>Selecciona una Organizacion</option>
+                                    <?php
+                                    // Conexión a la base de datos
+                                    include '../php/conexion_be.php';
+
+                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
+                                    $sql = "SELECT id_tipo_organizacion, tipo_organizacion FROM tbl_tipo_organizacion";
+
+                                    // Ejecutar la consulta
+                                    $result = mysqli_query($conexion, $sql);
+
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
+                                            echo '<option value="' . $row["id_tipo_organizacion"] . '">' . $row["tipo_organizacion"] . '</option>';
+                                        }
+                                    } else {
+                                        echo '<option value="">No hay aldeas disponibles</option>';
+                                    }
+
+                                    // Cierra la conexión a la base de datos
+                                    mysqli_close($conexion);
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -204,11 +277,12 @@ session_start();
 <!-- JavaScript para manejar la edición de organizacion -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_organizacion, organizacion, id_tipo_organizacion, descripcion) {
+    function abrirModalEditar(id_organizacion, organizacion, id_tipo_organizacion, descripcion, estado) {
         document.getElementById("id_organizacion").value = id_organizacion;
         document.getElementById("organizacion").value = organizacion;
         document.getElementById("id_tipo_organizacion").value = id_tipo_organizacion;
         document.getElementById("descripcion").value = descripcion;
+        document.getElementById("estado").value = estado;
 
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
     }

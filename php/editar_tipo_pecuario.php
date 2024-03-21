@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $modificado_por = $_SESSION["usuario"]["usuario"];
 
  
-    $sql = "CALL ActualizarTipoPecuario('$id_tipo_pecuario', '$tipo_pecuario', '$raza_con_genero', '$descripcion', '$estado','$modificado_por')";
+    $sql = "CALL ActualizarTipoPecuario('$id_tipo_pecuario', '$tipo_pecuario', '$raza_con_genero', '$descripcion', '$modificado_por','$estado')";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

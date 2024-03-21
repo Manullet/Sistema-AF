@@ -35,7 +35,7 @@ session_start();
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
         <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar

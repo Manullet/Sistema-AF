@@ -81,7 +81,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         <td><?= $datos->medida ?></td>
                         <td><?= $datos->descripcion ?></td>
                         <td><?php
-                            if ($datos->estado == "ACTIVO") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -156,12 +156,12 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="col-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>

@@ -7,7 +7,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Descripcion=$_POST["Descripcion"];
 
 
-    $sql = "CALL InsertarMotivo('$Motivo', '$Descripcion');";
+    $sql_verificar = "SELECT * FROM tbl_motivos_migracion WHERE Motivo = '$Motivo' ";
+    $resultado_verificar = $conexion->query($sql_verificar);
+    if ($resultado_verificar->num_rows > 0) {
+        // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+        echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Ya existe un Motivo con el mismo nombre.",
+                        icon: "error",
+                        confirmButtonText: "Cerrar"
+                    }).then(function() {
+                        window.history.back(); // Regresa a la página anterior
+                    });
+                });
+            </script>
+        ';
+    } else {$sql = "CALL InsertarMotivo('$Motivo', '$Descripcion');";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");
@@ -20,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
     }
-    
+}
     mysqli_close($conexion);
 }
 

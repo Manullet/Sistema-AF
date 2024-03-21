@@ -18,8 +18,8 @@ session_start();
         <div>
             <h1 class="poppins-font mb-2">ETNIAS</h1>
             <br>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#modalagregarEtnia" class="btn btn-info">
-                <i class="bi bi-plus-square icono-grande"></i> Crear
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
+            <i class="bi bi-plus-square icono-grande"></i> Crear 
             </a>
         </div>
 
@@ -29,11 +29,12 @@ session_start();
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar etnias..." aria-label="Search">
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar tipo de trabajador..." aria-label="Search">
                 </div>
             </form>
         </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
@@ -56,49 +57,43 @@ session_start();
         });
     </script>
 
-
     <div class="table-responsive">
 
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Código</th>
-                    <th scope="col">Etnia</th>
+                    <th scope="col">ETNIAS</th>
                     <th scope="col">Descripción</th>
-                    <th scope="col">Fecha</th>
                     <th scope="col">Estado</th>
-                    <th scope="col">Acciones</th>
+
+                    <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
             </thead>
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
                 $sql = $conexion->query("SELECT * FROM tbl_etnias");
-                while ($datos = $sql->fetch_object()) {
-                ?>
+                while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->id_etnia ?></td>
+                        <td><?= $datos->id_etnia?></td>
                         <td><?= $datos->etnia ?></td>
-                        <td><?= $datos->descripcion ?></td>
-                        <td><?= $datos->creado_por ?></td>
-                        <td><?= $datos->fecha_creacion ?></td>
-                        <td>
-                            <?php
-                            if ($datos->estado == 1) {
+                        <td><?= $datos->descripcion?></td>
+                        <td><?php
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
-                            ?>
-                        </td>
+                            ?></td>
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_etnia ?>', '<?= $datos->etnia ?>', '<?= $datos->descripcion ?>', '<?= $datos->creado_por ?>', '<?= $datos->fecha_creacion ?>', '<?= $datos->estado ?>')">
+                            ('<?= $datos->id_etnia?>', '<?= $datos->etnia?>', '<?= $datos->descripcion?>', '<?= $datos->estado?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="./php/eliminar_etnia.php" style="display: inline;">
-                                <input type="hidden" name="id_etnia" value="<?= $datos->id_etnia ?>">
+                            <form id="deleteForm" method="POST" action="modelos/eliminar_etnia.php" style="display: inline;">
+                                <input type="hidden" name="id_etnia" value="<?= $datos->id_etnia?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -127,7 +122,7 @@ session_start();
     </nav>
 </div>
 
-<!-- Modal para editar etnia -->
+<!-- Modal para editar tipo de trabajadores -->
 <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -153,7 +148,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="descripcion">Descripción</label>
@@ -163,12 +158,13 @@ session_start();
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
-                                <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="activo">Activo</option>
-                                <option value="inactivo">Inactivo</option>
+                            <option value="" disabled selected>Selecciona un estado</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
@@ -179,47 +175,29 @@ session_start();
     </div>
 </div>
 
-<!-- Modal para crear etnia -->
-<div class="modal fade" id="modalagregarEtnia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal para crear tipo de trabajadores -->
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR ETNIA</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR Etnia </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="../modelos/registro_usuario.php" method="POST">
+                <form action="modelos/Agregar_etnia.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
                             <label for="etnia" class="form-label">Etnia</label>
-                            <input type="text" class="form-control" id="etnia" name="etnia" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
-                            <span id="error_message" style="color: red;"></span>
+                            <input type="text" class="form-control" id="etnia" name="etnia">
                         </div>
                         <div class="col">
                             <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
-                            <span id="error_message" style="color: red;"></span>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion">
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-md-6">
-                            <label for="fechaCreacion">Fecha de creación</label>
-                            <input type="date" class="form-control" id="fechaCreacion" name="fechaCreacion">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="Status">Estado</label>
-                            <select class="form-control" id="Status" name="Status" required>
-                                <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="activo">Activo</option>
-                                <option value="inactivo">Inactivo</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-
-                    </div>
+                    
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
@@ -230,10 +208,10 @@ session_start();
     </div>
 </div>
 
-<!-- JavaScript para manejar la edición de etnias -->
+<!-- JavaScript para manejar la edición de tipo de trabajadores -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_etnia, etnia, descripcion, correo, usuario, estado) {
+    function abrirModalEditar(id_etnia, etnia, descripcion, estado) {
         document.getElementById("id_etnia").value = id_etnia;
         document.getElementById("etnia").value = etnia;
         document.getElementById("descripcion").value = descripcion;
@@ -243,21 +221,21 @@ session_start();
     }
 </script>
 
-<!-- Script para mostrar el mensaje al momento de editar-->
+<!-- Script para mostrar el mensaje al momento de editar un tipo de trabajador-->
 <script>
     $(document).ready(function() {
         $("#formularioEditar").on("submit", function(event) {
             event.preventDefault();
 
             $.ajax({
-                url: "php/actualizar_etnia.php",
+                url: "modelos/actualizar_etnia.php",
                 method: "POST",
                 data: $(this).serialize(),
                 success: function(response) {
                     if (response == "success") {
                         Swal.fire({
-                            title: "Registro actualizado correctamente",
-                            text: "La etnia se ha actualizado correctamente.",
+                            title: "Tipo de Etnia actualizado correctamente",
+                            text: "El tipo de Etnia se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -268,7 +246,7 @@ session_start();
                     } else {
                         Swal.fire({
                             title: "Error",
-                            text: "Hubo un problema al actualizar la Etnia.",
+                            text: "Hubo un problema al actualizar el tipo de Etnia.",
                             icon: "error",
                             confirmButtonText: "Cerrar"
                         }).then(function() {
@@ -281,61 +259,9 @@ session_start();
     });
 </script>
 
+<!-- Script para mostrar el mensaje al momento de eliminar un tipo de trabajador-->
 <script>
     $(document).ready(function() {
-        $("#modalagregarEtnia").on("submit", function(event) {
-            event.preventDefault();
-
-            $.ajax({
-                url: "php/Agregar_etnia.php",
-                method: "POST",
-                data: $(this).serialize(),
-                success: function(response) {
-                    if (response == "success") {
-                        Swal.fire({
-                            title: "Registro agregado correctamente",
-                            text: "La etnia se ha agregado correctamente.",
-                            icon: "success",
-                            showCancelButton: false,
-                            confirmButtonText: "Cerrar"
-                        }).then(function() {
-                            $("#modalagregarEtnia").modal("hide");
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "Error",
-                            text: "Hubo un problema al actualizar la Etnia.",
-                            icon: "error",
-                            confirmButtonText: "Cerrar"
-                        }).then(function() {
-                            location.reload();
-                        });
-                    }
-                }
-            });
-        });
-    });
-</script>
-
-
-<!-- Script para mostrar el mensaje al momento de eliminar un registro -->
-<script>
-    $(document).ready(function() {
-        // Función para guardar la posición de desplazamiento en localStorage
-        function saveScrollPosition() {
-            localStorage.setItem("scrollPosition", $(window).scrollTop());
-        }
-
-        // Función para restaurar la posición de desplazamiento desde localStorage
-        function restoreScrollPosition() {
-            var scrollPosition = localStorage.getItem("scrollPosition");
-            if (scrollPosition !== null) {
-                $(window).scrollTop(scrollPosition);
-                localStorage.removeItem("scrollPosition");
-            }
-        }
-
         $("form#deleteForm").on("submit", function(event) {
             event.preventDefault();
 
@@ -343,14 +269,13 @@ session_start();
 
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "Esta acción eliminará la etnia. Esta acción no se puede deshacer.",
+                text: "Esta acción eliminará la Etnia. Esta acción no se puede deshacer.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Sí, eliminar",
                 cancelButtonText: "Cancelar"
             }).then(function(result) {
                 if (result.isConfirmed) {
-                    saveScrollPosition(); // Guarda la posición de desplazamiento antes de la recarga
                     $.ajax({
                         url: form.attr("action"),
                         method: "POST",
@@ -358,8 +283,8 @@ session_start();
                         success: function(response) {
                             if (response == "success") {
                                 Swal.fire({
-                                    title: "Registro eliminado correctamente",
-                                    text: "Etnia eliminada.",
+                                    title: "Etnia eliminado correctamente",
+                                    text: "Etnia se ha eliminado correctamente.",
                                     icon: "success",
                                     showCancelButton: false,
                                     confirmButtonText: "Cerrar"
@@ -368,12 +293,12 @@ session_start();
                                 });
                             } else {
                                 Swal.fire({
-                                    title: "Error",
-                                    text: "Hubo un problema al eliminar el registro.",
-                                    icon: "error",
+                                    title: "Etnia eliminado correctamente",
+                                    text: "Etnia se ha eliminado correctamente.",
+                                    icon: "success",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {
-                                    location.reload();
+                                    location.reload(); // Recarga la página
                                 });
                             }
                         }
@@ -381,30 +306,6 @@ session_start();
                 }
             });
         });
-
-        // Restaura la posición de desplazamiento después de la recarga
-        restoreScrollPosition();
-    });
-</script>
-
-<script>
-    // Función para establecer la fecha actual en los campos de fecha
-    function setFechaActual() {
-        var fechaActual = new Date();
-        var dia = fechaActual.getDate();
-        var mes = fechaActual.getMonth() + 1;
-        var anio = fechaActual.getFullYear();
-
-        var fecha = anio + '-' + (mes < 10 ? '0' : '') + mes + '-' + (dia < 10 ? '0' : '') + dia;
-
-        // Establece la fecha actual en el campo de fecha de creación
-        var inputFechaCreacion = document.getElementById('fechaCreacion');
-        inputFechaCreacion.value = fecha;
-    }
-
-    // Agrega un evento para cuando el modal "modalForm" se muestra
-    $('#modalForm').on('shown.bs.modal', function() {
-        setFechaActual();
     });
 </script>
 
@@ -430,5 +331,4 @@ session_start();
         }
     }
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

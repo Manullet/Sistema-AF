@@ -10,7 +10,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <link rel="stylesheet" href="assets/css/estilos.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 
 <div class="containertable">
@@ -35,7 +35,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
     <div class="formulario-registros">
         <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
@@ -160,25 +160,19 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
                                     <option value="" disabled selected>Selecciona un Departamento</option>
                                     <?php
-                                    // Conexión a la base de datos
                                     include '../php/conexion_be.php';
 
-                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
                                     $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
-
-                                    // Ejecutar la consulta
                                     $result = mysqli_query($conexion, $sql);
 
                                     if (mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
-                                            // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
                                             echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
                                         }
                                     } else {
                                         echo '<option value="">No hay departamentos disponibles</option>';
                                     }
 
-                                    // Cierra la conexión a la base de datos
                                     mysqli_close($conexion);
                                     ?>
                                 </select>
@@ -189,28 +183,6 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 <label for="Id_Municipio">Municipio:</label>
                                 <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
                                     <option value="" disabled selected>Selecciona un Municipio</option>
-                                    <?php
-                                    // Conexión a la base de datos
-                                    include '../php/conexion_be.php';
-
-                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                                    $sql = "SELECT Id_Municipio, Nombre_Municipio FROM tbl_municipios";
-
-                                    // Ejecutar la consulta
-                                    $result = mysqli_query($conexion, $sql);
-
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
-                                            echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
-                                        }
-                                    } else {
-                                        echo '<option value="">No hay departamentos disponibles</option>';
-                                    }
-
-                                    // Cierra la conexión a la base de datos
-                                    mysqli_close($conexion);
-                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -218,48 +190,20 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             <div class="form-group">
                                 <label for="Id_Aldea">Aldea:</label>
                                 <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
-                                    <?php
-                                    // Conexión a la base de datos
-                                    include '../php/conexion_be.php';
-
-                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
-                                    $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
-
-                                    // Ejecutar la consulta
-                                    $result = mysqli_query($conexion, $sql);
-
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
-                                            echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
-                                        }
-                                    } else {
-                                        echo '<option value="">No hay aldeas disponibles</option>';
-                                    }
-
-                                    // Cierra la conexión a la base de datos
-                                    mysqli_close($conexion);
-                                    ?>
+                                    <option value="" disabled selected>Selecciona una Aldea</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                    <div class="col">
-                            <label for="Nombre_Cacerio" class="form-label">Nombre Caserío</label>
-                            <input type="text" class="form-control" id="Nombre_Cacerio" name="Nombre_Cacerio" >
-                           
-                        </div>
-                        
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Descripcion">Descripción</label>
-                                <input type="text" class="form-control" id="Descripcion" name="Descripcion" required>
+                                <label for="Id_Cacerio">Cacerío:</label>
+                                <select class="form-control" id="Id_Cacerio" name="Id_Cacerio" required>
+                                    <option value="" disabled selected>Selecciona un Cacerío</option>
+                                </select>
                             </div>
                         </div>
-                       </div>
-                       <div class="row">
-                       <div class="form-group col-md-6">
+
+                        <div class="form-group col-md-6">
                             <label for="Estado">Estado</label>
                             <select class="form-control" id="Estado" name="Estado" required>
                                 <option value="" disabled selected>Selecciona un estado</option>
@@ -267,7 +211,18 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 <option value="I">Inactivo</option>
                             </select>
                         </div>
-                       </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="Descripcion">Descripción</label>
+                                <textarea class="form-control" id="Descripcion" name="Descripcion" rows="4" required></textarea>
+                            </div>
+                        </div>
+
+                    </div>
 
 
 
@@ -276,145 +231,96 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>
                     </div>
-           
-            </form>
-        </div>
-    </div>
-</div>
-</div>
 
-<!-- Modal para crear cacerios -->
-<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" role="document">
-            <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">Caserío</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="modelos/agregar_cacerio.php" method="POST">
-                    <div class="row mb-3">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Departamento">Departamento:</label>
-                                <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
-                                    <option value="" disabled selected>Selecciona un Departamento</option>
-                                    <?php
-                                    // Conexión a la base de datos
-                                    include '../php/conexion_be.php';
-
-                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                                    $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
-
-                                    // Ejecutar la consulta
-                                    $result = mysqli_query($conexion, $sql);
-
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
-                                            echo '<option value="' . $row["Id_Departamento"] . '">' . $row["Nombre_Departamento"] . '</option>';
-                                        }
-                                    } else {
-                                        echo '<option value="">No hay departamentos disponibles</option>';
-                                    }
-
-                                    // Cierra la conexión a la base de datos
-                                    mysqli_close($conexion);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Municipio">Municipio:</label>
-                                <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
-                                    <option value="" disabled selected>Selecciona un Municipio</option>
-                                    <?php
-                                    // Conexión a la base de datos
-                                    include '../php/conexion_be.php';
-
-                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                                    $sql = "SELECT Id_Municipio, Nombre_Municipio FROM tbl_municipios";
-
-                                    // Ejecutar la consulta
-                                    $result = mysqli_query($conexion, $sql);
-
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            // Genera opciones con el nombre del departamento como etiqueta y el ID como valor
-                                            echo '<option value="' . $row["Id_Municipio"] . '">' . $row["Nombre_Municipio"] . '</option>';
-                                        }
-                                    } else {
-                                        echo '<option value="">No hay departamentos disponibles</option>';
-                                    }
-
-                                    // Cierra la conexión a la base de datos
-                                    mysqli_close($conexion);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="Id_Aldea">Aldea</label>
-                                <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
-                                    <?php
-                                    // Conexión a la base de datos
-                                    include '../php/conexion_be.php';
-
-                                    // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
-                                    $sql = "SELECT Id_Aldea, Nombre_Aldea FROM Tbl_Aldeas";
-
-                                    // Ejecutar la consulta
-                                    $result = mysqli_query($conexion, $sql);
-
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            // Genera opciones con el nombre del aldea como etiqueta y el ID como valor
-                                            echo '<option value="' . $row["Id_Aldea"] . '">' . $row["Nombre_Aldea"] . '</option>';
-                                        }
-                                    } else {
-                                        echo '<option value="">No hay aldeas disponibles</option>';
-                                    }
-
-                                    // Cierra la conexión a la base de datos
-                                    mysqli_close($conexion);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <label for="Nombre_Cacerio" class="form-label">Nombre Caserío</label>
-                            <input type="text" class="form-control" id="Nombre_Cacerio" name="Nombre_Cacerio" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
-                            <span id="error_message" style="color: red;"></span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <label for="Descripcion" class="form-label">Descripción</label>
-                        <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
-                        <span id="error_message" style="color: red;"></span>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-actualizar">Crear</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
-                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal para crear cacerios -->
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" role="document">
+                <div class="modal-header" style="background-color: #17A2B8;">
+                    <h5 class="poppins-modal mb-2" id="exampleModalLabel">Caserío</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="modelos/agregar_cacerio.php" method="POST">
+                        <!-- Agregar ComboBox de Departamento -->
+                        <div class="form-group">
+                            <label for="Id_Departamento">Departamento:</label>
+                            <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                                <option value="" disabled selected>Selecciona un Departamento</option>
+                                <?php
+                                // Requerir el archivo de conexión
+                                require '../php/conexion_be.php';
+
+                                // Consultar los departamentos
+                                $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos WHERE Estado = 'A'";
+                                $result = $conexion->query($sql);
+
+                                // Mostrar opciones de departamentos en el ComboBox
+                                if ($result->num_rows > 0) {
+                                    while($row = $result->fetch_assoc()) {
+                                        echo "<option value='" . $row["Id_Departamento"] . "'>" . $row["Nombre_Departamento"] . "</option>";
+                                    }
+                                } else {
+                                    echo "<option value=''>No hay departamentos disponibles</option>";
+                                }
+
+                                // Cerrar la conexión
+                                $conexion->close();
+                                ?>
+                            </select>
+                        </div>
+                        <!-- Agregar ComboBox de Municipio -->
+                        <div class="form-group">
+                            <label for="Id_Municipio">Municipio:</label>
+                            <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
+                                <option value="" disabled selected>Selecciona un Municipio</option>
+                            </select>
+                        </div>
+                        <!-- Agregar ComboBox de Aldea -->
+                        <div class="form-group">
+                            <label for="Id_Aldea">Aldea</label>
+                            <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
+                                <option value="" disabled selected>Selecciona una Aldea</option>
+                            </select>
+                        </div>
+                        <!-- Agregar campos de Nombre Caserío y Descripción -->
+                        <div class="form-group">
+                            <label for="Nombre_Cacerio" class="form-label">Nombre Caserío</label>
+                            <input type="text" class="form-control" id="Nombre_Cacerio" name="Nombre_Cacerio" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <span id="error_message" style="color: red;"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="Descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="Descripcion" name="Descripcion" rows="4" oninput="validateInput(this)"></textarea>
+                            <span id="error_message" style="color: red;"></span>
+                        </div>
+                        <!-- Botones para enviar el formulario o cancelar -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-actualizar">Crear</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <!-- JavaScript para manejar la edición de cacerios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Cacerio, Nombre_Cacerio, Descripcion, Id_Aldea,Id_Municipio,Id_Departamento,Estado) {
+    function abrirModalEditar(Id_Cacerio, Nombre_Cacerio, Descripcion, Id_Aldea, Id_Municipio, Id_Departamento, Estado) {
         document.getElementById("Id_Cacerio").value = Id_Cacerio;
         document.getElementById("Nombre_Cacerio").value = Nombre_Cacerio;
         document.getElementById("Descripcion").value = Descripcion;
-      
+
         document.getElementById("Id_Aldea").value = Id_Aldea;
         document.getElementById("Id_Municipio").value = Id_Municipio;
         document.getElementById("Id_Departamento").value = Id_Departamento;
@@ -424,6 +330,53 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     }
 </script>
 
+<script>
+        function cargarMunicipios() {
+            var departamentoSeleccionado = document.getElementById("Id_Departamento").value;
+            var xhttp;
+            if (departamentoSeleccionado == "") {
+                document.getElementById("Id_Municipio").innerHTML = '<option value="" disabled selected>Selecciona un Municipio</option>';
+                return;
+            }
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("Id_Municipio").innerHTML = this.responseText;
+                    document.getElementById("Id_Aldea").innerHTML = '<option value="" disabled selected>Selecciona una Aldea</option>';
+                }
+            };
+            xhttp.open("GET", "modelos/obtener_municipios.php?departamento=" + departamentoSeleccionado, true);
+            xhttp.send();
+        }
+
+        function cargarAldeas() {
+            var municipioSeleccionado = document.getElementById("Id_Municipio").value;
+            var xhttp;
+            if (municipioSeleccionado == "") {
+                document.getElementById("Id_Aldea").innerHTML = '<option value="" disabled selected>Selecciona una Aldea</option>';
+                return;
+            }
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("Id_Aldea").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "modelos/obtener_aldeas.php?municipio=" + municipioSeleccionado, true);
+            xhttp.send();
+        }
+
+        function validateInput(input) {
+            var regex = /^[A-Za-z]+$/;
+            var error_message = document.getElementById('error_message');
+
+            if (!regex.test(input.value)) {
+                error_message.textContent = 'Solo se permiten letras en este campo.';
+            } else {
+                error_message.textContent = '';
+            }
+        }
+    </script>
 
 <!-- Script para mostrar el mensaje al momento de editar un cacerio-->
 <script>
@@ -512,6 +465,13 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         });
     });
 </script>
+
+
+
+
+
+
+
 
 <script>
     $(document).ready(function() {

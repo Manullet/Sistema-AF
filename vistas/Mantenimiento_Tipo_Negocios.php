@@ -160,8 +160,8 @@ session_start();
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                             <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>

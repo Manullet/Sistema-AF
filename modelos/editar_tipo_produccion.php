@@ -2,7 +2,7 @@
 ob_start();
 include "../php/conexion_be.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_produccion = $_POST["id_tipo_produccion"];
+    $id_tipo_produccion = $_POST["id_tipo_produccion"];
     $tipo_produccion = $_POST["tipo_produccion"];
     $descripcion = $_POST["descripcion"];
     $estado = $_POST["estado"];

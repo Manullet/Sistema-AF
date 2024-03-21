@@ -164,8 +164,8 @@ session_start();
                             <label for="Estado">Estado</label>
                             <select class="form-control" id="Estado" name="Estado" required>
                             <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="iNACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -257,7 +257,17 @@ session_start();
                             $("#modalEditar").modal("hide");
                             location.reload(); // Recarga la página
                         });
-                    } else {
+                    }else if (response == "existe") {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ya existe un motivo de migracaion con el mismo nombre.",
+                            icon: "error",
+                            confirmButtonText: "Cerrar"
+                        }).then(function() {
+                            location.reload(); // Recarga la página
+                        });
+                    }
+                     else {
                         Swal.fire({
                             title: "Error",
                             text: "Hubo un problema al actualizar el motivo.",

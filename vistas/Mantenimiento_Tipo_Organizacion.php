@@ -63,7 +63,6 @@ session_start();
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Código</th>
-                    <th scope="col">Organización</th>
                     <th scope="col">Tipo de organización</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
@@ -81,7 +80,7 @@ session_start();
                         <td><?= $datos->tipo_organizacion ?></td>
                         <td><?= $datos->descripcion ?></td>
                         <td><?php
-                            if ($datos->estado == "ACTIVO") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -156,17 +155,18 @@ session_start();
                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
+                        
+                        <div class="col-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                             <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
+                    
+                    
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Actualizar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></i>Cerrar</button>

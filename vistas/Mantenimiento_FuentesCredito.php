@@ -85,7 +85,7 @@ session_start();
                         <td><?= $datos->fecha_creacion ?></td>
                         <td>
                             <?php
-                            if ($datos->estado == 1) {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -165,8 +165,8 @@ session_start();
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                             <option value="" disabled selected>Selecciona un estado</option>
-                            <option value="1">Activo</option>
-                                <option value="0">Inactivo</option>
+                            <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -191,11 +191,11 @@ session_start();
                 </button>
             </div>
             <div class="modal-body">
-                <form action="../modelos/registro_usuario.php" method="POST">
+                <form action="modelos/agregar_fuente_credito.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="etnia" class="form-label">Etnia</label>
-                            <input type="text" class="form-control" id="etnia" name="etnia">
+                            <label for="fuente_credito" class="form-label">Fuente de Credito</label>
+                            <input type="text" class="form-control" id="fuente_credito" name="fuente_credito">
                         </div>
                         <div class="col">
                             <label for="descripcion" class="form-label">Descripción</label>
@@ -203,23 +203,8 @@ session_start();
                             <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-md-6">
-                            <label for="fechaCreacion">Fecha de creación</label>
-                            <input type="date" class="form-control" id="fechaCreacion" name="fechaCreacion">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="Status">Estado</label>
-                            <select class="form-control" id="Status" name="Status" required>
-                            <option value="" disabled selected>Selecciona un estado</option>
-                            <option value="activo">Activo</option>
-                                <option value="inactivo">Inactivo</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-
-                    </div>
+                   
+                    
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>

@@ -80,7 +80,7 @@ session_start();
                         <td><?= $datos->tipo_produccion ?></td>
                         <td><?= $datos->descripcion ?></td>
                         <td><?php
-                            if ($datos->estado == "ACTIVO") {
+                            if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
                             } else {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
@@ -161,8 +161,8 @@ session_start();
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
                             <option value="" disabled selected>Selecciona un estado</option>
-                                <option value="ACTIVO">Activo</option>
-                                <option value="INACTIVO">Inactivo</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
                             </select>
                         </div>
                     </div>

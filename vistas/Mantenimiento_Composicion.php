@@ -67,7 +67,7 @@ session_start();
                     <th scope="col">Productor</th>
                     <th scope="col">genero</th>
                     <th scope="col">edad</th>
-                    <th scope="col">Descripción</th>
+
                     <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -82,7 +82,7 @@ session_start();
                 C.id_productor,
                 C.genero,
                 C.edad,
-                C.descripcion,
+               
                 C.creado_por,
                 C.fecha_creacion,
                 C.modificado_por,
@@ -106,7 +106,7 @@ session_start();
                             }
                             ?></td>
                         <td><?= $datos->edad ?></td>
-                        <td><?= $datos->descripcion?></td>
+
                         <td><?php
                             if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';

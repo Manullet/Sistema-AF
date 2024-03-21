@@ -1,3 +1,4 @@
+
 <?php
 ob_start(); 
 
@@ -5,9 +6,9 @@ include '../php/conexion_be.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $Id_motivo = $_POST["Id_motivo"];
+    $id_etnia = $_POST["id_etnia"];
 
-    $sql = "CALL EliminarMotivoMigracion($Id_motivo)";
+    $sql = "CALL EliminarEtnia($id_etnia)";
 /**este esta bueno msg */
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 
