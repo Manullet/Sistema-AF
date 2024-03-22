@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $Id_motivo = $_POST["Id_motivo"];
 
-    $sql = "CALL EliminarMotivoMigracion($Id_motivo)";
+    $sql = "CALL EliminarMotivo($Id_motivo)";
 /**este esta bueno msg */
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

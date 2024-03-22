@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $periodo = $_POST["periodo"];
     $descripcion = $_POST["descripcion"];
     $estado = $_POST["estado"];
+    
     $sql_verificar = "SELECT * FROM tbl_periodicidad WHERE periodo = '$periodo' AND id_periodo != '$id_periodo'";
    $resultado_verificar = $conexion->query($sql_verificar);
    if ($resultado_verificar->num_rows > 0) {
