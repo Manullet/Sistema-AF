@@ -12,6 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $estado = $_POST["estado"];
     $modificado_por = $_SESSION["usuario"]["usuario"];
 
+    $sql_verificar = "SELECT * FROM tbl_tipo_pecuarios WHERE tipo_pecuario = '$tipo_pecuario' AND id_tipo_pecuario != '$id_tipo_pecuario'";
+   $resultado_verificar = $conexion->query($sql_verificar);
+   if ($resultado_verificar->num_rows > 0) {
+    // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+    echo "existe";
+
+} else {
+
  
     $sql = "CALL ActualizarTipoPecuario('$id_tipo_pecuario', '$tipo_pecuario', '$raza_con_genero', '$descripcion', '$modificado_por','$estado')";
 
@@ -22,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ob_end_clean(); 
         echo "Error al actualizar el la etnia: " . mysqli_error($conexion);
     }
+}
+    
     
     mysqli_close($conexion);
 }
