@@ -7,6 +7,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $_POST["descripcion"];
     $estado = $_POST["estado"];
 
+
+
+    $sql_verificar = "SELECT * FROM tbl_medidas_tierra WHERE medida = '$medida' AND id_medida != '$id_medida'";
+   $resultado_verificar = $conexion->query($sql_verificar);
+   if ($resultado_verificar->num_rows > 0) {
+    // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+    echo "existe";
+
+} else {
+
+
+
     $sql = "CALL EditarMedidaTierra('$id_medida', '$medida', '$descripcion', '$estado');";
 
     if (mysqli_query($conexion, $sql)) {
@@ -16,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ob_end_clean(); 
         echo "Error al actualizar el periodo: " . mysqli_error($conexion);
     }
-    
+}
     mysqli_close($conexion);
 }
 ?>

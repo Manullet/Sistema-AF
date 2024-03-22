@@ -248,6 +248,15 @@ session_start();
                             $("#modalEditar").modal("hide");
                             location.reload(); // Recarga la página
                         });
+                    }else if (response == "existe") {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ya existe un periodo con el mismo nombre.",
+                            icon: "error",
+                            confirmButtonText: "Cerrar"
+                        }).then(function() {
+                            location.reload(); // Recarga la página
+                        });
                     } else {
                         Swal.fire({
                             title: "Error",

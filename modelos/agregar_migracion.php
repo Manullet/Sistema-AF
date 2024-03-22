@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 document.addEventListener("DOMContentLoaded", function() {
                     Swal.fire({
                         title: "Error!",
-                        text: "Ya existe un Motivo con el mismo nombre.",
+                        text: "Ya existe tipo de migracion con el mismo nombre.",
                         icon: "error",
                         confirmButtonText: "Cerrar"
                     }).then(function() {

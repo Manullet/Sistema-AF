@@ -244,7 +244,17 @@
                                 $("#modalEditar").modal("hide");
                                 location.reload(); // Recarga la página
                             });
-                        } else {
+                        }else if (response == "existe") {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ya existe un registro con el mismo nombre.",
+                            icon: "error",
+                            confirmButtonText: "Cerrar"
+                        }).then(function() {
+                            location.reload(); // Recarga la página
+                        });
+                    }
+                        else {
                             Swal.fire({
                                 title: "Error",
                                 text: "Hubo un problema al actualizar el tipo de trabajador.",
