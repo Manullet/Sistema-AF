@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ob_end_clean(); 
         echo "Error al actualizar el departamento: " . mysqli_error($conexion);
     }
-    
+
     mysqli_close($conexion);
 }
 ?>

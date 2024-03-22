@@ -14,6 +14,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Modificado_Por = $_SESSION["usuario"] ['usuario'];
     $Estado = $_POST["Estado"];
 
+     // Verifica si ya existe una categoría de cultivo con el mismo nombre
+   $sql_verificar = "SELECT * FROM tbl_aldeas WHERE Nombre_Aldea = '$Nombre_Aldea' AND Id_Municipio != '$Id_Municipio'";
+   $resultado_verificar = $conexion->query($sql_verificar);
+   if ($resultado_verificar->num_rows > 0) {
+       // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+       echo "existe";
+
+   } else {
+
     $sql = "CALL ActualizarAldea('$Id_Aldea', '$Id_Departamento', '$Id_Municipio', '$Nombre_Aldea','$Descripcion', '$Modificado_Por', '$Estado');";
 
     if (mysqli_query($conexion, $sql)) {
@@ -23,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ob_end_clean(); 
         echo "Error al actualizar la aldea: " . mysqli_error($conexion);
     }
-    
+} 
     mysqli_close($conexion);
 }
 ?>

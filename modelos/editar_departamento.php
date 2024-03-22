@@ -9,6 +9,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Modificado_Por = $_SESSION["usuario"]["usuario"];
     $Estado = $_POST["Estado"];
 
+    // Verifica si ya existe una categoría de cultivo con el mismo nombre
+   $sql_verificar = "SELECT * FROM tbl_departamentos WHERE Nombre_Departamento = '$Nombre_Departamento' AND Id_Departamento != '$Id_Departamento'";
+   $resultado_verificar = $conexion->query($sql_verificar);
+   if ($resultado_verificar->num_rows > 0) {
+    // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+    echo "existe";
+
+} else {
+
     $sql = "CALL ActualizarDepartamento('$Id_Departamento', '$Nombre_Departamento', '$Descripcion', '$Modificado_Por','$Estado');";
 
     if (mysqli_query($conexion, $sql)) {
@@ -18,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ob_end_clean(); 
         echo "Error al actualizar el departamento: " . mysqli_error($conexion);
     }
-    
+}  
     mysqli_close($conexion);
 }
 ?>

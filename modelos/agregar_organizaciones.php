@@ -6,6 +6,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $organizacion=$_POST["organizacion"];
     $descripcion=$_POST["descripcion"];
 
+    // Verifica si ya existe una categoría de cultivo con el mismo nombre
+  $sql_verificar = "SELECT * FROM tbl_organizaciones WHERE organizacion = '$organizacion' ";
+  $resultado_verificar = $conexion->query($sql_verificar);
+  if ($resultado_verificar->num_rows > 0) {
+      // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+      echo '
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+          <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                  Swal.fire({
+                      title: "Error!",
+                      text: "Ya existe un sector con el mismo nombre.",
+                      icon: "error",
+                      confirmButtonText: "Cerrar"
+                  }).then(function() {
+                      window.history.back(); // Regresa a la página anterior
+                  });
+              });
+          </script>
+      ';
+  } else {
+
 
     $sql = "CALL InsertarOrganizacion('$organizacion', '$descripcion')";
 

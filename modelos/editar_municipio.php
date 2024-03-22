@@ -10,7 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Modificado_Por = $_SESSION["usuario"]["usuario"];
     $Estado = $_POST["Estado"];
     
-    
+     // Verifica si ya existe una categoría de cultivo con el mismo nombre
+   $sql_verificar = "SELECT * FROM tbl_municipios WHERE Nombre_Municipio = '$Nombre_Municipio' AND Id_Municipio != '$Id_Municipio'";
+   $resultado_verificar = $conexion->query($sql_verificar);
+   if ($resultado_verificar->num_rows > 0) {
+       // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+       echo "existe";
+
+   } else {
 
     $sql = "CALL ActualizarMunicipio('$Id_Municipio','$Id_Departamento' ,'$Nombre_Municipio', '$Descripcion', '$Modificado_Por','$Estado');";
 
@@ -21,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ob_end_clean(); 
         echo "Error al actualizar el municipio: " . mysqli_error($conexion);
     }
-    
+}
     mysqli_close($conexion);
 }
 ?>

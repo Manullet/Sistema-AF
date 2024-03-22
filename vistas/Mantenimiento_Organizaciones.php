@@ -310,7 +310,17 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             $("#modalEditar").modal("hide");
                             location.reload(); // Recarga la página
                         });
-                    } else {
+                    }  else if (response == "existe") {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ya existe un nombre de organización con el mismo nombre.",
+                            icon: "error",
+                            confirmButtonText: "Cerrar"
+                        }).then(function() {
+                            location.reload(); // Recarga la página
+                        });
+                    } 
+                    else {
                         Swal.fire({
                             title: "Error",
                             text: "Hubo un problema al actualizar la organización.",
