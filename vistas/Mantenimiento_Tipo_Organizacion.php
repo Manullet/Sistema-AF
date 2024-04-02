@@ -55,6 +55,9 @@ session_start();
                     <th scope="col">Código</th>
                     <th scope="col">Tipo de organización</th>
                     <th scope="col">Descripción</th>
+                    <th scope="col">Fecha creacion</th>
+                    <th scope="col">Fecha Modificacion</th>
+
                     <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -69,6 +72,10 @@ session_start();
                         <td><?= $datos->id_tipo_organizacion ?></td>
                         <td><?= $datos->tipo_organizacion ?></td>
                         <td><?= $datos->descripcion ?></td>
+                        <td><?= $datos->fecha_creacion ?></td>
+                        <td><?= $datos->fecha_modificacion ?></td>
+
+
                         <td><?php
                             if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
@@ -80,13 +87,13 @@ session_start();
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->id_tipo_organizacion ?>', '<?= $datos->tipo_organizacion ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
-                                Editar
+                               
                             </button>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_tipo_organizacion.php" style="display: inline;">
                                 <input type="hidden" name="id_tipo_organizacion" value="<?= $datos->id_tipo_organizacion ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
-                                    Eliminar
+                                    
                                 </button>
                             </form>
                         </td>

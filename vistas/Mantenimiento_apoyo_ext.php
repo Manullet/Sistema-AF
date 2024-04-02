@@ -70,7 +70,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <th scope="col">¿Atencion por UAG?</th>
                     <th scope="col">¿Productos Vendidos por Pralesc?</th>
 
-                    <th scope="col">Descripción</th>
+
                     <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -114,7 +114,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                 echo '<span class="badge bg-danger">NO</span>';
                             }
                             ?></td>
-                        <td><?= $datos->descripcion ?></td>
+
                         <td><?php
                             if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';

@@ -163,7 +163,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row mb-3">
                         <div class="col">
                             <label for="medida" class="form-label">Medida</label>
-                            <input type="text" class="form-control" id="medida" name="medida" placeholder="Ingresa la medida" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)" required>
+                            <input type="text" class="form-control" id="medida" name="medida" placeholder="Ingresa la medida" required>
                             <span id="error_message" style="color: red;"></span>
                         </div>
 

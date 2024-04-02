@@ -89,7 +89,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->Id_Ingreso_Familiar ?></td>
+                        <td><?= $datos->Id_Ficha ?></td>
                         <td><?= $datos->tipo_negocio ?></td>
                         <td><?= $datos->Total_Ingreso ?></td>
                         <td><?= $datos->periodo ?></td>
