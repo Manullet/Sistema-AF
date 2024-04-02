@@ -27,30 +27,11 @@ session_start();
             <i class="bi bi-plus-square icono-grande"></i> Crear 
             </a>
         </div>
-
-        <div class="mb-4 border-bottom">
-            <form class="d-flex" role="search">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar tipo de trabajador..." aria-label="Search">
-                </div>
-            </form>
-        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
-    <div class="formulario-registros">
-        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
-            <select id="cantidadRegistros">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-            </select>
-            <span class="registros-text">Registros</span></label>
-    </div>
+
     <!--  funcion para mostrar registros -->
     <script>
         // Obtiene referencias a los elementos HTML
