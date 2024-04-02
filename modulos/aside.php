@@ -66,6 +66,12 @@
                                 <p>Roles</p>
                             </a>
                         </li>
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Bitacora.php','content-wrapper')">
+                                <i class="nav-icon bi bi-badge-ad"></i>
+                                <p>Bitacora</p>
+                            </a>
+                        </li>
                         <!-- desde aqui se puede añadir mas Mantenimientos -->
                     </ul>
                 </li>
