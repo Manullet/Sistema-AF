@@ -5,18 +5,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
 include "../php/conexion_be.php";
 
-// Obtener el número actual de fichas
-$sql = "SELECT id_ficha from fichas order by id_ficha desc limit 1";
-$result = $conexion->query($sql);
-$row = $result->fetch_assoc();
-
-if ($row > 0) {
-    $numeroFicha = $row['id_ficha'] + 1;
-} else {
-    $numeroFicha = 1;
-}
-
-$_SESSION['id_ficha'] = $numeroFicha;
+$numeroFicha = 3;
+$_SESSION['id_ficha'] = 3;
 
 
 ?>
@@ -160,24 +150,10 @@ $_SESSION['id_ficha'] = $numeroFicha;
         background-color: #1e90ff;
     }
 </style>
-<?php
-include "../php/conexion_be.php";
-function obtenerNumeroFicha($conexion)
-{
-    // Obtener el número actual de fichas
-    $sql = "SELECT COUNT(*) as id_ficha FROM fichas";
-    $result = $conexion->query($sql);
-    $row = $result->fetch_assoc();
-    $numeroFicha = $row['id_ficha'] + 1;
-
-    return $numeroFicha;
-}
-
-?>
 
 <div class="containertable">
     <div class="header">
-        <h1 class="poppins-font mb-2">FORMULARIO DE REGISTRO</h1>
+        <h1 class="poppins-font mb-2">EDICIÓN DE FICHA</h1>
         <div class="mb-4 border-bottom"></div>
     </div>
     <div class="main-content row">
@@ -260,7 +236,7 @@ function obtenerNumeroFicha($conexion)
         <!-- Formularios -->
         <div class="col-md-9">
             <!-- Datos de la ficha -->
-            <form action="modelos/agregar_ficha.php" method="POST" id="datosFichaForm" class="form-section">
+            <form action="modelos/EdicionFichas/editar_ficha.php" method="POST" id="datosFichaForm" class="form-section">
                 <h3>Ficha</h3>
                 <br>
                 <div class="form-row">
@@ -311,7 +287,7 @@ function obtenerNumeroFicha($conexion)
 
 
             <!-- Formulario de Datos Generales -->
-            <form action="modelos/datosTrabajadorForm.php" method="POST" id="datosTrabajadorForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editar_productor.php" method="POST" id="datosTrabajadorForm" class="form-section" style="display: none;">
                 <!-- Agrega el campo formType -->
                 <input type="hidden" name="formType" value="datosTrabajador">
                 <!-- Datos del Trabajador -->
@@ -421,7 +397,7 @@ function obtenerNumeroFicha($conexion)
             </form>
 
             <!-- Formulario de Ubicación Geográfica -->
-            <form action="modelos/datosUbiForm.php" method="POST" id="datosUbiForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editar-ubicacion.php" method="POST" id="datosUbiForm" class="form-section" style="display: none;">
                 <!-- Agrega el campo formType -->
                 <input type="hidden" name="formType" value="datosUbi">
                 <h3>Ubicación Geográfica</h3>
@@ -535,7 +511,7 @@ function obtenerNumeroFicha($conexion)
 
 
             <!-- Formulario de Pertenencia a Organizaciones -->
-            <form action="modelos/datosPertenenciaForm.php" method="POST" id="datosPertenenciaForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editar_organizacion_prod.php" method="POST" id="datosPertenenciaForm" class="form-section" style="display: none;">
                 <h3>Pertenencia a Organizaciones</h3>
                 <br>
                 <div class="form-row">
@@ -564,7 +540,7 @@ function obtenerNumeroFicha($conexion)
             </form>
 
             <!-- Formulario de Composición del hogar -->
-            <form action="modelos/datosHogarForm.php" method="POST" id="datosHogarForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editar_composicion.php" method="POST" id="datosHogarForm" class="form-section" style="display: none;">
                 <h3>Composición del Hogar</h3>
                 <br>
 
@@ -639,7 +615,7 @@ function obtenerNumeroFicha($conexion)
             </form>
 
             <!-- Formulario de Etnicidad-->
-            <form action="modelos/datosEtniaForm.php" method="POST" id="datosEtniaForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editar_etnia.php" method="POST" id="datosEtniaForm" class="form-section" style="display: none;">
                 <h3>Etnicidad</h3>
                 <br>
                 <div class="form-row">
@@ -716,7 +692,7 @@ function obtenerNumeroFicha($conexion)
             </form>
 
             <!-- Formulario de Relevo Generacional -->
-            <form action="modelos/datosRelevoForm.php" method="POST" id="datosRelevoForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editar_relevo.php" method="POST" id="datosRelevoForm" class="form-section" style="display: none;">
                 <h3>Relevo Generacional</h3>
                 <br>
                 <div class="form-row">
@@ -725,7 +701,7 @@ function obtenerNumeroFicha($conexion)
                         <div>
                             <input type="radio" id="Si" name="relevo" value="Si" onclick="mostrarCuadro()">
                             <label for="Si">Si</label>
-                            <div id="cuantos" class="hidden">
+                            <div id="cuantosHay" class="hidden">
                                 <div class="form-group col-md-8">
                                     <label for="cuantos">Cuantos</label>
                                     <input type="number" name="cuantos" id="cuantos" min="0" class="cuadro-texto">
@@ -749,17 +725,17 @@ function obtenerNumeroFicha($conexion)
             </form>
 
             <!-- Formulario de Migración Familiar -->
-            <form action="modelos/datosMigraForm.php" method="POST" id="datosMigraForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editar_migracion.php" method="POST" id="datosMigraForm" class="form-section" style="display: none;">
                 <h3>Migración Familiar</h3>
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label>Alguien del hogar ha emigrado?</label>
                         <div>
-                            <input type="radio" id="Si" name="migra" value="S">
+                            <input type="radio" id="MigraSi" name="migra" value="S">
                             <label for="Si">Si</label>
 
-                            <input type="radio" id="No" name="migra" value="N">
+                            <input type="radio" id="MigraNo" name="migra" value="N">
                             <label for="No">No</label>
                         </div>
                     </div>
@@ -808,7 +784,7 @@ function obtenerNumeroFicha($conexion)
 
 
             <!-- Formulario de Información Básica de la Unidad Productiva -->
-            <form action="modelos/datosUnidadForm.php" method="POST" id="datosUnidadForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editar_unidadProductiva.php" method="POST" id="datosUnidadForm" class="form-section" style="display: none;">
                 <h3>Información Básica de la Unidad Productiva</h3>
                 <br>
                 <div class="form-row">
@@ -1125,8 +1101,8 @@ function obtenerNumeroFicha($conexion)
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="sistemaRiego">¿Posee sistema de riego?</label><br>
-                        <input type="radio" name="sistemaRiego" value="Si"> Si
-                        <input type="radio" name="sistemaRiego" value="No"> No<br>
+                        <input type="radio" name="sistemaRiego" value="Si" id="SistemaSi"> Si
+                        <input type="radio" name="sistemaRiego" value="No" id="SistemaNo"> No<br>
                     </div>
 
                     <div class="form-group col-md-4">
@@ -1984,36 +1960,82 @@ function obtenerNumeroFicha($conexion)
 </div>
 </div>
 <!-- Tu HTML existente -->
-
-<script src="assets/js/selectsUbicacionDinamicos.js"></script>
-
 <script>
+   
+
     $(document).ready(function() {
-        $("#datosApoyoForm").submit(function(event) {
-            event.preventDefault();
+        $('#datosPertenenciaForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-            var formData = $(this).serialize();
-
+            // Realizar la solicitud AJAX
             $.ajax({
-                type: "POST",
-                url: "modelos/datosApoyoForm.php",
-                data: formData,
+                type: 'POST',
+                url: 'modelos/EdicionFichas/editar_organizacion_prod.php',
+                data: $(this).serialize(),
                 success: function(response) {
-                    alert("Formulario registrado con éxito");
-
-                    // Redirigir a la página de bienvenida
-                    window.location.href = "bienvenida.php";
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    //$('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
                 },
                 error: function(error) {
-                    console.error("Error en la petición AJAX", error);
+                    // Manejar el error si es necesario
+                    console.error(error);
                 }
             });
         });
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $("#CheckboxOrganizacion").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+            let contenedor = document.getElementById('CheckboxOrganizacion')
+            $.ajax({
+                url: "modelos/cargarDatosCheckbox.php",
+                type: "GET",
+                data: {
+                    checkbox: 'Organizacion'
+                },
+                success: function(data) {
+                    const nombres = JSON.parse(data)
+
+                    var label = document.createElement("label");
+                    nombres.forEach(nombre => {
+
+                        // Crear un nuevo elemento checkbox
+                        var checkbox = document.createElement('input');
+
+                        // Establecer el tipo de elemento como checkbox
+                        checkbox.type = 'checkbox';
+                        checkbox.id = nombre.id;
+                        checkbox.name = 'organizacion[]';
+
+                        // Establecer el valor del checkbox
+                        checkbox.value = nombre.nombre;
+
+                        var label = document.createElement('label');
+                        label.htmlFor = 'miCheckbox';
+                        label.appendChild(document.createTextNode(nombre.nombre));
+
+                        var br = document.createElement("br");
+
+                        contenedor.appendChild(checkbox);
+                        contenedor.appendChild(label);
+                        contenedor.appendChild(br);
+                    })
+                },
+            });
+
+        })
+    })
+</script>
 
 
+<script src="assets/js/selectsUbicacionDinamicos.js"></script>
+<script src="assets/js/cargarDatosFicha.js"></script>
 
 <script>
     function navigateToForm(sectionId) {
@@ -2072,7 +2094,7 @@ function obtenerNumeroFicha($conexion)
     //Relevo
     function mostrarCuadro() {
         var radioSi = document.getElementById("Si");
-        var cuantosDiv = document.getElementById("cuantos");
+        var cuantosDiv = document.getElementById("cuantosHay");
 
         if (radioSi.checked) {
             cuantosDiv.classList.remove("hidden");
@@ -2384,13 +2406,13 @@ function obtenerNumeroFicha($conexion)
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/agregar_ficha.php',
+                url: 'modelos/EdicionFichas/editar_ficha.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -2401,7 +2423,8 @@ function obtenerNumeroFicha($conexion)
             });
         });
     });
-</script>
+</script> 
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
@@ -2412,13 +2435,13 @@ function obtenerNumeroFicha($conexion)
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosTrabajadorForm.php',
+                url: 'modelos/EdicionFichas/editar_productor.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -2457,7 +2480,7 @@ function obtenerNumeroFicha($conexion)
 
             // Enviar los datos al servidor mediante una solicitud AJAX
             $.ajax({
-                url: 'modelos/datosHogarForm.php',
+                url: 'modelos/EdicionFichas/editar_composicion.php',
                 type: 'POST',
                 contentType: 'application/json',
                 data: datosJSON,
@@ -2482,82 +2505,13 @@ function obtenerNumeroFicha($conexion)
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosUbiForm.php',
+                url: 'modelos/EdicionFichas/editar-ubicacion.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-
-
-<script>
-    $("#CheckboxOrganizacion").load("demo.txt", function(responseTxt, statusTxt, xhr) {
-        let contenedor = document.getElementById('CheckboxOrganizacion')
-        $.ajax({
-            url: "modelos/cargarDatosCheckbox.php",
-            type: "GET",
-            data: {
-                checkbox: 'Organizacion'
-            },
-            success: function(data) {
-                const nombres = JSON.parse(data)
-
-                var label = document.createElement("label");
-                nombres.forEach(nombre => {
-
-                    // Crear un nuevo elemento checkbox
-                    var checkbox = document.createElement('input');
-
-                    // Establecer el tipo de elemento como checkbox
-                    checkbox.type = 'checkbox';
-                    checkbox.id = 'miCheckbox';
-                    checkbox.name = 'organizacion[]';
-
-                    // Establecer el valor del checkbox
-                    checkbox.value = nombre.nombre;
-
-                    var label = document.createElement('label');
-                    label.htmlFor = 'miCheckbox';
-                    label.appendChild(document.createTextNode(nombre.nombre));
-
-                    var br = document.createElement("br");
-
-                    contenedor.appendChild(checkbox);
-                    contenedor.appendChild(label);
-                    contenedor.appendChild(br);
-                })
-            },
-        });
-
-    })
-
-    $(document).ready(function() {
-        $('#datosPertenenciaForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/datosPertenenciaForm.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -2584,7 +2538,7 @@ function obtenerNumeroFicha($conexion)
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -2606,13 +2560,13 @@ function obtenerNumeroFicha($conexion)
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosEtniaForm.php',
+                url: 'modelos/EdicionFichas/editar_etnia.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -2634,13 +2588,13 @@ function obtenerNumeroFicha($conexion)
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosRelevoForm.php',
+                url: 'modelos/EdicionFichas/editar_relevo.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -2702,13 +2656,13 @@ function obtenerNumeroFicha($conexion)
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosMigraForm.php',
+                url: 'modelos/EdicionFichas/editar_migracion.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -2732,13 +2686,13 @@ function obtenerNumeroFicha($conexion)
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosUnidadForm.php',
+                url: 'modelos/EdicionFichas/editar_unidadProductiva.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -3074,7 +3028,7 @@ function obtenerNumeroFicha($conexion)
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -3139,7 +3093,7 @@ function obtenerNumeroFicha($conexion)
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -3203,7 +3157,7 @@ function obtenerNumeroFicha($conexion)
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },
@@ -3283,7 +3237,7 @@ function obtenerNumeroFicha($conexion)
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
                     // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
+                    //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres
                     // $('#guardarBtn').hide();
                 },

@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include "../php/conexion_be.php";
+include "../../php/conexion_be.php";
 session_start();
 
 // Verifica si se ha enviado un formulario
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idProductor = $row['id_productor'];
 
     // Obtener datos del formulario
-    $creado_por = $_SESSION["usuario"]["usuario"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
 
     // Verifica si la etnia es "Otros"
     if (isset($_POST['etnia']) && $_POST['etnia'] == 'Otros') {
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     var_dump($idFicha);
 
     // Llamar al procedimiento almacenado
-    $sql = "CALL InsertarEtniaProductor($idFicha,$idProductor,'$id_etnia', '$otraEtnia', '$creado_por')";
+    $sql = "CALL ActualizarEtniasPorProductor($idFicha,$idProductor,'$id_etnia', '$otraEtnia', '$modificado_por')";
 
     if (mysqli_query($conexion, $sql)) {
         // Redirige a la siguiente página

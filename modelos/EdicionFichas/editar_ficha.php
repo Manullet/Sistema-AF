@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include "../php/conexion_be.php";
+include "../../php/conexion_be.php";
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre_encuestado=$_POST["nombre_encuestado"];
     $nombre_supervisor=$_POST["nombre_supervisor"];
 
-    $creado_por = $_SESSION["usuario"]["usuario"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
 
 
-    $sql = "CALL InsertarFicha($idFicha,'$fecha_solicitud', '$anio_solicitud', '$descripcion','$creado_por','$fecha_entrevista','$nombre_encuestador', '$nombre_encuestado','$nombre_supervisor')";
+    $sql = "CALL ActualizarFicha($idFicha,'$fecha_solicitud', '$anio_solicitud', '$descripcion', '$modificado_por', 'A', '$fecha_entrevista','$nombre_encuestador', '$nombre_encuestado','$nombre_supervisor')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

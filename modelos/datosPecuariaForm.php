@@ -83,7 +83,7 @@ if (!empty($jsonData)) {
             // Consulta SQL para insertar los datos en la tabla
             $sql = "UPDATE tbl_produccion_pecuaria SET Precio_Venta=$precioVenta, Id_Medida_Venta='$unidadMedida', 
                     Cantidad_Mercado=$mercado, Creado_Por='$creado_por'
-            WHERE Id_Ficha=1 AND Id_Ubicacion=1 AND Id_Productor=1";
+            WHERE Id_Ficha=$idFicha AND Id_Ubicacion=$idUbicacion AND Id_Productor=$idProductor";
         
             // Ejecutar la consulta
             if (!mysqli_query($conexion, $sql)) {

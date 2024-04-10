@@ -110,6 +110,13 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                     Eliminar
                                 </button>
                             </form>
+                            <form id="duplicarForm" method="POST" action="modelos/duplicar_ficha.php" style="display: inline;">
+                                <input type="hidden" name="id_ficha" value="<?= $datos->id_ficha ?>">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-trash"></i>
+                                    Crear Registro para nuevo año
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 <?php }

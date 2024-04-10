@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include "../php/conexion_be.php";
+include "../../php/conexion_be.php";
 session_start();
 
 // Verifica si se ha enviado un formulario
@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idProductor = $row['id_productor'];
 
     // Obtener datos del formulario
-    $creado_por = $_SESSION["usuario"]["usuario"]; // Reemplaza con la lógica adecuada para obtener el nombre de usuario
+    $modificado_por = $_SESSION["usuario"]["usuario"]; // Reemplaza con la lógica adecuada para obtener el nombre de usuario
 
     // Verifica si se seleccionó "Si" para prestamo
     $perteneceOrganizacion = trim($_POST['pertenece'] == 'si' ? 'S' : 'N');
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_tipo_organizacion = array();
 
         // Llamar al procedimiento almacenado
-        $sql = "CALL InsertarBaseOrganizacion($idFicha, $idProductor, '$perteneceOrganizacion', null, '$creado_por')";
+        $sql = "CALL ActualizarBaseOrganizacion($idFicha, $idProductor, '$perteneceOrganizacion', null, '$modificado_por')";
         $result = mysqli_query($conexion, $sql);
 
         if ($result) {
@@ -57,12 +57,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
         foreach($id_tipo_organizacion as $id_organizacion){
             // Llamar al procedimiento almacenado
-            $sql = "CALL InsertarOrganizacionProductor($idFicha, $id_organizacion,$idProductor, null, '$creado_por')";
+            $sql = "CALL InsertarOrganizacionProductor($idFicha, $id_organizacion,$idProductor, null, '$modificado_por')";
             $result = mysqli_query($conexion, $sql);
         }
     }else{
         // Llamar al procedimiento almacenado
-        $sql = "CALL InsertarBaseOrganizacion($idFicha, $idProductor, '$perteneceOrganizacion', null, '$creado_por')";
+        $sql = "CALL ActualizarBaseOrganizacion($idFicha, $idProductor, '$perteneceOrganizacion', null, '$modificado_por')";
         $result = mysqli_query($conexion, $sql);
 
         if ($result) {

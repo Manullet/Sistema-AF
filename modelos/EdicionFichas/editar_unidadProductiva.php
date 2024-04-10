@@ -1,11 +1,12 @@
 <?php
 ob_start();
 // Incluye el archivo de conexión
-include "../php/conexion_be.php";
+include "../../php/conexion_be.php";
 session_start();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Obtener los datos del formulario
     $idFicha=$_SESSION['id_ficha'];
 
     $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
@@ -43,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $p_Disponibilidad_Agua_Meses = $_POST['disponibilidadAgua'];
 
     // Llamar al procedimiento almacenado
-    $query = "CALL TempInsertarUnidadProductoraYRiego(
+    $query = "CALL ActualizarUnidadProductoraYRiego(
         $idUbicacion,
         $idFicha,
         $idProductor,
@@ -63,12 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         '$p_Superficie_Otros',
         '$creado_por',  
         '$p_Tiene_Riego',
-        $p_Superficie_Riego,
          $p_Medida_Riego ,
+        '$p_Superficie_Riego',
         '$p_Id_Tipo_Riego',
         '$p_Fuente_Agua',
         '$p_Disponibilidad_Agua_Meses'
     )";
+
     $result = mysqli_query($conexion, $query);
 
     if ($result) {

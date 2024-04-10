@@ -172,7 +172,7 @@ switch($generarCheckbox){
 
 
     case 'Organizacion': 
-        $query = "SELECT organizacion FROM tbl_organizaciones";
+        $query = "SELECT id_organizacion, organizacion FROM tbl_organizaciones";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -183,7 +183,50 @@ switch($generarCheckbox){
             // Iterar sobre los resultados y guardar los datos en el array
             while ($row = mysqli_fetch_assoc($result)) {
                 $organizacion = array(
-                    'nombre' => $row['organizacion']
+                    'nombre' => $row['organizacion'],
+                    'id' => $row['id_organizacion']
+                );
+                $organizaciones[] = $organizacion;
+            }
+
+            // Convertir el array a formato JSON
+            $json_response = json_encode($organizaciones);
+
+            // Retornar el JSON como respuesta
+            echo $json_response;
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron motivos";
+        }
+
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
+
+
+    case 'OrganizacionDetalle': 
+        $id=$_GET['id'];
+
+        $sql = "SELECT id_productor from tbl_productor where id_ficha='$id' order by id_productor asc limit 1";
+        $result = $conexion->query($sql);
+        $row = $result->fetch_assoc();
+
+        $idProductor = $row['id_productor'];
+
+        $query = "SELECT Id_Organizacion_Productor from tbl_organizaciones_por_productor WHERE id_ficha = $id
+        AND id_productor = $idProductor";
+        $result = mysqli_query($conexion, $query);
+
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            // Array para almacenar los datos de los municipios
+            $organizaciones = array();
+
+            // Iterar sobre los resultados y guardar los datos en el array
+            while ($row = mysqli_fetch_assoc($result)) {
+                $organizacion = array(
+                    'Id_Organizacion' => $row['Id_Organizacion_Productor'],
                 );
                 $organizaciones[] = $organizacion;
             }

@@ -25,6 +25,12 @@
                         <p>Llenar Formulario</p>
                     </a>
                 </li>
+                <li class="nav-item nav-item-custom">
+                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/editar_ficha.php','content-wrapper')">
+                        <i class="bi bi-file-earmark-plus-fill"></i>
+                        <p>Editar Formulario</p>
+                    </a>
+                </li>
 
                 <li class="nav-item has-treeview">
                     <a style="cursor:pointer;" class="nav-link">
@@ -41,6 +47,13 @@
                                 <p>Objetos</p>
                             </a>
                         </li>
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_usuarios.php','content-wrapper')">
+                                <i class="nav-icon bi bi-people-fill"></i>
+                                <p>Usuarios</p>
+                            </a>
+                        </li>
+
                         <li class="nav-item nav-item-custom">
                             <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_usuarios.php','content-wrapper')">
                                 <i class="nav-icon bi bi-people-fill"></i>

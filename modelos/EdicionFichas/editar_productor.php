@@ -1,7 +1,7 @@
 <?php
 ob_start();
 // Incluye el archivo de conexión
-include "../php/conexion_be.php";
+include "../../php/conexion_be.php";
 session_start();
 
 // Verifica si se ha enviado un formulario
@@ -25,11 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correoPrincipal = $_POST['correoPrincipal'];
     $correoSecundario = $_POST['correoSecundario'];
     $correoOpcional = $_POST['correoOpcional'];
-    $creado_por = $_SESSION["usuario"]["usuario"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
 
     // Llamar al procedimiento almacenado
-    $sql = "CALL Temp_Insertar_Productor(
-         '$idFicha',
+    $sql = "CALL ActualizarProductor(
+        '$idFicha',
         '$primerNombre',
         '$segundoNombre',
         '$primerApellido',
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         '$correoPrincipal',
         '$correoSecundario',
         '$correoOpcional',
-        '$creado_por'
+        '$modificado_por'
     )";
 
     if (mysqli_query($conexion, $sql)) {

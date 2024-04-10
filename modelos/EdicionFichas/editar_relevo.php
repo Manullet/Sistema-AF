@@ -1,11 +1,11 @@
 <?php
+// Incluye el archivo de conexión a la base de datos
 ob_start();
-include "../php/conexion_be.php";
+include "../../php/conexion_be.php";
 session_start();
 
 // Verifica si se ha enviado un formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $idFicha=$_SESSION['id_ficha'];
 
     $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
@@ -15,24 +15,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idProductor = $row['id_productor'];
 
     // Obtener datos del formulario
-    $creado_por = $_SESSION["usuario"]["usuario"];
+    $creado_por = $_SESSION["usuario"]["usuario"]; // Reemplaza con la lógica adecuada para obtener el nombre de usuario
 
-    // Verifica si la etnia es "Otros"
-    if (isset($_POST['etnia']) && $_POST['etnia'] == 'Otros') {
-        $id_etnia = 11;
-        $otraEtnia = $_POST['otrasEtn'];
+    // Verifica si se seleccionó "Si" para relevo generacional
+    if (isset($_POST['relevo']) && $_POST['relevo'] == 'Si') {
+        $tendra_relevo = 'S';
+        $cuantos_relevos = isset($_POST['cuantos']) ? $_POST['cuantos'] : 0;
     } else {
-        $id_etnia = $_POST['etnia'];
-        $otraEtnia = null;
+        $tendra_relevo = 'N';
+        $cuantos_relevos = 0;
     }
-    var_dump($idFicha);
 
     // Llamar al procedimiento almacenado
-    $sql = "CALL InsertarEtniaProductor($idFicha,$idProductor,'$id_etnia', '$otraEtnia', '$creado_por')";
+    $sql = "CALL ActualizarRelevoOrganizacion($idFicha, $idProductor, '$tendra_relevo', '$cuantos_relevos', '$creado_por')";
 
     if (mysqli_query($conexion, $sql)) {
         // Redirige a la siguiente página
-        header("Location: ../bienvenida.php?success=true&message=La Pregunta se actualizó correctamente#datosRelevoForm");
+        header("Location: siguiente_pagina.php");
         exit(); // Detener la ejecución del script
     } else {
         echo "Error al guardar los datos: " . mysqli_error($conexion);
