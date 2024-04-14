@@ -25,12 +25,6 @@
                         <p>Llenar Formulario</p>
                     </a>
                 </li>
-                <li class="nav-item nav-item-custom">
-                    <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/editar_ficha.php','content-wrapper')">
-                        <i class="bi bi-file-earmark-plus-fill"></i>
-                        <p>editar Formulario</p>
-                    </a>
-                </li>
 
                 <li class="nav-item has-treeview">
                     <a style="cursor:pointer;" class="nav-link">
