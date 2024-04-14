@@ -210,6 +210,37 @@ $(document).ready(function() {
     });
 
 
+    $("#datosPertenenciaForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+
+            $.ajax({
+                url: "modelos/cargarDatosFicha.php",
+                type: "GET",
+                data: {
+                    contenedor: 'OrganizacionesNombres', id:id
+                },
+                success: function(data) {
+                    const datos = JSON.parse(data)
+
+                    datos.forEach(function(item) {
+                        var checkboxes = document.getElementsByName('organizacion[]');
+            
+                        // Filtra los checkboxes por el valor del atributo 'value'
+                        var checkbox = Array.from(checkboxes).find(function(cb) {
+                            return cb.value === item.organizacion;
+                        });
+            
+                        if (checkbox !== undefined) {
+                            checkbox.checked = true;
+                        } 
+                    });
+                    
+                },
+            });
+            
+    });
+
+
     $("#datosEtniaForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
         let id= document.getElementById('codigo').value;
         $.ajax({
@@ -279,11 +310,11 @@ $(document).ready(function() {
                 const datos = JSON.parse(data)
 
                 if(datos.relevo=='S'){
-                    document.getElementById('Si').checked = true;
+                    document.getElementById('relevoSi').checked = true;
                     document.getElementById('cuantos').value = datos.cantidad;
-                    mostrarCuadro();
+                    $('#cuantosHay').show();
                 }else{
-                    document.getElementById('No').checked = true;
+                    document.getElementById('relevoNo').checked = true;
                 }
                 
             },
@@ -312,19 +343,50 @@ $(document).ready(function() {
 
                 if(datos.migracion_dentro_pais=='S'){
                     document.getElementById('dentroDelPais').checked = true;
-                }else{
+                }else if(datos.migracion_dentro_pais=='N' && datos.tiene_migrantes=='S'){
                     document.getElementById('otroPais').checked = true;
                 }
 
 
                 if(datos.remesas=='S'){
                     document.getElementById('siRemesas').checked = true;
-                }else{
+                }else if(datos.remesas=='N' && datos.tiene_migrantes=='S'){
                     document.getElementById('noRemesas').checked = true;
                 }
 
             },
         });
+    });
+
+
+    $("#datosMigraForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+
+            $.ajax({
+                url: "modelos/cargarDatosFicha.php",
+                type: "GET",
+                data: {
+                    contenedor: 'MotivosMigracion', id:id
+                },
+                success: function(data) {
+                    const datos = JSON.parse(data)
+
+                    datos.forEach(function(item) {
+                        var checkboxes = document.getElementsByName('razon[]');
+            
+                        // Filtra los checkboxes por el valor del atributo 'value'
+                        var checkbox = Array.from(checkboxes).find(function(cb) {
+                            return cb.value === item.Motivo;
+                        });
+            
+                        if (checkbox !== undefined) {
+                            checkbox.checked = true;
+                        } 
+                    });
+                    
+                },
+            });
+            
     });
 
 
@@ -356,19 +418,24 @@ $(document).ready(function() {
                         console.log("Número inválido de día");
                 }
 
+                console.log(datos.rubro_agricultura)
+
                 document.getElementById('Id_Superficie_Produccion').value= datos.Id_Medida_Produccion
                 document.getElementById('Id_Superficie_Agricultura').value= datos.Id_Medida_Agricultura
                 document.getElementById('areaAgricultura').value= datos.Superficie_Agricultura
+                document.getElementById('rubrosAgricultura').value= datos.rubro_agricultura
                 document.getElementById('Id_Superficie_Ganaderia').value= datos.Id_Medida_Ganaderia
                 document.getElementById('areaGanaderia').value= datos.Superficie_Ganaderia
+                document.getElementById('rubrosGanaderia').value= datos.rubro_ganaderia
                 document.getElementById('Id_Superficie_Apicultura').value= datos.Id_Medida_Apicultura
                 document.getElementById('areaApicultura').value= datos.Superficie_Apicultura
                 document.getElementById('Id_Superficie_Forestal').value= datos.Id_Medida_Forestal
                 document.getElementById('areaForestal').value= datos.Superficie_Forestal
-                
+                document.getElementById('rubrosForestal').value= datos.rubro_forestal
                 document.getElementById('areaAcuacultura').value= datos.Superficie_Acuacultura
                 document.getElementById('numEstanques').value= datos.Numero_Estanques
-                
+                document.getElementById('Id_Superficie_Acuacultura').value= datos.Id_Superficie_Acuacultura
+                document.getElementById('Id_Superficie_Agroturismo').value= datos.Id_Superficie_Agroturismo
                 document.getElementById('areaAgroturismo').value= datos.Superficie_Agroturismo
                 document.getElementById('otrosUsos').value= datos.Otros_Descripcion
 
@@ -404,15 +471,329 @@ $(document).ready(function() {
     });
 
 
-    function mostrarCuadro() {
-        var radioSi = document.getElementById("Si");
-        var cuantosDiv = document.getElementById("cuantosHay");
+    $("#datosCreditoForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+        $.ajax({
+            url: "modelos/cargarDatosFicha.php",
+            type: "GET",
+            data: {
+                contenedor: 'Credito', id:id
+            },
+            success: function(data) {
+                const datos = JSON.parse(data)
 
-        if (radioSi.checked) {
-            cuantosDiv.classList.remove("hidden");
+                if(datos.ha_solicitado_creditos=='S'){
+                    document.getElementById('prestamoSi').checked = true;
+                    $('#opcionesPrestamoSi').show();
+                    $('#opcionesPrestamoNo').hide();
+                }else{
+                    document.getElementById('prestamoNo').checked = true;
+                    $('#opcionesPrestamoSi').hide();
+                    $('#opcionesPrestamoNo').show();
+                }
+                
+
+            },
+        });
+    });
+
+
+    
+    $("#datosCreditoForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+
+            $.ajax({
+                url: "modelos/cargarDatosFicha.php",
+                type: "GET",
+                data: {
+                    contenedor: 'CreditoNombres', id:id
+                },
+                success: function(data) {
+                    const datos = JSON.parse(data)
+
+                    datos.forEach(function(item) {
+                        var checkboxes = document.getElementsByName('fuentePrestamo[]');
+            
+                        // Filtra los checkboxes por el valor del atributo 'value'
+                        var checkbox = Array.from(checkboxes).find(function(cb) {
+                            return cb.value === item.fuente_credito;
+                        });
+            
+                        if (checkbox !== undefined) {
+                            checkbox.checked = true;
+                        } 
+                    });
+                    
+                },
+            });
+            
+    });
+
+
+    $("#datosCreditoForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+
+            $.ajax({
+                url: "modelos/cargarDatosFicha.php",
+                type: "GET",
+                data: {
+                    contenedor: 'motivoNoPrestamo', id:id
+                },
+                success: function(data) {
+                    const datos = JSON.parse(data)
+
+                    datos.forEach(function(item) {
+                        var checkboxes = document.getElementsByName('motivoNoPrestamo[]');
+            
+                        // Filtra los checkboxes por el valor del atributo 'value'
+                        var checkbox = Array.from(checkboxes).find(function(cb) {
+                            return cb.value === item.motivo_no_credito;
+                        });
+            
+                        if (checkbox !== undefined) {
+                            checkbox.checked = true;
+                        } 
+                    });
+                    
+                },
+            });
+            
+    });
+
+
+
+    $("#datosActividadesForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+        $.ajax({
+            url: "modelos/cargarDatosFicha.php",
+            type: "GET",
+            data: {
+                contenedor: 'ActividadesExternas', id:id
+            },
+            success: function(data) {
+                const datos = JSON.parse(data)
+
+                document.getElementById('trabajadoresPermanentes').value = datos.trabajadores_permanentes;
+                document.getElementById('trabajadoresTemporales').value = datos.trabajadores_temporales;
+                document.getElementById('cuantosActividadesFuera').value = datos.cuantos_miembros;
+
+                if(datos.miembros_realizan_actividades_fuera_finca=='S'){
+                    document.getElementById('actividadesFueraSi').checked = true;
+                    $('#cuantosActividadesFuera').show();
+                    $('#seccionTrabajadores').show();
+                    $('#seccionTomadorDecisiones').show();
+                }else{
+                    document.getElementById('actividadesFueraNo').checked = true;
+                    $('#cuantosActividadesFuera').hide();
+                    $('#seccionTrabajadores').hide();
+                    $('#seccionTomadorDecisiones').show();
+                }
+                
+
+            },
+        });
+    });
+
+
+    $("#CheckboxDecisiones").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+
+            $.ajax({
+                url: "modelos/cargarDatosFicha.php",
+                type: "GET",
+                data: {
+                    contenedor: 'tomadorDecisiones', id:id
+                },
+                success: function(data) {
+                    const datos = JSON.parse(data)
+
+                    datos.forEach(function(item) {
+                        var checkboxes = document.getElementsByName('tomador[]');
+            
+                        // Filtra los checkboxes por el valor del atributo 'value'
+                        var checkbox = Array.from(checkboxes).find(function(cb) {
+                            return cb.value === item.tomador;
+                        });
+            
+                        if (checkbox !== undefined) {
+                            checkbox.checked = true;
+                        } 
+                    });
+                    
+                },
+            });
+            
+    });
+
+
+    $("#CheckboxPracticas").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+
+            $.ajax({
+                url: "modelos/cargarDatosFicha.php",
+                type: "GET",
+                data: {
+                    contenedor: 'practicasNombres', id:id
+                },
+                success: function(data) {
+                    const datos = JSON.parse(data)
+
+                    datos.forEach(function(item) {
+                        var checkboxes = document.getElementsByName('practicas[]');
+            
+                        // Filtra los checkboxes por el valor del atributo 'value'
+                        var checkbox = Array.from(checkboxes).find(function(cb) {
+                            return cb.value === item.tipo_practica;
+                        });
+            
+                        if (checkbox !== undefined) {
+                            checkbox.checked = true;
+                        } 
+                    });
+                    
+                },
+            });
+            
+    });
+
+
+    $("#datosApoyoForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+        $.ajax({
+            url: "modelos/cargarDatosFicha.php",
+            type: "GET",
+            data: {
+                contenedor: 'Apoyos', id:id
+            },
+            success: function(data) {
+                const datos = JSON.parse(data)
+
+                if(datos.recibe_apoyo_prodagrícola=='S'){
+                    document.getElementById('apoyoSi').checked = true;
+                }else{
+                    document.getElementById('apoyoNo').checked = true;
+                }
+
+                if(datos.atencion_por_UAG=='S'){
+                    document.getElementById('atendidoSi').checked = true;
+                }else{
+                    document.getElementById('atendidoNo').checked = true;
+                }
+
+
+                if(datos.productos_vendidospor_pralesc=='S'){
+                    document.getElementById('productosVendidosSi').checked = true;
+                }else{
+                    document.getElementById('productosVendidosNo').checked = true;
+                }
+                
+
+            },
+        });
+    });
+
+
+    $("#datosApoyoForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+
+        $.ajax({
+                url: "modelos/cargarDatosFicha.php",
+                type: "GET",
+                data: {
+                    contenedor: 'ApoyosNombre', id:id
+                },
+                success: function(data) {
+                    const datos = JSON.parse(data)
+
+                    datos.forEach(function(item) {
+                        var checkboxes = document.getElementsByName('apoyo[]');
+            
+                        // Filtra los checkboxes por el valor del atributo 'value'
+                        var checkbox = Array.from(checkboxes).find(function(cb) {
+                            return cb.value === item.tipo_apoyos;
+                        });
+            
+                        if (checkbox !== undefined) {
+                            checkbox.checked = true;
+                        } 
+                    });
+                    
+                },
+            });
+    });
+
+    /* Validación de secciones para verificar si se mostrarán o no */
+
+    $('input[name="pertenece"]').change(function() {
+        // Verificar si la opción "Si" está seleccionada
+        if ($(this).val() === 'si') {
+            // Mostrar el div de organizaciones
+            $('#organizaciones').show();
         } else {
-            cuantosDiv.classList.add("hidden");
+            // Ocultar el div de organizaciones
+            $('#organizaciones').hide();
+        }
+    });
+
+    // Función para mostrar el div de organizaciones si la opción "Si" está seleccionada al cargar la página
+    function mostrarOrganizaciones() {
+        if ($('#si').is(':checked')) {
+            $('#organizaciones').show();
+        } else {
+            $('#organizaciones').hide();
         }
     }
+
+    mostrarOrganizaciones();
+
+
+    $('input[name="relevo"]').change(function() {
+        // Verificar si la opción "Si" está seleccionada
+        if ($(this).val() == 'Si') {
+            $('#cuantosHay').show();
+        } else {
+            $('#cuantosHay').hide();
+        }
+    });
+    
+    function mostrarRelevo() {
+        if ($('#relevoSi').is(':checked')) {
+            $('#cuantosHay').show();
+        } else {
+            $('#cuantosHay').hide();
+        }
+    }
+    
+    mostrarRelevo();
+    
+
+
+    $('input[name="prestamo"]').change(function() {
+        // Verificar si la opción "Si" está seleccionada
+        if ($(this).val() === 'Si') {
+            // Mostrar el div de opciones si la respuesta es "Si"
+            $('#opcionesPrestamoSi').show();
+            $('#opcionesPrestamoNo').hide();
+        } else {
+            // Mostrar el div de opciones si la respuesta es "No"
+            $('#opcionesPrestamoSi').hide();
+            $('#opcionesPrestamoNo').show();
+        }
+    });
+
+
+    $('input[name="actividadesFuera"]').change(function() {
+        if ($(this).val() == 'Yes') {
+            // Mostrar el div de organizaciones
+            $('#cuantosActividadesFuera').show();
+            $('#seccionTrabajadores').show();
+            $('#seccionTomadorDecisiones').show();
+        } else {
+            // Ocultar el div de cuantos
+            $('#cuantosActividadesFuera').hide();
+            $('#seccionTrabajadores').hide();
+            $('#seccionTomadorDecisiones').show();
+        }
+    });
 
 })

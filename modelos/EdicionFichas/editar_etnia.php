@@ -32,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (mysqli_query($conexion, $sql)) {
         // Redirige a la siguiente página
-        header("Location: ../bienvenida.php?success=true&message=La Pregunta se actualizó correctamente#datosRelevoForm");
         exit(); // Detener la ejecución del script
     } else {
         echo "Error al guardar los datos: " . mysqli_error($conexion);

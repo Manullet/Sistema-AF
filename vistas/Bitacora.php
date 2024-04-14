@@ -35,9 +35,23 @@ session_start();
 
         </div>
     </div>  
-    <div class="mt-3">
-            <button type="button" class="btn btn-success" id="excelButton">Generar Reporte de Bítacora</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-success" id="excelButton"><i class="fas fa-file-excel"></i>&nbsp;Generar Reporte de Bítacora</button>
+            </div>
+            <div class="col-sm">
+                <form action="" method="post" id="eliminarTrigger">
+                    <button type="submit" class="btn btn-danger" name="tipo" value="Eliminar Triggers"><i class="fas fa-ban"></i>&nbsp;Desactivar Bitácora</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <form action="" method="post" id="crearTrigger">
+                    <button type="submit" class="btn btn-primary"name="tipo" value="Eliminar Triggers"><i class="fas fa-check-circle"></i>&nbsp;Reactivar Bitácora</button>
+                </form>
+            </div>
         </div>
+    </div>
 <div>
     <p></p>
 </div>
@@ -63,7 +77,7 @@ session_start();
     <tbody class="text-center">
         <?php
         include "../php/conexion_be.php";
-        $sql = $conexion->query("SELECT * FROM bitacoras");
+        $sql = $conexion->query("SELECT * FROM bitacoras order by id_bitacora desc");
         while ($datos = $sql->fetch_object()) { ?>
             <tr>
                 <td><?= $datos->id_bitacora ?></td>
@@ -224,112 +238,53 @@ session_start();
 </div>
 
 <!-- JavaScript para manejar la edición de usuarios -->
-<script>
-    // Función para abrir el modal de edición
-    function abrirModalEditar(id_sector, sector, descripcion, creado_por, fecha_creacion, actualizado_por, fecha_actualizacion, estado) {
-        document.getElementById("id_sector").value = id_sector;
-        document.getElementById("sector_edit").value = sector;
-        document.getElementById("descripcion_edit").value = descripcion;
-        document.getElementById("creado_por").value = creado_por;
-        document.getElementById("fecha_creacion").value = fecha_creacion;
-        document.getElementById("actualizado_por").value = actualizado_por;
-        document.getElementById("fecha_actualizacion").value = descripcion;
-        document.getElementById("estado_edit").value = estado;
-
-        $('#modalEditar').modal('show'); // Mostrar el modal de edición
-    }
-</script>
-
-
-
+<!-- JavaScript para manejar la edición de usuarios -->
 <script>
     $(document).ready(function() {
-        $("#formularioEditar").on("submit", function(event) {
-            event.preventDefault();
+        $('#eliminarTrigger').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
+            // Realizar la solicitud AJAX
             $.ajax({
-                url: "modelos/update_sector.php",
-                method: "POST",
-                data: $(this).serialize(),
+                type: 'GET',
+                url: 'modelos/datosTrigger.php',
+                data: {tipo: 'Eliminar'},
                 success: function(response) {
-                    if (response == "success") {
-                        Swal.fire({
-                            title: "Registro actualizado correctamente",
-                            text: "El Registro se ha actualizado correctamente.",
-                            icon: "success",
-                            showCancelButton: false,
-                            confirmButtonText: "Cerrar"
-                        }).then(function() {
-                            $("#modalEditar").modal("hide");
-                            location.reload(); // Recarga la página
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "Error",
-                            text: "Hubo un problema al actualizar el registro.",
-                            icon: "error",
-                            confirmButtonText: "Cerrar"
-                        }).then(function() {
-                            location.reload(); // Recarga la página
-                        });
-                    }
+                    console.error(response);
+                    CargarContenido('vistas/Bitacora.php','content-wrapper');
+                    //location.reload()
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
                 }
             });
         });
     });
-</script>
 
 
-
-<!-- Script para mostrar el mensaje al momento de eliminar un usuario-->
-<script>
     $(document).ready(function() {
-        $("form#deleteForm").on("submit", function(event) {
-            event.preventDefault();
+        $('#crearTrigger').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
 
-            var form = $(this);
-
-            Swal.fire({
-                title: "¿Estás seguro?",
-                text: "Esta acción eliminará el periodo. Esta acción no se puede deshacer.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sí, eliminar",
-                cancelButtonText: "Cancelar"
-            }).then(function(result) {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: form.attr("action"),
-                        method: "POST",
-                        data: form.serialize(),
-                        success: function(response) {
-                            if (response == "success") {
-                                Swal.fire({
-                                    title: "Registro eliminado correctamente",
-                                    text: "El Registro se ha eliminado correctamente.",
-                                    icon: "success",
-                                    showCancelButton: false,
-                                    confirmButtonText: "Cerrar"
-                                }).then(function() {
-                                    location.reload(); // Recarga la página
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: "Error",
-                                    text: "Hubo un problema al eliminar el Registro.",
-                                    icon: "error",
-                                    confirmButtonText: "Cerrar"
-                                }).then(function() {
-                                    location.reload(); // Recarga la página
-                                });
-                            }
-                        }
-                    });
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'GET',
+                url: 'modelos/datosTrigger.php',
+                data: {tipo: 'Crear'},
+                success: function(response) {
+                    console.error(response);
+                    //location.reload()
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
                 }
             });
         });
     });
 </script>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

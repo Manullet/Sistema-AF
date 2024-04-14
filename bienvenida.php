@@ -68,8 +68,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script>
 
-  function CargarContenido(pagina_php,contenedor){
-    $("." + contenedor).load(pagina_php);
+  function CargarContenido(pagina_php, contenedor, parametro_get = '') {
+    let url = parametro_get !== '' ? pagina_php + '?parametro=' + parametro_get : pagina_php;
+    $("." + contenedor).load(url);
   }
 
 

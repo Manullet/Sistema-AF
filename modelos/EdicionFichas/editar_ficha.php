@@ -21,7 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "CALL ActualizarFicha($idFicha,'$fecha_solicitud', '$anio_solicitud', '$descripcion', '$modificado_por', 'A', '$fecha_entrevista','$nombre_encuestador', '$nombre_encuestado','$nombre_supervisor')";
 
     if (mysqli_query($conexion,$sql)) {
-        header("Location: ../bienvenida.php?success=true");
         exit();
     } else {
         if (mysqli_errno($conexion) == 1062) {

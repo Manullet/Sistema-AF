@@ -5,8 +5,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
 include "../php/conexion_be.php";
 
-$numeroFicha = 3;
-$_SESSION['id_ficha'] = 3;
+$numeroFicha = $_GET['parametro'];
+$_SESSION['id_ficha'] = $numeroFicha;
 
 
 ?>
@@ -487,15 +487,15 @@ $_SESSION['id_ficha'] = 3;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="direccionPrincipal" class="form-label">Dirección Principal</label>
-                        <textarea name="text" cols="40" rows="3" class="form-control" id="direccionPrincipal" name="direccionPrincipal" placeholder="Dirección 1"> </textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionPrincipal" name="direccionPrincipal" placeholder="Dirección 1"> </textarea>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="direccionSecundario" class="form-label">Dirección Secundario</label>
-                        <textarea name="text" cols="40" rows="3" class="form-control" id="direccionSecundario" name="direccionSecundario" placeholder="Dirección 2"></textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionSecundario" name="direccionSecundario" placeholder="Dirección 2"></textarea>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="direccionOpcional" class="form-label">Dirección Opcional</label>
-                        <textarea name="text" cols="40" rows="3" class="form-control" id="direccionOpcional" name="direccionOpcional" placeholder="Dirección 3"></textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionOpcional" name="direccionOpcional" placeholder="Dirección 3"></textarea>
                     </div>
                 </div>
 
@@ -518,18 +518,18 @@ $_SESSION['id_ficha'] = 3;
                     <div class="form-group col-md-3">
                         <label for="pertenece">¿Pertenece a alguna organización?</label>
                         <div>
-                            <input type="radio" id="si" name="pertenece" value="si" onclick="mostrarOrganizaciones()">
+                            <input type="radio" id="si" name="pertenece" value="si">
                             <label for="si"> Si </label>
                             <input type="radio" id="no" name="pertenece" value="no">
                             <label for="no"> No </label>
                         </div>
                     </div>
                 </div>
-                <div id="organizaciones" class="hidden">
+                <div id="organizaciones">
                     <div class="form-group col-md-8">
                         <label for="PerteneceOr">A qué organizaciones pertenece</label>
                         <br>
-                        <div class="form-checkbox" id="CheckboxOrganizacion"> </div>
+                        <div class="form-checkbox" id="CheckboxOrganizacion" > </div>
                     </div>
                 </div>
                 <div class="modal-footer center-content-between">
@@ -699,9 +699,9 @@ $_SESSION['id_ficha'] = 3;
                     <div class="form-group col-md-8">
                         <label>¿De las actividades agropecuarias que desarrolla, usted cree que la seguirán practicando alguno o algunos de los miembros del hogar?</label>
                         <div>
-                            <input type="radio" id="Si" name="relevo" value="Si" onclick="mostrarCuadro()">
+                            <input type="radio" id="relevoSi" name="relevo" value="Si">
                             <label for="Si">Si</label>
-                            <div id="cuantosHay" class="hidden">
+                            <div id="cuantosHay">
                                 <div class="form-group col-md-8">
                                     <label for="cuantos">Cuantos</label>
                                     <input type="number" name="cuantos" id="cuantos" min="0" class="cuadro-texto">
@@ -709,7 +709,7 @@ $_SESSION['id_ficha'] = 3;
                                 </div>
                             </div>
                             <br>
-                            <input type="radio" id="No" name="relevo" value="No">
+                            <input type="radio" id="relevoNo" name="relevo" value="No">
                             <label for="No">No</label>
                         </div>
                     </div>
@@ -1186,7 +1186,7 @@ $_SESSION['id_ficha'] = 3;
 
 
             <!-- Formulario de Produccion Agricola -->
-            <form action="modelos/datosAgricolaForm.php" method="POST" id="datosAgricolaForm" class="form-section" style="display: none;">
+            <form action="modelos/EdicionFichas/editarAgricola.php" method="POST" id="datosAgricolaForm" class="form-section" style="display: none;">
                 <h3>Información de Cultivos</h3>
                 <div class="cultivo-info">
                     <h4>Cultivo</h4>
@@ -1377,7 +1377,7 @@ $_SESSION['id_ficha'] = 3;
             </form>
         <!-- 10 -->
 
-        <form action="modelos/datosPecuariaForm.php" method="POST" id="datosPecuariaForm" class="form-section" style="display: none;">
+        <form action="modelos/EdicionFichas/editar_ProduccionPecuaria.php" method="POST" id="datosPecuariaForm" class="form-section" style="display: none;">
             <h3>Producción Pecuaria (Inventario)</h3>
             <br>
 
@@ -1560,7 +1560,7 @@ $_SESSION['id_ficha'] = 3;
 
         <!-- 11 -->
 
-        <form action="modelos/datosPrCoForm.php" method="POST" id="datosPrCoForm" class="form-section" style="display: none;">
+        <form action="modelos/EdicionFichas/editar_ProdComercializacion.php" method="POST" id="datosPrCoForm" class="form-section" style="display: none;">
             <h3>11. Producción y Comercialización Pecuaria</h3>
 
             <div class="row">
@@ -1724,7 +1724,7 @@ $_SESSION['id_ficha'] = 3;
 
 
         <!-- 12 -->
-        <form action="modelos/datosOtrosForm.php" method="POST" id="datosOtrosForm" class="form-section" style="display: none;">
+        <form action="modelos/EdicionFichas/editar_OtrosIngresos.php" method="POST" id="datosOtrosForm" class="form-section" style="display: none;">
             <h3>12. Otros ingresos en el hogar</h3>
 
             <div class="row">
@@ -1796,7 +1796,7 @@ $_SESSION['id_ficha'] = 3;
         </form>
 
         <!-- 13 -->
-        <form action="modelos/datosCreditoForm.php" method="POST" id="datosCreditoForm" class="form-section" style="display: none;">
+        <form action="modelos/EdicionFichas/editar_creditos.php" method="POST" id="datosCreditoForm" class="form-section" style="display: none;">
             <h3>13. Crédito para la producción agropecuaria</h3>
 
             <!-- Pregunta sobre préstamos -->
@@ -1809,12 +1809,12 @@ $_SESSION['id_ficha'] = 3;
             </div>
 
             <!-- Opciones si la respuesta es SI -->
-            <div class="form-group" id="opcionesPrestamoSi" style="display: none;">
+            <div class="form-group" id="opcionesPrestamoSi">
 
             </div>
 
             <!-- Opciones si la respuesta es NO -->
-            <div class="form-group" id="opcionesPrestamoNo" style="display: none;">
+            <div class="form-group" id="opcionesPrestamoNo">
 
             </div>
 
@@ -1827,7 +1827,7 @@ $_SESSION['id_ficha'] = 3;
 
 
         <!-- 14 -->
-        <form action="modelos/datosActividadesForm.php" method="POST" id="datosActividadesForm" class="form-section" style="display: none;">
+        <form action="modelos/EdicionFichas/editarActividadesForm.php" method="POST" id="datosActividadesForm" class="form-section" style="display: none;">
             <h3>14. Actividades externas a la unidad productiva</h3>
 
             <!-- Actividades fuera de la finca -->
@@ -1837,12 +1837,12 @@ $_SESSION['id_ficha'] = 3;
                 <label for="actividadesFueraSi">SI</label>
                 <input type="radio" id="actividadesFueraNo" name="actividadesFuera" value="Not">
                 <label for="actividadesFueraNo">NO</label>
-                <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos" style="display: none;">
+                <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos">
 
             </div>
 
             <!-- Contratación de trabajadores no miembros -->
-            <div class="form-group" id="seccionTrabajadores" style="display: none;">
+            <div class="form-group" id="seccionTrabajadores">
                 <label>En las actividades productivas de su finca, ¿contrata trabajadores(as) que no son miembros de su hogar?</label>
                 <div class="row">
                     <!-- Trabajadores Permanentes -->
@@ -1862,7 +1862,7 @@ $_SESSION['id_ficha'] = 3;
 
             <!-- Tomador de decisiones -->
 
-            <div class="form-group" id="seccionTomadorDecisiones" style="display: none;">
+            <div class="form-group" id="seccionTomadorDecisiones">
                 <h4>14.1. ¿Quién es el tomador de decisiones con relación a las actividades agropecuarias de la finca?</h4>
                 <div class="form-checkbox" id="CheckboxDecisiones"></div>
             </div>
@@ -1876,7 +1876,7 @@ $_SESSION['id_ficha'] = 3;
 
         <!-- 15 -->
 
-        <form action="modelos/datosPracticaForm.php" method="POST" id="datosPracticaForm" class="form-section" style="display: none;">
+        <form action="modelos/EdicionFichas/editar_practica.php" method="POST" id="datosPracticaForm" class="form-section" style="display: none;">
             <h3>15. Prácticas para producción en la unidad productiva</h3>
 
             <div class="form-group">
@@ -1894,7 +1894,7 @@ $_SESSION['id_ficha'] = 3;
 
         <!-- 16 -->
 
-        <form action="modelos/datosApoyoForm.php" method="POST" id="datosApoyoForm" class="form-section" style="display: none;">
+        <form action="modelos/EdicionFichas/editar_apoyos.php" method="POST" id="datosApoyoForm" class="form-section" style="display: none;">
             <h3>16. Apoyo para la producción agropecuaria</h3>
 
             <!-- Pregunta sobre la recepción de apoyo -->
@@ -2069,6 +2069,7 @@ $_SESSION['id_ficha'] = 3;
         }
     }
 
+
     // Se asegura de activar el primer ítem del menú al cargar.
     document.addEventListener('DOMContentLoaded', () => {
         navigateToForm('#datosTrabajadorForm');
@@ -2080,28 +2081,6 @@ $_SESSION['id_ficha'] = 3;
         }
     });
 
-    //Para mostrar las organizaciones en dado caso que pertenezca
-    function mostrarOrganizaciones() {
-        var radioSi = document.getElementById("si");
-        var organizacionesDiv = document.getElementById("organizaciones");
-
-        if (radioSi.checked) {
-            organizacionesDiv.classList.remove("hidden");
-        } else {
-            organizacionesDiv.classList.add("hidden");
-        }
-    }
-    //Relevo
-    function mostrarCuadro() {
-        var radioSi = document.getElementById("Si");
-        var cuantosDiv = document.getElementById("cuantosHay");
-
-        if (radioSi.checked) {
-            cuantosDiv.classList.remove("hidden");
-        } else {
-            cuantosDiv.classList.add("hidden");
-        }
-    }
 
     //Para mostrar las organizaciones en dado caso que pertenezca
     function escribirOtra() {
@@ -2143,7 +2122,7 @@ $_SESSION['id_ficha'] = 3;
         var tipoAnimalName = tipoAnimal.options[tipoAnimal.selectedIndex].text;
 
         // Crear una nueva fila
-        var fila = "<tr><td>" + tipoAnimalName + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td><td><button onclick='eliminarFila(this.parentNode.parentNode)' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></td></tr>";
+        var fila = "<tr><td>" + tipoAnimalName + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td><td></tr>";
 
         // Agregar la fila a la tabla
         document.getElementById('tablaTemporalAnimales').innerHTML += fila;
@@ -2315,48 +2294,6 @@ $_SESSION['id_ficha'] = 3;
 </script>
 
 <script>
-    function manejarSeleccionPrestamo() {
-        var prestamoSi = document.getElementById('prestamoSi').checked;
-        var prestamoNo = document.getElementById('prestamoNo').checked;
-
-        if (prestamoSi) {
-            document.getElementById('opcionesPrestamoSi').style.display = 'block';
-            document.getElementById('opcionesPrestamoNo').style.display = 'none';
-        } else if (prestamoNo) {
-            document.getElementById('opcionesPrestamoSi').style.display = 'none';
-            document.getElementById('opcionesPrestamoNo').style.display = 'block';
-        }
-    }
-
-    document.getElementById('prestamoSi').addEventListener('change', manejarSeleccionPrestamo);
-    document.getElementById('prestamoNo').addEventListener('change', manejarSeleccionPrestamo);
-
-    document.addEventListener('DOMContentLoaded', manejarSeleccionPrestamo);
-</script>
-
-<script>
-    function manejarSeleccionActividadesFuera() {
-        var actividadesFueraSi = document.getElementById('actividadesFueraSi').checked;
-        var actividadesFueraNo = document.getElementById('actividadesFueraNo').checked;
-
-        if (actividadesFueraSi) {
-            document.getElementById('seccionTrabajadores').style.display = 'block';
-            document.getElementById('cuantosActividadesFuera').style.display = 'block';
-            document.getElementById('seccionTomadorDecisiones').style.display = 'block';
-        } else if (actividadesFueraNo) {
-            document.getElementById('seccionTrabajadores').style.display = 'none';
-            document.getElementById('cuantosActividadesFuera').style.display = 'none';
-            document.getElementById('seccionTomadorDecisiones').style.display = 'block';
-        }
-    }
-
-    document.getElementById('actividadesFueraSi').addEventListener('change', manejarSeleccionActividadesFuera);
-    document.getElementById('actividadesFueraNo').addEventListener('change', manejarSeleccionActividadesFuera);
-
-    document.addEventListener('DOMContentLoaded', manejarSeleccionActividadesFuera);
-</script>
-
-<script>
     var expanded = false;
 
     function showCheckboxes() {
@@ -2371,32 +2308,6 @@ $_SESSION['id_ficha'] = 3;
     }
 </script>
 
-<script>
-    function manejarSeleccionApoyo() {
-        var apoyoSi = document.getElementById('apoyoSi').checked;
-        var apoyoNo = document.getElementById('apoyoNo').checked;
-
-        var seccionesOcultar = document.querySelectorAll('.seccionOculta');
-        var seccionFinal = document.getElementById('seccionFinal');
-
-        if (apoyoSi) {
-            seccionesOcultar.forEach(function(seccion) {
-                seccion.style.display = 'block';
-            });
-            seccionFinal.style.display = 'block';
-        } else if (apoyoNo) {
-            seccionesOcultar.forEach(function(seccion) {
-                seccion.style.display = 'none';
-            });
-            seccionFinal.style.display = 'block';
-        }
-    }
-
-    document.getElementById('apoyoSi').addEventListener('change', manejarSeleccionApoyo);
-    document.getElementById('apoyoNo').addEventListener('change', manejarSeleccionApoyo);
-
-    document.addEventListener('DOMContentLoaded', manejarSeleccionApoyo);
-</script>
 
 <script>
     $(document).ready(function() {
@@ -2733,7 +2644,7 @@ $_SESSION['id_ficha'] = 3;
 
             // Enviar los datos al servidor mediante una solicitud AJAX
             $.ajax({
-                url: 'modelos/datosAgricolaForm.php',
+                url: 'modelos/EdicionFichas/editarAgricola.php',
                 type: 'POST',
                 contentType: 'application/json',
                 data: datosJSON,
@@ -2804,7 +2715,7 @@ $_SESSION['id_ficha'] = 3;
 
             // Enviar los datos al servidor mediante una solicitud AJAX
             $.ajax({
-                url: 'modelos/datosPecuariaForm.php',
+                url: 'modelos/EdicionFichas/editar_ProduccionPecuaria.php',
                 type: 'POST',
                 contentType: 'application/json',
                 data: datosJSON,
@@ -2850,7 +2761,7 @@ $_SESSION['id_ficha'] = 3;
 
             // Enviar los datos al servidor mediante una solicitud AJAX
             $.ajax({
-                url: 'modelos/datosPrCoForm.php',
+                url: 'modelos/EdicionFichas/editar_ProdComercializacion.php',
                 type: 'POST',
                 contentType: 'application/json',
                 data: datosJSON,
@@ -2898,7 +2809,7 @@ $_SESSION['id_ficha'] = 3;
 
             // Enviar los datos al servidor mediante una solicitud AJAX
             $.ajax({
-                url: 'modelos/datosOtrosForm.php',
+                url: 'modelos/EdicionFichas/editar_OtrosIngresos.php',
                 type: 'POST',
                 contentType: 'application/json',
                 data: datosJSON,
@@ -2982,7 +2893,7 @@ $_SESSION['id_ficha'] = 3;
                 var label = document.createElement("label");
 
                 label.innerText = "¿Por qué no ha solicitado préstamos agropecuarios?";
-                label.setAttribute("for", "miCheckbox");
+                label.setAttribute("for", "otroCheckbox");
                 contenedor.appendChild(label);
 
                 var br = document.createElement("br");
@@ -2993,14 +2904,14 @@ $_SESSION['id_ficha'] = 3;
 
                     // Establecer el tipo de elemento como checkbox
                     checkbox.type = 'checkbox';
-                    checkbox.id = 'miCheckbox';
+                    checkbox.id = 'otroCheckbox';
                     checkbox.name = 'motivoNoPrestamo[]';
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
 
                     var label = document.createElement('label');
-                    label.htmlFor = 'miCheckbox';
+                    label.htmlFor = 'otroCheckbox';
                     label.appendChild(document.createTextNode(nombre.nombre));
 
                     var br = document.createElement("br");
@@ -3022,7 +2933,7 @@ $_SESSION['id_ficha'] = 3;
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosCreditoForm.php',
+                url: 'modelos/EdicionFichas/editar_creditos.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
@@ -3087,7 +2998,7 @@ $_SESSION['id_ficha'] = 3;
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosActividadesForm.php',
+                url: 'modelos/EdicionFichas/editarActividadesForm.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
@@ -3151,7 +3062,7 @@ $_SESSION['id_ficha'] = 3;
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosPracticaForm.php',
+                url: 'modelos/EdicionFichas/editar_practica.php',
                 data: $(this).serialize(),
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
@@ -3211,7 +3122,7 @@ $_SESSION['id_ficha'] = 3;
                 input.id = 'otroTipoApoyo';
                 input.name = 'otroTipoApoyo';
                 input.placeholder = 'Escriba aqui...'
-                input.addClassList('cuadro-texto');
+                //input.addClassList('cuadro-texto');
 
 
                 var label2 = document.createElement('label');
@@ -3231,15 +3142,19 @@ $_SESSION['id_ficha'] = 3;
             // Realizar la solicitud AJAX
             $.ajax({
                 type: 'POST',
-                url: 'modelos/datosApoyoForm.php',
+                url: 'modelos/EdicionFichas/editar_apoyos.php',
                 data: $(this).serialize(),
                 success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
+                    Swal.fire({
+                        title: "Formulario Finalizado",
+                        text: "Será dirigido a la pantalla de Fichas",
+                        icon: "success"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            CargarContenido('vistas/Mantenimiento_Ficha.php','content-wrapper');
+                        }
+                    });
+
                 },
                 error: function(error) {
                     // Manejar el error si es necesario

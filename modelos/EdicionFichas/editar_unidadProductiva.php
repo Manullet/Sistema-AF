@@ -42,6 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $p_Id_Tipo_Riego = $_POST['tipoRiego'];
     $p_Fuente_Agua = $_POST['fuenteAgua'];
     $p_Disponibilidad_Agua_Meses = $_POST['disponibilidadAgua'];
+    $p_rubroAgricultura = $_POST['rubrosAgricultura'];
+    $p_rubroGanaderia = $_POST['rubrosGanaderia'];
+    $p_rubroForestal = $_POST['rubrosForestal'];
+    $p_Id_Superficie_Acuacultura = $_POST['Id_Superficie_Acuacultura'];
+    $p_Id_Superficie_Agroturismo = $_POST['Id_Superficie_Agroturismo'];
 
     // Llamar al procedimiento almacenado
     $query = "CALL ActualizarUnidadProductoraYRiego(
@@ -68,14 +73,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         '$p_Superficie_Riego',
         '$p_Id_Tipo_Riego',
         '$p_Fuente_Agua',
-        '$p_Disponibilidad_Agua_Meses'
+        '$p_Disponibilidad_Agua_Meses',
+        '$p_rubroAgricultura',
+        '$p_rubroGanaderia',
+        '$p_rubroForestal',
+        $p_Id_Superficie_Acuacultura,
+        $p_Id_Superficie_Agroturismo
     )";
 
     $result = mysqli_query($conexion, $query);
 
     if ($result) {
         // Éxito: Redirige o realiza acciones adicionales
-        header('Location: tu_pagina_exitosa.php');
+        
         exit();
     } else {
         // Error en la consulta

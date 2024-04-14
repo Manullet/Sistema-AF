@@ -511,15 +511,15 @@ function obtenerNumeroFicha($conexion)
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="direccionPrincipal" class="form-label">Dirección Principal</label>
-                        <textarea name="text" cols="40" rows="3" class="form-control" id="direccionPrincipal" name="direccionPrincipal" placeholder="Dirección 1"> </textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionPrincipal" name="direccionPrincipal" placeholder="Dirección 1"> </textarea>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="direccionSecundario" class="form-label">Dirección Secundario</label>
-                        <textarea name="text" cols="40" rows="3" class="form-control" id="direccionSecundario" name="direccionSecundario" placeholder="Dirección 2"></textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionSecundario" name="direccionSecundario" placeholder="Dirección 2"></textarea>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="direccionOpcional" class="form-label">Dirección Opcional</label>
-                        <textarea name="text" cols="40" rows="3" class="form-control" id="direccionOpcional" name="direccionOpcional" placeholder="Dirección 3"></textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionOpcional" name="direccionOpcional" placeholder="Dirección 3"></textarea>
                     </div>
                 </div>
 
@@ -1999,10 +1999,15 @@ function obtenerNumeroFicha($conexion)
                 url: "modelos/datosApoyoForm.php",
                 data: formData,
                 success: function(response) {
-                    alert("Formulario registrado con éxito");
-
-                    // Redirigir a la página de bienvenida
-                    window.location.href = "bienvenida.php";
+                    Swal.fire({
+                        title: "Formulario Finalizado",
+                        text: "Será dirigido a la pantalla de Fichas",
+                        icon: "success"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            CargarContenido('vistas/Mantenimiento_Ficha.php','content-wrapper');
+                        }
+                    });
                 },
                 error: function(error) {
                     console.error("Error en la petición AJAX", error);
@@ -2121,7 +2126,7 @@ function obtenerNumeroFicha($conexion)
         var tipoAnimalName = tipoAnimal.options[tipoAnimal.selectedIndex].text;
 
         // Crear una nueva fila
-        var fila = "<tr><td>" + tipoAnimalName + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td><td><button onclick='eliminarFila(this.parentNode.parentNode)' class='btn btn-danger'><i class='fas fa-trash-alt'></i></button></td></tr>";
+        var fila = "<tr><td>" + tipoAnimalName + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td><td></tr>";
 
         // Agregar la fila a la tabla
         document.getElementById('tablaTemporalAnimales').innerHTML += fila;
@@ -3270,30 +3275,6 @@ function obtenerNumeroFicha($conexion)
 
     })
 
-    $(document).ready(function() {
-        $('#datosApoyoForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/datosApoyoForm.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
 </script>
 
 

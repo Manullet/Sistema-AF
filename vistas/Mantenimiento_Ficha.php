@@ -66,8 +66,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <th scope="col">Fecha Solicitud</th>
                     <th scope="col">Año Solicitud</th>
                     <th scope="col">Fecha Entrevista</th>
-                    <th scope="col">Nombre Encuentrador</th>
                     <th scope="col">Nombre Encuestador</th>
+                    <th scope="col">Nombre Encuestado</th>
                     <th scope="col">Nombre Supervisor</th>
                     <th scope="col">Descripcion</th>
                     <th scope="col">Estado</th>
@@ -110,9 +110,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                     Eliminar
                                 </button>
                             </form>
-                            <form id="duplicarForm" method="POST" action="modelos/duplicar_ficha.php" style="display: inline;">
-                                <input type="hidden" name="id_ficha" value="<?= $datos->id_ficha ?>">
-                                <button type="submit" class="btn btn-primary">
+                            <form id="duplicar" method="POST" action="" style="display: inline;">
+                                <input type="hidden" name="id_ficha" id="id_ficha_act" value="<?= $datos->id_ficha ?>">
+                                <button type="button" class="btn btn-primary" onclick="duplicarFicha(<?= $datos->id_ficha ?>)">
                                     <i class="bi bi-trash"></i>
                                     Crear Registro para nuevo año
                                 </button>
@@ -194,7 +194,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="nombre_encuestador">Nombre Encuestador</label>
+                                <label for="nombre_encuestador">Nombre Encuestado</label>
                                 <input type="text" class="form-control" id="nombre_encuestador" name="nombre_encuestador" required>
                             </div>
                         </div>
@@ -203,7 +203,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <div class="row">
                     <div class="col-6">
                             <div class="form-group">
-                                <label for="nombre_encuentrador">Nombre Encuentrador</label>
+                                <label for="nombre_encuentrador">Nombre Encuestador</label>
                                 <input type="text" class="form-control" id="nombre_encuentrador" name="nombre_encuentrador" required>
                             </div>
                         </div>
@@ -347,6 +347,32 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
     $('#modalEditar').modal('show'); // Mostrar el modal de edición
 }
+</script>
+
+<script>
+        function duplicarFicha(id){
+            //let id= document.getElementById('id_ficha_act').value
+            
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'GET',
+                url: 'modelos/duplicar_ficha.php',
+                data: {ficha: id},
+                success: function(response) {
+                    const datos = JSON.parse(response)
+                    console.log(datos.id)
+
+                    CargarContenido('vistas/editar_ficha.php','content-wrapper',datos.id);
+                    //location.reload()
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        }
+
 </script>
 
 <!-- Script para mostrar el mensaje al momento de editar un apoyo-->

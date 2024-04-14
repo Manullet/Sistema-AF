@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (mysqli_query($conexion, $sql)) {
         // Redirige a la siguiente página
-        header("Location: siguiente_pagina.php");
+        
         exit(); // Detener la ejecución del script
     } else {
         echo "Error al guardar los datos: " . mysqli_error($conexion);
