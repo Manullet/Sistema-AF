@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-04-2024 a las 04:09:27
+-- Tiempo de generación: 16-04-2024 a las 07:47:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -1109,6 +1109,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DuplicarFicha` (IN `p_id_ficha` INT
     Id_Medida_Forestal,
     rubro_forestal,
     Id_Superficie_Acuacultura,
+    Superficie_Acuacultura,
     Numero_Estanques,
     Id_Superficie_Agroturismo,
     Superficie_Agroturismo,
@@ -1136,10 +1137,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DuplicarFicha` (IN `p_id_ficha` INT
 	    Id_Medida_Forestal,
 	    rubro_forestal,
     	 Id_Superficie_Acuacultura,
+    	 Superficie_Acuacultura,
 	    Numero_Estanques,
 	    Id_Superficie_Agroturismo,
 	    Superficie_Agroturismo,
-	    Superficie_Otros,
+	    Otros_Descripcion,
 	    Creado_Por,
 	    Fecha_Creacion,
 	    Modificado_Por,
@@ -1431,6 +1433,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DuplicarFicha` (IN `p_id_ficha` INT
   	FROM tbl_apoyo_actividad_externa
    WHERE id_ficha = p_id_ficha AND id_productor = p_id_productor;
    
+   INSERT INTO tbl_apoyo_tipo_organizacion (
+   	  id_ficha,
+        id_productor,
+        id_tipo_organizacion,creado_por,
+        fecha_creacion,
+        modificado_por,
+        fecha_modificacion,
+        estado
+   )SELECT
+        nuevo_id,
+         nuevo_productor,
+        id_tipo_organizacion,creado_por,
+        fecha_creacion,
+        modificado_por,
+        fecha_modificacion,
+        estado
+	FROM tbl_apoyo_tipo_organizacion
+   WHERE id_ficha = p_id_ficha AND id_productor = p_id_productor;
    
    INSERT INTO tbl_apoyos_produccion (
         id_ficha,
@@ -3435,7 +3455,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertRoles` (IN `newNombre` VARCHA
     VALUES (newNombre, newDescripcion, 1, currentDate, 1, currentDate, 'Activo');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `TempInsertarUnidadProductoraYRiego` (IN `p_id_ubicacion` INT, IN `p_id_ficha` INT, IN `p_id_productor` INT, IN `p_Tipo_De_Manejo` ENUM('Propia','Alquilada','Prestada','Ejidal'), IN `p_Id_Medida_Produccion` BIGINT(20), IN `p_Superficie_Agricultura` DECIMAL(10,2), IN `p_Id_Medida_Agricultura` BIGINT(20), IN `p_Superficie_Ganaderia` DECIMAL(10,2), IN `p_Id_Medida_Ganaderia` BIGINT(20), IN `p_Superficie_Apicultura` DECIMAL(10,2), IN `p_Id_Medida_Apicultura` BIGINT(20), IN `p_Superficie_Forestal` DECIMAL(10,2), IN `p_Id_Medida_Forestal` BIGINT(20), IN `p_Superficie_Acuacultura` DECIMAL(10,2), IN `p_Numero_Estanques` INT, IN `p_Superficie_Agroturismo` DECIMAL(10,2), IN `p_Superficie_Otros` DECIMAL(10,2), IN `p_Creado_Por` VARCHAR(255), IN `p_Tiene_Riego` ENUM('S','N'), IN `p_Superficie_Riego` DECIMAL(10,6), IN `p_Id_Medida_Superficie_Riego` BIGINT(20), IN `p_Id_Tipo_Riego` BIGINT(20), IN `p_Fuente_Agua` VARCHAR(255), IN `p_Disponibilidad_Agua_Meses` INT, IN `p_rubroAgricultura` VARCHAR(100), IN `p_rubroGanaderia` VARCHAR(100), IN `p_rubroForestal` VARCHAR(100), IN `p_Id_Superficie_Acuacultura` INT, IN `p_Id_Superficie_Agroturismo` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `TempInsertarUnidadProductoraYRiego` (IN `p_id_ubicacion` INT, IN `p_id_ficha` INT, IN `p_id_productor` INT, IN `p_Tipo_De_Manejo` ENUM('Propia','Alquilada','Prestada','Ejidal'), IN `p_Id_Medida_Produccion` BIGINT(20), IN `p_Superficie_Agricultura` DECIMAL(10,2), IN `p_Id_Medida_Agricultura` BIGINT(20), IN `p_Superficie_Ganaderia` DECIMAL(10,2), IN `p_Id_Medida_Ganaderia` BIGINT(20), IN `p_Superficie_Apicultura` DECIMAL(10,2), IN `p_Id_Medida_Apicultura` BIGINT(20), IN `p_Superficie_Forestal` DECIMAL(10,2), IN `p_Id_Medida_Forestal` BIGINT(20), IN `p_Superficie_Acuacultura` DECIMAL(10,2), IN `p_Numero_Estanques` INT, IN `p_Superficie_Agroturismo` DECIMAL(10,2), IN `p_Superficie_Otros` VARCHAR(50), IN `p_Creado_Por` VARCHAR(255), IN `p_Tiene_Riego` ENUM('S','N'), IN `p_Superficie_Riego` DECIMAL(10,6), IN `p_Id_Medida_Superficie_Riego` BIGINT(20), IN `p_Id_Tipo_Riego` BIGINT(20), IN `p_Fuente_Agua` VARCHAR(255), IN `p_Disponibilidad_Agua_Meses` INT, IN `p_rubroAgricultura` VARCHAR(100), IN `p_rubroGanaderia` VARCHAR(100), IN `p_rubroForestal` VARCHAR(100), IN `p_Id_Superficie_Acuacultura` INT, IN `p_Id_Superficie_Agroturismo` INT)   BEGIN
 
   INSERT INTO tbl_unidad_productora (
     Id_Ubicacion,
@@ -3766,6 +3786,50 @@ CREATE TABLE `bitacoras` (
   `informacion_eliminada` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `bitacoras`
+--
+
+INSERT INTO `bitacoras` (`id_bitacora`, `fecha`, `ejecutor`, `actividad_realizada`, `informacion_actual`, `informacion_anterior`, `tabla`, `informacion_eliminada`) VALUES
+(1, '2024-04-16 03:53:32', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 3, fecha_solicitud: 2024-04-09, anio_solicitud: 2024, descripcion: prueba2 , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', NULL, 'fichas', NULL),
+(2, '2024-04-16 03:57:49', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 4, fecha_solicitud: 2024-04-09, anio_solicitud: 2024, descripcion: prueba2 , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', NULL, 'fichas', NULL),
+(3, '2024-04-16 03:58:38', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 2024-04-09, anio_solicitud: 0, descripcion: prueba2 , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', 'Información anterior = id_ficha: 4, fecha_solicitud: 2024-04-09 anio_solicitud: 2024, descripcion: prueba2 A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', 'fichas', NULL),
+(4, '2024-04-16 04:01:51', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 5, fecha_solicitud: 2024-04-09, anio_solicitud: 2024, descripcion: prueba2 , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', NULL, 'fichas', NULL),
+(5, '2024-04-16 04:03:42', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 5, fecha_solicitud: 2024-04-09, anio_solicitud: 0, descripcion: prueba2 , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', 'Información anterior = id_ficha: 5, fecha_solicitud: 2024-04-09 anio_solicitud: 2024, descripcion: prueba2 A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', 'fichas', NULL),
+(6, '2024-04-16 04:04:08', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 5, fecha_solicitud: 2024-04-09, anio_solicitud: 0, descripcion: prueba2 , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', 'Información anterior = id_ficha: 5, fecha_solicitud: 2024-04-09 anio_solicitud: 0, descripcion: prueba2 A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', 'fichas', NULL),
+(7, '2024-04-16 04:09:38', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 5, fecha_solicitud: 2024-04-09, anio_solicitud: 0, descripcion: prueba2 , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', 'Información anterior = id_ficha: 5, fecha_solicitud: 2024-04-09 anio_solicitud: 0, descripcion: prueba2 A, fecha_entrevista: 2024-04-24, nombre_encuestador: Luis Nuñez', 'fichas', NULL),
+(8, '2024-04-16 04:12:51', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 2023, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', NULL, 'fichas', NULL),
+(9, '2024-04-16 04:15:59', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 7, fecha_solicitud: 2024-04-17, anio_solicitud: 2023, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', NULL, 'fichas', NULL),
+(10, '2024-04-16 04:16:13', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 7, fecha_solicitud: 2024-04-17, anio_solicitud: 2025, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 7, fecha_solicitud: 2024-04-17 anio_solicitud: 2023, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(11, '2024-04-16 04:24:16', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 2023, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(12, '2024-04-16 04:26:25', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(13, '2024-04-16 04:32:29', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(14, '2024-04-16 04:33:03', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(15, '2024-04-16 04:48:20', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(16, '2024-04-16 04:57:08', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(17, '2024-04-16 04:58:26', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(18, '2024-04-16 05:02:23', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(19, '2024-04-16 05:03:51', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(20, '2024-04-16 05:07:29', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(21, '2024-04-16 05:08:30', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(22, '2024-04-16 05:09:27', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 8, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', NULL, 'fichas', NULL),
+(23, '2024-04-16 05:10:00', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', NULL, 'fichas', NULL),
+(24, '2024-04-16 05:10:05', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-04-17, anio_solicitud: 0, descripcion:  sdfsdfs, estado: A, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-04-17 anio_solicitud: 0, descripcion:  sdfsdfsA, fecha_entrevista: 2024-04-18, nombre_encuestador: fsddfsdf', 'fichas', NULL),
+(25, '2024-04-16 05:10:51', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(26, '2024-04-16 05:13:43', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(27, '2024-04-16 05:14:47', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(28, '2024-04-16 05:16:32', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(29, '2024-04-16 05:17:33', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(30, '2024-04-16 05:18:57', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(31, '2024-04-16 05:23:32', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(32, '2024-04-16 05:25:25', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(33, '2024-04-16 05:25:33', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(34, '2024-04-16 05:26:30', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 9, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 9, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(35, '2024-04-16 05:28:11', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 10, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', NULL, 'fichas', NULL),
+(36, '2024-04-16 05:37:50', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 1, fecha_solicitud: 2024-04-10, anio_solicitud: 2024, descripcion: prueba , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Paula Maritza Osorio Espino', NULL, 'fichas', NULL),
+(37, '2024-04-16 05:43:15', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 2, fecha_solicitud: 2024-04-10, anio_solicitud: 2024, descripcion: prueba , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Paula Maritza Osorio Espino', NULL, 'fichas', NULL),
+(38, '2024-04-16 05:43:40', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 2, fecha_solicitud: 2024-04-10, anio_solicitud: 0, descripcion: prueba , estado: A, fecha_entrevista: 2024-04-24, nombre_encuestador: Paula Maritza Osorio Espino', 'Información anterior = id_ficha: 2, fecha_solicitud: 2024-04-10 anio_solicitud: 2024, descripcion: prueba A, fecha_entrevista: 2024-04-24, nombre_encuestador: Paula Maritza Osorio Espino', 'fichas', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -3810,7 +3874,15 @@ CREATE TABLE `fichas` (
   `firma_encuestador` varchar(100) DEFAULT NULL,
   `nombre_supervisor` varchar(50) DEFAULT NULL,
   `firma_supervisor` varchar(100) DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `fichas`
+--
+
+INSERT INTO `fichas` (`id_ficha`, `fecha_solicitud`, `anio_solicitud`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`, `fecha_entrevista`, `nombre_encuentrador`, `firma_productor`, `nombre_encuestador`, `firma_encuestador`, `nombre_supervisor`, `firma_supervisor`) VALUES
+(1, '2024-04-10', 2024, 'prueba ', 'HARU', '2024-04-16 05:37:50', NULL, '2024-04-16 05:37:50', 'A', '2024-04-24', 'Maria Medina', NULL, 'Paula Maritza Osorio Espino', NULL, 'Josue Salgado', NULL),
+(2, '2024-04-10', 0, 'prueba ', 'HARU', '2024-04-16 05:37:50', 'HARU', '2024-04-16 05:43:40', 'A', '2024-04-24', 'Maria Medina', NULL, 'Paula Maritza Osorio Espino', NULL, 'Josue Salgado', NULL);
 
 --
 -- Disparadores `fichas`
@@ -4141,7 +4213,15 @@ CREATE TABLE `tbl_apoyos_produccion` (
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_apoyos_produccion`
+--
+
+INSERT INTO `tbl_apoyos_produccion` (`id_apoyo_prod`, `id_ficha`, `id_productor`, `id_apoyo_produccion`, `otros_detalles`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 1, NULL, NULL, 'HARU', '2024-04-16 05:40:48', NULL, '2024-04-16 05:40:48', 'A'),
+(2, 2, 2, 1, NULL, NULL, 'HARU', '2024-04-16 05:40:48', NULL, '2024-04-16 05:40:48', 'A');
 
 -- --------------------------------------------------------
 
@@ -4162,7 +4242,40 @@ CREATE TABLE `tbl_apoyo_actividad_externa` (
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_apoyo_actividad_externa`
+--
+
+INSERT INTO `tbl_apoyo_actividad_externa` (`id_apoyo_ext`, `id_ficha`, `id_productor`, `recibe_apoyo_prodagrícola`, `atencion_por_UAG`, `productos_vendidospor_pralesc`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'S', 'S', 'S', NULL, 'HARU', '2024-04-16 05:40:48', NULL, '2024-04-16 05:40:48', 'A'),
+(2, 2, 2, 'S', 'S', 'S', NULL, 'HARU', '2024-04-16 05:40:48', NULL, '2024-04-16 05:40:48', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_apoyo_tipo_organizacion`
+--
+
+CREATE TABLE `tbl_apoyo_tipo_organizacion` (
+  `id_ficha` int(11) DEFAULT NULL,
+  `id_productor` int(11) DEFAULT NULL,
+  `id_tipo_organizacion` int(11) DEFAULT NULL,
+  `creado_por` varchar(50) DEFAULT NULL,
+  `fecha_creacion` datetime DEFAULT NULL,
+  `modificado_por` varchar(50) DEFAULT NULL,
+  `fecha_modificacion` varchar(50) DEFAULT NULL,
+  `estado` enum('A','I') DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_apoyo_tipo_organizacion`
+--
+
+INSERT INTO `tbl_apoyo_tipo_organizacion` (`id_ficha`, `id_productor`, `id_tipo_organizacion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'HARU', '2024-04-15 23:40:48', NULL, NULL, 'A'),
+(2, 2, 1, 'HARU', '2024-04-15 23:40:48', NULL, NULL, 'A');
 
 -- --------------------------------------------------------
 
@@ -4181,7 +4294,15 @@ CREATE TABLE `tbl_base_organizacion` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_base_organizacion`
+--
+
+INSERT INTO `tbl_base_organizacion` (`id_pertenece_organizacion`, `id_ficha`, `id_productor`, `pertenece_a_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'S', NULL, 'HARU', '2024-04-16 05:38:56', NULL, '2024-04-16 05:38:56', 'A'),
+(2, 2, 2, 'S', NULL, 'HARU', '2024-04-16 05:38:56', 'HARU', '2024-04-16 05:43:44', 'A');
 
 -- --------------------------------------------------------
 
@@ -4233,7 +4354,14 @@ CREATE TABLE `tbl_composicion` (
   `modificado_por` varchar(25) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_composicion`
+--
+
+INSERT INTO `tbl_composicion` (`id_ficha`, `id_composicion`, `id_productor`, `genero`, `edad`, `cantidad`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'Mujer', '11-20', 2, 'HARU', '2024-04-16 05:39:00', NULL, '2024-04-16 05:39:00', 'A');
 
 -- --------------------------------------------------------
 
@@ -4255,7 +4383,17 @@ CREATE TABLE `tbl_credito_produccion` (
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_credito_produccion`
+--
+
+INSERT INTO `tbl_credito_produccion` (`id_credpro`, `id_ficha`, `id_productor`, `ha_solicitado_creditos`, `id_fuente_credito`, `monto_credito`, `id_motivos_no_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'N', NULL, NULL, 1, NULL, 'HARU', '2024-04-16 05:40:29', NULL, '2024-04-16 05:40:29', 'A'),
+(2, 1, 1, 'N', NULL, NULL, 2, NULL, 'HARU', '2024-04-16 05:40:30', NULL, '2024-04-16 05:40:30', 'A'),
+(6, 2, 2, 'N', NULL, NULL, 1, NULL, 'HARU', '2024-04-16 05:44:00', NULL, '2024-04-16 05:44:00', 'A'),
+(7, 2, 2, 'N', NULL, NULL, 2, NULL, 'HARU', '2024-04-16 05:44:00', NULL, '2024-04-16 05:44:00', 'A');
 
 -- --------------------------------------------------------
 
@@ -4352,7 +4490,15 @@ CREATE TABLE `tbl_etnias_por_productor` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_etnias_por_productor`
+--
+
+INSERT INTO `tbl_etnias_por_productor` (`Id_etnicidad`, `id_ficha`, `id_productor`, `id_etnia`, `detalle_de_otros`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 9, '0', NULL, 'HARU', '2024-04-16 05:39:03', NULL, '2024-04-16 05:39:03', 'A'),
+(2, 2, 2, 9, '', NULL, 'HARU', '2024-04-16 05:39:03', 'HARU', '2024-04-16 05:43:46', 'A');
 
 -- --------------------------------------------------------
 
@@ -4404,7 +4550,7 @@ CREATE TABLE `tbl_ingreso_familiar` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -4430,7 +4576,15 @@ CREATE TABLE `tbl_manejo_riego` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_manejo_riego`
+--
+
+INSERT INTO `tbl_manejo_riego` (`Id_Manejo_Riego`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Tiene_Riego`, `Superficie_Riego`, `Id_Medida_Superficie_Riego`, `Id_Tipo_Riego`, `Fuente_Agua`, `Disponibilidad_Agua_Meses`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(1, 1, 1, 1, 'S', 12.00, 1, 1, '34', 5, NULL, NULL, 'HARU', '2024-04-16 05:39:51', NULL, '2024-04-16 05:39:51', 'A'),
+(2, 2, 2, 2, 'S', 12.00, 1, 1, '34', 5, NULL, NULL, 'HARU', '2024-04-16 05:39:51', NULL, '2024-04-16 05:39:51', 'A');
 
 -- --------------------------------------------------------
 
@@ -4480,7 +4634,17 @@ CREATE TABLE `tbl_migracion_familiar` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_migracion_familiar`
+--
+
+INSERT INTO `tbl_migracion_familiar` (`id_ficha`, `id_productor`, `id_migracion`, `tiene_migrantes`, `migracion_dentro_pais`, `migracion_fuera_pais`, `id_tipo_motivos`, `remesas`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'S', 'S', 'N', 1, 'S', NULL, 'HARU', '2024-04-16 05:39:11', NULL, '2024-04-16 05:39:11', 'A'),
+(1, 1, 2, 'S', 'S', 'N', 10, 'S', NULL, 'HARU', '2024-04-16 05:39:11', NULL, '2024-04-16 05:39:11', 'A'),
+(2, 2, 8, 'S', 'S', 'N', 1, 'S', NULL, 'HARU', '2024-04-16 05:43:48', NULL, '2024-04-16 05:43:48', 'A'),
+(2, 2, 9, 'S', 'S', 'N', 10, 'S', NULL, 'HARU', '2024-04-16 05:43:48', NULL, '2024-04-16 05:43:48', 'A');
 
 -- --------------------------------------------------------
 
@@ -4633,7 +4797,17 @@ CREATE TABLE `tbl_organizaciones_por_productor` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_organizaciones_por_productor`
+--
+
+INSERT INTO `tbl_organizaciones_por_productor` (`id_ficha`, `id_productor`, `id_organizacion`, `Id_Organizacion_Productor`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 1, NULL, 'HARU', '2024-04-16 05:38:57', NULL, '2024-04-16 05:38:57', 'A'),
+(1, 1, 2, 2, NULL, 'HARU', '2024-04-16 05:38:57', NULL, '2024-04-16 05:38:57', 'A'),
+(2, 2, 1, 6, NULL, 'HARU', '2024-04-16 05:43:44', NULL, '2024-04-16 05:43:44', 'A'),
+(2, 2, 2, 7, NULL, 'HARU', '2024-04-16 05:43:44', NULL, '2024-04-16 05:43:44', 'A');
 
 -- --------------------------------------------------------
 
@@ -4705,7 +4879,19 @@ CREATE TABLE `tbl_practicas_por_produccion` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_practicas_por_produccion`
+--
+
+INSERT INTO `tbl_practicas_por_produccion` (`Id_Practica_Produccion`, `Id_Ficha`, `Id_Productor`, `Id_Tipo_Practica`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(1, 1, 1, 1, ' ', NULL, 'HARU', '2024-04-16 05:40:42', NULL, '2024-04-16 05:40:42', 'A'),
+(2, 1, 1, 6, ' ', NULL, 'HARU', '2024-04-16 05:40:42', NULL, '2024-04-16 05:40:42', 'A'),
+(3, 1, 1, 12, ' ', NULL, 'HARU', '2024-04-16 05:40:42', NULL, '2024-04-16 05:40:42', 'A'),
+(7, 2, 2, 1, ' ', NULL, 'HARU', '2024-04-16 05:44:03', NULL, '2024-04-16 05:44:03', 'A'),
+(8, 2, 2, 6, ' ', NULL, 'HARU', '2024-04-16 05:44:03', NULL, '2024-04-16 05:44:03', 'A'),
+(9, 2, 2, 12, ' ', NULL, 'HARU', '2024-04-16 05:44:03', NULL, '2024-04-16 05:44:03', 'A');
 
 -- --------------------------------------------------------
 
@@ -4733,7 +4919,15 @@ CREATE TABLE `tbl_produccion_agricola_anterior` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_produccion_agricola_anterior`
+--
+
+INSERT INTO `tbl_produccion_agricola_anterior` (`Id_Produccion_Anterior`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Cultivo`, `Superficie_Primera_Postrera`, `Id_Medida_Primera_Postrera`, `Produccion_Obtenida`, `Id_Medida_Produccion_Obtenida`, `Cantidad_Vendida`, `Id_Medida_Vendida`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(1, 1, 1, 1, 4, 'Primera', 1, 345.00, 2, 12.00, 1, 570.00, 'fdsfs', NULL, 'HARU', '2024-04-16 05:40:05', NULL, '2024-04-16 05:40:05', 'A'),
+(2, 2, 2, 2, 4, 'Primera', 1, 345.00, 2, 12.00, 1, 570.00, 'fdsfs', NULL, 'HARU', '2024-04-16 05:40:05', NULL, '2024-04-16 05:40:05', 'A');
 
 -- --------------------------------------------------------
 
@@ -4758,7 +4952,14 @@ CREATE TABLE `tbl_produccion_comercializacion` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_produccion_comercializacion`
+--
+
+INSERT INTO `tbl_produccion_comercializacion` (`Id_Produccion_Comercio`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Produccion`, `Cantidad_Produccion`, `Id_Medida_Produccion`, `Cantidad_Vendida`, `Id_Medida_Venta`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(1, 1, 1, 1, 1, NULL, 1, 120.00, 1, 344.00, 'fsfsd', 'HARU', '2024-04-16 05:40:18', NULL, '2024-04-16 05:40:18', 'A');
 
 -- --------------------------------------------------------
 
@@ -4786,7 +4987,14 @@ CREATE TABLE `tbl_produccion_pecuaria` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_produccion_pecuaria`
+--
+
+INSERT INTO `tbl_produccion_pecuaria` (`Id_Produccion_Pecuaria`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Año_Produccion`, `Id_Tipo_Pecuario`, `Cantidad_Hembras`, `Cantidad_Machos`, `Cantidad_Total`, `Descripcion_Otros`, `Precio_Venta`, `Id_Medida_Venta`, `Cantidad_Mercado`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(1, 1, 1, 1, 0, 1, 2, 0, 2, NULL, 1.00, 1, 1, NULL, 'HARU', '2024-04-16 05:40:10', NULL, '2024-04-16 05:40:10', 'A');
 
 -- --------------------------------------------------------
 
@@ -4806,7 +5014,7 @@ CREATE TABLE `tbl_produccion_vendida` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -4839,7 +5047,15 @@ CREATE TABLE `tbl_productor` (
   `modificado_por` varchar(25) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_productor`
+--
+
+INSERT INTO `tbl_productor` (`id_ficha`, `id_productor`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `identificacion`, `fecha_nacimiento`, `genero`, `estado_civil`, `nivel_escolaridad`, `ultimo_grado_escolar_aprobado`, `telefono_1`, `telefono_2`, `telefono_3`, `email_1`, `email_2`, `email_3`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+('1', 1, 'Paula', 'Maritza', 'Osorio', 'Espino', 801199801298, '1998-01-12', 'Femenino', 'Soltero(a)', 'primaria', '6', 32101812, 98103713, 0, '', '', '', NULL, 'HARU', '2024-04-16 05:38:32', NULL, '2024-04-16 05:38:32', 'A'),
+('2', 2, 'Paula', 'Maritza', 'Osorio', 'Espino', 801199801298, '1998-01-12', 'Femenino', 'Soltero(a)', 'primaria', '6', 32101812, 98103713, 0, '', '', '', NULL, 'HARU', '2024-04-16 05:43:41', '0', '2024-04-16 05:43:41', 'A');
 
 -- --------------------------------------------------------
 
@@ -4862,7 +5078,17 @@ CREATE TABLE `tbl_productor_actividad_externa` (
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_productor_actividad_externa`
+--
+
+INSERT INTO `tbl_productor_actividad_externa` (`id_actividad_ext`, `id_ficha`, `id_productor`, `miembros_realizan_actividades_fuera_finca`, `cuantos_miembros`, `trabajadores_temporales`, `trabajadores_permanentes`, `id_tomador_decisiones`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'S', 2, 3, 1, 1, NULL, 'HARU', '2024-04-16 05:40:36', NULL, '2024-04-16 05:40:36', 'A'),
+(2, 1, 1, 'S', 2, 3, 1, 3, NULL, 'HARU', '2024-04-16 05:40:37', NULL, '2024-04-16 05:40:37', 'A'),
+(6, 2, 2, 'S', 2, 3, 1, 1, NULL, 'HARU', '2024-04-16 05:44:02', NULL, '2024-04-16 05:44:02', 'A'),
+(7, 2, 2, 'S', 2, 3, 1, 3, NULL, 'HARU', '2024-04-16 05:44:02', NULL, '2024-04-16 05:44:02', 'A');
 
 -- --------------------------------------------------------
 
@@ -4882,7 +5108,15 @@ CREATE TABLE `tbl_relevo_organizacion` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_relevo_organizacion`
+--
+
+INSERT INTO `tbl_relevo_organizacion` (`id_ficha`, `id_productor`, `Id_Relevo`, `tendra_relevo`, `cuantos_relevos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 'S', 3, NULL, 'HARU', '2024-04-16 05:39:06', NULL, '2024-04-16 05:39:06', 'A'),
+(2, 2, 2, 'S', 3, NULL, 'HARU', '2024-04-16 05:39:06', 'HARU', '2024-04-16 05:43:47', 'A');
 
 -- --------------------------------------------------------
 
@@ -5280,7 +5514,15 @@ CREATE TABLE `tbl_ubicacion_productor` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_ubicacion_productor`
+--
+
+INSERT INTO `tbl_ubicacion_productor` (`id_ficha`, `id_productor`, `id_ubicacion`, `Id_Departamento`, `Id_Municipio`, `Id_Aldea`, `Id_Cacerio`, `ubicacion_geografica`, `distancia_parcela_vivienda`, `latitud_parcela`, `longitud_parcela`, `msnm`, `direccion_1`, `direccion_2`, `direccion_3`, `vive_en_finca`, `nombre_finca`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 1, 1, 2, 3, 2, 2, 'jgjgjh', 128.00, '678', '989', 89.00, 'nos ', 'sis', 'exs', 'S', 'San Matias', NULL, 'HARU', '2024-04-16 05:38:54', NULL, '2024-04-16 05:38:54', 'A'),
+(2, 2, 2, 2, 3, 2, 2, 'jgjgjh', 128.00, '678', '989', 89.00, 'nos ', 'sis', 'exs', 'S', 'San Matias', NULL, 'HARU', '2024-04-16 05:38:54', 'HARU', '2024-04-16 05:43:43', 'A');
 
 -- --------------------------------------------------------
 
@@ -5320,7 +5562,15 @@ CREATE TABLE `tbl_unidad_productora` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_unidad_productora`
+--
+
+INSERT INTO `tbl_unidad_productora` (`Id_Ubicacion`, `Id_Ficha`, `Id_Unidad_Productiva`, `Id_Productor`, `Tipo_De_Manejo`, `Superficie_Produccion`, `Id_Medida_Produccion`, `Superficie_Agricultura`, `Id_Medida_Agricultura`, `rubro_agricultura`, `Superficie_Ganaderia`, `Id_Medida_Ganaderia`, `rubro_ganaderia`, `Superficie_Apicultura`, `Id_Medida_Apicultura`, `Superficie_Forestal`, `Id_Medida_Forestal`, `rubro_forestal`, `Id_Superficie_Acuacultura`, `Superficie_Acuacultura`, `Numero_Estanques`, `Id_Superficie_Agroturismo`, `Superficie_Agroturismo`, `Superficie_Otros`, `Otros_Descripcion`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(1, 1, 1, 1, 'Alquilada', NULL, 1, 23.00, 3, 'cafe', 45.00, 2, 'leche', 34.00, 1, 11.00, 2, 'leña', 2, 44.00, 5, 4, 2.00, NULL, 'maiz', NULL, 'HARU', '2024-04-16 05:39:51', NULL, '2024-04-16 05:39:51', 'A'),
+(2, 2, 2, 2, 'Alquilada', NULL, 1, 3.00, 23, 'cafe', 45.00, 2, 'leche', 34.00, 1, 11.00, 2, 'leña', 2, 44.00, 5, 4, 2.00, NULL, '0.00', NULL, 'HARU', '2024-04-16 05:39:51', 'HARU', '2024-04-16 05:43:54', 'A');
 
 -- --------------------------------------------------------
 
@@ -5795,7 +6045,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `bitacoras`
 --
 ALTER TABLE `bitacoras`
-  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `estado_usuario`
@@ -5849,7 +6099,7 @@ ALTER TABLE `tbl_apoyos`
 -- AUTO_INCREMENT de la tabla `tbl_apoyos_produccion`
 --
 ALTER TABLE `tbl_apoyos_produccion`
-  MODIFY `id_apoyo_prod` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_apoyo_prod` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyo_actividad_externa`
@@ -5861,7 +6111,7 @@ ALTER TABLE `tbl_apoyo_actividad_externa`
 -- AUTO_INCREMENT de la tabla `tbl_base_organizacion`
 --
 ALTER TABLE `tbl_base_organizacion`
-  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_cacerios`
@@ -5879,7 +6129,7 @@ ALTER TABLE `tbl_composicion`
 -- AUTO_INCREMENT de la tabla `tbl_credito_produccion`
 --
 ALTER TABLE `tbl_credito_produccion`
-  MODIFY `id_credpro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_credpro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_departamentos`
@@ -5897,7 +6147,7 @@ ALTER TABLE `tbl_etnias`
 -- AUTO_INCREMENT de la tabla `tbl_etnias_por_productor`
 --
 ALTER TABLE `tbl_etnias_por_productor`
-  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_fuentes_credito`
@@ -5909,13 +6159,13 @@ ALTER TABLE `tbl_fuentes_credito`
 -- AUTO_INCREMENT de la tabla `tbl_ingreso_familiar`
 --
 ALTER TABLE `tbl_ingreso_familiar`
-  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_manejo_riego`
 --
 ALTER TABLE `tbl_manejo_riego`
-  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_medidas_tierra`
@@ -5927,7 +6177,7 @@ ALTER TABLE `tbl_medidas_tierra`
 -- AUTO_INCREMENT de la tabla `tbl_migracion_familiar`
 --
 ALTER TABLE `tbl_migracion_familiar`
-  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_migracion`
@@ -5963,7 +6213,7 @@ ALTER TABLE `tbl_organizaciones`
 -- AUTO_INCREMENT de la tabla `tbl_organizaciones_por_productor`
 --
 ALTER TABLE `tbl_organizaciones_por_productor`
-  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_parametros`
@@ -5981,7 +6231,7 @@ ALTER TABLE `tbl_periodicidad`
 -- AUTO_INCREMENT de la tabla `tbl_practicas_por_produccion`
 --
 ALTER TABLE `tbl_practicas_por_produccion`
-  MODIFY `Id_Practica_Produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Practica_Produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_agricola_anterior`
@@ -5993,7 +6243,7 @@ ALTER TABLE `tbl_produccion_agricola_anterior`
 -- AUTO_INCREMENT de la tabla `tbl_produccion_comercializacion`
 --
 ALTER TABLE `tbl_produccion_comercializacion`
-  MODIFY `Id_Produccion_Comercio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Produccion_Comercio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_pecuaria`
@@ -6011,19 +6261,19 @@ ALTER TABLE `tbl_produccion_vendida`
 -- AUTO_INCREMENT de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
-  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_productor_actividad_externa`
 --
 ALTER TABLE `tbl_productor_actividad_externa`
-  MODIFY `id_actividad_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_actividad_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_relevo_organizacion`
 --
 ALTER TABLE `tbl_relevo_organizacion`
-  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyos`
@@ -6101,13 +6351,13 @@ ALTER TABLE `tbl_trabajadores_externos`
 -- AUTO_INCREMENT de la tabla `tbl_ubicacion_productor`
 --
 ALTER TABLE `tbl_ubicacion_productor`
-  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_unidad_productora`
 --
 ALTER TABLE `tbl_unidad_productora`
-  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
