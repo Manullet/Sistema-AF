@@ -418,6 +418,7 @@ switch($contenedor){
                         'Id_Medida_Apicultura' => $row['Id_Medida_Apicultura'],
                         'Superficie_Forestal' => $row['Superficie_Forestal'],
                         'Id_Medida_Forestal' => $row['Id_Medida_Forestal'],
+                        'Id_Superficie_Acuacultura' => $row['Id_Superficie_Acuacultura'],
                         'Superficie_Acuacultura' => $row['Superficie_Acuacultura'],
                         'Numero_Estanques' => $row['Numero_Estanques'],
                         'Superficie_Agroturismo' => $row['Superficie_Agroturismo'],
@@ -426,7 +427,6 @@ switch($contenedor){
                         'rubro_agricultura' => $row['rubro_agricultura'],
                         'rubro_ganaderia' => $row['rubro_ganaderia'],
                         'rubro_forestal' => $row['rubro_forestal'],
-                        'Id_Superficie_Acuacultura' => $row['Id_Superficie_Acuacultura'],
                         'Id_Superficie_Agroturismo'=> $row['Id_Superficie_Agroturismo'],
                     );
             }
@@ -675,7 +675,7 @@ switch($contenedor){
 
         $idProductor = $row['id_productor'];
 
-        $query = "SELECT td.tomador 
+        $query = "SELECT td.descripcion 
         from tbl_productor_actividad_externa pa
         INNER JOIN tbl_toma_decisiones td ON td.id_tipo_tomador = pa.id_tomador_decisiones
         WHERE pa.id_ficha = $id
@@ -689,7 +689,7 @@ switch($contenedor){
             while ($row = mysqli_fetch_assoc($result)) {
                 // Array para almacenar los datos de los municipios
                     $datos = array(
-                    'tomador' => $row['tomador'],
+                    'descripcion' => $row['descripcion'],
                 );
 
                 $tomadores[] = $datos;
@@ -839,6 +839,53 @@ switch($contenedor){
         mysqli_free_result($result);
         mysqli_close($conexion);
     break;
+
+
+    case 'tipoOrgNombres': 
+        $id=$_GET['id'];
+
+        $sql = "SELECT id_productor from tbl_productor where id_ficha='$id' order by id_productor asc limit 1";
+        $result = $conexion->query($sql);
+        $row = $result->fetch_assoc();
+
+        $idProductor = $row['id_productor'];
+
+        $query = "SELECT tp.tipo_organizacion 
+        from tbl_apoyo_tipo_organizacion ato
+        INNER JOIN tbl_tipo_organizacion tp ON tp.id_tipo_organizacion = ato.id_tipo_organizacion
+        WHERE ato.id_ficha = $id
+        AND ato.id_productor = $idProductor
+        ";
+        $result = mysqli_query($conexion, $query);
+
+        $apoyos = array();
+
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Array para almacenar los datos de los municipios
+                    $datos = array(
+                    'tipo_organizacion' => $row['tipo_organizacion'],
+                );
+
+                $apoyos[] = $datos;
+            }
+            
+            // Convertir el array a formato JSON
+            $json_response = json_encode($apoyos);
+
+            // Retornar el JSON como respuesta
+            echo $json_response;
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron municipios para el departamento con ID $id.";
+        }
+
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
+
 }
 
 ?>

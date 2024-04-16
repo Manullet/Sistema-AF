@@ -612,7 +612,7 @@ $(document).ready(function() {
             
                         // Filtra los checkboxes por el valor del atributo 'value'
                         var checkbox = Array.from(checkboxes).find(function(cb) {
-                            return cb.value === item.tomador;
+                            return cb.value === item.descripcion;
                         });
             
                         if (checkbox !== undefined) {
@@ -690,6 +690,37 @@ $(document).ready(function() {
 
             },
         });
+    });
+
+
+    $("#datosApoyoForm").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let id= document.getElementById('codigo').value;
+
+            $.ajax({
+                url: "modelos/cargarDatosFicha.php",
+                type: "GET",
+                data: {
+                    contenedor: 'tipoOrgNombres', id:id
+                },
+                success: function(data) {
+                    const datos = JSON.parse(data)
+
+                    datos.forEach(function(item) {
+                        var checkboxes = document.getElementsByName('fuenteApoyo[]');
+            
+                        // Filtra los checkboxes por el valor del atributo 'value'
+                        var checkbox = Array.from(checkboxes).find(function(cb) {
+                            return cb.value === item.tipo_organizacion;
+                        });
+            
+                        if (checkbox !== undefined) {
+                            checkbox.checked = true;
+                        } 
+                    });
+                    
+                },
+            });
+            
     });
 
 

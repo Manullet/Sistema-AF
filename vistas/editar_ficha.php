@@ -1909,16 +1909,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
             <!-- Selección múltiple de quién provee el apoyo -->
             <div class="form-group seccionOculta">
                 <label>¿De quién recibe apoyo para la producción agropecuaria? (selección múltiple)</label><br>
-                <input type="checkbox" id="apoyoGobierno" name="fuenteApoyo" value="Gobierno">
-                <label for="apoyoGobierno">Gobierno</label><br>
-                <input type="checkbox" id="apoyoONG" name="fuenteApoyo" value="ONG">
-                <label for="apoyoONG">ONG</label><br>
-                <input type="checkbox" id="apoyoAmigo" name="fuenteApoyo" value="Amigo">
-                <label for="apoyoAmigo">Amigo</label><br>
-                <input type="checkbox" id="apoyoCooperativa" name="fuenteApoyo" value="Cooperativa">
-                <label for="apoyoCooperativa">Cooperativa</label><br>
-                <label for="apoyoOtro">Otro (especifique)</label>
-                <input type="text" class="form-control" id="apoyoOtro" name="apoyoOtro">
+                <div class="form-checkbox" id="CheckboxTipoOrganizacion"></div>
             </div>
 
             <div class="form-group seccionOculta">
@@ -3080,6 +3071,74 @@ $_SESSION['id_ficha'] = $numeroFicha;
         });
     });
 </script>
+
+
+<script>
+    $("#CheckboxTipoOrganizacion").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+        let contenedor = document.getElementById('CheckboxTipoOrganizacion')
+        $.ajax({
+            url: "modelos/cargarDatosCheckbox.php",
+            type: "GET",
+            data: {
+                checkbox: 'TipoOrganizacion'
+            },
+            success: function(data) {
+                const motivos = JSON.parse(data)
+
+                motivos.forEach(motivo => {
+                    // Crear un nuevo elemento checkbox
+                    var checkbox = document.createElement('input');
+
+                    // Establecer el tipo de elemento como checkbox
+                    checkbox.type = 'checkbox';
+                    checkbox.id = 'miCheckbox';
+                    checkbox.name = 'fuenteApoyo[]';
+
+                    // Establecer el valor del checkbox
+                    checkbox.value = motivo.nombre;
+
+                    var label = document.createElement('label');
+                    label.htmlFor = 'miCheckbox';
+                    label.appendChild(document.createTextNode(motivo.nombre));
+                    var br = document.createElement("br");
+
+                    contenedor.appendChild(checkbox);
+                    contenedor.appendChild(label);
+                    contenedor.appendChild(br);
+                })
+            },
+        });
+
+    })
+
+
+    $(document).ready(function() {
+        $('#datosMigraForm').submit(function(e) {
+            e.preventDefault(); // Evitar la recarga de la página
+
+            // Realizar la solicitud AJAX
+            $.ajax({
+                type: 'POST',
+                url: 'modelos/datosMigraForm.php',
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Aquí puedes manejar la respuesta del servidor si es necesario
+                    console.log(response);
+                    // Deshabilita el botón después de hacer clic
+                    $('#guardarBtn').prop('disabled', true);
+                    // O puedes ocultar el botón si prefieres
+                    // $('#guardarBtn').hide();
+                },
+                error: function(error) {
+                    // Manejar el error si es necesario
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+
 
 <script>
     $("#CheckboxApoyo").load("demo.txt", function(responseTxt, statusTxt, xhr) {

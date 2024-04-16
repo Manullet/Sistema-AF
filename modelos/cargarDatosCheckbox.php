@@ -278,6 +278,39 @@ switch($generarCheckbox){
         mysqli_free_result($result);
         mysqli_close($conexion);
     break;
+
+
+    case 'TipoOrganizacion': 
+        $query = "SELECT tipo_organizacion FROM tbl_tipo_organizacion";
+        $result = mysqli_query($conexion, $query);
+
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            // Array para almacenar los datos de los municipios
+            $tomadores = array();
+
+            // Iterar sobre los resultados y guardar los datos en el array
+            while ($row = mysqli_fetch_assoc($result)) {
+                $tomador = array(
+                    'nombre' => $row['tipo_organizacion']
+                );
+                $tomadores[] = $tomador;
+            }
+
+            // Convertir el array a formato JSON
+            $json_response = json_encode($tomadores);
+
+            // Retornar el JSON como respuesta
+            echo $json_response;
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron motivos";
+        }
+
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
    
 }
 
