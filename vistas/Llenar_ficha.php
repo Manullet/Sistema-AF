@@ -174,7 +174,6 @@ function obtenerNumeroFicha($conexion)
 }
 
 ?>
-
 <div class="containertable">
     <div class="header">
         <h1 class="poppins-font mb-2">FORMULARIO DE REGISTRO</h1>
@@ -624,6 +623,7 @@ function obtenerNumeroFicha($conexion)
                             <th>Edad</th>
                             <th>Género</th>
                             <th>Cantidad</th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                     <tbody id="tablaTemporal" class="table-hover">
@@ -1386,6 +1386,7 @@ function obtenerNumeroFicha($conexion)
                                 <th>Medida Venta</th>
                                 <th>Precio Unidad</th>
                                 <th>A quién vendió</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody id="tablaTemporalCultivo" class="table-hover">
@@ -1566,6 +1567,7 @@ function obtenerNumeroFicha($conexion)
                         <th>Precio de Venta</th>
                         <th>Unidad de Medida</th>
                         <th>Mercado</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody id="tablaUnidadesVendidas">
@@ -1730,6 +1732,7 @@ function obtenerNumeroFicha($conexion)
                                 <th>Cantidad Vendida</th>
                                 <th>Precio de Venta (Lps)</th>
                                 <th>A quién le vendió</th>
+                                <th>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody id="tablaDatosPecuaria">
@@ -1806,6 +1809,7 @@ function obtenerNumeroFicha($conexion)
                     <tr>
                         <th>Tipo de Ingreso</th>
                         <th>Cantidad (L)</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody id="tablaIngresos">
@@ -1979,6 +1983,11 @@ function obtenerNumeroFicha($conexion)
 <script src="assets/js/selectsUbicacionDinamicos.js"></script>
 
 <script>
+    function eliminarFila(boton) {
+            var fila = boton.parentNode.parentNode;
+            fila.parentNode.removeChild(fila);
+        }
+
     $(document).ready(function() {
         $("#datosApoyoForm").submit(function(event) {
             event.preventDefault();
@@ -2117,7 +2126,7 @@ function obtenerNumeroFicha($conexion)
         var tipoAnimalName = tipoAnimal.options[tipoAnimal.selectedIndex].text;
 
         // Crear una nueva fila
-        var fila = "<tr><td>" + tipoAnimalName + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td><td></tr>";
+        var fila = "<tr><td>" + tipoAnimalName + "</td><td>" + generoAnimal + "</td><td>" + cantidadAnimal + "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
 
         // Agregar la fila a la tabla
         document.getElementById('tablaTemporalAnimales').innerHTML += fila;
@@ -2153,7 +2162,7 @@ function obtenerNumeroFicha($conexion)
     var uVentaText = uVenta.options[uVenta.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
 
     // Crear una nueva fila
-    var fila = "<tr><td>" + cultivoName + "</td><td>" + siembraText + "</td><td>" + areaSembradaText + "</td><td>" + pObtenida + "</td><td>" + uProduccionText + "</td><td>" + cantidadV + "</td><td>" + uVentaText + "</td><td>" + precioUnidad + "</td><td>" + Venta + "</td></tr>";
+    var fila = "<tr><td>" + cultivoName + "</td><td>" + siembraText + "</td><td>" + areaSembradaText + "</td><td>" + pObtenida + "</td><td>" + uProduccionText + "</td><td>" + cantidadV + "</td><td>" + uVentaText + "</td><td>" + precioUnidad + "</td><td>" + Venta + "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
 
     // Agregar la fila a la tabla
     document.getElementById('tablaTemporalCultivo').innerHTML += fila;
@@ -2179,7 +2188,7 @@ function obtenerNumeroFicha($conexion)
         var cantidad = document.getElementById('cantidad').value;
 
         // Crear una nueva fila
-        var fila = "<tr><td>" + Edad + "</td><td>" + generoEdad + "</td><td>" + cantidad + "</td></tr>";
+        var fila = "<tr><td>" + Edad + "</td><td>" + generoEdad + "</td><td>" + cantidad + "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
 
         // Agregar la fila a la tabla
         document.getElementById('tablaTemporal').innerHTML += fila;
@@ -2216,7 +2225,7 @@ function obtenerNumeroFicha($conexion)
 
         var tipoAnimalName = tipoAnimal.options[tipoAnimal.selectedIndex].text;
         // Crear una nueva fila para la tabla de unidades vendidas
-        var filaUnidadesVendidas = "<tr><td>" + tipoAnimalName + "</td><td>" + precioVenta + "</td><td>" + unidadMedida + "</td><td>" + mercado + "</td></tr>";
+        var filaUnidadesVendidas = "<tr><td>" + tipoAnimalName + "</td><td>" + precioVenta + "</td><td>" + unidadMedida + "</td><td>" + mercado + "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
 
         // Agregar la fila a la tabla correspondiente
         document.getElementById('tablaUnidadesVendidas').innerHTML += filaUnidadesVendidas;
@@ -2252,6 +2261,7 @@ function obtenerNumeroFicha($conexion)
                         <td>${cantidadVendida}</td>
                         <td>${precioVenta}</td>
                         <td>${cliente}</td>
+                        <td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td>
                      </tr>`;
 
         // Agregar la nueva fila a la tabla
@@ -2277,6 +2287,7 @@ function obtenerNumeroFicha($conexion)
         var nuevaFila = `<tr>
                         <td>${tipoIngresoName}</td>
                         <td>${cantidadIngreso}</td>
+                        <td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td>
                      </tr>`;
 
         // Agregar la nueva fila a la tabla
@@ -2524,6 +2535,7 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -2675,6 +2687,7 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.motivo;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -2993,6 +3006,7 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3040,6 +3054,7 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3107,6 +3122,7 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3171,6 +3187,7 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3235,6 +3252,7 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3273,6 +3291,7 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';

@@ -26,6 +26,12 @@ if (!empty($jsonData)) {
         // Bandera para verificar si hubo algún error en las inserciones
         $error = false;
 
+        // Consulta DELETE
+        $sql = "DELETE FROM tbl_ingreso_familiar WHERE Id_Ficha = '$idFicha' 
+        and Id_Productor = '$idProductor'";
+        $result = $conexion->query($sql);
+        
+
         foreach ($data as $fila) {
             $tipoIngreso = mysqli_real_escape_string($conexion, $fila[0]);
             $cantidad = mysqli_real_escape_string($conexion, $fila[1]);

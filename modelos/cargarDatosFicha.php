@@ -886,6 +886,217 @@ switch($contenedor){
         mysqli_close($conexion);
     break;
 
+
+    case 'TablaComposicion': 
+        $id=$_GET['id'];
+
+        $sql = "SELECT id_productor from tbl_productor where id_ficha='$id' order by id_productor asc limit 1";
+        $result = $conexion->query($sql);
+        $row = $result->fetch_assoc();
+
+        $idProductor = $row['id_productor'];
+
+        $query = "SELECT genero, edad, cantidad from tbl_composicion WHERE id_ficha = $id
+        AND id_productor = $idProductor
+        ";
+        $result = mysqli_query($conexion, $query);
+
+        $apoyos = array();
+
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Array para almacenar los datos de los municipios
+                    $datos = array(
+                    'genero' => $row['genero'],
+                    'edad' => $row['edad'],
+                    'cantidad' => $row['cantidad'],
+                );
+
+                $apoyos[] = $datos;
+            }
+            
+            // Convertir el array a formato JSON
+            $json_response = json_encode($apoyos);
+
+            // Retornar el JSON como respuesta
+            echo $json_response;
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron municipios para el departamento con ID $id.";
+        }
+
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
+
+
+    case 'TablaProdAgricolaAnterior': 
+        $id=$_GET['id'];
+
+        $sql = "SELECT id_productor from tbl_productor where id_ficha='$id' order by id_productor asc limit 1";
+        $result = $conexion->query($sql);
+        $row = $result->fetch_assoc();
+
+        $idProductor = $row['id_productor'];
+
+        $sql = "SELECT id_ubicacion from tbl_ubicacion_productor where id_productor=$idProductor and id_ficha = $id limit 1";
+        $result = $conexion->query($sql);
+        $row = $result->fetch_assoc();
+    
+        $idUbicacion = $row['id_ubicacion'];
+
+        $query = "SELECT tc.tipo_cultivo, pa.Superficie_Primera_Postrera, m.medida as MedidaSuperficie,
+        pa.Produccion_Obtenida, n.medida as MedidaProduccion, pa.Cantidad_Vendida, o.medida as medidaCantidad,
+        pa.Precio_Venta, pa.A_Quien_Se_Vendio
+        FROM tbl_produccion_agricola_anterior pa
+        INNER JOIN tbl_tipo_cultivo tc ON tc.id_tipo_cultivo = pa.Id_Tipo_Cultivo
+        INNER JOIN tbl_medidas_tierra m ON m.id_medida = pa.Id_Medida_Primera_Postrera
+        INNER JOIN tbl_medidas_tierra n ON n.id_medida = pa.Id_Medida_Produccion_Obtenida
+        INNER JOIN tbl_medidas_tierra o ON o.id_medida = pa.Id_Medida_Vendida
+        WHERE pa.Id_Ficha = $id AND pa.Id_Ubicacion = $idUbicacion AND pa.Id_Productor = $idProductor";
+        $result = mysqli_query($conexion, $query);
+
+        $apoyos = array();
+
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Array para almacenar los datos de los municipios
+                    $datos = array(
+                    'tipo_cultivo' => $row['tipo_cultivo'],
+                    'Superficie_Primera_Postrera' => $row['Superficie_Primera_Postrera'],
+                    'MedidaSuperficie' => $row['MedidaSuperficie'],
+                    'Produccion_Obtenida' => $row['Produccion_Obtenida'],
+                    'MedidaProduccion' => $row['MedidaProduccion'],
+                    'Cantidad_Vendida' => $row['Cantidad_Vendida'],
+                    'medidaCantidad' => $row['medidaCantidad'],
+                    'Precio_Venta' => $row['Precio_Venta'],
+                    'A_Quien_Se_Vendio' => $row['A_Quien_Se_Vendio'],
+                );
+
+                $apoyos[] = $datos;
+            }
+            
+            // Convertir el array a formato JSON
+            $json_response = json_encode($apoyos);
+
+            // Retornar el JSON como respuesta
+            echo $json_response;
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron municipios para el departamento con ID $id.";
+        }
+
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
+
+
+    case 'TablaProdComercializacion': 
+        $id=$_GET['id'];
+
+        $sql = "SELECT id_productor from tbl_productor where id_ficha='$id' order by id_productor asc limit 1";
+        $result = $conexion->query($sql);
+        $row = $result->fetch_assoc();
+
+        $idProductor = $row['id_productor'];
+
+        $sql = "SELECT id_ubicacion from tbl_ubicacion_productor where id_productor=$idProductor and id_ficha = $id limit 1";
+        $result = $conexion->query($sql);
+        $row = $result->fetch_assoc();
+    
+        $idUbicacion = $row['id_ubicacion'];
+
+        $query = "SELECT tp.tipo_produccion, m.periodo, n.medida, pc.Cantidad_Vendida, pc.Precio_Venta,
+        pc.A_Quien_Se_Vendio
+        FROM tbl_produccion_comercializacion pc
+        INNER JOIN tbl_tipo_produccion tp ON tp.id_tipo_produccion = pc.Id_Tipo_Produccion
+        INNER JOIN tbl_periodicidad m ON m.id_periodo = pc.Id_Medida_Produccion
+        INNER JOIN tbl_medidas_tierra n ON n.id_medida = pc.Id_Medida_Venta
+        WHERE pc.Id_Ficha = $id AND pc.Id_Ubicacion = $idUbicacion AND pc.Id_Productor = $idProductor";
+        $result = mysqli_query($conexion, $query);
+
+        $apoyos = array();
+
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Array para almacenar los datos de los municipios
+                    $datos = array(
+                    'tipo_produccion' => $row['tipo_produccion'],
+                    'periodo' => $row['periodo'],
+                    'medida' => $row['medida'],
+                    'Cantidad_Vendida' => $row['Cantidad_Vendida'],
+                    'Precio_Venta' => $row['Precio_Venta'],
+                    'A_Quien_Se_Vendio' => $row['A_Quien_Se_Vendio']
+                );
+
+                $apoyos[] = $datos;
+            }
+            
+            // Convertir el array a formato JSON
+            $json_response = json_encode($apoyos);
+
+            // Retornar el JSON como respuesta
+            echo $json_response;
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron municipios para el departamento con ID $id.";
+        }
+
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
+
+
+    case 'TablaIngresoFamiliar': 
+        $id=$_GET['id'];
+
+        $sql = "SELECT id_productor from tbl_productor where id_ficha='$id' order by id_productor asc limit 1";
+        $result = $conexion->query($sql);
+        $row = $result->fetch_assoc();
+
+        $idProductor = $row['id_productor'];
+
+        $query = "SELECT tn.tipo_negocio, i.Total_Ingreso
+        FROM tbl_ingreso_familiar i
+        INNER JOIN tbl_tipo_negocios tn ON tn.id_tipo_negocio = i.Id_Tipo_Negocio
+        WHERE i.Id_Ficha = $id AND i.Id_Productor =  $idProductor";
+        $result = mysqli_query($conexion, $query);
+
+        $apoyos = array();
+
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Array para almacenar los datos de los municipios
+                    $datos = array(
+                    'tipo_negocio' => $row['tipo_negocio'],
+                    'Total_Ingreso' => $row['Total_Ingreso']
+                );
+
+                $apoyos[] = $datos;
+            }
+            
+            // Convertir el array a formato JSON
+            $json_response = json_encode($apoyos);
+
+            // Retornar el JSON como respuesta
+            echo $json_response;
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron municipios para el departamento con ID $id.";
+        }
+
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
+
 }
 
 ?>

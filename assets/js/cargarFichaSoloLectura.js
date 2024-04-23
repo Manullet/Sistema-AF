@@ -286,7 +286,7 @@ $(document).ready(function () {
             elemento.genero +
             "</td><td>" +
             elemento.cantidad +
-            "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
+            "</td></tr>";
           tabla.innerHTML += fila;
         });
       },
@@ -589,7 +589,7 @@ $(document).ready(function () {
               "</td><td>" +
               elemento.A_Quien_Se_Vendio
               +
-            "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
+            "</td></tr>";
             tabla.innerHTML += fila;
           });
         },
@@ -635,7 +635,7 @@ $(document).ready(function () {
               "</td><td>" +
               elemento.A_Quien_Se_Vendio 
               +
-            "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
+            "</td></tr>";
             tabla.innerHTML += fila;
           });
         },
@@ -767,7 +767,7 @@ $(document).ready(function () {
               elemento.tipo_negocio +
               "</td><td>" +
               elemento.Total_Ingreso +
-            "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
+            "</td></tr>";
             tabla.innerHTML += fila;
           });
         },

@@ -113,10 +113,21 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             <form id="duplicar" method="POST" action="" style="display: inline;">
                                 <input type="hidden" name="id_ficha" id="id_ficha_act" value="<?= $datos->id_ficha ?>">
                                 <button type="button" class="btn btn-primary" onclick="duplicarFicha(<?= $datos->id_ficha ?>)">
-                                    <i class="bi bi-trash"></i>
+                                    <i class="bi bi-clipboard2-check"></i>
                                     Crear Registro para nuevo año
                                 </button>
                             </form>
+                            
+                                <button type="button" class="btn btn-primary" onclick=" CargarContenido('vistas/editar_ficha.php','content-wrapper',<?= $datos->id_ficha ?>)">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Editar Ficha
+                                </button>
+
+                                <button type="button" class="btn btn-warning" onclick=" CargarContenido('vistas/ver_ficha.php','content-wrapper',<?= $datos->id_ficha ?>)">
+                                    <i class="bi bi-eye"></i>
+                                    Ver Ficha
+                                </button>
+                           
                         </td>
                     </tr>
                 <?php }

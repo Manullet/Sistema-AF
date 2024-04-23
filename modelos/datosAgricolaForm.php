@@ -11,13 +11,13 @@ session_start();
     $result = $conexion->query($sql);
     $row = $result->fetch_assoc();
    
-    $idProductor = 1;//$row['id_productor'];
+    $idProductor = $row['id_productor'];
 
     $sql = "SELECT id_ubicacion from tbl_ubicacion_productor where id_productor=$idProductor limit 1";
     $result = $conexion->query($sql);
     $row = $result->fetch_assoc();
    
-    $idUbicacion = 1;//$row['id_ubicacion'];
+    $idUbicacion = $row['id_ubicacion'];
 
     $jsonData = file_get_contents('php://input');
     //var_dump($jsonData);

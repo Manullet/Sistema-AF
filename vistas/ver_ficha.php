@@ -155,6 +155,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 <i class="fas fa-reply"></i>&nbsp;Regresar a Fichas</button>
 <br>
 <br>
+
 <div class="containertable">
     <div class="header">
         <h1 class="poppins-font mb-2">EDICIÓN DE FICHA</h1>
@@ -240,7 +241,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
         <!-- Formularios -->
         <div class="col-md-9">
             <!-- Datos de la ficha -->
-            <form action="modelos/EdicionFichas/editar_ficha.php" method="POST" id="datosFichaForm" class="form-section">
+            <form action="" id="datosFichaForm" class="form-section">
                 <h3>Ficha</h3>
                 <br>
                 <div class="form-row">
@@ -250,48 +251,48 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-3">
                         <label for="fecha_solicitud">Fecha de solicitud</label>
-                        <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="Fecha">
+                        <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" placeholder="Fecha" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="anio_solicitud">Año de solicitud</label>
-                        <input type="number" class="form-control" id="anio_solicitud" name="anio_solicitud" placeholder="Año Actual">
+                        <input type="number" class="form-control" id="anio_solicitud" name="anio_solicitud" placeholder="Año Actual" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="fecha_entrevista" class="form-label">Fecha de la entrevista</label>
-                        <input type="date" class="form-control" id="fecha_entrevista" name="fecha_entrevista" placeholder="Fecha Actual">
+                        <input type="date" class="form-control" id="fecha_entrevista" name="fecha_entrevista" placeholder="Fecha Actual" readonly>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="nombre_encuestador" class="form-label">Encuestador</label>
-                        <input type="text" class="form-control" id="nombre_encuestador" name="nombre_encuestador" placeholder="Nombre Encuestador">
+                        <input type="text" class="form-control" id="nombre_encuestador" name="nombre_encuestador" placeholder="Nombre Encuestador" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="nombre_encuestado" class="form-label">Encuestado</label>
-                        <input type="text" class="form-control" id="nombre_encuestado" name="nombre_encuestado" placeholder="Nombre Encuestado">
+                        <input type="text" class="form-control" id="nombre_encuestado" name="nombre_encuestado" placeholder="Nombre Encuestado" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="nombre_supervisor" class="form-label">Supervisor</label>
-                        <input type="text" class="form-control" id="nombre_supervisor" name="nombre_supervisor" placeholder="Nombre Supervisor">
+                        <input type="text" class="form-control" id="nombre_supervisor" name="nombre_supervisor" placeholder="Nombre Supervisor" readonly>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="descripcion">Descripción</label>
-                        <textarea cols="50" rows="5" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción"> </textarea>
+                        <textarea cols="50" rows="5" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción" readonly> </textarea>
                         <!-- <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción">-->
                     </div>
                 </div>
                 <div class="modal-footer center-content-between">
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosTrabajadorForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="button" id="guardarBtn" onclick="navigateToForm('#datosTrabajadorForm')" class="btn btn-actualizar">Siguiente</button>
                     <!-- <button type="button" class="btn btn-info" onclick="navigateToForm('#datosTrabajadorForm')">Siguiente</button> -->
                 </div>
             </form>
 
 
             <!-- Formulario de Datos Generales -->
-            <form action="modelos/EdicionFichas/editar_productor.php" method="POST" id="datosTrabajadorForm" class="form-section" style="display: none;">
+            <form action="" id="datosTrabajadorForm" class="form-section" style="display: none;">
                 <!-- Agrega el campo formType -->
                 <input type="hidden" name="formType" value="datosTrabajador">
                 <!-- Datos del Trabajador -->
@@ -300,27 +301,27 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="primerNombre">Primer Nombre</label>
-                        <input type="text" class="form-control" id="primerNombre" name="primerNombre" placeholder="Primer Nombre">
+                        <input type="text" class="form-control" id="primerNombre" name="primerNombre" placeholder="Primer Nombre" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="segundoNombre">Segundo Nombre</label>
-                        <input type="text" class="form-control" id="segundoNombre" name="segundoNombre" placeholder="Segundo Nombre">
+                        <input type="text" class="form-control" id="segundoNombre" name="segundoNombre" placeholder="Segundo Nombre" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="primerApellido">Primer Apellido</label>
-                        <input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Primer Apellido">
+                        <input type="text" class="form-control" id="primerApellido" name="primerApellido" placeholder="Primer Apellido" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="segundoApellido">Segundo Apellido</label>
-                        <input type="text" class="form-control" id="segundoApellido" name="segundoApellido" placeholder="Segundo Apellido">
+                        <input type="text" class="form-control" id="segundoApellido" name="segundoApellido" placeholder="Segundo Apellido" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="identidadProductor" class="form-label">Número de identidad</label>
-                        <input type="text" class="form-control" id="identidadProductor" name="identidadProductor" placeholder="Identidad">
+                        <input type="text" class="form-control" id="identidadProductor" name="identidadProductor" placeholder="Identidad" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="sexoProductor">Sexo</label>
-                        <select id="sexoProductor" class="form-control" name="sexoProductor">
+                        <select id="sexoProductor" class="form-control" name="sexoProductor" readonly>
                             <option value="" disabled selected>Seleccione...</option>
                             <option value="Masculino">Masculino</option>
                             <option value="Femenino">Femenino</option>
@@ -328,11 +329,11 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="fechaNacimiento">Fecha de nacimiento</label>
-                        <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de Nacimiento">
+                        <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de Nacimiento" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="estadoCivilProductor" class="form-label">Estado Civil</label>
-                        <select class="form-control" id="estadoCivilProductor" name="estadoCivilProductor">
+                        <select class="form-control" id="estadoCivilProductor" name="estadoCivilProductor" readonly>
                             <option value="" disabled selected>Seleccione...</option>
                             <option value="Casado(a)">Casado(a)</option>
                             <option value="Soltero(a)">Soltero(a)</option>
@@ -341,7 +342,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="escolaridadProductor" class="form-label">Nivel Educativo</label>
-                        <select class="form-control" id="escolaridadProductor" name="escolaridadProductor">
+                        <select class="form-control" id="escolaridadProductor" name="escolaridadProductor" readonly>
                             <option value="" disabled selected>Seleccione...</option>
                             <option value="ninguno">Ninguno</option>
                             <option value="primaria">Primaria</option>
@@ -351,7 +352,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="ultimoGradoEscolar" class="form-label">Último grado escolar aprobado</label>
-                        <select class="form-control" id="ultimoGradoEscolar" name="ultimoGradoEscolar">
+                        <select class="form-control" id="ultimoGradoEscolar" name="ultimoGradoEscolar" readonly>
                             <option value="" disabled selected>Seleccione...</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -366,29 +367,29 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     <div class="form-group col-md-4">
                         <label for="telefonoPrincipa" class="form-label">Teléfono Principal</label>
-                        <input type="tel" class="form-control" id="telefonoPrincipal" name="telefonoPrincipal" placeholder="Teléfono Principal">
+                        <input type="tel" class="form-control" id="telefonoPrincipal" name="telefonoPrincipal" placeholder="Teléfono Principal" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="telefonoSecundario" class="form-label">Teléfono Secundario</label>
-                        <input type="tel" class="form-control" id="telefonoSecundario" name="telefonoSecundario" placeholder="Teléfono Secundario">
+                        <input type="tel" class="form-control" id="telefonoSecundario" name="telefonoSecundario" placeholder="Teléfono Secundario" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="telefonoOpcional" class="form-label">Teléfono Opcional</label>
-                        <input type="tel" class="form-control" id="telefonoOpcional" name="telefonoOpcional" placeholder="Teléfono Opcional">
+                        <input type="tel" class="form-control" id="telefonoOpcional" name="telefonoOpcional" placeholder="Teléfono Opcional" readonly>
                     </div>
 
 
                     <div class="form-group col-md-4">
                         <label for="correoPrincipal" class="form-label">Correo Principal</label>
-                        <input type="email" class="form-control" id="correoPrincipal" name="correoPrincipal" placeholder="Correo Principal">
+                        <input type="email" class="form-control" id="correoPrincipal" name="correoPrincipal" placeholder="Correo Principal" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="correoSecundario" class="form-label">Correo Secundario</label>
-                        <input type="email" class="form-control" id="correoSecundario" name="correoSecundario" placeholder="Correo Secundario">
+                        <input type="email" class="form-control" id="correoSecundario" name="correoSecundario" placeholder="Correo Secundario" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="correoOpcional" class="form-label">Correo Opcional</label>
-                        <input type="email" class="form-control" id="correoOpcional" name="correoOpcional" placeholder="Correo Opcional">
+                        <input type="email" class="form-control" id="correoOpcional" name="correoOpcional" placeholder="Correo Opcional" readonly>
                     </div>
 
                 </div>
@@ -396,12 +397,12 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosFichaForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUbiForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="button" id="guardarBtn" onclick="navigateToForm('#datosUbiForm')" class="btn btn-actualizar">Siguiente</button>
                 </div>
             </form>
 
             <!-- Formulario de Ubicación Geográfica -->
-            <form action="modelos/EdicionFichas/editar-ubicacion.php" method="POST" id="datosUbiForm" class="form-section" style="display: none;">
+            <form action="" id="datosUbiForm" class="form-section" style="display: none;">
                 <!-- Agrega el campo formType -->
                 <input type="hidden" name="formType" value="datosUbi">
                 <h3>Ubicación Geográfica</h3>
@@ -409,7 +410,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="Id_Departamento">Departamento </label>
-                        <select class="form-control" id="Id_Departamento" name="Id_Departamento" required>
+                        <select class="form-control" id="Id_Departamento" name="Id_Departamento" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                             <?php
                             // Conexión a la base de datos
@@ -437,69 +438,69 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Id_Municipio">Municipio:</label>
-                        <select class="form-control" id="Id_Municipio" name="Id_Municipio" required>
+                        <select class="form-control" id="Id_Municipio" name="Id_Municipio" readonly>
 
                         </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Id_Aldea">Aldea:</label>
-                        <select class="form-control" id="Id_Aldea" name="Id_Aldea" required>
+                        <select class="form-control" id="Id_Aldea" name="Id_Aldea" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="Id_Cacerio">Caseríos:</label>
-                        <select class="form-control" id="Id_Cacerio" name="Id_Cacerio" required>
+                        <select class="form-control" id="Id_Cacerio" name="Id_Cacerio" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label>Vive en la finca el productor(a):</label>
                         <div>
-                            <input type="radio" id="viveFincaSi" name="viveFinca" value="S">
+                            <input type="radio" id="viveFincaSi" name="viveFinca" value="S" disabled>
                             <label for="viveFincaSi">Si</label>
-                            <input type="radio" id="viveFincaNo" name="viveFinca" value="N">
+                            <input type="radio" id="viveFincaNo" name="viveFinca" value="N" disabled>
                             <label for="viveFincaNo">No</label>
                         </div>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="nombreFinca" class="form-label">Nombre de la finca</label>
-                        <input class="form-control" type="text" id="nombreFinca" name="nombreFinca" placeholder="Nombre de la finca">
+                        <input class="form-control" type="text" id="nombreFinca" name="nombreFinca" placeholder="Nombre de la finca" readonly>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="ubicacion" class="form-label">Ubicación</label>
-                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ubicación">
+                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ubicación" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="distanciaVivienda" class="form-label">Distancia(km/m):</label>
-                        <input type="text" class="form-control" id="distanciaVivienda" name="distanciaVivienda" placeholder="Distancia entre parcela y vivienda(km/m)">
+                        <input type="text" class="form-control" id="distanciaVivienda" name="distanciaVivienda" placeholder="Distancia entre parcela y vivienda(km/m)" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="latitudParcela" class="form-label">Latitud de la parcela:</label>
-                        <input type="text" class="form-control" id="latitudParcela" name="latitudParcela" placeholder="Longitud">
+                        <input type="text" class="form-control" id="latitudParcela" name="latitudParcela" placeholder="Longitud" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="longitudParcela" class="form-label">Longitud de la parcela:</label>
-                        <input type="text" class="form-control" id="longitudParcela" name="longitudParcela" placeholder="Latitud">
+                        <input type="text" class="form-control" id="longitudParcela" name="longitudParcela" placeholder="Latitud" readonly>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="msnm" class="form-label">MSNM:</label>
-                        <input type="number" class="form-control" id="msnm" name="msnm" placeholder="Metros sobre el nivel del mar">
+                        <input type="number" class="form-control" id="msnm" name="msnm" placeholder="Metros sobre el nivel del mar" readonly>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="direccionPrincipal" class="form-label">Dirección Principal</label>
-                        <textarea cols="40" rows="3" class="form-control" id="direccionPrincipal" name="direccionPrincipal" placeholder="Dirección 1"> </textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionPrincipal" name="direccionPrincipal" placeholder="Dirección 1" readonly> </textarea>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="direccionSecundario" class="form-label">Dirección Secundario</label>
-                        <textarea cols="40" rows="3" class="form-control" id="direccionSecundario" name="direccionSecundario" placeholder="Dirección 2"></textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionSecundario" name="direccionSecundario" placeholder="Dirección 2" readonly></textarea>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="direccionOpcional" class="form-label">Dirección Opcional</label>
-                        <textarea cols="40" rows="3" class="form-control" id="direccionOpcional" name="direccionOpcional" placeholder="Dirección 3"></textarea>
+                        <textarea cols="40" rows="3" class="form-control" id="direccionOpcional" name="direccionOpcional" placeholder="Dirección 3" readonly></textarea>
                     </div>
                 </div>
 
@@ -507,7 +508,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
 
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosTrabajadorForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPertenenciaForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="button" id="guardarBtn" onclick="navigateToForm('#datosPertenenciaForm')" class="btn btn-actualizar">Siguiente</button>
 
 
                 </div>
@@ -515,16 +516,16 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
 
             <!-- Formulario de Pertenencia a Organizaciones -->
-            <form action="modelos/EdicionFichas/editar_organizacion_prod.php" method="POST" id="datosPertenenciaForm" class="form-section" style="display: none;">
+            <form action="" id="datosPertenenciaForm" class="form-section" style="display: none;">
                 <h3>Pertenencia a Organizaciones</h3>
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="pertenece">¿Pertenece a alguna organización?</label>
                         <div>
-                            <input type="radio" id="si" name="pertenece" value="si">
+                            <input type="radio" id="si" name="pertenece" value="si" disabled>
                             <label for="si"> Si </label>
-                            <input type="radio" id="no" name="pertenece" value="no">
+                            <input type="radio" id="no" name="pertenece" value="no" disabled>
                             <label for="no"> No </label>
                         </div>
                     </div>
@@ -538,64 +539,15 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 </div>
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosUbiForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosHogarForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="button" id="guardarBtn" onclick="navigateToForm('#datosHogarForm')" class="btn btn-actualizar">Siguiente</button>
 
                 </div>
             </form>
 
             <!-- Formulario de Composición del hogar -->
-            <form action="modelos/EdicionFichas/editar_composicion.php" method="POST" id="datosHogarForm" class="form-section" style="display: none;">
+            <form action="" id="datosHogarForm" class="form-section" style="display: none;">
                 <h3>Composición del Hogar</h3>
                 <br>
-
-                <div class="row">
-                    <!-- EDAD -->
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="edad">Edades</label>
-                            <select class="form-control" id="edad" name="edad" onchange="mostrarOpcionesEdad(this.value)">
-                                <option value="">Seleccione una edad</option>
-                                <option value="0-10">0-10 años</option>
-                                <option value="11-20">11-20 años</option>
-                                <option value="21-30">21-30 años</option>
-                                <option value="31-40">31-40 años</option>
-                                <option value="41-50">41-50 años</option>
-                                <option value="51-60">51-60 años</option>
-                                <option value="61-70">61-70 años</option>
-                                <option value="71-80">71-80 años</option>
-                                <option value="81-90">81-90 años</option>
-                                <option value="91+">91+ años</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Género -->
-                    <div class="col-md-4">
-                        <div class="form-group" id="divGenero" style="display:none;">
-                            <label for="generoEdad">Género</label>
-                            <select class="form-control" id="generoEdad" name="generoEdad">
-                                <option value="" disabled>Seleccione...</option>
-                                <option value="Mujer">Mujer</option>
-                                <option value="Hombre">Hombre</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Cantidad -->
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="cantidad">Cantidad</label>
-                            <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="Cantidad" min="1">
-                        </div>
-                    </div>
-                    <br>
-                    <!-- Botón Agregar -->
-                    <div class="col-md-3 d-flex align-items-center">
-                        <button type="button" class="btn btn-info" onclick="agregarEdad()"> Agregar</button>
-                    </div>
-                    <br>
-                    <br>
-                </div>
 
                 <br>
                 <table class="table">
@@ -604,7 +556,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
                             <th>Edad</th>
                             <th>Género</th>
                             <th>Cantidad</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="tablaTemporal" class="table-hover">
@@ -614,13 +565,13 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPertenenciaForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosEtniaForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="button" id="guardarBtn" onclick="navigateToForm('#datosEtniaForm')" class="btn btn-actualizar">Siguiente</button>
 
                 </div>
             </form>
 
             <!-- Formulario de Etnicidad-->
-            <form action="modelos/EdicionFichas/editar_etnia.php" method="POST" id="datosEtniaForm" class="form-section" style="display: none;">
+            <form action="" id="datosEtniaForm" class="form-section" style="display: none;">
                 <h3>Etnicidad</h3>
                 <br>
                 <div class="form-row">
@@ -629,52 +580,52 @@ $_SESSION['id_ficha'] = $numeroFicha;
                         <p>
                         <div class="form-group">
                             <div>
-                                <input type="radio" id="id_etnia" name="etnia" value="1">
+                                <input type="radio" id="id_etnia" name="etnia" value="1" disabled>
                                 <label for="lencas">Lencas</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="pech" name="etnia" value="2">
+                                <input type="radio" id="pech" name="etnia" value="2" disabled>
                                 <label for="pech">Pech</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="tolupanes" name="etnia" value="3">
+                                <input type="radio" id="tolupanes" name="etnia" value="3" disabled>
                                 <label for="tolupanes">Tolupanes</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="garifunas" name="etnia" value="4">
+                                <input type="radio" id="garifunas" name="etnia" value="4" disabled>
                                 <label for="garifunas">Garífunas</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="mayaChortis" name="etnia" value="5">
+                                <input type="radio" id="mayaChortis" name="etnia" value="5" disabled>
                                 <label for="mayaChortis">Maya Chortís</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="tawahkas" name="etnia" value="6">
+                                <input type="radio" id="tawahkas" name="etnia" value="6" disabled>
                                 <label for="tawahkas">Tawahkas</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="misquitos" name="etnia" value="7">
+                                <input type="radio" id="misquitos" name="etnia" value="7" disabled>
                                 <label for="misquitos">Misquitos</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="nahua" name="etnia" value="8">
+                                <input type="radio" id="nahua" name="etnia" value="8" disabled>
                                 <label for="nahua">Nahua</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="ladino" name="etnia" value="9">
+                                <input type="radio" id="ladino" name="etnia" value="9" disabled>
                                 <label for="ladino">Ladino</label>
                             </div>
 
                             <div>
-                                <input type="radio" id="negroHablaInglesa" name="etnia" value="10">
+                                <input type="radio" id="negroHablaInglesa" name="etnia" value="10" disabled>
                                 <label for="negroHablaInglesa">Negro habla inglesa</label>
                             </div>
 
@@ -691,30 +642,30 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 </div>
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosHogarForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosRelevoForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="button" id="guardarBtn" onclick="navigateToForm('#datosRelevoForm')" class="btn btn-actualizar">Siguiente</button>
 
                 </div>
             </form>
 
             <!-- Formulario de Relevo Generacional -->
-            <form action="modelos/EdicionFichas/editar_relevo.php" method="POST" id="datosRelevoForm" class="form-section" style="display: none;">
+            <form action="" id="datosRelevoForm" class="form-section" style="display: none;">
                 <h3>Relevo Generacional</h3>
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-8">
                         <label>¿De las actividades agropecuarias que desarrolla, usted cree que la seguirán practicando alguno o algunos de los miembros del hogar?</label>
                         <div>
-                            <input type="radio" id="relevoSi" name="relevo" value="Si">
+                            <input type="radio" id="relevoSi" name="relevo" value="Si" disabled>
                             <label for="Si">Si</label>
                             <div id="cuantosHay">
                                 <div class="form-group col-md-8">
                                     <label for="cuantos">Cuantos</label>
-                                    <input type="number" name="cuantos" id="cuantos" min="0" class="cuadro-texto">
+                                    <input type="number" name="cuantos" id="cuantos" min="0" class="cuadro-texto" readonly>
                                     <br>
                                 </div>
                             </div>
                             <br>
-                            <input type="radio" id="relevoNo" name="relevo" value="No">
+                            <input type="radio" id="relevoNo" name="relevo" value="No" disabled>
                             <label for="No">No</label>
                         </div>
                     </div>
@@ -724,23 +675,23 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosEtniaForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosMigraForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="button" id="guardarBtn" onclick="navigateToForm('#datosMigraForm')" class="btn btn-actualizar">Siguiente</button>
 
                 </div>
             </form>
 
             <!-- Formulario de Migración Familiar -->
-            <form action="modelos/EdicionFichas/editar_migracion.php" method="POST" id="datosMigraForm" class="form-section" style="display: none;">
+            <form action="" id="datosMigraForm" class="form-section" style="display: none;">
                 <h3>Migración Familiar</h3>
                 <br>
                 <div class="form-row">
                     <div class="form-group col-md-5">
                         <label>Alguien del hogar ha emigrado?</label>
                         <div>
-                            <input type="radio" id="MigraSi" name="migra" value="S">
+                            <input type="radio" id="MigraSi" name="migra" value="S" disabled>
                             <label for="Si">Si</label>
 
-                            <input type="radio" id="MigraNo" name="migra" value="N">
+                            <input type="radio" id="MigraNo" name="migra" value="N" disabled>
                             <label for="No">No</label>
                         </div>
                     </div>
@@ -750,10 +701,10 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     <div class="form-group col-md-5">
                         <label for="destino">¿Hacia dónde emigró?</label>
                         <div>
-                            <input type="radio" name="destino" value="dentro_del_pais" id="dentroDelPais">
+                            <input type="radio" name="destino" value="dentro_del_pais" id="dentroDelPais" disabled>
                             <label for="dentroDelPais">Dentro del país</label>
 
-                            <input type="radio" name="destino" value="otro_pais" id="otroPais">
+                            <input type="radio" name="destino" value="otro_pais" id="otroPais" disabled>
                             <label for="otroPais">Otro país</label>
                         </div>
                     </div>
@@ -772,10 +723,10 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     <div class="form-group col-md-5">
                         <label>¿Le envía remesas?</label>
                         <div>
-                            <input type="radio" name="remesas" value="si" id="siRemesas">
+                            <input type="radio" name="remesas" value="si" id="siRemesas" disabled>
                             <label for="siRemesas"> Si</label>
 
-                            <input type="radio" name="remesas" value="no" id="noRemesas">
+                            <input type="radio" name="remesas" value="no" id="noRemesas" disabled>
                             <label for="noRemesas"> No</label>
                         </div>
                     </div>
@@ -783,13 +734,13 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosRelevoForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" class="btn btn-actualizar" onclick="navigateToForm('#datosUnidadForm')">Siguiente</button>
+                    <button type="button" id="guardarBtn" class="btn btn-actualizar" onclick="navigateToForm('#datosUnidadForm')">Siguiente</button>
                 </div>
             </form>
 
 
             <!-- Formulario de Información Básica de la Unidad Productiva -->
-            <form action="modelos/EdicionFichas/editar_unidadProductiva.php" method="POST" id="datosUnidadForm" class="form-section" style="display: none;">
+            <form action="" id="datosUnidadForm" class="form-section" style="display: none;">
                 <h3>Información Básica de la Unidad Productiva</h3>
                 <br>
                 <div class="form-row">
@@ -798,22 +749,22 @@ $_SESSION['id_ficha'] = $numeroFicha;
                         <br>
                         <div class="form-radio">
 
-                            <input type="radio" name="razon" value="Propia" id="propia">
+                            <input type="radio" name="razon" value="Propia" id="propia" disabled>
                             <label for="propia">Propia</label>
 
-                            <input type="radio" name="razon" value="Alquilada" id="alquilada">
+                            <input type="radio" name="razon" value="Alquilada" id="alquilada" disabled>
                             <label for="alquilada">Alquilada</label>
 
-                            <input type="radio" name="razon" value="Prestada" id="prestada">
+                            <input type="radio" name="razon" value="Prestada" id="prestada" disabled>
                             <label for="prestada">Prestada</label>
 
-                            <input type="radio" name="razon" value="Ejidal" id="ejidal">
+                            <input type="radio" name="razon" value="Ejidal" id="ejidal" disabled>
                             <label for="ejidal">Ejidal</label>
                         </div>
                         <br>
                         <div class="form-group col-md-8">
                             <label for="produccion" class="form-label">Cuánta de esa área disponible es apta para la producción agropecuaria</label>
-                            <select class="form-control" id="Id_Superficie_Produccion" name="Id_Superficie_Produccion">
+                            <select class="form-control" id="Id_Superficie_Produccion" name="Id_Superficie_Produccion" readonly>
                                 <?php
                                 // Conexión a la base de datos
                                 include '../php/conexion_be.php';
@@ -850,7 +801,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="Id_Superficie_Agricultura">Medida Superficie Agricultura:</label>
-                        <select class="form-control" id="Id_Superficie_Agricultura" name="Id_Superficie_Agricultura">
+                        <select class="form-control" id="Id_Superficie_Agricultura" name="Id_Superficie_Agricultura" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                             <?php
                             // Conexión a la base de datos
@@ -878,12 +829,12 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="areaAgricultura">Superficie dedicada a Agricultura</label>
-                        <input type="number" class="form-control" name="areaAgricultura" id="areaAgricultura" placeholder="">
+                        <input type="number" class="form-control" name="areaAgricultura" id="areaAgricultura" placeholder="" readonly>
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="rubrosAgricultura">Rubros</label>
-                        <input type="text" class="form-control" name="rubrosAgricultura" id="rubrosAgricultura">
+                        <input type="text" class="form-control" name="rubrosAgricultura" id="rubrosAgricultura" readonly>
                     </div>
                 </div>
 
@@ -893,7 +844,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="Id_Superficie_Ganaderia">Medida Superficie Ganadería:</label>
-                        <select class="form-control" id="Id_Superficie_Ganaderia" name="Id_Superficie_Ganaderia">
+                        <select class="form-control" id="Id_Superficie_Ganaderia" name="Id_Superficie_Ganaderia" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                             <?php
                             // Conexión a la base de datos
@@ -921,12 +872,12 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="areaGanaderia">Superficie dedicada a Ganadería</label>
-                        <input type="number" class="form-control" name="areaGanaderia" id="areaGanaderia" placeholder="">
+                        <input type="number" class="form-control" name="areaGanaderia" id="areaGanaderia" placeholder="" readonly>
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="rubrosGanaderia">Rubros</label>
-                        <input type="text" class="form-control" name="rubrosGanaderia" id="rubrosGanaderia">
+                        <input type="text" class="form-control" name="rubrosGanaderia" id="rubrosGanaderia" readonly>
                     </div>
                 </div>
 
@@ -936,7 +887,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="Id_Superficie_Apicultura">Medida Superficie Apicultura:</label>
-                        <select class="form-control" id="Id_Superficie_Apicultura" name="Id_Superficie_Apicultura">
+                        <select class="form-control" id="Id_Superficie_Apicultura" name="Id_Superficie_Apicultura" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                             <?php
                             // Conexión a la base de datos
@@ -964,7 +915,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="areaApicultura">Superficie dedicada a Apicultura</label>
-                        <input type="number" class="form-control" name="areaApicultura" id="areaApicultura" placeholder="">
+                        <input type="number" class="form-control" name="areaApicultura" id="areaApicultura" placeholder="" readonly>
                     </div>
                 </div>
 
@@ -975,7 +926,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="Id_Superficie_Forestal">Medida Superficie Forestal:</label>
-                        <select class="form-control" id="Id_Superficie_Forestal" name="Id_Superficie_Forestal">
+                        <select class="form-control" id="Id_Superficie_Forestal" name="Id_Superficie_Forestal" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                             <?php
                             // Conexión a la base de datos
@@ -1003,11 +954,11 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="areaForestal">Superficie dedicada a Forestal</label>
-                        <input type="number" class="form-control" name="areaForestal" id="areaForestal" placeholder="">
+                        <input type="number" class="form-control" name="areaForestal" id="areaForestal" placeholder="" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="rubrosForestal">Rubros</label>
-                        <input type="text" class="form-control" name="rubrosForestal" id="rubrosForestal">
+                        <input type="text" class="form-control" name="rubrosForestal" id="rubrosForestal" readonly>
                     </div>
                 </div>
 
@@ -1017,7 +968,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="Id_Superficie_Acuacultura">Medida Superficie Acuacultura:</label>
-                        <select class="form-control" id="Id_Superficie_Acuacultura" name="Id_Superficie_Acuacultura">
+                        <select class="form-control" id="Id_Superficie_Acuacultura" name="Id_Superficie_Acuacultura" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                             <?php
                             // Conexión a la base de datos
@@ -1045,11 +996,11 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="areaAcuacultura">Superficie dedicada a Acuacultura</label>
-                        <input type="number" class="form-control" name="areaAcuacultura" id="areaAcuacultura" placeholder="">
+                        <input type="number" class="form-control" name="areaAcuacultura" id="areaAcuacultura" placeholder="" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="numEstanques">Número de estanques</label>
-                        <input type="text" class="form-control" name="numEstanques" id="numEstanques">
+                        <input type="text" class="form-control" name="numEstanques" id="numEstanques" readonly>
                     </div>
                 </div>
 
@@ -1060,7 +1011,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="Id_Superficie_Agroturismo">Medida Superficie Agroturismo:</label>
-                        <select class="form-control" id="Id_Superficie_Agroturismo" name="Id_Superficie_Agroturismo">
+                        <select class="form-control" id="Id_Superficie_Agroturismo" name="Id_Superficie_Agroturismo" readonly>
                             <option value="" selected disabled>Seleccione una opción</option>
                             <?php
                             // Conexión a la base de datos
@@ -1088,7 +1039,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     </div>
                     <div class="form-group col-md-4">
                         <label for="areaAgroturismo">Superficie dedicada a Agroturismo</label>
-                        <input type="number" class="form-control" name="areaAgroturismo" id="areaAgroturismo" placeholder="">
+                        <input type="number" class="form-control" name="areaAgroturismo" id="areaAgroturismo" placeholder="" readonly>
                     </div>
                 </div>
                 <br>
@@ -1096,7 +1047,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="otrosUsos">Otros Usos</label>
-                        <input type="text" name="otrosUsos" id="otrosUsos" placeholder="Escriba aquí..." class="form-control">
+                        <input type="text" name="otrosUsos" id="otrosUsos" placeholder="Escriba aquí..." class="form-control" readonly>
                         <br>
                     </div>
                 </div>
@@ -1106,13 +1057,13 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="sistemaRiego">¿Posee sistema de riego?</label><br>
-                        <input type="radio" name="sistemaRiego" value="Si" id="SistemaSi"> Si
-                        <input type="radio" name="sistemaRiego" value="No" id="SistemaNo"> No<br>
+                        <input type="radio" name="sistemaRiego" value="Si" id="SistemaSi" disabled> Si
+                        <input type="radio" name="sistemaRiego" value="No" id="SistemaNo" disabled> No<br>
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="Medida_Riego">Medida de Riego </label>
-                        <select class="form-control" id="Medida_Riego" name="Medida_Riego">
+                        <select class="form-control" id="Medida_Riego" name="Medida_Riego" readonly>
                             <?php
                             // Conexión a la base de datos
                             include '../php/conexion_be.php';
@@ -1140,12 +1091,12 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     <div class="form-group col-md-4">
                         <label for="areaRiego">Área bajo riego</label>
-                        <input type="text" name="areaRiego" id="areaRiego" placeholder="(Ha.)(Mz.)(Tarea)" class="form-control">
+                        <input type="text" name="areaRiego" id="areaRiego" placeholder="(Ha.)(Mz.)(Tarea)" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="tipoRiego">Tipo de Riego</label>
-                        <select class="form-control" id="tipoRiego" name="tipoRiego">
+                        <select class="form-control" id="tipoRiego" name="tipoRiego" readonly>
                             <?php
                             // Conexión a la base de datos
                             include '../php/conexion_be.php';
@@ -1173,187 +1124,28 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     <div class="form-group col-md-4">
                         <label for="fuenteAgua">Fuente de agua</label>
-                        <input type="text" name="fuenteAgua" id="fuenteAgua" class="form-control">
+                        <input type="text" name="fuenteAgua" id="fuenteAgua" class="form-control" readonly>
                     </div>
 
                     <div class="form-group col-md-4">
                         <label for="disponibilidadAgua">Disponibilidad de agua en el año (meses)</label>
-                        <input type="text" name="disponibilidadAgua" id="disponibilidadAgua" class="form-control">
+                        <input type="text" name="disponibilidadAgua" id="disponibilidadAgua" class="form-control" readonly>
                     </div>
                 </div>
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosMigraForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosAgricolaForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="button" id="guardarBtn" onclick="navigateToForm('#datosAgricolaForm')" class="btn btn-actualizar">Siguiente</button>
                 </div>
             </form>
 
 
 
             <!-- Formulario de Produccion Agricola -->
-            <form action="modelos/EdicionFichas/editarAgricola.php" method="POST" id="datosAgricolaForm" class="form-section" style="display: none;">
+            <form action="" id="datosAgricolaForm" class="form-section" style="display: none;">
                 <h3>Información de Cultivos</h3>
                 <div class="cultivo-info">
                     <h4>Cultivo</h4>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="nombreCultivo">Nombre del Cultivo</label>
-                            <select class="form-control" id="nombreCultivo" name="nombreCultivo">
-                                <option value="" selected disabled>Seleccione una opción</option>
-                                <?php
-                                // Conexión a la base de datos
-                                include '../php/conexion_be.php';
-
-                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_tipo_cultivo, tipo_cultivo FROM tbl_tipo_cultivo";
-
-                                // Ejecutar la consulta
-                                $result = mysqli_query($conexion, $sql);
-
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["id_tipo_cultivo"] . '">' . $row["tipo_cultivo"] . '</option>';
-                                    }
-                                } else {
-                                    echo '<option value="">No hay municipios disponibles</option>';
-                                }
-
-                                // Cierra la conexión a la base de datos
-                                mysqli_close($conexion);
-                                ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="tipoSiembra">Siembra</label>
-                            <select class="form-control" id="tipoSiembra" name="tipoSiembra">
-                                <option value="">Seleccione una opción</option>
-                                <option value="Primera">Primera</option>
-                                <option value="Postrera">Postrera</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="areaSembrada">Área Sembrada</label>
-                            <select class="form-control" id="areaSembrada" name="areaSembrada">
-                                <option value="" selected disabled>Seleccione una opción</option>
-                                <?php
-                                // Conexión a la base de datos
-                                include '../php/conexion_be.php';
-
-                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
-
-                                // Ejecutar la consulta
-                                $result = mysqli_query($conexion, $sql);
-
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
-                                    }
-                                } else {
-                                    echo '<option value="">No hay municipios disponibles</option>';
-                                }
-
-                                // Cierra la conexión a la base de datos
-                                mysqli_close($conexion);
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class=" form-row">
-                        <div class="form-group col-md-4">
-                            <label for="produccionObtenida">Producción Obtenida</label>
-                            <input type="number" class="form-control" id="produccionObtenida" name="produccionObtenida" min="0" step="any">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="unidadMedidaProduccion">Unidad de Medida de Producción</label>
-                            <select class="form-control" id="unidadMedidaProduccion" name="unidadMedidaProduccion">
-                                <option value="" selected disabled>Seleccione una opción</option>
-                                <?php
-                                // Conexión a la base de datos
-                                include '../php/conexion_be.php';
-
-                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
-
-                                // Ejecutar la consulta
-                                $result = mysqli_query($conexion, $sql);
-
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
-                                    }
-                                } else {
-                                    echo '<option value="">No hay municipios disponibles</option>';
-                                }
-
-                                // Cierra la conexión a la base de datos
-                                mysqli_close($conexion);
-                                ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="cantidadVendida">Cantidad Vendida</label>
-                            <input type="number" class="form-control" id="cantidadVendida" name="cantidadVendida" min="0" step="any">
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="unidadMedidaVenta">Unidad de Medida de Venta</label>
-                            <select class="form-control" id="unidadMedidaVenta" name="unidadMedidaVenta">
-                                <option value="" selected disabled>Seleccione una opción</option>
-                                <?php
-                                // Conexión a la base de datos
-                                include '../php/conexion_be.php';
-
-                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
-
-                                // Ejecutar la consulta
-                                $result = mysqli_query($conexion, $sql);
-
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                        echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
-                                    }
-                                } else {
-                                    echo '<option value="">No hay municipios disponibles</option>';
-                                }
-
-                                // Cierra la conexión a la base de datos
-                                mysqli_close($conexion);
-                                ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="precioVenta">Precio de Venta por Unidad de Medida</label>
-                            <input type="number" class="form-control" id="precioVenta" name="precioVenta" min="0" step="0.01">
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label for="comprador">A quién vendió</label>
-                            <input type="text" class="form-control" id="comprador" name="comprador">
-                        </div>
-
-                        <br>
-                        <!-- Botón Agregar -->
-                        <div class="col-md-3 d-flex align-items-center">
-                            <button type="button" class="btn btn-info" onclick="agregarTablaCultivo()">Agregar</button>
-                        </div>
-                        <br>
-                        <br>
-                    </div>
 
                     <table class="table">
                         <thead class="table-dark">
@@ -1367,7 +1159,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
                                 <th>Medida Venta</th>
                                 <th>Precio Unidad</th>
                                 <th>A quién vendió</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tablaTemporalCultivo" class="table-hover">
@@ -1377,13 +1168,13 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 </div>
 
                 <div class="modal-footer center-content-between">
-                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosUnidadForm')">Regresar</button>
-                    <button type="submit" onclick="navigateToForm('#datosPecuariaForm')" class="btn btn-actualizar">Siguiente</button>
+                    
+                    <button type="button" onclick="navigateToForm('#datosPecuariaForm')" class="btn btn-actualizar">Siguiente</button>
                 </div>
             </form>
         <!-- 10 -->
 
-        <form action="modelos/EdicionFichas/editar_ProduccionPecuaria.php" method="POST" id="datosPecuariaForm" class="form-section" style="display: none;">
+        <form action="" id="datosPecuariaForm" class="form-section" style="display: none;">
             <h3>Producción Pecuaria (Inventario)</h3>
             <br>
 
@@ -1453,7 +1244,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
                         <th>Género</th>
                         <th>Cantidad</th>
                         <th>Eliminar</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="tablaTemporalAnimales" class="table-hover">
@@ -1549,7 +1339,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
                         <th>Precio de Venta</th>
                         <th>Unidad de Medida</th>
                         <th>Mercado</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="tablaUnidadesVendidas">
@@ -1561,146 +1350,15 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
             <div class="modal-footer center-content-between">
                 <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosAgricolaForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPrCoForm')" class="btn btn-actualizar">Siguiente</button>
+                <button type="button" id="guardarBtn" onclick="navigateToForm('#datosPrCoForm')" class="btn btn-actualizar">Siguiente</button>
 
             </div>
         </form>
 
         <!-- 11 -->
 
-        <form action="modelos/EdicionFichas/editar_ProdComercializacion.php" method="POST" id="datosPrCoForm" class="form-section" style="display: none;">
+        <form action="" id="datosPrCoForm" class="form-section" style="display: none;">
             <h3>11. Producción y Comercialización Pecuaria</h3>
-
-            <div class="row">
-                <!-- Formulario para tipo de producción -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="tipoProduccion">Tipo de Producción</label>
-                        <select class="form-control" id="tipoProduccion" name="tipoProduccion">
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_tipo_produccion, tipo_produccion FROM tbl_tipo_produccion";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["id_tipo_produccion"] . '">' . $row["tipo_produccion"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay municipios disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Periodicidad -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="unidadMedidaVenta">Periodicidad</label>
-                        <select class="form-control" id="periodoTiempo" name="periodoTiempo">
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_periodo, periodo FROM tbl_periodicidad";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["id_periodo"] . '">' . $row["periodo"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay municipios disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Unidad de Medida -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="unidadMedidaPC">Unidad de medida</label>
-                        <select class="form-control" id="unidadMedidaPC" name="unidadMedidaPC">
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay municipios disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <!-- Cantidad Vendida -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="cantidadVendidaPC">Cantidad vendida</label>
-                        <input type="number" class="form-control" id="cantidadVendidaPC" name="cantidadVendidaPC" min="0">
-                    </div>
-                </div>
-
-                <!-- Precio de Venta -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="precioVentaPC">Precio de venta (Lps)</label>
-                        <input type="number" class="form-control" id="precioVentaPC" name="precioVentaPC" min="0" step="0.01">
-                    </div>
-                </div>
-
-                <!-- A quién Vendió -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="cliente">A quién le vendió</label>
-                        <input type="text" class="form-control" id="cliente" name="cliente">
-                    </div>
-                </div>
-
-
-            </div>
-
-            <!-- Botón Agregar -->
-            <div class="row">
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-info" id="btnAgregar" onclick="agregarATablaProduccion()">Agregar</button>
-                </div>
-            </div>
-            <br>
 
             <!-- Tabla para visualizar los datos agregados -->
             <div class="row">
@@ -1714,7 +1372,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
                                 <th>Cantidad Vendida</th>
                                 <th>Precio de Venta (Lps)</th>
                                 <th>A quién le vendió</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tablaDatosPecuaria">
@@ -1726,72 +1383,21 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
             <div class="modal-footer center-content-between">
                 <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPecuariaForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosOtrosForm')" class="btn btn-actualizar">Siguiente</button>
+                <button type="button" id="guardarBtn" onclick="navigateToForm('#datosOtrosForm')" class="btn btn-actualizar">Siguiente</button>
 
             </div>
         </form>
 
 
         <!-- 12 -->
-        <form action="modelos/EdicionFichas/editar_OtrosIngresos.php" method="POST" id="datosOtrosForm" class="form-section" style="display: none;">
+        <form action="" id="datosOtrosForm" class="form-section" style="display: none;">
             <h3>12. Otros ingresos en el hogar</h3>
-
-            <div class="row">
-                <!-- Tipo de Ingreso -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="tipoIngreso">Tipo de Ingreso</label>
-                        <select class="form-control" id="tipoIngreso" name="tipoIngreso">
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_tipo_negocio, tipo_negocio FROM tbl_tipo_negocios ORDER BY id_tipo_negocio ASC";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["id_tipo_negocio"] . '">' . $row["tipo_negocio"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay tipos de negocio disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Cantidad -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="cantidadIngreso">Cantidad</label>
-                        <input type="text" class="form-control" id="cantidadIngreso" name="cantidadIngreso" placeholder="Ingrese la cantidad" onkeyup="formatoMoneda(this);">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Botón Agregar -->
-            <div class="row">
-                <div class="col-md-12 text-left">
-                    <button type="button" class="btn btn-info mt-2" onclick="agregarIngreso()">Agregar</button>
-                </div>
-            </div>
-            <br>
 
             <table class="table">
                 <thead class="table-dark">
                     <tr>
                         <th>Tipo de Ingreso</th>
                         <th>Cantidad (L)</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="tablaIngresos">
@@ -1801,20 +1407,20 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
             <div class="modal-footer center-content-between">
                 <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosCreditoForm')" class="btn btn-actualizar">Siguiente</button>
+                <button type="button" id="guardarBtn" onclick="navigateToForm('#datosCreditoForm')" class="btn btn-actualizar">Siguiente</button>
             </div>
         </form>
 
         <!-- 13 -->
-        <form action="modelos/EdicionFichas/editar_creditos.php" method="POST" id="datosCreditoForm" class="form-section" style="display: none;">
+        <form action="" id="datosCreditoForm" class="form-section" style="display: none;">
             <h3>13. Crédito para la producción agropecuaria</h3>
 
             <!-- Pregunta sobre préstamos -->
             <div class="form-group">
                 <label>¿Ha solicitado préstamos para la producción agropecuaria?</label><br>
-                <input type="radio" id="prestamoSi" name="prestamo" value="Si">
+                <input type="radio" id="prestamoSi" name="prestamo" value="Si" disabled>
                 <label for="prestamoSi">SI</label>
-                <input type="radio" id="prestamoNo" name="prestamo" value="No">
+                <input type="radio" id="prestamoNo" name="prestamo" value="No" disabled>
                 <label for="prestamoNo">NO</label>
             </div>
 
@@ -1830,24 +1436,24 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
             <div class="modal-footer center-content-between">
                 <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosActividadesForm')" class="btn btn-actualizar">Siguiente</button>
+                <button type="button" id="guardarBtn" onclick="navigateToForm('#datosActividadesForm')" class="btn btn-actualizar">Siguiente</button>
 
             </div>
         </form>
 
 
         <!-- 14 -->
-        <form action="modelos/EdicionFichas/editarActividadesForm.php" method="POST" id="datosActividadesForm" class="form-section" style="display: none;">
+        <form action="" id="datosActividadesForm" class="form-section" style="display: none;">
             <h3>14. Actividades externas a la unidad productiva</h3>
 
             <!-- Actividades fuera de la finca -->
             <div class="form-group">
                 <label>¿Miembros de este hogar realizan actividades fuera de la finca?</label><br>
-                <input type="radio" id="actividadesFueraSi" name="actividadesFuera" value="Yes">
+                <input type="radio" id="actividadesFueraSi" name="actividadesFuera" value="Yes" disabled>
                 <label for="actividadesFueraSi">SI</label>
-                <input type="radio" id="actividadesFueraNo" name="actividadesFuera" value="Not">
+                <input type="radio" id="actividadesFueraNo" name="actividadesFuera" value="Not" disabled>
                 <label for="actividadesFueraNo">NO</label>
-                <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos">
+                <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos" readonly>
 
             </div>
 
@@ -1858,13 +1464,13 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     <!-- Trabajadores Permanentes -->
                     <div class="col-md-6">
                         <label for="trabajadoresPermanentes">Permanentes</label>
-                        <input type="number" class="form-control" id="trabajadoresPermanentes" name="trabajadoresPermanentes" placeholder="cuántos">
+                        <input type="number" class="form-control" id="trabajadoresPermanentes" name="trabajadoresPermanentes" placeholder="cuántos" readonly>
                     </div>
 
                     <!-- Trabajadores Temporales -->
                     <div class="col-md-6">
                         <label for="trabajadoresTemporales">Temporales</label>
-                        <input type="number" class="form-control" id="trabajadoresTemporales" name="trabajadoresTemporales" placeholder="cuántos">
+                        <input type="number" class="form-control" id="trabajadoresTemporales" name="trabajadoresTemporales" placeholder="cuántos" readonly>
                     </div>
                 </div>
             </div>
@@ -1879,7 +1485,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
             <div class="modal-footer center-content-between">
                 <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosCreditoForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPracticaForm')" class="btn btn-actualizar">Siguiente</button>
+                <button type="button" id="guardarBtn" onclick="navigateToForm('#datosPracticaForm')" class="btn btn-actualizar">Siguiente</button>
 
             </div>
         </form>
@@ -1897,22 +1503,22 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
             <div class="modal-footer center-content-between">
                 <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosActividadesForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosApoyoForm')" class="btn btn-actualizar">Siguiente</button>
+                <button type="button" id="guardarBtn" onclick="navigateToForm('#datosApoyoForm')" class="btn btn-actualizar">Siguiente</button>
 
             </div>
         </form>
 
         <!-- 16 -->
 
-        <form action="modelos/EdicionFichas/editar_apoyos.php" method="POST" id="datosApoyoForm" class="form-section" style="display: none;">
+        <form action="" id="datosApoyoForm" class="form-section" style="display: none;">
             <h3>16. Apoyo para la producción agropecuaria</h3>
 
             <!-- Pregunta sobre la recepción de apoyo -->
             <div class="form-group">
                 <label>¿Recibe apoyo para la producción agrícola?</label><br>
-                <input type="radio" id="apoyoSi" name="recibeApoyo" value="SiApoyo">
+                <input type="radio" id="apoyoSi" name="recibeApoyo" value="SiApoyo" disabled>
                 <label for="apoyoSi">SI</label>
-                <input type="radio" id="apoyoNo" name="recibeApoyo" value="NoApoyo">
+                <input type="radio" id="apoyoNo" name="recibeApoyo" value="NoApoyo" disabled>
                 <label for="apoyoNo">NO</label> (Finalice la entrevista)
             </div>
 
@@ -1929,17 +1535,17 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
             <div class="form-group seccionOculta">
                 <label>Está siendo usted atendido por la Unidad de Agricultura Familiar:</label><br>
-                <input type="radio" id="atendidoSi" name="atendidoUnidadAgricultura" value="Si">
+                <input type="radio" id="atendidoSi" name="atendidoUnidadAgricultura" value="Si" disabled>
                 <label for="atendidoSi">SI</label>
-                <input type="radio" id="atendidoNo" name="atendidoUnidadAgricultura" value="No">
+                <input type="radio" id="atendidoNo" name="atendidoUnidadAgricultura" value="No" disabled>
                 <label for="atendidoNo">NO</label>
             </div>
 
             <div class="form-group seccionOculta">
                 <label>¿Usted sabe si algunos de sus productos son vendidos para el Programa de Alimentación Escolar?</label><br>
-                <input type="radio" id="productosVendidosSi" name="productosVendidosProgramaAlimentacion" value="Siyes">
+                <input type="radio" id="productosVendidosSi" name="productosVendidosProgramaAlimentacion" value="Siyes" disabled>
                 <label for="productosVendidosSi">SI</label>
-                <input type="radio" id="productosVendidosNo" name="productosVendidosProgramaAlimentacion" value="Nonot">
+                <input type="radio" id="productosVendidosNo" name="productosVendidosProgramaAlimentacion" value="Nonot" disabled>
                 <label for="productosVendidosNo">NO</label>
             </div>
 
@@ -1948,7 +1554,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
             <div class="modal-footer center-content-between">
                 <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPracticaForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" class="btn btn-actualizar">Enviar</button>
+                <button type="button" id="guardarBtn" class="btn btn-actualizar" onclick="CargarContenido('vistas/Mantenimiento_Ficha.php','content-wrapper')">Enviar</button>
 
             </div>
         </form>
@@ -1964,30 +1570,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
 <script>
    
 
-    $(document).ready(function() {
-        $('#datosPertenenciaForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_organizacion_prod.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
 </script>
 
 <script>
@@ -2036,7 +1618,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
 
 <script src="assets/js/selectsUbicacionDinamicos.js"></script>
-<script src="assets/js/cargarDatosFicha.js"></script>
+<script src="assets/js/cargarFichaSoloLectura.js"></script>
 
 <script>
     function eliminarFila(boton) {
@@ -2314,218 +1896,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
     }
 </script>
 
-
-<script>
-    $(document).ready(function() {
-        $('#datosFichaForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_ficha.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script> 
-
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#datosTrabajadorForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_productor.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-
-<script>
-    $(document).ready(function() {
-        $('#datosHogarForm').submit(function(e) {
-            // Captura los datos de la tabla
-            const tablaTemporal = document.getElementById('tablaTemporal');
-            const filas = tablaTemporal.querySelectorAll('tr');
-
-            // Array para almacenar los datos
-            const datos = [];
-
-            // Iterar sobre las filas y obtener los datos de cada celda
-            filas.forEach(fila => {
-                const celdas = fila.querySelectorAll('td');
-                const filaDatos = [];
-                celdas.forEach(celda => {
-                    filaDatos.push(celda.textContent.trim());
-                });
-                datos.push(filaDatos);
-            });
-
-            // Convertir los datos a JSON
-            const datosJSON = JSON.stringify(datos);
-
-            // Enviar los datos al servidor mediante una solicitud AJAX
-            $.ajax({
-                url: 'modelos/EdicionFichas/editar_composicion.php',
-                type: 'POST',
-                contentType: 'application/json',
-                data: datosJSON,
-                success: function(response) {
-                    // Manejar la respuesta del servidor
-                    console.log(response);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Manejar errores
-                    console.error('Error:', errorThrown);
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        $('#datosUbiForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar-ubicacion.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        $('#datosHogarForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/datosHogarForm.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-
-<script>
-    $(document).ready(function() {
-        $('#datosEtniaForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_etnia.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-
-<script>
-    $(document).ready(function() {
-        $('#datosRelevoForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_relevo.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-
-
 
 <script>
     $("#CheckboxMigracion").load("demo.txt", function(responseTxt, statusTxt, xhr) {
@@ -2566,275 +1937,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
     })
 
 
-    $(document).ready(function() {
-        $('#datosMigraForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_migracion.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
 </script>
-
-
-
-
-<script>
-    $(document).ready(function() {
-        $('#datosUnidadForm').submit(function(e) {
-            e.preventDefault(); 
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_unidadProductiva.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
-
-
-
-<script>
-    $(document).ready(function() {
-        $('#datosAgricolaForm').submit(function(e) {
-            // Captura los datos de la tabla
-            const tablaTemporal = document.getElementById('tablaTemporalCultivo');
-            const filas = tablaTemporal.querySelectorAll('tr');
-
-            // Array para almacenar los datos
-            const datos = [];
-
-            // Iterar sobre las filas y obtener los datos de cada celda
-            filas.forEach(fila => {
-                const celdas = fila.querySelectorAll('td');
-                const filaDatos = [];
-                celdas.forEach(celda => {
-                    filaDatos.push(celda.textContent.trim());
-                });
-                datos.push(filaDatos);
-            });
-
-            // Convertir los datos a JSON
-            const datosJSON = JSON.stringify(datos);
-            console.log(datosJSON)
-
-            // Enviar los datos al servidor mediante una solicitud AJAX
-            $.ajax({
-                url: 'modelos/EdicionFichas/editarAgricola.php',
-                type: 'POST',
-                contentType: 'application/json',
-                data: datosJSON,
-                success: function(response) {
-                    // Manejar la respuesta del servidor
-                    console.log(response);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Manejar errores
-                    console.error('Error:', errorThrown);
-                }
-            });
-
-            // Evitar que se envíe el formulario normalmente
-            e.preventDefault();
-        });
-    });
-</script>
-
-
-
-<script>
-    $(document).ready(function() {
-        document.getElementById('divGenero').style.display = "none"
-
-        $('#datosPecuariaForm').submit(function(e) {
-            // Captura los datos de la primera tabla
-            const tablaTemporal1 = document.getElementById('tablaTemporalAnimales');
-            const filas1 = tablaTemporal1.querySelectorAll('tr');
-            const datos1 = [];
-
-            filas1.forEach(fila => {
-                const celdas = fila.querySelectorAll('td');
-                const filaDatos = [];
-                celdas.forEach(celda => {
-                    filaDatos.push(celda.textContent.trim());
-                });
-                datos1.push(filaDatos);
-            });
-
-            // Convertir los datos de la primera tabla a JSON
-            const datosJSON1 = JSON.stringify(datos1);
-
-            // Captura los datos de la segunda tabla
-            const tablaTemporal2 = document.getElementById('tablaUnidadesVendidas');
-            const filas2 = tablaTemporal2.querySelectorAll('tr');
-            const datos2 = [];
-
-            filas2.forEach(fila => {
-                const celdas = fila.querySelectorAll('td');
-                const filaDatos = [];
-                celdas.forEach(celda => {
-                    filaDatos.push(celda.textContent.trim());
-                });
-                datos2.push(filaDatos);
-            });
-
-            // Convertir los datos de la segunda tabla a JSON
-            const datosJSON2 = JSON.stringify(datos2);
-
-            // Combinar ambos conjuntos de datos si es necesario
-            const datosTotales = {
-                "tabla1": datosJSON1,
-                "tabla2": datosJSON2
-            };
-
-            const datosJSON = JSON.stringify(datosTotales);
-
-            // Enviar los datos al servidor mediante una solicitud AJAX
-            $.ajax({
-                url: 'modelos/EdicionFichas/editar_ProduccionPecuaria.php',
-                type: 'POST',
-                contentType: 'application/json',
-                data: datosJSON,
-                success: function(response) {
-                    // Manejar la respuesta del servidor
-                    console.log(response);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Manejar errores
-                    console.error('Error:', errorThrown);
-                }
-            });
-
-            // Evitar que se envíe el formulario normalmente
-            e.preventDefault();
-        });
-    });
-</script>
-
-
-<script>
-    $(document).ready(function() {
-        $('#datosPrCoForm').submit(function(e) {
-            // Captura los datos de la tabla
-            const tablaTemporal = document.getElementById('tablaDatosPecuaria');
-            const filas = tablaTemporal.querySelectorAll('tr');
-
-            // Array para almacenar los datos
-            const datos = [];
-
-            // Iterar sobre las filas y obtener los datos de cada celda
-            filas.forEach(fila => {
-                const celdas = fila.querySelectorAll('td');
-                const filaDatos = [];
-                celdas.forEach(celda => {
-                    filaDatos.push(celda.textContent.trim());
-                });
-                datos.push(filaDatos);
-            });
-
-            // Convertir los datos a JSON
-            const datosJSON = JSON.stringify(datos);
-
-            // Enviar los datos al servidor mediante una solicitud AJAX
-            $.ajax({
-                url: 'modelos/EdicionFichas/editar_ProdComercializacion.php',
-                type: 'POST',
-                contentType: 'application/json',
-                data: datosJSON,
-                success: function(response) {
-                    // Manejar la respuesta del servidor
-                    console.log(response);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Manejar errores
-                    console.error('Error:', errorThrown);
-                }
-            });
-
-            // Evitar que se envíe el formulario normalmente
-            e.preventDefault();
-        });
-    });
-</script>
-
-
-
-<script>
-    $(document).ready(function() {
-        $('#datosOtrosForm').submit(function(e) {
-            // Captura los datos de la tabla
-            const tablaTemporal = document.getElementById('tablaIngresos');
-            const filas = tablaTemporal.querySelectorAll('tr');
-
-            // Array para almacenar los datos
-            const datos = [];
-
-            // Iterar sobre las filas y obtener los datos de cada celda
-            filas.forEach(fila => {
-                const celdas = fila.querySelectorAll('td');
-                const filaDatos = [];
-                celdas.forEach(celda => {
-                    filaDatos.push(celda.textContent.trim());
-                });
-                datos.push(filaDatos);
-            });
-
-            // Convertir los datos a JSON
-            const datosJSON = JSON.stringify(datos);
-            console.log(datosJSON)
-
-            // Enviar los datos al servidor mediante una solicitud AJAX
-            $.ajax({
-                url: 'modelos/EdicionFichas/editar_OtrosIngresos.php',
-                type: 'POST',
-                contentType: 'application/json',
-                data: datosJSON,
-                success: function(response) {
-                    // Manejar la respuesta del servidor
-                    console.log(response);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Manejar errores
-                    console.error('Error:', errorThrown);
-                }
-            });
-
-            // Evitar que se envíe el formulario normalmente
-            e.preventDefault();
-        });
-    });
-</script>
-
 
 <script>
     $("#opcionesPrestamoSi").load("demo.txt", function(responseTxt, statusTxt, xhr) {
@@ -2932,30 +2035,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
     })
 
 
-    $(document).ready(function() {
-        $('#datosCreditoForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_creditos.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
+   
 </script>
 
 
@@ -2997,30 +2077,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
     })
 
-    $(document).ready(function() {
-        $('#datosActividadesForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editarActividadesForm.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
 </script>
 
 <script>
@@ -3061,30 +2117,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
     })
 
-    $(document).ready(function() {
-        $('#datosPracticaForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_practica.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
 </script>
 
 
@@ -3126,31 +2158,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
     })
 
-
-    $(document).ready(function() {
-        $('#datosMigraForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/datosMigraForm.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
 </script>
 
 
@@ -3209,34 +2216,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
     })
 
-    $(document).ready(function() {
-        $('#datosApoyoForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_apoyos.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    Swal.fire({
-                        title: "Formulario Finalizado",
-                        text: "Será dirigido a la pantalla de Fichas",
-                        icon: "success"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            CargarContenido('vistas/Mantenimiento_Ficha.php','content-wrapper');
-                        }
-                    });
-
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
 </script>
 
 
