@@ -2535,7 +2535,6 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
-                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -2687,7 +2686,6 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.motivo;
-                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3006,7 +3004,6 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
-                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3054,7 +3051,6 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
-                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3122,7 +3118,6 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
-                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3187,7 +3182,6 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
-                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3252,7 +3246,6 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
-                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -3291,7 +3284,6 @@ function obtenerNumeroFicha($conexion)
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
-                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';

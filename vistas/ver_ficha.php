@@ -1598,6 +1598,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                         // Establecer el valor del checkbox
                         checkbox.value = nombre.nombre;
+                        checkbox.disabled = true;
 
                         var label = document.createElement('label');
                         label.htmlFor = 'miCheckbox';
@@ -1918,6 +1919,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
                     checkbox.type = 'checkbox';
                     checkbox.id = 'miCheckbox';
                     checkbox.name = 'razon[]';
+                    checkbox.disabled = true;
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.motivo;
@@ -1971,6 +1973,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -2018,6 +2021,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     // Establecer el valor del checkbox
                     checkbox.value = nombre.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'otroCheckbox';
@@ -2062,6 +2066,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -2102,6 +2107,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -2143,6 +2149,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
@@ -2185,6 +2192,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                     // Establecer el valor del checkbox
                     checkbox.value = motivo.nombre;
+                    checkbox.disabled = true;
 
                     var label = document.createElement('label');
                     label.htmlFor = 'miCheckbox';
