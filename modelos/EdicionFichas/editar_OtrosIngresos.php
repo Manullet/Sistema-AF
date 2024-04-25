@@ -48,7 +48,34 @@ if (!empty($jsonData)) {
 
 
             // Consulta SQL para insertar los datos en la tabla
-            $sql = "CALL InsertarIngresoFamiliar($idFicha, $idProductor,$idTipoNegocio, $cantidad,null,null,null,'$creado_por')";
+            $sql = "INSERT INTO tbl_ingreso_familiar (
+                Id_Ficha,
+                Id_Productor,
+                Id_Tipo_Negocio,
+                Total_Ingreso,
+                Id_Periodo_Ingreso,
+                Descripcion_Otros,
+                Descripcion,
+                Creado_Por,
+                Fecha_Creacion,
+                Modificado_Por,
+                Fecha_Modificacion,
+                estado
+            ) 
+            VALUES (
+                $idFicha,
+                $idProductor,
+                $idTipoNegocio,
+                $cantidad,
+                NULL,
+                NULL,
+                NULL,
+                '$creado_por',
+                CURRENT_TIMESTAMP,
+                '$creado_por',
+                CURRENT_TIMESTAMP,
+                'A'
+            )";
         
             // Ejecutar la consulta
             if (!mysqli_query($conexion, $sql)) {

@@ -3238,25 +3238,3 @@ $_SESSION['id_ficha'] = $numeroFicha;
         });
     });
 </script>
-
-
-
-<!-- ------------- MONEDAS ------------->
-<script>
-    function formatoMoneda(input) {
-
-        let valor = input.value.replace(/[^0-9.]/g, "");
-
-        valor = parseFloat(valor).toString();
-
-        let [integerPart, decimalPart] = valor.split('.');
-        if (decimalPart) {
-            decimalPart = decimalPart.substr(0, 2);
-            valor = integerPart + '.' + decimalPart;
-        }
-
-        valor = valor.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-        input.value = valor;
-    }
-</script>
