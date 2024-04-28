@@ -27,6 +27,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correoOpcional = $_POST['correoOpcional'];
     $modificado_por = $_SESSION["usuario"]["usuario"];
 
+    $stmt = $conexion->prepare("SELECT fecha_nacimiento FROM tbl_productor WHERE id_ficha = ?");
+    $stmt->bind_param("i", $idFicha);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $datos_usuario = $resultado->fetch_assoc();
+    $fecha_nacimiento_actual = $datos_usuario['fecha_nacimiento'];
+
+
+    // Comparar las fechas
+    if ($fechaNacimiento > $fecha_nacimiento_actual) {
+        echo "error";
+
+        die();
+    }
+
     // Llamar al procedimiento almacenado
     $sql = "CALL ActualizarProductor(
         '$idFicha',

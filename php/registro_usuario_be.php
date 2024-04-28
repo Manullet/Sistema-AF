@@ -41,7 +41,7 @@ if ($resultado_dias_vigencia) {
     }
 
     // Establecer directamente el ID del estado como 1 ('ACTIVO')
-    $id_estado = 1;
+    $id_estado = 3;
 
     // Establecer directamente el ID del rol como 2
     $id_rol = 2;

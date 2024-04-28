@@ -1,5 +1,17 @@
 <?php
-$email = $_GET['email'];
+session_start();
+include 'conexion_be.php';
+
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['usuario'])) {
+    // Redirigir o mostrar un mensaje de error si el usuario no está autenticado
+    // Ejemplo de redirección:
+    header("Location: ../index.php");
+    exit();
+}
+
+$usuario = $_SESSION['usuario'];
+
 
 ?>
 <!DOCTYPE html>
@@ -7,7 +19,7 @@ $email = $_GET['email'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recuperar Contraseña</title>
+    <title>Configuración de Pregunta de Seguridad</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -88,8 +100,11 @@ $email = $_GET['email'];
 </head>
 <body>
     <div class="contenedor">
-        <h2>Recuperación de Contraseña</h2>
-        <input type="hidden" value="<?php echo  $email; ?>" id="emailUsuario">
+        <h2>Configurar Pregunta de Seguridad</h2>
+        <h5>Seleccione una pregunta de seguridad e ingrese una respuesta que considere conveniente.
+             Esa respuesta le servirá en caso de necesitar recuperar su contraseña
+        </h5>
+        <input type="hidden" value="<?php echo  $usuario['Id_Usuario']; ?>" id="idUsuario">
         <form id="formPreguntasSeguridad" name="formPreguntasSeguridad" action="reiniciar_contrasena_op.php" method="post">
             <div class="form-group">
                 <label for="selectPregunta">Seleccione su pregunta de seguridad</label>
@@ -103,16 +118,18 @@ $email = $_GET['email'];
                 <input type="text" id="respuestaPregunta" name="respuestaPregunta" placeholder="Respuesta a la pregunta de seguridad">
             </div>
             <button type="submit">Verificar Respuestas</button>
-            <a href="../index.php">INICIO</a>
         </form>
     </div>
 <script>
+
     $(document).ready(function() {
         $.ajax({
-                url: 'obtener_preguntas.php', 
+                url: '../modelos/obtener_preguntas.php', 
                 type: 'GET',
                 dataType: 'json',
                 success: function(preguntas) {
+                    console.log(preguntas)
+
                     var select = $('#selectPregunta');
                     preguntas.forEach(function(pregunta) {
                         select.append($('<option>', {
@@ -131,7 +148,7 @@ $email = $_GET['email'];
 
             var preguntaId = $('#selectPregunta').val();
             var respuesta = $('#respuestaPregunta').val();
-            var email = $('#emailUsuario').val();
+            var id = $('#idUsuario').val();
 
             if(respuesta === '') {
                 Swal.fire(
@@ -144,17 +161,17 @@ $email = $_GET['email'];
 
             // Realizar una solicitud AJAX al servidor para validar la respuesta
             $.ajax({
-                url: 'validar_respuesta.php',
+                url: '../modelos/guardar_respuesta.php',
                 type: 'POST',
                 data: {
                     preguntaId: preguntaId,
                     respuesta: respuesta,
-                    email:email
+                    id:id
                 },
                 success: function(data) {
                     // Si la respuesta del servidor indica que la validación es correcta, redirigir al usuario
                     if(data.valid === true) {
-                        window.location.href = 'reiniciar_contrasena_op.php';
+                        window.location.href = '../php/cambiar_contrasena_nuevo.php';
                     } else {
                         // Si la validación falla, mostrar un mensaje de error
                         Swal.fire(

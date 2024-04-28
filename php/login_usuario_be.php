@@ -65,7 +65,8 @@ if ($usuario = mysqli_fetch_assoc($resultado)) {
             $_SESSION['usuario'] = $usuario;
             $_SESSION['url'] = '';
             $_SESSION['content-wrapper'] = '';
-            header("Location: ../php/cambiar_contrasena_nuevo.php");
+            header("Location: ../php/insertar_respuesta.php");
+            //header("Location: ../php/cambiar_contrasena_nuevo.php");
             exit();
         } elseif ($usuario['id_estado'] == 4) {
             // Usuario bloqueado

@@ -396,7 +396,7 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosFichaForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUbiForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="submit" id="guardarBtn" class="btn btn-actualizar">Siguiente</button>
                 </div>
             </form>
 
@@ -2357,6 +2357,16 @@ $_SESSION['id_ficha'] = $numeroFicha;
                 success: function(response) {
                     // Aquí puedes manejar la respuesta del servidor si es necesario
                     console.log(response);
+
+                    if(response=='error'){
+                        Swal.fire(
+                            'Error',
+                            'La fecha de nacimiento no puede ser mayor a la que se encuentra ya registrada',
+                            'error'
+                        )
+                    }else{
+                        navigateToForm('#datosUbiForm')
+                    }
                     // Deshabilita el botón después de hacer clic
                     //$('#guardarBtn').prop('disabled', true);
                     // O puedes ocultar el botón si prefieres

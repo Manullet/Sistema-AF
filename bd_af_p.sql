@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-04-2024 a las 14:07:36
+-- Tiempo de generación: 28-04-2024 a las 19:41:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -3901,7 +3901,22 @@ INSERT INTO `bitacoras` (`id_bitacora`, `fecha`, `ejecutor`, `actividad_realizad
 (110, '2024-04-23 03:42:37', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-04-10, anio_solicitud: 0, descripcion: prueba , estado: A, fecha_entrevista: 2024-04-02, nombre_encuestador: Maria', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-04-10 anio_solicitud: 0, descripcion: prueba A, fecha_entrevista: 2024-04-02, nombre_encuestador: Maria', 'fichas', NULL),
 (111, '2024-04-24 11:52:15', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-04-10, anio_solicitud: 0, descripcion: prueba , estado: A, fecha_entrevista: 2024-04-02, nombre_encuestador: Maria', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-04-10 anio_solicitud: 0, descripcion: prueba A, fecha_entrevista: 2024-04-02, nombre_encuestador: Maria', 'fichas', NULL),
 (112, '2024-04-24 11:53:10', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 11, fecha_solicitud: 2024-04-10, anio_solicitud: 545, descripcion:  4545, estado: A, fecha_entrevista: 2024-04-03, nombre_encuestador: 3545', NULL, 'fichas', NULL),
-(113, '2024-04-24 11:53:38', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 12, fecha_solicitud: 2024-04-25, anio_solicitud: 31, descripcion:  sdfdsf, estado: A, fecha_entrevista: 2024-04-11, nombre_encuestador: sdfsf', NULL, 'fichas', NULL);
+(113, '2024-04-24 11:53:38', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 12, fecha_solicitud: 2024-04-25, anio_solicitud: 31, descripcion:  sdfdsf, estado: A, fecha_entrevista: 2024-04-11, nombre_encuestador: sdfsf', NULL, 'fichas', NULL),
+(114, '2024-04-25 23:46:27', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 1, fecha_solicitud: 2024-04-25, anio_solicitud: 2024, descripcion:  Prueba 1, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: Prueba 1', NULL, 'fichas', NULL),
+(115, '2024-04-26 01:55:36', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 2, fecha_solicitud: 2024-04-25, anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', NULL, 'fichas', NULL),
+(116, '2024-04-26 02:24:07', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 3, fecha_solicitud: 2024-04-25, anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', NULL, 'fichas', NULL),
+(117, '2024-04-26 02:24:42', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 4, fecha_solicitud: 2024-04-25, anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', NULL, 'fichas', NULL),
+(118, '2024-04-26 02:24:55', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 2024-04-25, anio_solicitud: 2024, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'Información anterior = id_ficha: 4, fecha_solicitud: 2024-04-25 anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacionA, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'fichas', NULL),
+(119, '2024-04-26 02:28:54', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 2024-04-25, anio_solicitud: 2024, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'Información anterior = id_ficha: 4, fecha_solicitud: 2024-04-25 anio_solicitud: 2024, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacionA, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'fichas', NULL),
+(120, '2024-04-27 03:13:51', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-04-25, anio_solicitud: 2024, descripcion:  Prueba 1, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: Prueba 1', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-04-25 anio_solicitud: 2024, descripcion:  Prueba 1A, fecha_entrevista: 2024-04-25, nombre_encuestador: Prueba 1', 'fichas', NULL),
+(121, '2024-04-27 03:14:30', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 5, fecha_solicitud: 2024-04-26, anio_solicitud: 2024, descripcion:  gh, estado: A, fecha_entrevista: 2024-04-26, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(122, '2024-04-27 03:37:51', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 2024-04-25, anio_solicitud: 2024, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'Información anterior = id_ficha: 4, fecha_solicitud: 2024-04-25 anio_solicitud: 2024, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacionA, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'fichas', NULL),
+(123, '2024-04-27 03:39:40', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-04-25, anio_solicitud: 2024, descripcion:  Prueba 1, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: Prueba 1', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-04-25 anio_solicitud: 2024, descripcion:  Prueba 1A, fecha_entrevista: 2024-04-25, nombre_encuestador: Prueba 1', 'fichas', NULL),
+(124, '2024-04-27 03:40:01', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 3, fecha_solicitud: 2024-04-25, anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'Información anterior = id_ficha: 3, fecha_solicitud: 2024-04-25 anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacionA, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'fichas', NULL);
+INSERT INTO `bitacoras` (`id_bitacora`, `fecha`, `ejecutor`, `actividad_realizada`, `informacion_actual`, `informacion_anterior`, `tabla`, `informacion_eliminada`) VALUES
+(125, '2024-04-27 03:45:40', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 3, fecha_solicitud: 2024-04-25, anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'Información anterior = id_ficha: 3, fecha_solicitud: 2024-04-25 anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacionA, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'fichas', NULL),
+(126, '2024-04-27 03:47:00', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 3, fecha_solicitud: 2024-04-25, anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'Información anterior = id_ficha: 3, fecha_solicitud: 2024-04-25 anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacionA, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'fichas', NULL),
+(127, '2024-04-27 03:49:18', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 2, fecha_solicitud: 2024-04-25, anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacion, estado: A, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'Información anterior = id_ficha: 2, fecha_solicitud: 2024-04-25 anio_solicitud: 2023, descripcion:  Esta es la primera ficha desde 0 de la clase de evaluacionA, fecha_entrevista: 2024-04-25, nombre_encuestador: EncuestadoFinal', 'fichas', NULL);
 
 -- --------------------------------------------------------
 
@@ -3947,7 +3962,18 @@ CREATE TABLE `fichas` (
   `firma_encuestador` varchar(100) DEFAULT NULL,
   `nombre_supervisor` varchar(50) DEFAULT NULL,
   `firma_supervisor` varchar(100) DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `fichas`
+--
+
+INSERT INTO `fichas` (`id_ficha`, `fecha_solicitud`, `anio_solicitud`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`, `fecha_entrevista`, `nombre_encuentrador`, `firma_productor`, `nombre_encuestador`, `firma_encuestador`, `nombre_supervisor`, `firma_supervisor`) VALUES
+(1, '2024-04-25', 2024, ' Prueba 1', 'HARU', '2024-04-25 23:46:27', 'HARU', '2024-04-27 03:39:40', 'A', '2024-04-25', 'Prueba 1', NULL, 'Prueba 1', NULL, 'Prueba 1', NULL),
+(2, '2024-04-25', 2023, ' Esta es la primera ficha desde 0 de la clase de evaluacion', 'HARU', '2024-04-26 01:55:36', 'HARU', '2024-04-27 03:49:18', 'A', '2024-04-25', 'EncuestadorFinal', NULL, 'EncuestadoFinal', NULL, 'SupervisorFinal', NULL),
+(3, '2024-04-25', 2023, ' Esta es la primera ficha desde 0 de la clase de evaluacion', 'HARU', '2024-04-26 01:55:36', 'HARU', '2024-04-27 03:47:00', 'A', '2024-04-25', 'EncuestadorFinal', NULL, 'EncuestadoFinal', NULL, 'SupervisorFinal', NULL),
+(4, '2024-04-25', 2024, ' Esta es la primera ficha desde 0 de la clase de evaluacion', 'HARU', '2024-04-26 01:55:36', 'HARU', '2024-04-27 03:37:51', 'A', '2024-04-25', 'EncuestadorFinal', NULL, 'EncuestadoFinal', NULL, 'SupervisorFinal', NULL),
+(5, '2024-04-26', 2024, ' gh', 'HARU', '2024-04-27 03:14:30', NULL, '2024-04-27 03:14:30', 'A', '2024-04-26', 'Francisco Morazan', NULL, 'Honduras', NULL, 'Manuel', NULL);
 
 --
 -- Disparadores `fichas`
@@ -3976,18 +4002,15 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `hist_contrasena`
+-- Estructura de tabla para la tabla `historial_contrasenas`
 --
 
-CREATE TABLE `hist_contrasena` (
-  `Id_hist` bigint(20) NOT NULL,
-  `Id_Usuario` bigint(20) NOT NULL,
-  `contrasena` varchar(60) NOT NULL,
-  `Creado_Por` varchar(50) NOT NULL,
-  `Fecha_Creacion` datetime NOT NULL,
-  `Actualizado_Por` varchar(50) DEFAULT NULL,
-  `Fecha_Modificacion` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE `historial_contrasenas` (
+  `id_historial` bigint(20) NOT NULL,
+  `usuario_id` bigint(20) NOT NULL,
+  `contrasena_hash` varchar(255) NOT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -4024,22 +4047,50 @@ CREATE TABLE `objetos` (
   `Objeto` varchar(255) NOT NULL,
   `Descripcion` varchar(255) NOT NULL,
   `tipo_objeto` varchar(50) NOT NULL,
-  `Creado_Por` bigint(20) NOT NULL,
+  `Creado_Por` varchar(40) NOT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Actualizado_Por` bigint(20) NOT NULL,
-  `Fecha_Actualizacon` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Status` enum('ACTIVO','INACTIVO') DEFAULT NULL
+  `Actualizado_Por` varchar(40) NOT NULL,
+  `Fecha_Actualizacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Status` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `objetos`
 --
 
-INSERT INTO `objetos` (`Id_objetos`, `Objeto`, `Descripcion`, `tipo_objeto`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacon`, `Status`) VALUES
-(1, 'login', 'inicio de sesion', 'pantalla', 1, '2023-10-18 12:32:23', 1, '2023-10-20 12:32:23', 'ACTIVO'),
-(5, '2', 'Bienvenida', '', 1, '2023-10-28 12:10:23', 1, '2023-10-28 12:10:23', 'ACTIVO'),
-(7, 'Pantalla', 'Pantalla Usuario', '', 1, '2023-10-29 07:45:02', 1, '2023-10-29 07:45:17', 'INACTIVO'),
-(8, 'consulttor', 'consultor de abc', '', 1, '2024-02-03 04:42:32', 1, '2024-02-03 04:42:32', 'ACTIVO');
+INSERT INTO `objetos` (`Id_objetos`, `Objeto`, `Descripcion`, `tipo_objeto`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Status`) VALUES
+(1, 'Login', 'Login del sistema', 'Pantalla', '0', '2024-04-21 17:02:33', '0', '2024-04-21 17:02:33', 'A'),
+(2, 'usuario', 'Pantalla de usuarios', 'Pantalla', 'PRUEBA1', '2024-04-21 17:04:00', 'PRUEBA1', '2024-04-21 17:04:00', 'A'),
+(3, 'Permisos', 'Pantalla de permisos', 'Pantalla', 'HARU', '2024-04-21 17:05:15', 'HARU', '2024-04-21 17:05:15', 'A'),
+(4, 'Preguntas', 'Pantalla de preguntas', 'Pantalla', 'HARU', '2024-04-21 17:05:42', 'HARU', '2024-04-21 17:05:42', 'A'),
+(5, 'Objetos', 'Pantalla de los objetos', 'Pantalla', 'HARU', '2024-04-21 17:06:15', 'HARU', '2024-04-21 17:06:15', 'A'),
+(6, 'Roles', 'Pantalla de roles', 'Pantalla', 'HARU', '2024-04-21 17:06:58', 'HARU', '2024-04-21 17:06:58', 'A'),
+(7, 'Bitacora', 'Pantalla de la bitacora', 'Pantalla', 'HARU', '2024-04-21 17:07:38', 'HARU', '2024-04-21 17:07:38', 'A'),
+(8, 'Backup', 'Pantalla para hacer el backup', 'Pantalla', 'HARU', '2024-04-21 17:08:21', 'HARU', '2024-04-21 17:08:21', 'A'),
+(9, 'Llenar Formulario', 'Pantalla para llenar el formulario', 'Pantalla', 'HARU', '2024-04-21 17:11:07', 'HARU', '2024-04-21 17:11:07', 'A'),
+(10, 'Ficha', 'Mantenimiento de fichas', 'Pantalla/Mantenimiento', 'HARU', '2024-04-21 17:13:04', 'HARU', '2024-04-21 17:13:04', 'A'),
+(11, 'Datos Generales', 'Datos generales del agricultor', 'Pantalla', 'HARU', '2024-04-21 17:13:56', 'HARU', '2024-04-21 17:13:56', 'A'),
+(12, 'Pertenencia a ORG', 'Pantalla para buscar los agricultores con organizacion', 'Pantalla', 'HARU', '2024-04-21 17:15:09', 'HARU', '2024-04-21 17:15:09', 'A'),
+(13, 'Organizaciones Productor', 'Pantalla que muestras las organizaciones por productor', 'Pantalla', 'HARU', '2024-04-21 17:15:54', 'HARU', '2024-04-21 17:15:54', 'A'),
+(14, 'Relevo Generacional', 'Pantalla que muestra los relevos que tiene un productor', 'Pantalla', 'HARU', '2024-04-21 17:16:50', 'HARU', '2024-04-21 17:16:50', 'A'),
+(15, 'Ubicacion Greografica', 'Pantalla de la ubicacion del productor', 'Pantalla', 'HARU', '2024-04-21 17:17:42', 'HARU', '2024-04-21 17:17:42', 'A'),
+(16, 'Composicion del hogar', 'pantalla de la Composicion del hogar', 'Pantalla', 'HARU', '2024-04-21 17:20:11', 'HARU', '2024-04-21 17:20:11', 'A'),
+(17, 'Migracion familiar', 'pantalla sobre si hay migracion del productor', 'Pantalla', 'HARU', '2024-04-21 17:21:07', 'HARU', '2024-04-21 17:21:07', 'A'),
+(18, 'Informacion Basica', 'pantalla de la informacion basica de la agricultura ', 'Pantalla', 'HARU', '2024-04-21 17:22:48', 'HARU', '2024-04-21 17:22:48', 'A'),
+(19, 'Manejo de riego', 'Pantalla que muestra si el agricultor maneja de riego', 'Pantalla', 'HARU', '2024-04-21 17:24:17', 'HARU', '2024-04-21 17:24:17', 'A'),
+(20, 'Produccion Agricola Año Anterior', 'Pantalla que muestra la Produccion Agricola del  Año Anterior', 'Pantalla', 'HARU', '2024-04-21 17:25:02', 'HARU', '2024-04-21 17:25:02', 'A'),
+(21, 'Inventario', 'Pantalla que muestra el inventario del productor', 'Pantalla', 'HARU', '2024-04-21 17:27:50', 'HARU', '2024-04-21 17:27:50', 'A'),
+(22, 'Produccion vendida', 'Pantalla que muestra la produccion que se vendio en el transcursos del año', 'Pantalla', 'HARU', '2024-04-21 17:28:39', 'HARU', '2024-04-21 17:28:39', 'A'),
+(23, 'comercializacion', 'Pantalla que muestra la informcion de la comercializacion', 'Pantalla', 'HARU', '2024-04-21 17:30:09', 'HARU', '2024-04-21 17:30:09', 'A'),
+(24, 'Otros ingresos', 'Pantalla que muestra los ingresos que genera el productor', 'Pantalla', 'HARU', '2024-04-21 17:32:30', 'HARU', '2024-04-21 17:32:30', 'A'),
+(25, 'No Credito', 'Pantalla que muestra porque no tiene credito', 'Pantalla', 'HARU', '2024-04-21 17:40:53', 'HARU', '2024-04-21 17:40:53', 'A'),
+(26, 'Credito', 'Pantalla que muestra los creditos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:41:34', 'HARU', '2024-04-21 17:41:34', 'A'),
+(27, 'TRABEXT', 'Pantalla que muestra los trabajores externos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:42:37', 'HARU', '2024-04-21 17:42:37', 'A'),
+(28, 'PAE', 'Pantalla de PAE', 'Pantalla', 'HARU', '2024-04-21 17:43:00', 'HARU', '2024-04-21 17:43:00', 'A'),
+(29, 'Practicas para produccion', 'Pantalla que muestra las practicas que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:43:53', 'HARU', '2024-04-21 17:43:53', 'A'),
+(30, 'Tipos Apoyos', 'Pantalla que muestra los tipos de apoyos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:44:43', 'HARU', '2024-04-21 17:44:43', 'A'),
+(31, 'Apoyo Productor', 'Pantalla que muestra los apoyos que recibe el productor', 'Pantalla', 'HARU', '2024-04-21 17:45:51', 'HARU', '2024-04-21 17:45:51', 'A'),
+(32, 'Apoyos Externos', 'Pantallas que muestra los apoyos externos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:47:08', 'HARU', '2024-04-21 17:47:08', 'A');
 
 -- --------------------------------------------------------
 
@@ -4080,7 +4131,7 @@ CREATE TABLE `permisos` (
   `id_permisos` bigint(20) NOT NULL,
   `Id_rol` bigint(20) NOT NULL,
   `permiso_eliminacion` int(11) NOT NULL,
-  `id_objeto` int(10) NOT NULL,
+  `id_objeto` bigint(20) NOT NULL,
   `permiso_actualizacion` int(11) NOT NULL,
   `permiso_insercion` int(11) NOT NULL,
   `Actualizado_Por` varchar(255) NOT NULL,
@@ -4133,7 +4184,8 @@ CREATE TABLE `preguntas_usuario` (
 
 INSERT INTO `preguntas_usuario` (`Id_Pregunta_U`, `Id_pregunta`, `Id_Usuario`, `Respuestas`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
 (1, 1, 1, 'Rojo', '1', '2023-10-27 22:53:34', '1', '2023-10-31 22:53:34'),
-(2, 2, 1, 'gato', '1', '2023-10-28 20:14:35', '1', '2023-10-31 20:14:35');
+(2, 2, 1, 'gato', '1', '2023-10-28 20:14:35', '1', '2023-10-31 20:14:35'),
+(3, 1, 14, 'rosita', '14', '2024-04-28 19:26:20', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4227,13 +4279,158 @@ CREATE TABLE `tbl_aldeas` (
 --
 
 INSERT INTO `tbl_aldeas` (`Id_Aldea`, `Id_Departamento`, `Id_Municipio`, `Nombre_Aldea`, `Descripcion`, `Estado`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
-(1, 1, 1, 'Corozal', 'Corozal', 'A', '1', '2023-12-07 06:36:03', '1', '2023-12-07 06:36:03'),
-(2, 2, 3, 'Chapagua', 'Chapagua', 'A', '1', '2023-12-07 06:36:03', '1', '2023-12-07 06:36:03'),
-(3, 3, 5, 'Agua Salada.', 'Agua Salada.', 'A', '1', '2023-12-07 06:39:51', '1', '2023-12-07 06:39:51'),
-(4, 4, 7, 'Calzontes', 'Calzontes', 'A', '1', '2023-12-07 06:39:51', '1', '2023-12-07 06:39:51'),
-(5, 5, 9, 'Artemisales', 'Artemisales', 'A', '1', '2023-12-07 06:44:53', '1', '2023-12-07 06:44:53'),
-(10, 1, 1, 'prueba', '32wd', 'A', 'manu', '2023-12-10 04:36:19', NULL, '2023-12-10 04:36:19'),
-(13, 20, 12, 'aldeafinal', 'final', 'A', 'Mfigue', '2023-12-10 15:55:54', NULL, '2023-12-10 15:55:54');
+(1, 1, 1, 'Pueblo Nuevo', 'Descripción de Pueblo Nuevo', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(2, 1, 1, 'La Unión', 'Descripción de La Unión', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(3, 1, 1, 'El Porvenir', 'Descripción de El Porvenir', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(4, 1, 1, 'La Masica', 'Descripción de La Masica', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(5, 1, 1, 'Esparta', 'Descripción de Esparta', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(6, 1, 2, 'El Porvenir', 'Descripción de El Porvenir', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(7, 1, 2, 'La Unión', 'Descripción de La Unión', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(8, 1, 2, 'Tela', 'Descripción de Tela', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(9, 1, 2, 'San Juan', 'Descripción de San Juan', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(10, 1, 2, 'La Ceibita', 'Descripción de La Ceibita', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(11, 1, 3, 'El Zapote', 'Descripción de El Zapote', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(12, 1, 3, 'La Libertad', 'Descripción de La Libertad', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(13, 1, 3, 'Los Horcones', 'Descripción de Los Horcones', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(14, 1, 3, 'Los Planes', 'Descripción de Los Planes', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(15, 1, 3, 'El Tamarindo', 'Descripción de El Tamarindo', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(16, 1, 4, 'Arizona', 'Descripción de Arizona', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(17, 1, 4, 'Choloma', 'Descripción de Choloma', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(18, 1, 4, 'La Masica', 'Descripción de La Masica', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(19, 1, 4, 'San Juan', 'Descripción de San Juan', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(20, 1, 4, 'La Ensenada', 'Descripción de La Ensenada', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(21, 1, 5, 'Arizona Centro', 'Descripción de Arizona Centro', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(22, 1, 5, 'El Triunfo', 'Descripción de El Triunfo', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(23, 1, 5, 'La Laguna', 'Descripción de La Laguna', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(24, 1, 5, 'Pimienta', 'Descripción de Pimienta', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(25, 1, 5, 'Valle de Ángeles', 'Descripción de Valle de Ángeles', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(26, 2, 6, 'Trujillo Centro', 'Descripción de Trujillo Centro', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(27, 2, 6, 'Barrio Inglés', 'Descripción de Barrio Inglés', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(28, 2, 6, 'Santa Fe', 'Descripción de Santa Fe', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(29, 2, 6, 'La Ceiba', 'Descripción de La Ceiba', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(30, 2, 6, 'Las Flores', 'Descripción de Las Flores', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(31, 2, 7, 'Tocoa Centro', 'Descripción de Tocoa Centro', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(32, 2, 7, 'El Paraíso', 'Descripción de El Paraíso', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(33, 2, 7, 'San Juan', 'Descripción de San Juan', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(34, 2, 7, 'Santa Teresa', 'Descripción de Santa Teresa', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(35, 2, 7, 'Saba', 'Descripción de Saba', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(36, 2, 8, 'Sonaguera Centro', 'Descripción de Sonaguera Centro', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(37, 2, 8, 'El Higueral', 'Descripción de El Higueral', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(38, 2, 8, 'San Jorge', 'Descripción de San Jorge', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(39, 2, 8, 'Las Mercedes', 'Descripción de Las Mercedes', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(40, 2, 8, 'La Unión', 'Descripción de La Unión', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(41, 2, 9, 'Iriona Centro', 'Descripción de Iriona Centro', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(42, 2, 9, 'Plan Grande', 'Descripción de Plan Grande', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(43, 2, 9, 'Santa María', 'Descripción de Santa María', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(44, 2, 9, 'Limón', 'Descripción de Limón', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(45, 2, 9, 'Trinidad', 'Descripción de Trinidad', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(46, 2, 10, 'Santa Fe Centro', 'Descripción de Santa Fe Centro', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(47, 2, 10, 'La Fe', 'Descripción de La Fe', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(48, 2, 10, 'El Pino', 'Descripción de El Pino', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(49, 2, 10, 'Santa Rosa', 'Descripción de Santa Rosa', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(50, 2, 10, 'La Esperanza', 'Descripción de La Esperanza', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(51, 3, 11, 'Barrio Guamilito', 'Descripción de Barrio Guamilito', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(52, 3, 11, 'Barrio Suyapa', 'Descripción de Barrio Suyapa', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(53, 3, 11, 'Barrio Cabañas', 'Descripción de Barrio Cabañas', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(54, 3, 11, 'Barrio Los Andes', 'Descripción de Barrio Los Andes', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(55, 3, 11, 'Barrio Barandillas', 'Descripción de Barrio Barandillas', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(56, 3, 12, 'Barrio El Porvenir', 'Descripción de Barrio El Porvenir', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(57, 3, 12, 'Barrio La Antorcha', 'Descripción de Barrio La Antorcha', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(58, 3, 12, 'Barrio La Guadalupe', 'Descripción de Barrio La Guadalupe', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(59, 3, 12, 'Barrio Las Mercedes', 'Descripción de Barrio Las Mercedes', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(60, 3, 12, 'Barrio Las Palmas', 'Descripción de Barrio Las Palmas', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(61, 3, 13, 'Barrio El Centro', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(62, 3, 13, 'Barrio El Edén', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(63, 3, 13, 'Barrio La Planeta', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(64, 3, 13, 'Barrio El Paraíso', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(65, 3, 13, 'Barrio La Esperanza', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:01:38', NULL, '2024-04-25 02:01:38'),
+(66, 3, 14, 'Agua Salada', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(67, 3, 14, 'Cantoral', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(68, 3, 14, 'Comayagua', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(69, 3, 14, 'El Ciruelo', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(70, 3, 14, 'Cacahuapa', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(71, 3, 15, 'Flores', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(72, 3, 15, 'Las Botijas', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(73, 3, 15, 'Los Cimientos', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(74, 3, 15, 'Potrero Granda', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(75, 3, 15, 'Protección', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(76, 4, 16, 'Calzontes', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(77, 4, 16, 'El Callejón', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(78, 4, 16, 'Oromilaca', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(79, 4, 16, 'Quezailica', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(80, 4, 16, 'Santa Rosa de Copán', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(81, 4, 17, 'Agua Buena', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(82, 4, 17, 'Buenos Aires', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(83, 4, 17, 'La Unión', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(84, 4, 17, 'Los Pozos', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(85, 4, 17, 'Quebrada Seca', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(86, 4, 18, 'Barbasqueadero', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(87, 4, 18, 'Agua Caliente', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(88, 4, 18, 'Agua Buena Arriba', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(89, 4, 18, 'Carrizalón', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(90, 4, 18, 'Boca del Monte', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(91, 4, 19, 'Capucas', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(92, 4, 19, 'Jimilile', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(93, 4, 19, 'Gualme', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(94, 4, 19, 'Corquín', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(95, 4, 19, 'El Carrizal', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(96, 4, 20, 'La Cebratana', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(97, 4, 20, 'La Laguna Negra', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(98, 4, 20, 'La Majada', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(99, 4, 20, 'Las Sandías', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(100, 4, 20, 'Los Pozos', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(101, 5, 21, 'Artemisales', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(102, 5, 21, 'Bañaderos o Guadalupe', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(103, 5, 21, 'Berlín', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(104, 5, 21, 'Buena Vista', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(105, 5, 21, 'Chotepe', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 02:49:34', NULL, '2024-04-25 02:49:34'),
+(106, 5, 22, 'Bajamar', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(107, 5, 22, 'Baracoa', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(108, 5, 22, 'Barra de Chamelecón', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(109, 5, 22, 'Calán', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(110, 5, 22, 'Chameleconcito', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(111, 5, 23, 'Banderas', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(112, 5, 23, 'Choloma', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(113, 5, 23, 'El Chorrerón', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(114, 5, 23, 'El Guanacaste', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(115, 5, 23, 'El Higuero', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(116, 5, 24, 'Calán Alto', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(117, 5, 24, 'Campo Dos Caminos', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(118, 5, 24, 'El Cuábano', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(119, 5, 24, 'El Marañó', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(120, 5, 24, 'El Milagro', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(121, 5, 25, 'La Lima', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(122, 5, 25, 'Cruz de Valencia', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(123, 5, 25, 'El Paraíso', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(124, 5, 25, 'Flor de Oriente', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(125, 5, 25, 'Flor de Oriente', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(126, 6, 26, 'Agua Caliente de Linaca', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(127, 6, 26, 'Choluteca', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(128, 6, 26, 'Copal Abajo', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(129, 6, 26, 'Copal Arriba', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(130, 6, 26, 'El Carrizo', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(131, 6, 27, 'Concepción El Brasilar', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(132, 6, 27, 'San Juan Bosco', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(133, 6, 27, 'San Antonio de Papua', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(134, 6, 27, 'La Ermita, Marilica', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(135, 6, 27, 'El Espinal', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(136, 6, 28, 'San Marcos de Colón', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(137, 6, 28, 'Cacamuya', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(138, 6, 28, 'Caire', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(139, 6, 28, 'Comalí', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(140, 6, 28, 'El Ojo de Agua', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(141, 6, 29, 'El Polvo', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(142, 6, 29, 'El Tular', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(143, 6, 29, 'El Chilcal', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(144, 6, 29, 'Paso de Vela', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(145, 6, 29, 'Buena Fe', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(146, 6, 30, 'Marcovia ', 'Descripción de Barrio El Centro', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(147, 6, 30, 'Cedeño', 'Descripción de Barrio El Edén', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(148, 6, 30, 'Colonia Buena Vista', 'Descripción de Barrio La Planeta', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(149, 6, 30, 'El Botadero', 'Descripción de Barrio El Paraíso', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(150, 6, 30, 'El Obraje', 'Descripción de Barrio La Esperanza', 'A', 'Admin', '2024-04-25 05:07:24', NULL, '2024-04-25 05:07:24'),
+(151, 22, 91, 'AldeaActiva', 'AldeaActiva', 'A', 'HARU', '2024-04-26 01:28:09', NULL, '2024-04-26 01:28:09'),
+(152, 23, 91, 'AldeaInactiva', 'AldeaInactiva', 'A', 'HARU', '2024-04-26 01:28:58', NULL, '2024-04-26 01:28:58');
 
 -- --------------------------------------------------------
 
@@ -4257,8 +4454,12 @@ CREATE TABLE `tbl_apoyos` (
 --
 
 INSERT INTO `tbl_apoyos` (`id_apoyo_produccion`, `tipo_apoyo_produccion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Bono Productor', 'Segun indicaciones fueron 3 manzanas haha', NULL, '2023-11-04 14:07:20', NULL, '2023-11-04 14:07:20', 'ACTIVO'),
-(2, 'SalarioA', 'Un sueldo base1', 'Daniela', '2023-11-05 08:59:34', 'Daniela', '2023-11-05 08:59:34', 'INACTIVO');
+(1, 'Gobierno', 'Ayuda que da el gobierno', NULL, '2024-04-25 20:17:17', NULL, '2024-04-25 20:17:17', 'ACTIVO'),
+(2, 'ONG', 'Organismo internacional', 'Daniela', '2024-04-25 20:17:47', 'Daniela', '2024-04-25 20:17:47', 'INACTIVO'),
+(3, 'Amigo', 'Ayuda de un amigo', 'HAru', '2024-04-25 20:18:02', 'Haru', '2024-04-25 20:18:02', 'ACTIVO'),
+(4, 'Cooperativa', 'Ayuda de alguna cooperativa', 'Haru', '2024-04-25 20:19:00', 'Haru', '2024-04-25 20:19:00', 'ACTIVO'),
+(5, 'APActiva', 'APActiva', 'Daniela', '2024-04-26 01:50:54', 'Daniela', '2024-04-26 01:50:54', 'ACTIVO'),
+(6, 'APInactiva', 'APInactiva', 'Daniela', '2024-04-26 01:51:13', 'Daniela', '2024-04-26 01:51:13', 'INACTIVO');
 
 -- --------------------------------------------------------
 
@@ -4278,8 +4479,20 @@ CREATE TABLE `tbl_apoyos_produccion` (
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_apoyos_produccion`
+--
+
+INSERT INTO `tbl_apoyos_produccion` (`id_apoyo_prod`, `id_ficha`, `id_productor`, `id_apoyo_produccion`, `otros_detalles`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(4, 1, 12, 13, NULL, NULL, 'HARU', '2024-04-26 00:00:59', NULL, '2024-04-26 00:00:59', 'A'),
+(5, 1, 12, 14, NULL, NULL, 'HARU', '2024-04-26 00:00:59', NULL, '2024-04-26 00:00:59', 'A'),
+(6, 1, 12, 15, NULL, NULL, 'HARU', '2024-04-26 00:00:59', NULL, '2024-04-26 00:00:59', 'A'),
+(7, 2, 13, 17, NULL, NULL, 'HARU', '2024-04-26 02:20:30', NULL, '2024-04-26 02:20:30', 'A'),
+(8, 3, 14, 17, NULL, NULL, 'HARU', '2024-04-26 02:20:30', NULL, '2024-04-26 02:20:30', 'A'),
+(11, 4, 15, 17, NULL, NULL, 'HARU', '2024-04-26 02:31:45', NULL, '2024-04-26 02:31:45', 'A'),
+(12, 5, 16, 1, NULL, NULL, 'HARU', '2024-04-27 03:26:13', NULL, '2024-04-27 03:26:13', 'A');
 
 -- --------------------------------------------------------
 
@@ -4300,8 +4513,18 @@ CREATE TABLE `tbl_apoyo_actividad_externa` (
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_apoyo_actividad_externa`
+--
+
+INSERT INTO `tbl_apoyo_actividad_externa` (`id_apoyo_ext`, `id_ficha`, `id_productor`, `recibe_apoyo_prodagrícola`, `atencion_por_UAG`, `productos_vendidospor_pralesc`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(6, 1, 12, 'S', 'S', 'S', NULL, 'HARU', '2024-04-26 00:00:59', NULL, '2024-04-26 00:00:59', 'A'),
+(7, 2, 13, 'S', 'S', 'S', NULL, 'HARU', '2024-04-26 02:20:30', NULL, '2024-04-26 02:20:30', 'A'),
+(8, 3, 14, 'S', 'S', 'S', NULL, 'HARU', '2024-04-26 02:20:30', NULL, '2024-04-26 02:20:30', 'A'),
+(9, 4, 15, 'S', 'S', 'S', NULL, 'HARU', '2024-04-26 02:20:30', 'HARU', '2024-04-26 02:31:45', 'A'),
+(10, 5, 16, 'S', 'S', 'S', NULL, 'HARU', '2024-04-27 03:26:13', NULL, '2024-04-27 03:26:13', 'A');
 
 -- --------------------------------------------------------
 
@@ -4318,7 +4541,20 @@ CREATE TABLE `tbl_apoyo_tipo_organizacion` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` varchar(50) DEFAULT NULL,
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_apoyo_tipo_organizacion`
+--
+
+INSERT INTO `tbl_apoyo_tipo_organizacion` (`id_ficha`, `id_productor`, `id_tipo_organizacion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 12, 1, 'HARU', '2024-04-25 18:00:59', NULL, NULL, 'A'),
+(1, 12, 2, 'HARU', '2024-04-25 18:00:59', NULL, NULL, 'A'),
+(1, 12, 5, 'HARU', '2024-04-25 18:00:59', NULL, NULL, 'A'),
+(2, 13, 1, 'HARU', '2024-04-25 20:20:30', NULL, NULL, 'A'),
+(3, 14, 1, 'HARU', '2024-04-25 20:20:30', NULL, NULL, 'A'),
+(4, 15, 1, 'HARU', '2024-04-25 20:31:45', NULL, NULL, 'A'),
+(5, 16, 9, 'HARU', '2024-04-26 21:26:13', NULL, NULL, 'A');
 
 -- --------------------------------------------------------
 
@@ -4337,8 +4573,18 @@ CREATE TABLE `tbl_base_organizacion` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_base_organizacion`
+--
+
+INSERT INTO `tbl_base_organizacion` (`id_pertenece_organizacion`, `id_ficha`, `id_productor`, `pertenece_a_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(12, 1, 12, 'S', NULL, 'HARU', '2024-04-25 23:48:26', NULL, '2024-04-25 23:48:26', 'A'),
+(13, 2, 13, 'S', NULL, 'HARU', '2024-04-26 02:03:18', 'HARU', '2024-04-27 03:49:22', 'A'),
+(14, 3, 14, 'S', NULL, 'HARU', '2024-04-26 02:03:18', 'HARU', '2024-04-27 03:47:02', 'A'),
+(15, 4, 15, 'S', NULL, 'HARU', '2024-04-26 02:03:18', 'HARU', '2024-04-27 03:37:54', 'A'),
+(16, 5, 16, 'N', NULL, 'HARU', '2024-04-27 03:17:09', NULL, '2024-04-27 03:17:09', 'A');
 
 -- --------------------------------------------------------
 
@@ -4365,12 +4611,12 @@ CREATE TABLE `tbl_cacerios` (
 --
 
 INSERT INTO `tbl_cacerios` (`Id_Cacerio`, `Id_Aldea`, `Id_Municipio`, `Id_Departamento`, `Nombre_Cacerio`, `Descripcion`, `Estado`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
-(1, 1, 1, 1, 'cacerio 1', 'cacerio 1', 'A', '1', '2023-12-07 06:45:39', '1', '2023-12-07 06:45:39'),
-(2, 2, 3, 2, 'cacerio 2', 'cacerio 2', 'A', '1', '2023-12-07 06:47:43', '1', '2023-12-07 06:47:43'),
-(3, 3, 5, 3, 'caserio 3', 'caserio 3', 'A', '1', '2023-12-07 06:49:40', '1', '2023-12-07 06:49:40'),
-(4, 4, 7, 4, 'caserio 4', 'caserio 4', 'A', '1', '2023-12-07 06:51:00', '1', '2023-12-07 06:51:00'),
-(5, 5, 9, 5, 'caserio 5', 'caserio 5', 'A', '1', '2023-12-07 06:51:51', '1', '2023-12-07 06:51:51'),
-(9, 13, 12, 20, 'caseriofinal', 'final', 'A', 'Mfigue', '2024-02-22 05:22:29', 'Mfigue', '2024-02-22 05:22:29');
+(1, 1, 1, 1, 'El Trapiche', 'Descripción de El Trapiche', 'A', 'Admin', '2024-04-25 05:15:03', NULL, '2024-04-25 05:15:03'),
+(2, 2, 1, 1, 'La Laguneta', 'Descripción de La Laguneta', 'A', 'Admin', '2024-04-25 05:15:03', NULL, '2024-04-25 05:15:03'),
+(3, 26, 6, 2, 'Caserío de Trujillo 1', 'Caserío de Trujillo 1', 'A', 'Haru', '2024-04-25 05:19:25', 'Haru', '2024-04-25 05:19:25'),
+(4, 27, 6, 2, 'Caserío de Trujillo 2', 'Caserío de Trujillo 2', 'A', 'Haru', '2024-04-25 05:19:25', 'Haru', '2024-04-25 05:19:25'),
+(5, 51, 11, 3, 'Col. INCEHSA', 'Col. INCEHSA', 'A', 'Haru', '2024-04-26 00:20:54', 'Haru', '2024-04-25 05:28:17'),
+(6, 51, 11, 3, 'Bo. La Zarcita', 'Bo. La Zarcita', 'A', 'Haru', '2024-04-25 05:28:17', 'Haru', '2024-04-25 05:28:17');
 
 -- --------------------------------------------------------
 
@@ -4390,8 +4636,26 @@ CREATE TABLE `tbl_composicion` (
   `modificado_por` varchar(25) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_composicion`
+--
+
+INSERT INTO `tbl_composicion` (`id_ficha`, `id_composicion`, `id_productor`, `genero`, `edad`, `cantidad`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 20, 12, 'Hombre', '11-20', 2, 'HARU', '2024-04-25 23:48:48', NULL, '2024-04-25 23:48:48', 'A'),
+(1, 21, 12, 'Mujer', '41-50', 1, 'HARU', '2024-04-25 23:48:48', NULL, '2024-04-25 23:48:48', 'A'),
+(1, 22, 12, 'Hombre', '41-50', 1, 'HARU', '2024-04-25 23:48:48', NULL, '2024-04-25 23:48:48', 'A'),
+(5, 38, 16, 'Mujer', '0-10', 34, 'HARU', '2024-04-27 03:17:13', NULL, '2024-04-27 03:17:13', 'A'),
+(4, 39, 15, 'Mujer', '0-10', 1, 'HARU', '2024-04-27 03:37:55', NULL, '2024-04-27 03:37:55', 'A'),
+(4, 40, 15, 'Hombre', '11-20', 1, 'HARU', '2024-04-27 03:37:55', NULL, '2024-04-27 03:37:55', 'A'),
+(4, 41, 15, 'Hombre', '41-50', 1, 'HARU', '2024-04-27 03:37:55', NULL, '2024-04-27 03:37:55', 'A'),
+(3, 48, 14, 'Mujer', '0-10', 1, 'HARU', '2024-04-27 03:47:03', NULL, '2024-04-27 03:47:03', 'A'),
+(3, 49, 14, 'Hombre', '11-20', 1, 'HARU', '2024-04-27 03:47:03', NULL, '2024-04-27 03:47:03', 'A'),
+(3, 50, 14, 'Hombre', '41-50', 1, 'HARU', '2024-04-27 03:47:03', NULL, '2024-04-27 03:47:03', 'A'),
+(2, 51, 13, 'Mujer', '0-10', 1, 'HARU', '2024-04-27 03:49:23', NULL, '2024-04-27 03:49:23', 'A'),
+(2, 52, 13, 'Hombre', '11-20', 1, 'HARU', '2024-04-27 03:49:23', NULL, '2024-04-27 03:49:23', 'A'),
+(2, 53, 13, 'Hombre', '41-50', 1, 'HARU', '2024-04-27 03:49:23', NULL, '2024-04-27 03:49:23', 'A');
 
 -- --------------------------------------------------------
 
@@ -4413,8 +4677,16 @@ CREATE TABLE `tbl_credito_produccion` (
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_credito_produccion`
+--
+
+INSERT INTO `tbl_credito_produccion` (`id_credpro`, `id_ficha`, `id_productor`, `ha_solicitado_creditos`, `id_fuente_credito`, `monto_credito`, `id_motivos_no_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(13, 1, 12, 'S', 1, NULL, NULL, NULL, 'HARU', '2024-04-25 23:59:15', NULL, '2024-04-25 23:59:15', 'A'),
+(14, 1, 12, 'S', 2, NULL, NULL, NULL, 'HARU', '2024-04-25 23:59:15', NULL, '2024-04-25 23:59:15', 'A'),
+(15, 1, 12, 'S', 5, NULL, NULL, NULL, 'HARU', '2024-04-25 23:59:15', NULL, '2024-04-25 23:59:15', 'A');
 
 -- --------------------------------------------------------
 
@@ -4438,25 +4710,26 @@ CREATE TABLE `tbl_departamentos` (
 --
 
 INSERT INTO `tbl_departamentos` (`Id_Departamento`, `Nombre_Departamento`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 'Atlántida', 'Atlántida', '1', '2023-12-07 05:54:18', '1', '2023-12-07 05:54:18', 'A'),
-(2, 'Colón', 'Colón', '1', '2023-12-07 05:55:56', '1', '2023-12-07 05:55:56', 'A'),
-(3, 'Comayagua', 'Comayagua', '1', '2023-12-07 05:55:56', '1', '2023-12-07 05:55:56', 'A'),
-(4, 'Copán', 'Copán', '1', '2023-12-07 05:57:00', '1', '2023-12-07 05:57:00', 'A'),
-(5, 'Cortés', 'Cortés', '1', '2023-12-07 06:01:28', '1', '2023-12-07 06:01:28', 'A'),
-(6, 'Choluteca', 'Choluteca', '1', '2023-12-07 05:57:00', '1', '2023-12-07 05:57:00', 'A'),
-(7, 'El Paraíso', 'El Paraíso', '1', '2023-12-07 06:01:57', '1', '2023-12-07 06:01:57', 'A'),
-(8, 'Francisco Morazán', 'Francisco Morazán', '1', '2023-12-07 06:01:57', '1', '2023-12-07 06:01:57', 'A'),
-(9, 'Gracias a Dios', 'Gracias a Dios', '1', '2023-12-07 06:02:45', '1', '2023-12-07 06:02:45', 'A'),
-(10, 'Intibucá', 'Intibucá', '1', '2023-12-07 06:03:16', '1', '2023-12-07 06:03:16', 'A'),
-(11, 'Islas de la Bahía', 'Islas de la Bahía', '1', '2023-12-07 06:03:33', '1', '2023-12-07 06:03:33', 'A'),
-(12, 'La Paz', 'La Paz', '1', '2023-12-07 06:03:55', '1', '2023-12-07 06:03:55', 'A'),
-(13, 'Lempira', 'Lempira', '1', '2023-12-07 06:03:55', '1', '2023-12-07 06:03:55', 'A'),
-(14, 'Ocotepeque', 'Ocotepeque', '1', '2023-12-07 06:04:32', '1', '2023-12-07 06:04:32', 'A'),
-(15, 'Olancho', 'Olancho', '1', '2023-12-07 06:04:49', '1', '2023-12-07 06:04:49', 'A'),
-(16, 'Santa Bárbara', 'Santa Bárbara', '1', '2023-12-07 06:05:06', '1', '2023-12-07 06:05:06', 'A'),
-(17, 'Valle', 'Valle', '1', '2023-12-07 06:05:22', '1', '2023-12-07 06:05:22', 'A'),
-(18, 'Yoro', 'Yoro', '1', '2023-12-07 06:05:39', 'manu', '2023-12-09 21:32:00', 'A'),
-(20, 'DepFinal', 'desc', 'Mfigue', '2023-12-10 15:53:57', 'Mfigue', '2024-02-22 05:15:30', 'I');
+(1, 'Atlántida', 'Departamento en la costa norte de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(2, 'Colón', 'Departamento en la costa norte de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(3, 'Comayagua', 'Departamento en la región central de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(4, 'Copán', 'Departamento en el occidente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(5, 'Cortés', 'Departamento en la costa norte de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(6, 'Choluteca', 'Departamento en el sur de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(7, 'El Paraíso', 'Departamento en el oriente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(8, 'Francisco Morazán', 'Departamento en la región central de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(9, 'Gracias a Dios', 'Departamento en el oriente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(10, 'Intibucá', 'Departamento en el occidente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(11, 'Islas de la Bahía', 'Departamento en el norte de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(12, 'La Paz', 'Departamento en la región central de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(13, 'Lempira', 'Departamento en el occidente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(14, 'Ocotepeque', 'Departamento en el occidente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(15, 'Olancho', 'Departamento en el oriente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(16, 'Santa Bárbara', 'Departamento en el occidente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(17, 'Valle', 'Departamento en el sur de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(18, 'Yoro', 'Departamento en el norte de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(22, 'DepartamentoACtivo', 'Activo', 'HARU', '2024-04-26 01:20:13', NULL, '2024-04-26 01:20:13', 'A'),
+(23, 'DepartamentoInactivo', 'Inactivo', 'HARU', '2024-04-26 01:20:54', 'HARU', '2024-04-26 01:21:04', 'I');
 
 -- --------------------------------------------------------
 
@@ -4511,7 +4784,18 @@ CREATE TABLE `tbl_etnias_por_productor` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_etnias_por_productor`
+--
+
+INSERT INTO `tbl_etnias_por_productor` (`Id_etnicidad`, `id_ficha`, `id_productor`, `id_etnia`, `detalle_de_otros`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(10, 1, 12, 6, '0', NULL, 'HARU', '2024-04-25 23:48:52', NULL, '2024-04-25 23:48:52', 'A'),
+(11, 2, 13, 1, '', NULL, 'HARU', '2024-04-26 02:08:10', 'HARU', '2024-04-27 03:49:24', 'A'),
+(12, 3, 14, 1, '', NULL, 'HARU', '2024-04-26 02:08:10', 'HARU', '2024-04-27 03:47:04', 'A'),
+(13, 4, 15, 2, '', NULL, 'HARU', '2024-04-26 02:08:10', 'HARU', '2024-04-27 03:37:56', 'A'),
+(14, 5, 16, 6, '0', NULL, 'HARU', '2024-04-27 03:17:15', NULL, '2024-04-27 03:17:15', 'A');
 
 -- --------------------------------------------------------
 
@@ -4535,13 +4819,13 @@ CREATE TABLE `tbl_fuentes_credito` (
 --
 
 INSERT INTO `tbl_fuentes_credito` (`id_fuente_credito`, `fuente_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Banca', 'Bancos', 'usuario1', '2023-12-11 10:25:53', 'usuario1', '2023-12-11 10:25:53', 'A'),
-(2, 'Amigos', 'Amigos cercanos', 'usuario1', '2023-12-11 10:26:08', 'usuario1', '2023-12-11 10:26:08', 'A'),
-(3, 'Familia', 'Familiares', 'usuario1', '2023-12-11 10:26:24', 'usuario1', '2023-12-11 10:26:24', 'A'),
-(4, 'Cooperativa', 'Cooperativas', 'usuario1', '2023-12-11 10:27:00', 'usuario1', '2023-12-11 10:27:00', 'A'),
-(5, 'Prestamistas', 'Prestamistas', 'usuario1', '2023-12-11 10:27:19', 'usuario1', '2023-12-11 10:27:19', 'A'),
-(6, 'Microfinanciera', 'Microfinanciera', 'usuario1', '2023-12-11 10:27:40', 'usuario1', '2023-12-11 10:27:40', 'A'),
-(7, 'Caja rural', 'Caja rural', 'usuario1', '2024-02-26 04:20:33', 'usuario1', '2024-02-26 04:20:33', '');
+(1, 'Banca', 'Bancos', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
+(2, 'Amigos', 'Amigos cercanos', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
+(3, 'Familia', 'Familiares', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
+(4, 'Cooperativa', 'Cooperativas', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
+(5, 'Prestamistas', 'Prestamistas', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
+(6, 'Microfinanciera', 'Microfinanciera', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
+(7, 'Fuente de credito', 'Fuente de credito', 'usuario1', '2024-04-27 03:21:19', 'usuario1', '2024-04-27 03:21:19', 'A');
 
 -- --------------------------------------------------------
 
@@ -4563,8 +4847,18 @@ CREATE TABLE `tbl_ingreso_familiar` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_ingreso_familiar`
+--
+
+INSERT INTO `tbl_ingreso_familiar` (`Id_Ficha`, `Id_Productor`, `Id_Ingreso_Familiar`, `Id_Tipo_Negocio`, `Total_Ingreso`, `Id_Periodo_Ingreso`, `Descripcion_Otros`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(1, 12, 9, 4, 523100.00, NULL, NULL, NULL, 'HARU', '2024-04-25 23:58:28', NULL, '2024-04-25 23:58:28', 'A'),
+(1, 12, 10, 8, 10000.00, NULL, NULL, NULL, 'HARU', '2024-04-25 23:58:28', NULL, '2024-04-25 23:58:28', 'A'),
+(4, 15, 16, 14, 100.00, NULL, NULL, NULL, 'HARU', '2024-04-27 03:39:20', 'HARU', '2024-04-27 03:39:20', 'A'),
+(3, 14, 19, 14, 100.00, NULL, NULL, NULL, 'HARU', '2024-04-27 03:48:07', 'HARU', '2024-04-27 03:48:07', 'A'),
+(2, 13, 20, 14, 100.00, NULL, NULL, NULL, 'HARU', '2024-04-27 03:49:42', 'HARU', '2024-04-27 03:49:42', 'A');
 
 -- --------------------------------------------------------
 
@@ -4590,9 +4884,18 @@ CREATE TABLE `tbl_manejo_riego` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_manejo_riego`
+--
 
+INSERT INTO `tbl_manejo_riego` (`Id_Manejo_Riego`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Tiene_Riego`, `Superficie_Riego`, `Id_Medida_Superficie_Riego`, `Id_Tipo_Riego`, `Fuente_Agua`, `Disponibilidad_Agua_Meses`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(7, 1, 7, 12, 'S', 15.00, 8, 3, 'SANNA', 8, NULL, NULL, 'HARU', '2024-04-25 23:52:48', NULL, '2024-04-25 23:52:48', 'A'),
+(8, 2, 8, 13, 'S', 100.00, 2, 2, 'fuente de agua', 100, NULL, NULL, 'HARU', '2024-04-26 02:12:07', NULL, '2024-04-26 02:12:07', 'A'),
+(9, 3, 9, 14, 'S', 100.00, 2, 2, 'fuente de agua', 100, NULL, NULL, 'HARU', '2024-04-26 02:12:07', NULL, '2024-04-26 02:12:07', 'A'),
+(10, 4, 10, 15, 'S', 100.00, 2, 2, 'fuente de agua', 100, NULL, NULL, 'HARU', '2024-04-26 02:12:07', NULL, '2024-04-26 02:12:07', 'A'),
+(11, 5, 11, 16, 'S', 2332.00, 3, 4, 'pozo comunitario', 32, NULL, NULL, 'HARU', '2024-04-27 03:19:24', NULL, '2024-04-27 03:19:24', 'A');
 
 -- --------------------------------------------------------
 
@@ -4619,7 +4922,20 @@ INSERT INTO `tbl_medidas_tierra` (`id_medida`, `medida`, `descripcion`, `creado_
 (1, 'TAREAS', 'Son 5 tareas', NULL, '2023-11-04 14:08:58', NULL, '2023-11-04 14:08:58', 'ACTIVO'),
 (2, 'HA', 'Se compraron 2', 'Daniela', '2024-02-26 03:52:35', 'Daniela', '2024-02-26 03:52:35', 'ACTIVO'),
 (3, 'MZ', 'desc', 'Daniela', '2023-12-11 01:56:55', 'Daniela', '2023-12-11 01:56:55', 'ACTIVO'),
-(4, 'CM', 'CM (Centimetro)', 'manu', '2023-12-11 01:57:01', 'manu', '2023-12-11 01:57:01', 'ACTIVO');
+(4, 'CM', 'CM (Centimetro)', 'manu', '2023-12-11 01:57:01', 'manu', '2023-12-11 01:57:01', 'ACTIVO'),
+(5, 'Oz (onza)', 'Oz (onza)', 'Daniela', '2024-04-25 21:03:54', 'Daniela', '2024-04-25 21:03:54', 'ACTIVO'),
+(6, 'Kg (kilogramo)', 'Kg (kilogramo)', 'Daniela', '2024-04-25 21:03:58', 'Daniela', '2024-04-25 21:03:58', 'ACTIVO'),
+(7, 'Lb (Libra)', 'Lb (Libra)', 'Daniela', '2024-04-25 21:04:02', 'Daniela', '2024-04-25 21:04:02', 'ACTIVO'),
+(8, 'KM (Kilómetro)', 'KM (Kilómetro)', 'Daniela', '2024-04-25 21:04:05', 'Daniela', '2024-04-25 21:04:05', 'ACTIVO'),
+(9, 'L (Litro)', 'L (Litro)', 'Daniela', '2024-04-25 21:04:10', 'Daniela', '2024-04-25 21:04:10', 'ACTIVO'),
+(10, 'Milla (MI)', 'Milla (MI)', 'Daniela', '2024-04-25 21:04:13', 'Daniela', '2024-04-25 21:04:13', 'ACTIVO'),
+(11, 'Saco', 'Saco', 'Daniela', '2024-04-25 21:04:16', 'Daniela', '2024-04-25 21:04:16', 'ACTIVO'),
+(12, 'Botella', 'Botella', 'Daniela', '2024-04-25 21:04:19', 'Daniela', '2024-04-25 21:04:19', 'ACTIVO'),
+(13, 'semanal', 'semanal', 'Haru', '2024-04-25 21:04:28', 'Haru', '2024-04-25 21:04:28', 'ACTIVO'),
+(14, 'mensual', 'mensual', 'Haru', '2024-04-25 21:04:28', 'Haru', '2024-04-25 21:04:28', 'ACTIVO'),
+(15, 'anual', 'anual', 'Haru', '2024-04-25 21:05:35', 'Haru', '2024-04-25 21:05:35', 'ACTIVO'),
+(16, '', 'MedidaActiva', 'Daniela', '2024-04-26 01:35:52', 'Daniela', '2024-04-26 01:35:52', 'ACTIVO'),
+(17, '', 'MedidaInactiva', 'Daniela', '2024-04-26 01:37:48', 'Daniela', '2024-04-26 01:37:48', '');
 
 -- --------------------------------------------------------
 
@@ -4642,8 +4958,17 @@ CREATE TABLE `tbl_migracion_familiar` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_migracion_familiar`
+--
+
+INSERT INTO `tbl_migracion_familiar` (`id_ficha`, `id_productor`, `id_migracion`, `tiene_migrantes`, `migracion_dentro_pais`, `migracion_fuera_pais`, `id_tipo_motivos`, `remesas`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 12, 38, 'S', 'S', 'N', 1, 'S', NULL, 'HARU', '2024-04-25 23:49:18', NULL, '2024-04-25 23:49:18', 'A'),
+(1, 12, 39, 'S', 'S', 'N', 3, 'S', NULL, 'HARU', '2024-04-25 23:49:18', NULL, '2024-04-25 23:49:18', 'A'),
+(3, 14, 51, 'N', 'N', 'N', NULL, 'N', NULL, 'HARU', '2024-04-27 03:47:07', NULL, '2024-04-27 03:47:07', 'A'),
+(3, 14, 52, 'N', 'N', 'N', NULL, 'N', NULL, 'HARU', '2024-04-27 03:47:07', NULL, '2024-04-27 03:47:07', 'A');
 
 -- --------------------------------------------------------
 
@@ -4667,11 +4992,11 @@ CREATE TABLE `tbl_motivos_migracion` (
 --
 
 INSERT INTO `tbl_motivos_migracion` (`Id_motivo`, `Motivo`, `Descripcion`, `Creado_por`, `Fecha_creacion`, `Modificado_por`, `Fecha_Actualizacion`, `Estado`) VALUES
-(1, 'Estudio', 'por el Estudio', 'Manuel', '2023-10-31 03:56:32', 'Manuel', '2023-12-11 23:07:04', 'A'),
-(2, 'Trabajo', 'No encuentra Trabajo en el país.', 'manuel', '2023-10-31 04:58:55', 'manuel', '2023-12-11 23:08:12', 'A'),
-(3, 'Violencia', 'Violencia familiar o amenazas', 'Manuel', '2023-10-31 05:07:18', 'Manuel', '2023-12-11 23:09:08', 'A'),
-(4, 'Cambio climático', 'Cambio climático o desastre natural', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2023-12-11 23:09:56', 'A'),
-(10, 'JUBILACION', 'Prueba', 'Manuel', '2024-02-26 03:50:11', 'Manuel', '2024-02-26 03:50:20', '');
+(1, 'Estudio', 'por el Estudio', 'Manuel', '2023-10-31 03:56:32', 'Manuel', '2024-04-27 03:18:16', 'I'),
+(2, 'Trabajo', 'No encuentra Trabajo en el país.', 'manuel', '2023-10-31 04:58:55', 'manuel', '2024-04-27 03:18:16', 'I'),
+(3, 'Violencia', 'Violencia familiar o amenazas', 'Manuel', '2023-10-31 05:07:18', 'Manuel', '2024-04-27 03:18:16', 'I'),
+(4, 'Cambio climático', 'Cambio climático o desastre natural', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2024-04-27 03:18:16', 'I'),
+(11, 'MotivoMigracion', 'MotivoMigracion', 'Manuel', '2024-04-27 01:34:31', 'Manuel', '2024-04-27 03:18:01', 'A');
 
 -- --------------------------------------------------------
 
@@ -4695,8 +5020,15 @@ CREATE TABLE `tbl_motivos_no_creditos` (
 --
 
 INSERT INTO `tbl_motivos_no_creditos` (`id_motivos_no_credito`, `motivo_no_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Trabajo no estable', NULL, 'HARU', '2024-04-13 15:23:57', NULL, '2024-04-13 15:24:00', 'A'),
-(2, 'Deudas con bancos', NULL, 'HARU', '2024-04-13 15:24:35', NULL, '2024-04-13 15:24:37', 'A');
+(1, 'Estoy en la central de riesgos', 'Estoy en la central de riesgos', 'HARU', '2024-04-13 15:23:57', 'Haru', '2024-04-27 03:22:45', 'I'),
+(2, 'Son muchos los requisitos', 'Son muchos los requisitos', 'HARU', '2024-04-13 15:24:35', 'Haru', '2024-04-27 03:22:45', 'I'),
+(3, 'No lo he necesitado', 'No lo he necesitado', 'Haru', '2024-04-25 20:29:27', 'Haru', '2024-04-27 03:22:45', 'I'),
+(4, 'No tengo capacidad de pago', 'No tengo capacidad de pago', 'Haru', '2024-04-25 20:29:27', 'Haru', '2024-04-27 03:22:45', 'I'),
+(5, 'Temor al rechazo ', 'Temor al rechazo ', 'Haru', '2024-04-25 20:31:10', 'Haru', '2024-04-27 03:22:45', 'I'),
+(6, 'Temor a no pagarlo ', 'Temor a no pagarlo ', 'Haru', '2024-04-25 20:31:54', 'Haru', '2024-04-27 03:22:45', 'I'),
+(7, 'Tasas de interés muy altas ', 'Tasas de interés muy altas ', 'Haru', '2024-04-25 20:32:24', 'Haru', '2024-04-27 03:22:45', 'I'),
+(8, 'MNCreActivo', 'MNCreActivo', 'HARU', '2024-04-26 01:45:15', NULL, '2024-04-26 01:45:15', 'A'),
+(9, 'MNCreInactivo', 'MNCreInactivo', 'HARU', '2024-04-26 01:45:29', NULL, '2024-04-27 03:22:45', 'I');
 
 -- --------------------------------------------------------
 
@@ -4721,17 +5053,98 @@ CREATE TABLE `tbl_municipios` (
 --
 
 INSERT INTO `tbl_municipios` (`Id_Municipio`, `Id_Departamento`, `Nombre_Municipio`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 'La Ceiba', 'La Ceiba', '1', '2023-12-07 12:26:42', '1', '2023-12-07 12:26:42', 'A'),
-(2, 1, 'El Porvenir', 'El Porvenir', '1', '2023-12-07 12:26:42', '1', '2023-12-07 12:26:42', 'A'),
-(3, 2, 'Trujillo', 'Trujillo', '1', '2023-12-07 12:28:16', '1', '2023-12-07 12:28:16', 'A'),
-(4, 2, 'Balfate', 'Balfate', '1', '2023-12-07 12:29:48', '1', '2023-12-07 12:29:48', 'A'),
-(5, 3, 'Comayagua', 'Comayagua', '1', '2023-12-07 12:30:29', '1', '2023-12-07 12:30:29', 'A'),
-(6, 3, 'Ajuterique', 'Ajuterique', '1', '2023-12-07 12:31:37', '1', '2023-12-07 12:31:37', 'A'),
-(7, 4, 'Santa Rosa de Copán', 'Santa Rosa de Copán', '1', '2023-12-07 12:32:16', '1', '2023-12-07 12:32:16', 'A'),
-(8, 4, 'Cabañas', 'Cabañas', '1', '2023-12-07 12:33:12', '1', '2023-12-07 12:33:12', 'A'),
-(9, 5, 'San Pedro Sula', 'San Pedro Sula', '1', '2023-12-07 12:33:54', '1', '2023-12-07 12:33:54', 'A'),
-(10, 5, 'Choloma', 'Choloma', '1', '2023-12-07 12:34:21', '1', '2023-12-07 12:34:21', 'A'),
-(12, 20, 'Munifinal', 'final', 'Mfigue', '2023-12-10 21:54:22', NULL, '2023-12-10 21:54:22', 'A');
+(1, 1, 'La Ceiba', 'Descripción de La Ceiba', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 07:31:01', 'A'),
+(2, 1, 'Tela', 'Descripción de Tela', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 07:31:04', 'A'),
+(3, 1, 'Jutiapa', 'Descripción de Jutiapa', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(4, 1, 'La Masica', 'Descripción de La Masica', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(5, 1, 'Arizona', 'Descripción de Arizona', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(6, 2, 'Trujillo', 'Descripción de Trujillo', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(7, 2, 'Tocoa', 'Descripción de Tocoa', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(8, 2, 'Sonaguera', 'Descripción de Sonaguera', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(9, 2, 'Iriona', 'Descripción de Iriona', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(10, 2, 'Santa Fe', 'Descripción de Santa Fe', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(11, 3, 'Comayagua', 'Descripción de Comayagua', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(12, 3, 'Siguatepeque', 'Descripción de Siguatepeque', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(13, 3, 'La Libertad', 'Descripción de La Libertad', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(14, 3, 'Ajuterique', 'Descripción de Ajuterique', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(15, 3, 'Villa de San Antonio', 'Descripción de Villa de San Antonio', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(16, 4, 'Santa Rosa de Copán', 'Descripción de Santa Rosa de Copán', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(17, 4, 'La Entrada', 'Descripción de La Entrada', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(18, 4, 'Copán Ruinas', 'Descripción de Copaán Ruinas', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 02:31:01', 'A'),
+(19, 4, 'Corquín', 'Descripción de Corquín', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(20, 4, 'San Juan de Opoa', 'Descripción de San Juan de Opoa', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(21, 5, 'San Pedro Sula', 'Descripción de San Pedro Sula', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(22, 5, 'Puerto Cortés', 'Descripción de Puerto Cortés', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(23, 5, 'Choloma', 'Descripción de Choloma', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(24, 5, 'Villanueva', 'Descripción de Villanueva', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(25, 5, 'La Lima', 'Descripción de La Lima', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(26, 6, 'Choluteca', 'Descripción de Choluteca', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(27, 6, 'Pespire', 'Descripción de Pespire', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(28, 6, 'San Marcos de Colón', 'Descripción de San Marcos de Colón', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(29, 6, 'Nacaome', 'Descripción de Nacaome', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(30, 6, 'Marcovia', 'Descripción de Marcovia', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(31, 7, 'Yuscarán', 'Descripción de Yuscarán', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(32, 7, 'Danlí', 'Descripción de Danlí', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(33, 7, 'El Paraíso', 'Descripción de El Paraíso', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(34, 7, 'Texiguat', 'Descripción de Texiguat', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(35, 7, 'Jacaleapa', 'Descripción de Jacaleapa', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(36, 8, 'Tegucigalpa', 'Descripción de Tegucigalpa', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(37, 8, 'Comayagüela', 'Descripción de Comayagüela', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(38, 8, 'Valle de Ángeles', 'Descripción de Valle de Ángeles', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(39, 8, 'Santa Lucía', 'Descripción de Santa Lucía', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(40, 8, 'Ojojona', 'Descripción de Ojojona', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(41, 9, 'Puerto Lempira', 'Descripción de Puerto Lempira', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(42, 9, 'Brus Laguna', 'Descripción de Brus Laguna', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(43, 9, 'Ahuas', 'Descripción de Ahuas', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(44, 9, 'Juan Francisco Bulnes', 'Descripción de Juan Francisco Bulnes', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(45, 9, 'Wampusirpe', 'Descripción de Wampusirpe', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(46, 10, 'La Esperanza', 'Descripción de La Esperanza', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(47, 10, 'Intibucá', 'Descripción de Intibucá', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(48, 10, 'Dolores', 'Descripción de Dolores', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(49, 10, 'San Juan', 'Descripción de San Juan', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(50, 10, 'San Marcos de Sierra', 'Descripción de San Marcos de Sierra', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(51, 11, 'Roatán', 'Descripción de Roatán', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(52, 11, 'Utila', 'Descripción de Utila', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(53, 11, 'Guanaja', 'Descripción de Guanaja', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(54, 11, 'José Santos Guardiola', 'Descripción de José Santos Guardiola', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(55, 11, 'Santa Elena', 'Descripción de Santa Elena', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(56, 12, 'La Paz', 'Descripción de La Paz', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(57, 12, 'Marcala', 'Descripción de Marcala', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(58, 12, 'Santa Ana', 'Descripción de Santa Ana', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(59, 12, 'Yarula', 'Descripción de Yarula', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(60, 12, 'Ajuterique', 'Descripción de Ajuterique', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(61, 13, 'Gracias', 'Descripción de Gracias', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(62, 13, 'La Iguala', 'Descripción de La Iguala', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(63, 13, 'Las Flores', 'Descripción de Las Flores', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(64, 13, 'La Unión', 'Descripción de La Unión', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(65, 13, 'La Virtud', 'Descripción de La Virtud', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(66, 14, 'Ocotepeque', 'Descripción de Ocotepeque', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(67, 14, 'San Marcos', 'Descripción de San Marcos', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(68, 14, 'La Labor', 'Descripción de La Labor', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(69, 14, 'Sinuapa', 'Descripción de Sinuapa', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(70, 14, 'San Fernando', 'Descripción de San Fernando', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(71, 15, 'Juticalpa', 'Descripción de Juticalpa', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(72, 15, 'Campamento', 'Descripción de Campamento', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(73, 15, 'Catacamas', 'Descripción de Catacamas', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(74, 15, 'Guarizama', 'Descripción de Guarizama', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(75, 15, 'San Esteban', 'Descripción de San Esteban', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(76, 16, 'Santa Bárbara', 'Descripción de Santa Bárbara', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(77, 16, 'Arada', 'Descripción de Arada', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(78, 16, 'Atima', 'Descripción de Atima', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(79, 16, 'Azacualpa', 'Descripción de Azacualpa', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(80, 16, 'Ceguaca', 'Descripción de Ceguaca', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(81, 17, 'Nacaome', 'Descripción de Nacaome', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(82, 17, 'Alianza', 'Descripción de Alianza', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(83, 17, 'Amapala', 'Descripción de Amapala', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(84, 17, 'Aramecina', 'Descripción de Aramecina', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(85, 17, 'Caridad', 'Descripción de Caridad', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(86, 18, 'Yoro', 'Descripción de Yoro', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(87, 18, 'El Progreso', 'Descripción de El Progreso', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(88, 18, 'Morazán', 'Descripción de Morazán', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(89, 18, 'Olanchito', 'Descripción de Olanchito', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(90, 18, 'Santa Rita', 'Descripción de Santa Rita', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
+(91, 22, 'Activo', 'Activo', 'HARU', '2024-04-26 01:23:28', NULL, '2024-04-26 01:23:28', 'A'),
+(92, 23, 'MunicipioInactivo', 'MunicipioInactivo', 'HARU', '2024-04-26 01:24:05', 'HARU', '2024-04-26 01:25:30', 'I');
 
 -- --------------------------------------------------------
 
@@ -4775,9 +5188,12 @@ CREATE TABLE `tbl_organizaciones` (
 --
 
 INSERT INTO `tbl_organizaciones` (`id_organizacion`, `organizacion`, `id_tipo_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Cooperativa Sagrada familia', 2, 'Cooperativa Sagrada familia', 'manuel', '2024-02-28 04:24:55', 'manuel', '2024-02-28 04:26:18', 'A'),
-(2, 'Cooperativa Elga', 2, 'Cooperativa Elga', 'manuel', '2024-02-28 04:26:28', 'manuel', '2024-02-28 04:26:28', 'A'),
-(7, 'sdfsdfsdfsd', 1, 'sfsdfsdfs', 'Kevin', '2024-03-18 02:44:11', 'Kevin', '2024-03-18 02:44:11', '');
+(1, 'Asociación', 1, 'Cooperativa Sagrada familia', 'manuel', '2024-02-28 04:24:55', 'manuel', '2024-04-27 03:16:48', 'I'),
+(2, 'Cooperativa', 2, 'Cooperativa Elga', 'manuel', '2024-02-28 04:26:28', 'manuel', '2024-04-27 03:16:48', 'I'),
+(3, 'Caja rural', 1, 'sfsdfsdfs', 'Kevin', '2024-03-18 02:44:11', 'Kevin', '2024-04-27 03:16:48', 'I'),
+(4, 'Patronato', 6, 'Patrono', 'Haru', '2024-04-25 21:28:17', 'haru', '2024-04-27 03:16:48', 'I'),
+(5, 'Junta de agua', 7, 'Junta de agua', 'Haru', '2024-04-25 21:29:50', 'Haru', '2024-04-27 03:16:48', 'I'),
+(8, 'Organizacion', 1, 'Organizacion', 'Organizacion', '2024-04-26 01:31:31', 'Organizacion', '2024-04-27 03:16:28', 'A');
 
 -- --------------------------------------------------------
 
@@ -4796,7 +5212,16 @@ CREATE TABLE `tbl_organizaciones_por_productor` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_organizaciones_por_productor`
+--
+
+INSERT INTO `tbl_organizaciones_por_productor` (`id_ficha`, `id_productor`, `id_organizacion`, `Id_Organizacion_Productor`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 12, 1, 7, NULL, 'HARU', '2024-04-25 23:48:26', NULL, '2024-04-25 23:48:26', 'A'),
+(1, 12, 3, 8, NULL, 'HARU', '2024-04-25 23:48:26', NULL, '2024-04-25 23:48:26', 'A'),
+(1, 12, 4, 9, NULL, 'HARU', '2024-04-25 23:48:26', NULL, '2024-04-25 23:48:26', 'A');
 
 -- --------------------------------------------------------
 
@@ -4848,7 +5273,8 @@ INSERT INTO `tbl_periodicidad` (`id_periodo`, `periodo`, `descripcion`, `creado_
 (4, 'Semestre', 'Semestre', 'manu', '2023-12-11 01:32:23', 'manu', '2023-12-11 01:32:23', 'A'),
 (5, 'Semanal', 'Semanal', 'manu', '2023-12-11 01:33:15', 'manu', '2023-12-11 01:33:15', 'A'),
 (6, 'Quincenal', 'Quincenal', 'manu', '2023-12-11 01:34:18', 'manu', '2023-12-11 01:34:18', 'A'),
-(7, 'Mensual', 'Mensual', 'manu', '2023-12-11 01:35:19', 'manu', '2023-12-11 01:35:19', 'A');
+(7, 'Mensual', 'Mensual', 'manu', '2023-12-11 01:35:19', 'manu', '2023-12-11 01:35:19', 'A'),
+(14, 'PerInactivo', 'PerInactivo', 'Manuel', '2024-04-26 01:43:54', 'Manuel', '2024-04-27 03:20:11', 'I');
 
 -- --------------------------------------------------------
 
@@ -4868,7 +5294,24 @@ CREATE TABLE `tbl_practicas_por_produccion` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_practicas_por_produccion`
+--
+
+INSERT INTO `tbl_practicas_por_produccion` (`Id_Practica_Produccion`, `Id_Ficha`, `Id_Productor`, `Id_Tipo_Practica`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(9, 1, 12, 1, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(10, 1, 12, 2, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(11, 1, 12, 3, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(12, 1, 12, 4, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(13, 1, 12, 5, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(14, 1, 12, 34, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(15, 1, 12, 35, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(16, 1, 12, 36, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(17, 1, 12, 37, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(18, 1, 12, 39, ' ', NULL, 'HARU', '2024-04-25 23:59:53', NULL, '2024-04-25 23:59:53', 'A'),
+(19, 2, 13, 1, ' ', NULL, 'HARU', '2024-04-26 02:19:33', NULL, '2024-04-26 02:19:33', 'A');
 
 -- --------------------------------------------------------
 
@@ -4896,8 +5339,18 @@ CREATE TABLE `tbl_produccion_agricola_anterior` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_produccion_agricola_anterior`
+--
+
+INSERT INTO `tbl_produccion_agricola_anterior` (`Id_Produccion_Anterior`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Cultivo`, `Superficie_Primera_Postrera`, `Id_Medida_Primera_Postrera`, `Produccion_Obtenida`, `Id_Medida_Produccion_Obtenida`, `Cantidad_Vendida`, `Id_Medida_Vendida`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(12, 1, 7, 12, 1, 'Primera', 8, 500.00, 8, 100.00, 6, 100.00, 'la capital sosa', NULL, 'HARU', '2024-04-25 23:55:35', NULL, '2024-04-25 23:55:35', 'A'),
+(13, 2, 8, 13, 12, 'Primera', 2, 100.00, 2, 100.00, 2, 100.00, 'a quien vendio', NULL, 'HARU', '2024-04-26 02:13:41', NULL, '2024-04-26 02:13:41', 'A'),
+(14, 3, 9, 14, 12, 'Primera', 2, 100.00, 2, 100.00, 2, 100.00, 'a quien vendio', NULL, 'HARU', '2024-04-26 02:13:41', NULL, '2024-04-26 02:13:41', 'A'),
+(15, 4, 10, 15, 12, 'Primera', 2, 100.00, 2, 100.00, 2, 100.00, 'a quien vendio', NULL, 'HARU', '2024-04-26 02:13:41', NULL, '2024-04-26 02:13:41', 'A'),
+(16, 5, 11, 16, 4, 'Primera', 3, 2.00, 3, 2.00, 3, 2.00, 'assa', NULL, 'HARU', '2024-04-27 03:19:44', NULL, '2024-04-27 03:19:44', 'A');
 
 -- --------------------------------------------------------
 
@@ -4922,7 +5375,19 @@ CREATE TABLE `tbl_produccion_comercializacion` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_produccion_comercializacion`
+--
+
+INSERT INTO `tbl_produccion_comercializacion` (`Id_Produccion_Comercio`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Produccion`, `Cantidad_Produccion`, `Id_Medida_Produccion`, `Cantidad_Vendida`, `Id_Medida_Venta`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(10, 1, 7, 12, 5, NULL, 3, 100.00, 6, 500.00, 'La union', 'HARU', '2024-04-25 23:58:04', NULL, '2024-04-25 23:58:04', 'A'),
+(18, 5, 11, 16, 3, NULL, 2, 12.00, 5, 22.00, 'pulperia', 'HARU', '2024-04-27 03:20:23', NULL, '2024-04-27 03:20:23', 'A'),
+(19, 4, 10, 15, 12, NULL, 14, 100.00, 2, 200.00, 'a quien vendio', 'HARU', '2024-04-27 03:39:18', NULL, '2024-04-27 03:39:18', 'A'),
+(20, 4, 10, 15, 1, NULL, 1, 200.00, 1, 100.00, 'a quien vendio', 'HARU', '2024-04-27 03:39:18', NULL, '2024-04-27 03:39:18', 'A'),
+(23, 3, 9, 14, 12, NULL, 14, 100.00, 2, 200.00, 'a quien vendio', 'HARU', '2024-04-27 03:48:07', NULL, '2024-04-27 03:48:07', 'A'),
+(24, 2, 8, 13, 12, NULL, 14, 100.00, 2, 200.00, 'a quien vendio', 'HARU', '2024-04-27 03:49:41', NULL, '2024-04-27 03:49:41', 'A');
 
 -- --------------------------------------------------------
 
@@ -4950,8 +5415,16 @@ CREATE TABLE `tbl_produccion_pecuaria` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_produccion_pecuaria`
+--
+
+INSERT INTO `tbl_produccion_pecuaria` (`Id_Produccion_Pecuaria`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Año_Produccion`, `Id_Tipo_Pecuario`, `Cantidad_Hembras`, `Cantidad_Machos`, `Cantidad_Total`, `Descripcion_Otros`, `Precio_Venta`, `Id_Medida_Venta`, `Cantidad_Mercado`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
+(8, 1, 7, 12, 0, 2, 50, 0, 50, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-25 23:56:28', NULL, '2024-04-25 23:56:28', 'A'),
+(9, 1, 7, 12, 0, 3, 10, 0, 10, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-25 23:56:28', NULL, '2024-04-25 23:56:28', 'A'),
+(10, 1, 7, 12, 0, 8, 1000, 0, 1000, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-25 23:56:28', NULL, '2024-04-25 23:56:28', 'A');
 
 -- --------------------------------------------------------
 
@@ -5004,8 +5477,18 @@ CREATE TABLE `tbl_productor` (
   `modificado_por` varchar(25) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `estado` enum('A','I') DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_productor`
+--
+
+INSERT INTO `tbl_productor` (`id_ficha`, `id_productor`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `identificacion`, `fecha_nacimiento`, `genero`, `estado_civil`, `nivel_escolaridad`, `ultimo_grado_escolar_aprobado`, `telefono_1`, `telefono_2`, `telefono_3`, `email_1`, `email_2`, `email_3`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+('1', 12, 'manuel', 'de jesus', 'figueroa', 'barahona', 801200205125, '2001-08-28', 'Masculino', 'Soltero(a)', 'primaria', '4', 987456321, 31673917, 31673917, 'manubara200128@gmail.com', 'manubara200128@gmail.com', 'manubara200128@gmail.com', NULL, 'HARU', '2024-04-27 03:13:52', '0', '2024-04-27 03:13:52', 'A'),
+('2', 13, 'prueba', 'final', 'prueba', 'final', 801999999999, '2025-05-01', 'Masculino', 'Unión libre', 'universitaria', '5', 11111111, 22222222, 33333333, 'principal@gmail.com', 'secundario@gmail.com', 'opcional@gmail.com', NULL, 'HARU', '2024-04-27 03:49:19', '0', '2024-04-27 03:49:19', 'A'),
+('3', 14, 'prueba', 'final', 'prueba', 'final', 801999999999, '2025-05-01', 'Masculino', 'Unión libre', 'universitaria', '5', 11111111, 22222222, 33333333, 'principal@gmail.com', 'secundario@gmail.com', 'opcional@gmail.com', NULL, 'HARU', '2024-04-27 03:47:00', '0', '2024-04-27 03:47:00', 'A'),
+('4', 15, 'prueba', 'final', 'prueba', 'final', 801999999999, '2025-05-01', 'Masculino', 'Unión libre', 'universitaria', '5', 11111111, 22222222, 33333333, 'principal@gmail.com', 'secundario@gmail.com', 'opcional@gmail.com', NULL, 'HARU', '2024-04-27 03:37:52', '0', '2024-04-27 03:37:52', 'A'),
+('5', 16, 'manuel', 'daasdw', 'figueroaas', 'barahona', 802155855585, '2024-04-26', 'Masculino', 'Soltero(a)', 'primaria', '2', 31673917, 31313131, 3333333, 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', 'manuelfigueroa2818@gmail.com', NULL, 'HARU', '2024-04-27 03:14:56', NULL, '2024-04-27 03:14:56', 'A');
 
 -- --------------------------------------------------------
 
@@ -5028,8 +5511,15 @@ CREATE TABLE `tbl_productor_actividad_externa` (
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_productor_actividad_externa`
+--
+
+INSERT INTO `tbl_productor_actividad_externa` (`id_actividad_ext`, `id_ficha`, `id_productor`, `miembros_realizan_actividades_fuera_finca`, `cuantos_miembros`, `trabajadores_temporales`, `trabajadores_permanentes`, `id_tomador_decisiones`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(8, 1, 12, 'S', 10, 5, 5, 1, NULL, 'HARU', '2024-04-25 23:59:40', NULL, '2024-04-25 23:59:40', 'A'),
+(9, 1, 12, 'S', 10, 5, 5, 4, NULL, 'HARU', '2024-04-25 23:59:40', NULL, '2024-04-25 23:59:40', 'A');
 
 -- --------------------------------------------------------
 
@@ -5049,7 +5539,18 @@ CREATE TABLE `tbl_relevo_organizacion` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_relevo_organizacion`
+--
+
+INSERT INTO `tbl_relevo_organizacion` (`id_ficha`, `id_productor`, `Id_Relevo`, `tendra_relevo`, `cuantos_relevos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 12, 10, 'S', 50, NULL, 'HARU', '2024-04-25 23:49:07', NULL, '2024-04-25 23:49:07', 'A'),
+(2, 13, 11, 'S', 2, NULL, 'HARU', '2024-04-26 02:08:32', 'HARU', '2024-04-27 03:49:24', 'A'),
+(3, 14, 12, 'S', 2, NULL, 'HARU', '2024-04-26 02:08:32', 'HARU', '2024-04-27 03:47:06', 'A'),
+(4, 15, 13, 'S', 2, NULL, 'HARU', '2024-04-26 02:08:32', 'HARU', '2024-04-27 03:37:57', 'A'),
+(5, 16, 14, 'S', 3, NULL, 'HARU', '2024-04-27 03:17:19', NULL, '2024-04-27 03:17:19', 'A');
 
 -- --------------------------------------------------------
 
@@ -5087,7 +5588,9 @@ INSERT INTO `tbl_tipos_apoyos` (`id_tipo_apoyos`, `tipo_apoyos`, `descripcion`, 
 (12, 'Información de precios', 'Descripción del apoyo de Información de precios', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
 (13, 'Comercialización/mercados', 'Descripción del apoyo de Comercialización/mercados', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
 (14, 'Organización rural', 'Descripción del apoyo de Organización rural', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
-(15, 'Transformación de productos', 'Descripción del apoyo de Transformación de productos', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO');
+(15, 'Transformación de productos', 'Descripción del apoyo de Transformación de productos', 'admin', '2023-12-12 20:53:05', NULL, '2023-12-12 20:53:05', 'ACTIVO'),
+(17, 'TPActivo', 'TPActivo', 'Daniela', '2024-04-26 01:51:45', 'Daniela', '2024-04-26 01:51:45', 'ACTIVO'),
+(18, 'TPInactivo', 'TPInactivo', 'Daniela', '2024-04-26 01:52:16', 'Daniela', '2024-04-26 01:52:16', 'INACTIVO');
 
 -- --------------------------------------------------------
 
@@ -5132,7 +5635,17 @@ CREATE TABLE `tbl_tipo_cultivo` (
 
 INSERT INTO `tbl_tipo_cultivo` (`id_tipo_cultivo`, `tipo_cultivo`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'Maiz', 'Maiz amarillo', 'Manuel', '2023-12-01 04:18:29', NULL, '2023-11-02 04:18:29', 'ACTIVO'),
-(4, 'Frijol', 'ADS', 'Manuel', '2023-11-02 05:10:49', 'Manuel', '2023-11-02 05:10:49', 'ACTIVO');
+(2, 'Cafe', 'Cafe de palo', 'Haru', '2024-04-26 00:30:34', 'Haru', '2024-04-26 00:30:34', 'ACTIVO'),
+(3, 'Frijol', 'Frijol', 'Haru', '2024-04-26 00:31:10', 'Haru', '2024-04-26 00:31:10', 'ACTIVO'),
+(4, 'Palma', 'Palma', 'Manuel', '2023-11-02 05:10:49', 'Manuel', '2024-04-26 00:33:17', 'ACTIVO'),
+(5, 'Caña de Azúcar', 'Caña de Azúcar', 'manu', '2023-12-11 07:44:45', 'manu', '2023-12-11 07:44:45', 'ACTIVO'),
+(6, 'Sorgo', 'Sorgo', 'manu', '2023-12-11 07:45:19', 'manu', '2023-12-11 07:45:19', 'ACTIVO'),
+(7, 'Naranja', 'Naranja', 'manu', '2023-12-11 07:45:19', 'manu', '2023-12-11 07:45:19', 'ACTIVO'),
+(8, 'Banano', 'Banano', 'manu', '2023-12-11 07:46:35', 'manu', '2023-12-11 07:46:35', 'ACTIVO'),
+(9, 'Melón', 'Melón', 'manu', '2023-12-11 07:47:49', 'manu', '2023-12-11 07:47:49', 'ACTIVO'),
+(10, 'sandía', 'prueba', 'Kevin', '2024-02-26 10:01:58', 'Kevin', '2024-02-26 10:01:58', 'ACTIVO'),
+(11, 'CultivoInactivo', 'CultivoInactivo', 'Manuel', '2024-04-26 01:39:42', 'Manuel', '2024-04-26 01:40:04', 'INACTIVO'),
+(12, 'CultivoActivo', 'CultivoActivo', 'Manuel', '2024-04-26 01:39:54', 'Manuel', '2024-04-26 01:39:54', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -5157,16 +5670,17 @@ CREATE TABLE `tbl_tipo_negocios` (
 
 INSERT INTO `tbl_tipo_negocios` (`id_tipo_negocio`, `tipo_negocio`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'Venta de servicio', 'Venta de servicios', 'Kevin', '2023-12-11 09:36:51', 'Kevin', '2023-12-11 09:36:51', ''),
-(4, 'Jornal agricola', 'Jornal agricola', 'Kevin', '2023-12-11 09:37:31', 'Kevin', '2023-12-11 09:37:31', ''),
-(5, 'Corte de café', 'Café', NULL, '2023-12-11 10:08:49', NULL, '2023-12-11 10:08:49', ''),
-(6, 'Jornal no agrícola', 'Jornal no agrícola', NULL, '2024-02-26 04:13:13', NULL, '2024-02-26 04:13:13', ''),
-(7, 'Alquileres', 'Alquileres', NULL, '2024-02-26 04:13:20', NULL, '2024-02-26 04:13:20', ''),
-(8, 'Remesa del exterior', 'Remesa del exterior', NULL, '2024-02-26 04:13:29', NULL, '2024-02-26 04:13:29', ''),
-(9, 'Remesa nacional', 'Remesa nacional', NULL, '2024-02-26 04:13:39', NULL, '2024-02-26 04:13:39', ''),
-(10, 'Bono', 'Bono', NULL, '2024-02-26 04:13:47', NULL, '2024-02-26 04:13:47', ''),
-(11, 'Salario profesional', 'Salario profesional', NULL, '2024-02-26 04:13:55', NULL, '2024-02-26 04:13:55', ''),
-(12, 'Artesanía', 'Artesanía', NULL, '2024-02-26 04:14:06', NULL, '2024-02-26 04:14:06', ''),
-(13, 'Bancario1', 'prueba1', 'Kevin', '2024-02-26 04:12:35', 'Kevin', '2024-02-26 04:12:35', '');
+(2, 'Jornal agricola', 'Jornal agricola', 'Kevin', '2024-04-25 20:57:53', 'Kevin', '2024-04-25 20:57:53', ''),
+(3, 'Corte de café', 'Café', NULL, '2024-04-25 20:57:57', NULL, '2024-04-25 20:57:57', ''),
+(4, 'Jornal no agrícola', 'Jornal no agrícola', NULL, '2024-04-25 20:58:01', NULL, '2024-04-25 20:58:01', ''),
+(5, 'Alquileres', 'Alquileres', NULL, '2024-04-25 20:58:04', NULL, '2024-04-25 20:58:04', ''),
+(6, 'Remesa del exterior', 'Remesa del exterior', NULL, '2024-04-25 20:58:13', NULL, '2024-04-25 20:58:13', ''),
+(7, 'Remesa nacional', 'Remesa nacional', NULL, '2024-04-25 20:58:16', NULL, '2024-04-25 20:58:16', ''),
+(8, 'Bono (10 mil, 3ra edad, escolar)', 'Bono(10 mil, 3ra edad, escolar)', NULL, '2024-04-25 20:59:30', NULL, '2024-04-25 20:59:30', ''),
+(9, 'Salario profesional', 'Salario profesional', NULL, '2024-04-25 20:58:23', NULL, '2024-04-25 20:58:23', ''),
+(10, 'Artesanía', 'Artesanía', NULL, '2024-04-25 20:58:27', NULL, '2024-04-25 20:58:27', ''),
+(11, 'Negocio', 'Negocio', 'Kevin', '2024-04-25 21:01:35', 'Kevin', '2024-04-25 21:01:35', ''),
+(14, 'NegInactivo', 'NegInactivo', 'Kevin', '2024-04-26 01:44:48', 'Kevin', '2024-04-26 01:44:48', '');
 
 -- --------------------------------------------------------
 
@@ -5182,7 +5696,7 @@ CREATE TABLE `tbl_tipo_organizacion` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('A','I') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -5190,9 +5704,13 @@ CREATE TABLE `tbl_tipo_organizacion` (
 --
 
 INSERT INTO `tbl_tipo_organizacion` (`id_tipo_organizacion`, `tipo_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'BENEFICA', 'Grupo Solidario ', '1', '2023-11-16 06:22:08', '1', '2023-11-16 06:22:08', 'A'),
-(2, 'Cooperativa', 'cooperativas', 'manu', '2023-11-16 06:22:15', 'manu', '2023-11-16 06:22:15', 'A'),
-(5, 'fsdfsfsdf', 'sfsdfsdfs', 'Kevin', '2024-03-18 02:43:50', 'Kevin', '2024-03-18 02:43:50', '');
+(1, 'Asociación', 'Gobierno', '1', '2024-04-27 03:13:27', '1', '2024-04-27 03:13:27', 'I'),
+(2, 'Cooperativa', 'ONG', 'manu', '2024-04-27 03:13:27', 'manu', '2024-04-27 03:13:27', 'I'),
+(5, 'Caja rural', 'Amigo', 'Kevin', '2024-04-27 03:13:27', 'Kevin', '2024-04-27 03:13:27', 'I'),
+(6, 'Patronato', 'Cooperativa', 'Kevin', '2024-04-27 03:13:27', 'Kevin', '2024-04-27 03:13:27', 'I'),
+(7, 'Junta de agua', 'FAO', 'Kevin', '2024-04-27 03:13:27', 'Kevin', '2024-04-27 03:13:27', 'I'),
+(8, 'ORGACtiva', 'ORGActivo', 'Kevin', '2024-04-27 03:13:27', 'Kevin', '2024-04-27 03:13:27', 'I'),
+(9, 'tbl_tipo_organizacion', 'tbl_tipo_organizacion', 'tbl_tipo_organizacion', '2024-04-27 03:12:27', 'tbl_tipo_organizacion', '2024-04-27 03:12:27', 'A');
 
 -- --------------------------------------------------------
 
@@ -5223,9 +5741,11 @@ INSERT INTO `tbl_tipo_pecuarios` (`id_tipo_pecuario`, `tipo_pecuario`, `raza_con
 (4, 'Cerdo', 's', 'Cerdos', 'Mfigue', '2023-12-11 01:11:16', NULL, '2023-12-11 01:11:49', 'A'),
 (5, 'Pollo de Engorde', 's', 'Pollo de Engorde', 'manu', '2023-12-11 01:11:57', 'manu', '2023-12-11 01:11:57', 'A'),
 (6, 'Aves', 'n', 'Aves', 'manu', '2023-12-11 01:12:58', 'manu', '2023-12-11 01:12:58', 'A'),
-(7, 'Peces', 'n', 'Peces', 'manu', '2023-12-11 01:13:38', 'manu', '2023-12-11 01:13:38', NULL),
+(7, 'Peces', 'n', 'Peces', 'manu', '2023-12-11 01:13:38', 'manu', '2024-04-25 21:14:23', 'A'),
 (8, 'Camarones', 'n', 'Camarones', 'manu', '2023-12-11 01:14:08', 'manu', '2023-12-11 01:14:08', 'A'),
-(9, 'Otros', 'n', 'Otras especies', 'manu', '2023-12-11 01:14:44', 'manu', '2023-12-11 01:14:44', NULL);
+(9, 'Otros', 'n', 'Otras especies', 'manu', '2023-12-11 01:14:44', 'manu', '2024-04-25 23:43:20', 'I'),
+(11, 'PeActivo', 's', 'PeActivo', 'HARU', '2024-04-26 01:41:07', NULL, '2024-04-26 01:41:07', 'A'),
+(12, '', 's', 'PeInactivo', 'HARU', '2024-04-26 01:41:22', 'HARU', '2024-04-26 01:41:31', 'I');
 
 -- --------------------------------------------------------
 
@@ -5249,8 +5769,8 @@ CREATE TABLE `tbl_tipo_practicas_productivas` (
 --
 
 INSERT INTO `tbl_tipo_practicas_productivas` (`id_tipo_practica`, `tipo_practica`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Quema', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
-(2, 'Riega', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(1, 'Quema', NULL, NULL, '2024-04-27 03:25:15', NULL, '2024-04-27 03:25:15', 'I'),
+(2, 'Riega', NULL, NULL, '2024-04-27 03:25:21', NULL, '2024-04-27 03:25:21', 'I'),
 (3, 'Manejo de rastrojo', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
 (4, 'Cero labranzas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
 (5, 'Labranza mínima', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
@@ -5286,8 +5806,9 @@ INSERT INTO `tbl_tipo_practicas_productivas` (`id_tipo_practica`, `tipo_practica
 (35, 'Banco de proteína', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
 (36, 'Pastos mejorados', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
 (37, 'Aplicación de vacunas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
-(38, 'Vitaminas', 'Vitaminas', NULL, '2024-02-26 04:23:59', NULL, '2024-02-26 04:23:59', ''),
-(39, 'Preparación de suelo con tracción animal', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A');
+(38, 'Vitaminas', 'Vitaminas', NULL, '2024-04-25 23:26:06', NULL, '2024-04-25 23:26:06', 'I'),
+(39, 'Preparación de suelo con tracción animal', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
+(41, 'PPInactivas', 'PPInactivas', 'Manuel', '2024-04-26 01:50:26', 'Manuel', '2024-04-26 01:50:26', '');
 
 -- --------------------------------------------------------
 
@@ -5311,16 +5832,13 @@ CREATE TABLE `tbl_tipo_produccion` (
 --
 
 INSERT INTO `tbl_tipo_produccion` (`id_tipo_produccion`, `tipo_produccion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Maiz', 'Maiz Blanco', '1', '2023-11-04 06:06:10', '1', '2023-11-04 06:06:10', 'ACTIVO'),
-(2, 'Cafe', 'Cafe de palo', 'Kevin', '2023-12-11 01:48:11', 'Kevin', '2023-12-11 01:48:11', 'ACTIVO'),
-(3, 'Frijol', 'Frijol', 'Kevin', '2023-12-11 01:43:56', 'Kevin', '2023-12-11 01:43:56', 'ACTIVO'),
-(4, 'Palma', 'Palma', 'Kevin', '2023-12-11 01:44:24', 'Kevin', '2023-12-11 01:44:24', 'ACTIVO'),
-(5, 'Caña de Azúcar', 'Caña de Azúcar', 'manu', '2023-12-11 01:44:45', 'manu', '2023-12-11 01:44:45', 'ACTIVO'),
-(6, 'Sorgo', 'Sorgo', 'manu', '2023-12-11 01:45:19', 'manu', '2023-12-11 01:45:19', 'ACTIVO'),
-(7, 'Naranja', 'Naranja', 'manu', '2023-12-11 01:45:19', 'manu', '2023-12-11 01:45:19', 'ACTIVO'),
-(8, 'Banano', 'Banano', 'manu', '2023-12-11 01:46:35', 'manu', '2023-12-11 01:46:35', 'ACTIVO'),
-(9, 'Melón', 'Melón', 'manu', '2023-12-11 01:47:49', 'manu', '2023-12-11 01:47:49', 'ACTIVO'),
-(11, 'sandía', 'prueba', 'Kevin', '2024-02-26 04:01:58', 'Kevin', '2024-02-26 04:01:58', 'ACTIVO');
+(1, 'Producción de leche', 'Leche', '1', '2024-04-26 00:25:24', '1', '2024-04-26 00:25:24', 'ACTIVO'),
+(2, 'Producción de carne', 'Carne', 'Kevin', '2024-04-26 00:25:30', 'Kevin', '2024-04-26 00:25:30', 'ACTIVO'),
+(3, 'Producción de derivados de leche', 'Derivados de la leche', 'Kevin', '2024-04-26 00:25:40', 'Kevin', '2024-04-26 00:25:40', 'ACTIVO'),
+(4, 'Producción de huevos', 'Huevos', 'Kevin', '2024-04-26 00:25:49', 'Kevin', '2024-04-26 00:25:49', 'ACTIVO'),
+(5, 'Producción apícola ', 'Apicola', 'manu', '2024-04-26 00:25:57', 'manu', '2024-04-26 00:25:57', 'ACTIVO'),
+(6, 'Producto de Transformación', 'Transformación', 'manu', '2024-04-26 00:26:08', 'manu', '2024-04-26 00:26:08', 'ACTIVO'),
+(12, 'ProInactivo', 'ProInactivo', 'Kevin', '2024-04-26 01:43:26', 'Kevin', '2024-04-26 01:43:26', '');
 
 -- --------------------------------------------------------
 
@@ -5344,7 +5862,13 @@ CREATE TABLE `tbl_tipo_riego` (
 --
 
 INSERT INTO `tbl_tipo_riego` (`id_tipo_riego`, `tipo_riego`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Pozo', 'Pozo', 'Manuel', '2023-11-02 05:23:18', 'Manuel', '2023-11-02 05:23:18', 'ACTIVO');
+(1, 'Pozo', 'Pozo', 'Manuel', '2023-11-02 05:23:18', 'Manuel', '2023-11-02 05:23:18', 'ACTIVO'),
+(2, 'riego por goteo', 'riego por goteo', 'Manuel', '2024-04-25 14:49:46', 'Manuel', '2024-04-25 14:49:46', 'ACTIVO'),
+(3, 'riego por aspersión', 'riego por aspersión', 'Manuel', '2024-04-25 14:51:45', 'Manuel', '2024-04-25 14:51:45', 'ACTIVO'),
+(4, 'Riego por bombeo', 'Riego por bombeo', 'Manuel', '2024-04-25 14:52:13', 'Manuel', '2024-04-25 14:52:13', 'ACTIVO'),
+(5, 'Riego por gravedad', 'Riego por gravedad', 'Manuel', '2024-04-25 14:52:47', 'Manuel', '2024-04-25 14:52:47', 'ACTIVO'),
+(6, 'RiegoActivo', 'RiegoActivo', 'Manuel', '2024-04-26 01:38:30', 'Manuel', '2024-04-26 01:38:30', 'ACTIVO'),
+(7, 'RiegoInactivo', 'RiegoInactivo', 'Manuel', '2024-04-26 01:38:50', 'Manuel', '2024-04-26 01:38:58', 'INACTIVO');
 
 -- --------------------------------------------------------
 
@@ -5369,7 +5893,8 @@ CREATE TABLE `tbl_tipo_trabajadores` (
 
 INSERT INTO `tbl_tipo_trabajadores` (`id_tipo_trabajador`, `tipo_trabajador`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'Ganadero', 'kkka', 'Daniela', '2023-11-22 06:17:22', 'Daniela', '2023-11-22 06:17:22', 'I'),
-(2, 'Agricultor', '3 cultivos de papa', 'Daniela', '2023-11-22 06:17:27', 'Daniela', '2023-11-22 06:17:27', 'A');
+(2, 'Agricultor', '3 cultivos de papa', 'Daniela', '2023-11-22 06:17:27', 'Daniela', '2023-11-22 06:17:27', 'A'),
+(5, 'TraInactivo', 'TraInactivo', 'Daniela', '2024-04-26 01:49:13', 'Daniela', '2024-04-26 01:49:13', '');
 
 -- --------------------------------------------------------
 
@@ -5393,9 +5918,12 @@ CREATE TABLE `tbl_toma_decisiones` (
 --
 
 INSERT INTO `tbl_toma_decisiones` (`id_tipo_tomador`, `tomador`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'SAG', 'Se decidio por voto', 'Daniela', '2023-11-22 12:16:04', 'Daniela', '2023-11-22 12:16:04', 'A'),
-(2, 'SAG 1', 'Creacion de base 1', 'Daniela', '2023-11-22 12:15:53', 'Daniela', '2023-11-22 12:15:53', 'A'),
-(3, 'UPEG1', 'Pagos1', 'Daniela', '2023-11-22 12:15:58', 'Daniela', '2023-11-22 12:15:58', 'I');
+(1, 'Esposo', 'Esposo', 'Daniela', '2024-04-27 03:23:44', 'Daniela', '2024-04-27 03:23:44', 'I'),
+(2, 'Esposa', 'Esposa', 'Daniela', '2024-04-27 03:23:44', 'Daniela', '2024-04-27 03:23:44', 'I'),
+(3, 'Consenso en Familia', 'Consenso en Familia', 'Daniela', '2024-04-25 23:31:05', 'Daniela', '2024-04-25 23:31:05', 'I'),
+(4, 'Un familiar', 'Un familiar toma las deciones', 'Haru', '2024-04-27 03:23:44', 'Haru', '2024-04-27 03:23:44', 'I'),
+(5, 'Un administrador', 'El administrador toma la decision', 'Haru', '2024-04-27 03:23:44', 'Haru', '2024-04-27 03:23:44', 'I'),
+(6, 'TomaDInactivo', 'TomaDInactivo', 'Daniela', '2024-04-27 03:23:23', 'Daniela', '2024-04-27 03:23:23', 'A');
 
 -- --------------------------------------------------------
 
@@ -5447,8 +5975,19 @@ CREATE TABLE `tbl_ubicacion_productor` (
   `modificado_por` varchar(50) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tbl_ubicacion_productor`
+--
+
+INSERT INTO `tbl_ubicacion_productor` (`id_ficha`, `id_productor`, `id_ubicacion`, `Id_Departamento`, `Id_Municipio`, `Id_Aldea`, `Id_Cacerio`, `ubicacion_geografica`, `distancia_parcela_vivienda`, `latitud_parcela`, `longitud_parcela`, `msnm`, `direccion_1`, `direccion_2`, `direccion_3`, `vive_en_finca`, `nombre_finca`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
+(1, 12, 7, 2, 6, 26, 3, 'trujillo', 10.00, '2', '2', 13.00, 'Residencial Arturo Quezada bloque 15 casa 3317', 'casa 3323', 'Carretera CA5', 'S', 'Finca lomas', NULL, 'HARU', '2024-04-25 23:48:19', 'HARU', '2024-04-27 03:13:52', 'A'),
+(2, 13, 8, 1, 1, 1, 1, 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 10.00, '100', '200', 100.00, ' evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'S', 'finca final', NULL, 'HARU', '2024-04-26 02:02:05', 'HARU', '2024-04-27 03:49:21', 'A'),
+(3, 14, 9, 1, 1, 1, 1, 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 10.00, '100', '200', 100.00, ' evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'S', 'finca final', NULL, 'HARU', '2024-04-26 02:02:05', 'HARU', '2024-04-27 03:47:01', 'A'),
+(4, 15, 10, 1, 1, 1, 1, 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 10.00, '100', '200', 100.00, ' evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'evaluacion final de la clase de evaluacion, departamento de informatica, facultad de ciencias economicas, universidad nacional autonoma de honduras', 'S', 'finca final', NULL, 'HARU', '2024-04-26 02:02:05', 'HARU', '2024-04-27 03:37:53', 'A'),
+(5, 16, 11, 1, 1, 1, 1, '', 1.00, '2', '1', 1.00, 'Residencial Arturo Quezada bloque 15 casa 3317', 'casa 3323', '55887onouigiug', 'S', 'corrales', NULL, 'HARU', '2024-04-27 03:15:23', NULL, '2024-04-27 03:15:23', 'A'),
+(5, 16, 12, 1, 1, 1, 1, '', 1.00, '2', '1', 1.00, 'Residencial Arturo Quezada bloque 15 casa 3317', 'casa 3323', '55887onouigiug', 'S', 'corrales', NULL, 'HARU', '2024-04-27 03:16:55', NULL, '2024-04-27 03:16:55', 'A');
 
 -- --------------------------------------------------------
 
@@ -5488,7 +6027,18 @@ CREATE TABLE `tbl_unidad_productora` (
   `Modificado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` enum('A','I') DEFAULT 'A'
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_unidad_productora`
+--
+
+INSERT INTO `tbl_unidad_productora` (`Id_Ubicacion`, `Id_Ficha`, `Id_Unidad_Productiva`, `Id_Productor`, `Tipo_De_Manejo`, `Superficie_Produccion`, `Id_Medida_Produccion`, `Superficie_Agricultura`, `Id_Medida_Agricultura`, `rubro_agricultura`, `Superficie_Ganaderia`, `Id_Medida_Ganaderia`, `rubro_ganaderia`, `Superficie_Apicultura`, `Id_Medida_Apicultura`, `Superficie_Forestal`, `Id_Medida_Forestal`, `rubro_forestal`, `Id_Superficie_Acuacultura`, `Superficie_Acuacultura`, `Numero_Estanques`, `Id_Superficie_Agroturismo`, `Superficie_Agroturismo`, `Superficie_Otros`, `Otros_Descripcion`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
+(7, 1, 7, 12, 'Ejidal', NULL, 4, 100.00, 2, 'Siembra', 50.00, 8, 'Vacas', 40.00, 1, 20.00, 8, 'pinos', 3, 2.00, 5, 8, 4.00, NULL, 'Area de picnic', NULL, 'HARU', '2024-04-25 23:52:48', NULL, '2024-04-25 23:52:48', 'A'),
+(8, 2, 8, 13, 'Propia', NULL, 2, 2.00, 100, 'agricultura', 100.00, 2, 'ganaderia', 100.00, 2, 100.00, 2, 'forestal', 2, 100.00, 100, 2, 100.00, NULL, 'otros usos', NULL, 'HARU', '2024-04-26 02:12:07', 'HARU', '2024-04-27 03:49:27', 'A'),
+(9, 3, 9, 14, 'Propia', NULL, 2, 2.00, 0, 'agricultura', 100.00, 2, 'ganaderia', 100.00, 2, 100.00, 2, 'forestal', 2, 100.00, 100, 2, 100.00, NULL, 'otros usos', NULL, 'HARU', '2024-04-26 02:12:07', 'HARU', '2024-04-27 03:47:09', 'A'),
+(10, 4, 10, 15, 'Propia', NULL, 2, 0.00, 2, 'agricultura', 100.00, 2, 'ganaderia', 100.00, 2, 100.00, 2, 'forestal', 2, 100.00, 100, 2, 100.00, NULL, 'otros usos', NULL, 'HARU', '2024-04-26 02:12:07', 'HARU', '2024-04-27 03:38:53', 'A'),
+(11, 5, 11, 16, 'Propia', NULL, 3, 100.00, 3, 'trwwrf', 400.00, 3, 'fdsfdsfd', 2323.00, 3, 10.00, 3, 'gsfdsfv', 3, 10.00, 323, 3, 232.00, NULL, 'Area de picnic', NULL, 'HARU', '2024-04-27 03:19:24', NULL, '2024-04-27 03:19:24', 'A');
 
 -- --------------------------------------------------------
 
@@ -5510,7 +6060,7 @@ CREATE TABLE `usuario` (
   `Fecha_Actualizacion` timestamp NOT NULL DEFAULT current_timestamp(),
   `Preguntas_Contestadas` int(11) NOT NULL,
   `Estado` enum('ACTIVO','INACTIVO','PENDIENTE','BLOQUEADO') NOT NULL,
-  `id_estado` bigint(20) NOT NULL,
+  `id_estado` bigint(20) NOT NULL DEFAULT 3,
   `Primera_Vez` enum('SI','NO') NOT NULL,
   `fecha_vencimiento` timestamp NOT NULL DEFAULT current_timestamp(),
   `Intentos_Preguntas` int(3) DEFAULT NULL,
@@ -5526,7 +6076,8 @@ INSERT INTO `usuario` (`Id_Usuario`, `id_rol`, `nombre_completo`, `correo`, `usu
 (1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', NULL, '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 'ACTIVO', 1, 'SI', '2023-10-31 06:00:00', NULL, NULL, 0),
 (9, 2, 'MANUEL FIGUEROA', 'manuelfigueroa2818@gmail.com', 'HARU', '$2y$10$WHs2RM.ozD3KRQu1Dq8Ks.adgThvWCNojDPlhvYpVulktVmlC18/q', NULL, NULL, '2023-12-10 14:00:24', 0, '2023-12-10 07:00:24', 0, 'ACTIVO', 1, 'SI', '1970-01-01 07:00:00', NULL, NULL, 0),
 (11, 2, 'MANUEL FIGUEROA BARAHONA', 'mdfigueroa@unah.hn', 'MANUBARA', '$2y$10$UF/ahTJn5okUojk8aTN/uOiuWNJ2AnDdySKNNewLKLaC7WtZORzTu', NULL, NULL, '2023-12-10 22:25:54', 0, '2023-12-10 15:25:54', 0, 'ACTIVO', 1, 'SI', '2024-12-04 22:25:54', NULL, NULL, 0),
-(13, 2, 'Enrique', 'manuelfigueroa2818@gmail.com', 'Enri', '$2y$10$pwhObKfogmDRxnB57iSfr.ux6s2E3HJYB6snkAg8LXmRaxrOAfiK6', NULL, NULL, '2024-02-18 20:26:49', 0, '2024-02-18 20:26:49', 0, 'ACTIVO', 1, 'SI', '2024-02-18 20:26:49', NULL, NULL, NULL);
+(13, 2, 'Enrique', 'manuelfigueroa2818@gmail.com', 'Enri', '$2y$10$pwhObKfogmDRxnB57iSfr.ux6s2E3HJYB6snkAg8LXmRaxrOAfiK6', NULL, NULL, '2024-02-18 20:26:49', 0, '2024-02-18 20:26:49', 0, 'ACTIVO', 1, 'SI', '2024-02-18 20:26:49', NULL, NULL, NULL),
+(14, 2, 'USUARIO', 'usuario@usuario.com', 'USUARIO', '$2y$10$9HA5T4UCKNsoV5KMD8lSbOmh6RlwV242sLIcpBQxrBtmXJ7WrB4p.', NULL, NULL, '2024-04-29 01:25:52', 0, '2024-04-28 17:25:52', 0, 'ACTIVO', 1, 'SI', '2025-04-24 01:25:52', NULL, NULL, 0);
 
 --
 -- Índices para tablas volcadas
@@ -5551,6 +6102,13 @@ ALTER TABLE `fichas`
   ADD PRIMARY KEY (`id_ficha`);
 
 --
+-- Indices de la tabla `historial_contrasenas`
+--
+ALTER TABLE `historial_contrasenas`
+  ADD PRIMARY KEY (`id_historial`),
+  ADD UNIQUE KEY `usuario_contraseña_unico` (`usuario_id`,`contrasena_hash`);
+
+--
 -- Indices de la tabla `objetos`
 --
 ALTER TABLE `objetos`
@@ -5561,6 +6119,14 @@ ALTER TABLE `objetos`
 --
 ALTER TABLE `parametros`
   ADD PRIMARY KEY (`Id_parametros`);
+
+--
+-- Indices de la tabla `permisos`
+--
+ALTER TABLE `permisos`
+  ADD PRIMARY KEY (`id_permisos`),
+  ADD KEY `fk_permisos_roles` (`Id_rol`),
+  ADD KEY `fk_permisos_objetos` (`id_objeto`);
 
 --
 -- Indices de la tabla `preguntas`
@@ -5963,7 +6529,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `bitacoras`
 --
 ALTER TABLE `bitacoras`
-  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT de la tabla `estado_usuario`
@@ -5975,13 +6541,19 @@ ALTER TABLE `estado_usuario`
 -- AUTO_INCREMENT de la tabla `objetos`
 --
 ALTER TABLE `objetos`
-  MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `parametros`
 --
 ALTER TABLE `parametros`
   MODIFY `Id_parametros` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de la tabla `permisos`
+--
+ALTER TABLE `permisos`
+  MODIFY `id_permisos` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
@@ -5993,7 +6565,7 @@ ALTER TABLE `preguntas`
 -- AUTO_INCREMENT de la tabla `preguntas_usuario`
 --
 ALTER TABLE `preguntas_usuario`
-  MODIFY `Id_Pregunta_U` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Pregunta_U` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -6005,55 +6577,55 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tbl_aldeas`
 --
 ALTER TABLE `tbl_aldeas`
-  MODIFY `Id_Aldea` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id_Aldea` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyos`
 --
 ALTER TABLE `tbl_apoyos`
-  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyos_produccion`
 --
 ALTER TABLE `tbl_apoyos_produccion`
-  MODIFY `id_apoyo_prod` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_apoyo_prod` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyo_actividad_externa`
 --
 ALTER TABLE `tbl_apoyo_actividad_externa`
-  MODIFY `id_apoyo_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_apoyo_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_base_organizacion`
 --
 ALTER TABLE `tbl_base_organizacion`
-  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
-  MODIFY `Id_Cacerio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id_Cacerio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_composicion`
 --
 ALTER TABLE `tbl_composicion`
-  MODIFY `id_composicion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_composicion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_credito_produccion`
 --
 ALTER TABLE `tbl_credito_produccion`
-  MODIFY `id_credpro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_credpro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_departamentos`
 --
 ALTER TABLE `tbl_departamentos`
-  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etnias`
@@ -6065,7 +6637,7 @@ ALTER TABLE `tbl_etnias`
 -- AUTO_INCREMENT de la tabla `tbl_etnias_por_productor`
 --
 ALTER TABLE `tbl_etnias_por_productor`
-  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_fuentes_credito`
@@ -6077,43 +6649,43 @@ ALTER TABLE `tbl_fuentes_credito`
 -- AUTO_INCREMENT de la tabla `tbl_ingreso_familiar`
 --
 ALTER TABLE `tbl_ingreso_familiar`
-  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_manejo_riego`
 --
 ALTER TABLE `tbl_manejo_riego`
-  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_medidas_tierra`
 --
 ALTER TABLE `tbl_medidas_tierra`
-  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_migracion_familiar`
 --
 ALTER TABLE `tbl_migracion_familiar`
-  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_migracion`
 --
 ALTER TABLE `tbl_motivos_migracion`
-  MODIFY `Id_motivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `Id_motivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_no_creditos`
 --
 ALTER TABLE `tbl_motivos_no_creditos`
-  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_municipios`
 --
 ALTER TABLE `tbl_municipios`
-  MODIFY `Id_Municipio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id_Municipio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_no_creditos`
@@ -6125,13 +6697,13 @@ ALTER TABLE `tbl_no_creditos`
 -- AUTO_INCREMENT de la tabla `tbl_organizaciones`
 --
 ALTER TABLE `tbl_organizaciones`
-  MODIFY `id_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_organizaciones_por_productor`
 --
 ALTER TABLE `tbl_organizaciones_por_productor`
-  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_parametros`
@@ -6143,31 +6715,31 @@ ALTER TABLE `tbl_parametros`
 -- AUTO_INCREMENT de la tabla `tbl_periodicidad`
 --
 ALTER TABLE `tbl_periodicidad`
-  MODIFY `id_periodo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_periodo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_practicas_por_produccion`
 --
 ALTER TABLE `tbl_practicas_por_produccion`
-  MODIFY `Id_Practica_Produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id_Practica_Produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_agricola_anterior`
 --
 ALTER TABLE `tbl_produccion_agricola_anterior`
-  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_comercializacion`
 --
 ALTER TABLE `tbl_produccion_comercializacion`
-  MODIFY `Id_Produccion_Comercio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id_Produccion_Comercio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_pecuaria`
 --
 ALTER TABLE `tbl_produccion_pecuaria`
-  MODIFY `Id_Produccion_Pecuaria` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_Produccion_Pecuaria` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_vendida`
@@ -6179,25 +6751,25 @@ ALTER TABLE `tbl_produccion_vendida`
 -- AUTO_INCREMENT de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
-  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_productor_actividad_externa`
 --
 ALTER TABLE `tbl_productor_actividad_externa`
-  MODIFY `id_actividad_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_actividad_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_relevo_organizacion`
 --
 ALTER TABLE `tbl_relevo_organizacion`
-  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyos`
 --
 ALTER TABLE `tbl_tipos_apoyos`
-  MODIFY `id_tipo_apoyos` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_tipo_apoyos` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyo_produccion`
@@ -6209,55 +6781,55 @@ ALTER TABLE `tbl_tipos_apoyo_produccion`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_cultivo`
 --
 ALTER TABLE `tbl_tipo_cultivo`
-  MODIFY `id_tipo_cultivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_cultivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_negocios`
 --
 ALTER TABLE `tbl_tipo_negocios`
-  MODIFY `id_tipo_negocio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_tipo_negocio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_organizacion`
 --
 ALTER TABLE `tbl_tipo_organizacion`
-  MODIFY `id_tipo_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_tipo_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_pecuarios`
 --
 ALTER TABLE `tbl_tipo_pecuarios`
-  MODIFY `id_tipo_pecuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_tipo_pecuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_practicas_productivas`
 --
 ALTER TABLE `tbl_tipo_practicas_productivas`
-  MODIFY `id_tipo_practica` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_tipo_practica` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_produccion`
 --
 ALTER TABLE `tbl_tipo_produccion`
-  MODIFY `id_tipo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_tipo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_riego`
 --
 ALTER TABLE `tbl_tipo_riego`
-  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_trabajadores`
 --
 ALTER TABLE `tbl_tipo_trabajadores`
-  MODIFY `id_tipo_trabajador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_tipo_trabajador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_toma_decisiones`
 --
 ALTER TABLE `tbl_toma_decisiones`
-  MODIFY `id_tipo_tomador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipo_tomador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_trabajadores_externos`
@@ -6269,23 +6841,36 @@ ALTER TABLE `tbl_trabajadores_externos`
 -- AUTO_INCREMENT de la tabla `tbl_ubicacion_productor`
 --
 ALTER TABLE `tbl_ubicacion_productor`
-  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_unidad_productora`
 --
 ALTER TABLE `tbl_unidad_productora`
-  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `historial_contrasenas`
+--
+ALTER TABLE `historial_contrasenas`
+  ADD CONSTRAINT `fk_historial_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`Id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `permisos`
+--
+ALTER TABLE `permisos`
+  ADD CONSTRAINT `fk_permisos_objetos` FOREIGN KEY (`id_objeto`) REFERENCES `objetos` (`Id_objetos`),
+  ADD CONSTRAINT `fk_permisos_roles` FOREIGN KEY (`Id_rol`) REFERENCES `roles` (`Id_rol`);
 
 --
 -- Filtros para la tabla `preguntas_usuario`
