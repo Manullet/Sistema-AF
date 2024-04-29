@@ -2,6 +2,32 @@
 session_start();
  $_SESSION['url'] = 'vistas/Mantenimiento_etnias.php';
  $_SESSION['content-wrapper'] = 'content-wrapper';
+ include "../php/conexion_be.php";
+ // Definir permisos predeterminados
+ $permiso_insercion = 2;
+ $permiso_actualizacion = 2;
+ $permiso_eliminacion = 2;
+ 
+ // Verificar si la sesión 'usuario' está definida y no es un array
+ if(isset($_SESSION['usuario'])) {
+     $idRolUsuario = $_SESSION['usuario']['id_rol'];
+ 
+     // Consultar los permisos del usuario para el objeto de usuarios (ID de objeto = 3)
+     $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 33";
+     $resultadoPermisos = $conexion->query($sqlPermisos);
+ 
+     if ($resultadoPermisos->num_rows > 0) {
+         // Si se encuentran registros de permisos para el usuario y el objeto
+         $filaPermisos = $resultadoPermisos->fetch_assoc();
+         $permiso_insercion= $filaPermisos['permiso_insercion'];
+         $permiso_actualizacion = $filaPermisos['permiso_actualizacion'];
+         $permiso_eliminacion = $filaPermisos['permiso_eliminacion'];
+     } 
+ }
+
+
+
+
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +40,7 @@ session_start();
 <!-- DATATABLES -->
  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
     <!-- BOOTSTRAP -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 
 
@@ -23,9 +49,11 @@ session_start();
         <div>
             <h1 class="poppins-font mb-2">ETNIAS</h1>
             <br>
+            <?php if ($permiso_insercion == 1) : ?>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
             <i class="bi bi-plus-square icono-grande"></i> Crear 
             </a>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -42,6 +70,7 @@ session_start();
             console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
         });
     </script>
+    
 
     <div class="table-responsive">
 
@@ -49,13 +78,20 @@ session_start();
     <table id="tablax" class="table table-striped table-bordered" style="width:100%"> -->
      <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
-                <tr>
+                <tr> 
+                    <th scope="col"></th>
                     <th scope="col">Código</th>
                     <th scope="col">ETNIAS</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
+                    <th scope="col" class="hidden">creado_por</th>
+                    <th scope="col" class="hidden">fecha_creacion</th>
+                    <th scope="col" class="hidden">modificado_por</th>
+                    <th scope="col" class="hidden">fecha_modificacion</th>
 
+                    <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -64,6 +100,7 @@ session_start();
                 $sql = $conexion->query("SELECT * FROM tbl_etnias");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
+                    <td><button class="btn btn-primary"onclick="toggleColumns(this)"><i class="fas fa-eye" style="color:white"></i></button></td>
                         <td><?= $datos->id_etnia?></td>
                         <td><?= $datos->etnia ?></td>
                         <td><?= $datos->descripcion?></td>
@@ -74,12 +111,19 @@ session_start();
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
+                            <td class="hidden"><?= $datos->creado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_creacion?></td>
+                            <td class="hidden"><?= $datos->modificado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_modificacion?></td>
                         <td>
+                        <?php if ($permiso_actualizacion == 1) : ?>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->id_etnia?>', '<?= $datos->etnia?>', '<?= $datos->descripcion?>', '<?= $datos->estado?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
+                            <?php endif; ?>
+                            <?php if ($permiso_eliminacion == 1) : ?>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_etnia.php" style="display: inline;">
                                 <input type="hidden" name="id_etnia" value="<?= $datos->id_etnia?>">
                                 <button type="submit" class="btn btn-eliminar">
@@ -87,6 +131,7 @@ session_start();
                                     Eliminar
                                 </button>
                             </form>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php }
@@ -181,6 +226,31 @@ session_start();
         </div>
     </div>
 </div>
+<script>
+    function toggleColumns(button) {
+        var row = button.parentNode.parentNode;
+        var creado = row.querySelector("td:nth-child(6)");
+        var fechaCreacion = row.querySelector("td:nth-child(7)");
+        var actualizado = row.querySelector("td:nth-child(8)");
+        var fechaAct = row.querySelector("td:nth-child(9)");
+
+  
+        var creadoColumn = document.querySelector("th:nth-child(6)");
+        var fechaCreacionColumn = document.querySelector("th:nth-child(7)");
+        var actualizadoColumn = document.querySelector("th:nth-child(8)");
+        var fechaActColumn = document.querySelector("th:nth-child(9)");
+
+        creado.classList.toggle("hidden");
+        fechaCreacion.classList.toggle("hidden");
+        actualizado.classList.toggle("hidden");
+        fechaAct.classList.toggle("hidden");
+
+        creadoColumn.classList.toggle("hidden");   
+        fechaCreacionColumn.classList.toggle("hidden");
+        actualizadoColumn.classList.toggle("hidden");
+        fechaActColumn.classList.toggle("hidden");
+    }
+</script>
 
 <!-- JavaScript para manejar la edición de tipo de trabajadores -->
 <script>
@@ -283,7 +353,9 @@ session_start();
     });
 </script>
 
+
 <script>
+
     $(document).ready(function() {
         $("#searchInput").on("keyup", function() {
             var value = $(this).val().toLowerCase();
@@ -294,18 +366,7 @@ session_start();
     });
 </script>
 
-<script>
-    function validateInput(input) {
-        var regex = /^[A-Za-z]+$/;
-        var error_message = document.getElementById('error_message');
 
-        if (!regex.test(input.value)) {
-            error_message.textContent = 'Solo se permiten letras en este campo.';
-        } else {
-            error_message.textContent = '';
-        }
-    }
-</script>
 
 <!-- JQUERY -->
 <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"
@@ -358,4 +419,3 @@ session_start();
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

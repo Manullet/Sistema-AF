@@ -11,6 +11,12 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DATATABLES -->
+ <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+    <!-- BOOTSTRAP -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
 
 
 <div class="containertable">
@@ -23,29 +29,12 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             </a>
         </div>
 
-        <div class="mb-4 border-bottom">
-            <form class="d-flex" role="search">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar Unidad..." aria-label="Search">
-                </div>
-            </form>
-        </div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
-    <div class="formulario-registros">
-        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
-            <select id="cantidadRegistros">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-            </select>
-            <span class="registros-text">Registros</span></label>
-    </div>
+
     <!--  funcion para mostrar registros -->
     <script>
         // Obtiene referencias a los elementos HTML
@@ -59,12 +48,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
     <div class="table-responsive">
 
-        <table class="table table-hover">
+        <!--El diseño de la table cuando ya esté todo unido 
+    <table id="tablax" class="table table-striped table-bordered" style="width:100%"> -->
+    <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Nº Ficha</th>
-                    <th scope="col">Tipo de Manejo</th>
-                    <th scope="col">Superficie Produccion</th>
+                    <th scope="col">Tipo Manejo</th>
+
                     <th scope="col">Superficie Agricultura</th>
                     <th scope="col">Superficie Ganaderia</th>
                     <th scope="col">Superficie Apicultura</th>
@@ -73,7 +64,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                     <th scope="col">Nº Estanques</th>
                     <th scope="col">Superficie Agroturismo</th>
                     <th scope="col">Otra Descripcion</th>
-                    <th scope="col">Descripcion</th>
+
                     <th scope="col">Estado</th>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                 </tr>
@@ -94,9 +85,9 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->Id_Unidad_Productiva ?></td>
+                        <td><?= $datos->id_ficha ?></td>
                         <td><?= $datos->Tipo_De_Manejo ?></td>
-                        <td><?= $datos->Superficie_Produccion ?></td>
+
                         <td><?= $datos->Superficie_Agricultura ?></td>
                         <td><?= $datos->Superficie_Ganaderia ?></td>
                         <td><?= $datos->Superficie_Apicultura ?></td>
@@ -105,7 +96,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         <td><?= $datos->Numero_Estanques ?></td>
                         <td><?= $datos->Superficie_Agroturismo ?></td>
                         <td><?= $datos->Otros_Descripcion ?></td>
-                        <td><?= $datos->Descripcion ?></td>
+
 
                         <td><?php
                             if ($datos->estado == "A") {
@@ -117,14 +108,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         <td>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->Id_Unidad_Productiva?>',  '<?= $datos->Id_Ubicacion ?>','<?= $datos->Id_Ficha ?>', '<?= $datos->Id_Productor ?>','<?= $datos->Tipo_De_Manejo ?>', '<?= $datos->Superficie_Produccion ?>','<?= $datos->Id_Medida_Produccion ?>', '<?= $datos->Superficie_Agricultura ?>','<?= $datos->Id_Medida_Agricultura ?>', '<?= $datos->Superficie_Ganaderia ?>','<?= $datos->Id_Medida_Ganaderia ?>', '<?= $datos->Superficie_Apicultura ?>','<?= $datos->Id_Medida_Apicultura ?>', '<?= $datos->Superficie_Forestal ?>', '<?= $datos->Id_Medida_Forestal ?>', '<?= $datos->Superficie_Acuacultura ?>','<?= $datos->Numero_Estanques ?>',  '<?= $datos->Superficie_Agroturismo ?>','<?= $datos->Superficie_Otros ?>', '<?= $datos->Otros_Descripcion ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Modificado_Por ?>', '<?= $datos->Estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
-                                Editar
+                                
                             </button>
-
+<p></p>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_unidad_productiva.php" style="display: inline;">
                                 <input type="hidden" name="Id_Unidad_Productiva" value="<?= $datos->Id_Unidad_Productiva ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
-                                    Eliminar
+                                    
                                 </button>
                             </form>
                         </td>
@@ -135,19 +126,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         </table>
     </div>
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-                <a class="page-link">Anterior</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Siguiente</a>
-            </li>
-        </ul>
-    </nav>
+
 </div>
 
 <!-- Modal para editar Unidades Productras -->
@@ -896,4 +875,55 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         }
     }
 </script>
+
+<!-- JQUERY -->
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+        </script> -->
+
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        $('#tablax').DataTable({
+            language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Buscar&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_ elementos",
+                    info: "Mostrando del elemento _START_ al _END_ de un total de _TOTAL_ elementos",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+            
+        });
+    })
+
+
+</script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

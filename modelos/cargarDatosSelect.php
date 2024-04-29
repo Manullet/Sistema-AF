@@ -8,7 +8,7 @@ $generarSelect=$_GET['select'];
 switch($generarSelect){
     case 'Municipios': 
         $id=$_GET['id'];
-        $query = "SELECT Id_Municipio, Nombre_Municipio FROM tbl_municipios WHERE Id_Departamento = $id";
+        $query = "SELECT Id_Municipio, Nombre_Municipio FROM tbl_municipios WHERE Id_Departamento = $id AND Estado = 'A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -42,7 +42,7 @@ switch($generarSelect){
 
     case 'Aldeas': 
         $id=$_GET['id'];
-        $query = "SELECT Id_Aldea, Nombre_Aldea FROM tbl_aldeas WHERE Id_Municipio = $id";
+        $query = "SELECT Id_Aldea, Nombre_Aldea FROM tbl_aldeas WHERE Id_Municipio = $id AND Estado = 'A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -77,7 +77,7 @@ switch($generarSelect){
 
     case 'Caserios': 
         $id=$_GET['id'];
-        $query = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios WHERE Id_Municipio = $id";
+        $query = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios WHERE Id_Municipio = $id AND Estado = 'A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -111,7 +111,7 @@ switch($generarSelect){
 
 
     case 'MunicipiosSinFiltro': 
-        $query = "SELECT Id_Municipio, Nombre_Municipio FROM tbl_municipios";
+        $query = "SELECT Id_Municipio, Nombre_Municipio FROM tbl_municipios WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -144,7 +144,7 @@ switch($generarSelect){
     break;
 
     case 'AldeasSinFiltro': 
-        $query = "SELECT Id_Aldea, Nombre_Aldea FROM tbl_aldeas";
+        $query = "SELECT Id_Aldea, Nombre_Aldea FROM tbl_aldeas WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -178,7 +178,7 @@ switch($generarSelect){
 
 
     case 'CaseriosSinFiltro': 
-        $query = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios";
+        $query = "SELECT Id_Cacerio, Nombre_Cacerio FROM tbl_cacerios WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -213,7 +213,7 @@ switch($generarSelect){
 
     case 'GeneroAnimales': 
         $id=$_GET['id'];
-        $query = "SELECT raza_con_genero FROM tbl_tipo_pecuarios WHERE id_tipo_pecuario = $id";
+        $query = "SELECT raza_con_genero FROM tbl_tipo_pecuarios WHERE id_tipo_pecuario = $id AND Estado = 'A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados

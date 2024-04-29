@@ -7,7 +7,7 @@ $generarCheckbox=$_GET['checkbox'];
 
 switch($generarCheckbox){
     case 'Migracion': 
-        $query = "SELECT Motivo FROM tbl_motivos_migracion";
+        $query = "SELECT Motivo FROM tbl_motivos_migracion WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -40,7 +40,7 @@ switch($generarCheckbox){
 
 
     case 'MotivoNoPrestamo': 
-        $query = "SELECT motivo_no_credito FROM tbl_motivos_no_creditos";
+        $query = "SELECT motivo_no_credito FROM tbl_motivos_no_creditos WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -73,7 +73,7 @@ switch($generarCheckbox){
 
 
     case 'OpcionesPrestamo': 
-        $query = "SELECT fuente_credito FROM tbl_fuentes_credito";
+        $query = "SELECT fuente_credito FROM tbl_fuentes_credito WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -106,7 +106,7 @@ switch($generarCheckbox){
 
 
     case 'Practicas': 
-        $query = "SELECT tipo_practica FROM tbl_tipo_practicas_productivas";
+        $query = "SELECT tipo_practica FROM tbl_tipo_practicas_productivas WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -139,7 +139,7 @@ switch($generarCheckbox){
 
 
     case 'Apoyo': 
-        $query = "SELECT tipo_apoyos FROM tbl_tipos_apoyos";
+        $query = "SELECT tipo_apoyos FROM tbl_tipos_apoyos WHERE Estado='ACTIVO'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -172,7 +172,7 @@ switch($generarCheckbox){
 
 
     case 'Organizacion': 
-        $query = "SELECT id_organizacion, organizacion FROM tbl_organizaciones";
+        $query = "SELECT id_organizacion, organizacion FROM tbl_organizaciones WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -248,7 +248,7 @@ switch($generarCheckbox){
 
 
     case 'TomadorDecisiones': 
-        $query = "SELECT descripcion FROM tbl_toma_decisiones";
+        $query = "SELECT descripcion FROM tbl_toma_decisiones WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -281,7 +281,7 @@ switch($generarCheckbox){
 
 
     case 'TipoOrganizacion': 
-        $query = "SELECT tipo_organizacion FROM tbl_tipo_organizacion";
+        $query = "SELECT tipo_organizacion FROM tbl_tipo_organizacion WHERE Estado='A'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados

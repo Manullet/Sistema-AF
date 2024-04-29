@@ -228,28 +228,32 @@ function obtenerNumeroFicha($conexion)
                     <div class="menu-number">10</div>
                     <div class="menu-text">Producción Pecuaria</div>
                 </a>
-                <a href="#datosPrCoForm" class="menu-item">
+                <a href="#datosPecuariaForm1" class="menu-item">
                     <div class="menu-number">11</div>
+                    <div class="menu-text">Producción Pecuaria Año Anterior</div>
+                </a>
+                <a href="#datosPrCoForm" class="menu-item">
+                    <div class="menu-number">12</div>
                     <div class="menu-text">Producción/Comercialización Pecuaria</div>
                 </a>
                 <a href="#datosOtrosForm" class="menu-item">
-                    <div class="menu-number">12</div>
+                    <div class="menu-number">13</div>
                     <div class="menu-text">Otros Ingresos</div>
                 </a>
                 <a href="#datosCreditoForm" class="menu-item">
-                    <div class="menu-number">13</div>
+                    <div class="menu-number">14</div>
                     <div class="menu-text">Crédito Producción Agropecuaria</div>
                 </a>
                 <a href="#datosActividadesForm" class="menu-item">
-                    <div class="menu-number">14</div>
+                    <div class="menu-number">15</div>
                     <div class="menu-text">Actividades Externas</div>
                 </a>
                 <a href="#datosPracticaForm" class="menu-item">
-                    <div class="menu-number">15</div>
+                    <div class="menu-number">16</div>
                     <div class="menu-text">Prácticas en la Unidad Productiva</div>
                 </a>
                 <a href="#datosApoyoForm" class="menu-item">
-                    <div class="menu-number">16</div>
+                    <div class="menu-number">17</div>
                     <div class="menu-text">Apoyo Producción Agropecuaria</div>
                 </a>
             </div>
@@ -1396,22 +1400,102 @@ function obtenerNumeroFicha($conexion)
                 </div>
 
                 <div class="modal-footer center-content-between">
-                    
+
                     <button type="submit" onclick="navigateToForm('#datosPecuariaForm')" class="btn btn-actualizar">Siguiente</button>
                 </div>
             </form>
-        <!-- 10 -->
 
-        <form action="modelos/datosPecuariaForm.php" method="POST" id="datosPecuariaForm" class="form-section" style="display: none;">
-            <h3>Producción Pecuaria (Inventario)</h3>
-            <br>
+            <!-- 10 -->
+            <form action="modelos/datosPecuariaForm.php" method="POST" id="datosPecuariaForm" class="form-section" style="display: none;">
+                <h3>Producción Pecuaria (Inventario)</h3>
+                <br>
 
-            <div class="row">
-                <!-- Tipo de Animal -->
-                <div class="col-md-4">
-                    <div class="form-group">
+                <div class="row">
+                    <!-- Tipo de Animal -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tipoAnimal">Tipo de Animal</label>
+                            <select class="form-control" id="tipoAnimal" name="tipoAnimal">
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_tipo_pecuario"] . '">' . $row["tipo_pecuario"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Género -->
+                    <div class="col-md-4">
+                        <div class="form-group" id="divGenero">
+                            <label for="generoAnimal">Género</label>
+                            <select class="form-control" id="generoAnimal" name="generoAnimal">
+                                <option value="Hembra">Hembra</option>
+                                <option value="Macho">Macho</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cantidad -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cantidadAnimal">Cantidad</label>
+                            <input type="number" class="form-control" id="cantidadAnimal" name="cantidadAnimal" placeholder="Cantidad" min="1">
+                        </div>
+                    </div>
+
+                    <!-- Botón Agregar -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <button type="button" class="btn btn-info" onclick="agregarATabla()">Agregar</button>
+                    </div>
+                </div>
+
+                <br>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tipo de Animal</th>
+                            <th>Género</th>
+                            <th>Cantidad</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTemporalAnimales" class="table-hover">
+                        <!-- Los elementos agregados aparecerán aquí -->
+                    </tbody>
+                </table>
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosAgricolaForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPecuariaForm1')" class="btn btn-actualizar">Siguiente</button>
+
+                </div>
+            </form>
+
+            <form action="modelos/datosPecuariaForm.php" method="POST" id="datosPecuariaForm1" class="form-section" style="display: none;">
+                <h3>Unidades vendidas año anterior</h3>
+                <div class="row form-group">
+                    <!-- Tipo de Animal -->
+                    <div class="col-md-3">
                         <label for="tipoAnimal">Tipo de Animal</label>
-                        <select class="form-control" id="tipoAnimal" name="tipoAnimal">
+                        <select class="form-control" id="tipoAnimalU" name="tipoAnimalU">
                             <?php
                             // Conexión a la base de datos
                             include '../php/conexion_be.php';
@@ -1436,227 +1520,17 @@ function obtenerNumeroFicha($conexion)
                             ?>
                         </select>
                     </div>
-                </div>
 
-                <!-- Género -->
-                <div class="col-md-4">
-                    <div class="form-group" id="divGenero">
-                        <label for="generoAnimal">Género</label>
-                        <select class="form-control" id="generoAnimal" name="generoAnimal">
-                            <option value="Hembra">Hembra</option>
-                            <option value="Macho">Macho</option>
-                        </select>
+                    <!-- Precio de Venta -->
+                    <div class="col-md-3">
+                        <label for="precioVentaU">Precio de venta (Lps)</label>
+                        <input type="number" class="form-control" id="precioVentaU" name="precioVentaU" min="0" step="0.01">
                     </div>
-                </div>
 
-                <!-- Cantidad -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="cantidadAnimal">Cantidad</label>
-                        <input type="number" class="form-control" id="cantidadAnimal" name="cantidadAnimal" placeholder="Cantidad" min="1">
-                    </div>
-                </div>
-
-                <!-- Botón Agregar -->
-                <div class="col-md-3 d-flex align-items-center">
-                    <button type="button" class="btn btn-info" onclick="agregarATabla()">Agregar</button>
-                </div>
-                <br>
-                <br>
-            </div>
-
-            <table class="table">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Tipo de Animal</th>
-                        <th>Género</th>
-                        <th>Cantidad</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaTemporalAnimales" class="table-hover">
-                    <!-- Los elementos agregados aparecerán aquí -->
-                </tbody>
-            </table>
-
-
-            <h3>Unidades vendidas año anterior</h3>
-            <div class="row form-group">
-                <!-- Tipo de Animal -->
-                <div class="col-md-3">
-                    <label for="tipoAnimal">Tipo de Animal</label>
-                    <select class="form-control" id="tipoAnimalU" name="tipoAnimalU">
-                        <?php
-                        // Conexión a la base de datos
-                        include '../php/conexion_be.php';
-
-                        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                        $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios";
-
-                        // Ejecutar la consulta
-                        $result = mysqli_query($conexion, $sql);
-
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                echo '<option value="' . $row["id_tipo_pecuario"] . '">' . $row["tipo_pecuario"] . '</option>';
-                            }
-                        } else {
-                            echo '<option value="">No hay municipios disponibles</option>';
-                        }
-
-                        // Cierra la conexión a la base de datos
-                        mysqli_close($conexion);
-                        ?>
-                    </select>
-                </div>
-
-                <!-- Precio de Venta -->
-                <div class="col-md-3">
-                    <label for="precioVentaU">Precio de venta (Lps)</label>
-                    <input type="number" class="form-control" id="precioVentaU" name="precioVentaU" min="0" step="0.01">
-                </div>
-
-                <!-- Unidad de Medida -->
-                <div class="col-md-3">
-                    <label for="unidadMedida">Unidad de medida:</label>
-                    <select class="form-control" id="unidadMedida" name="unidadMedida">
-                        <?php
-                        // Conexión a la base de datos
-                        include '../php/conexion_be.php';
-
-                        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                        $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
-
-                        // Ejecutar la consulta
-                        $result = mysqli_query($conexion, $sql);
-
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
-                            }
-                        } else {
-                            echo '<option value="">No hay municipios disponibles</option>';
-                        }
-
-                        // Cierra la conexión a la base de datos
-                        mysqli_close($conexion);
-                        ?>
-                    </select>
-                </div>
-
-                <!-- Mercado y botón Agregar -->
-                <div class="col-md-3 d-flex align-items-end">
-                    <div class="form-group flex-grow-1 mr-2">
-                        <label for="mercado">Mercado</label>
-                        <input type="text" class="form-control" id="mercado" name="mercado">
-                    </div>
-                </div>
-
-                <!-- Botón Agregar -->
-                <div class="col-md-3 d-flex align-items-center">
-                    <button type="button" class="btn btn-info" onclick="agregarAUnidadesVendidas()">Agregar</button>
-                </div>
-            </div>
-
-            <table class="table">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Tipo de Animal</th>
-                        <th>Precio de Venta</th>
-                        <th>Unidad de Medida</th>
-                        <th>Mercado</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaUnidadesVendidas">
-                    <!-- Los datos agregados aparecerán aquí -->
-                </tbody>
-            </table>
-
-
-
-            <div class="modal-footer center-content-between">
-                <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosAgricolaForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPrCoForm')" class="btn btn-actualizar">Siguiente</button>
-
-            </div>
-        </form>
-
-        <!-- 11 -->
-
-        <form action="modelos/datosPrCoForm.php" method="POST" id="datosPrCoForm" class="form-section" style="display: none;">
-            <h3>11. Producción y Comercialización Pecuaria</h3>
-
-            <div class="row">
-                <!-- Formulario para tipo de producción -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="tipoProduccion">Tipo de Producción</label>
-                        <select class="form-control" id="tipoProduccion" name="tipoProduccion">
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_tipo_produccion, tipo_produccion FROM tbl_tipo_produccion";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["id_tipo_produccion"] . '">' . $row["tipo_produccion"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay municipios disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Periodicidad -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="unidadMedidaVenta">Periodicidad</label>
-                        <select class="form-control" id="periodoTiempo" name="periodoTiempo">
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_periodo, periodo FROM tbl_periodicidad";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["id_periodo"] . '">' . $row["periodo"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay municipios disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Unidad de Medida -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="unidadMedidaPC">Unidad de medida</label>
-                        <select class="form-control" id="unidadMedidaPC" name="unidadMedidaPC">
+                    <!-- Unidad de Medida -->
+                    <div class="col-md-3">
+                        <label for="unidadMedida">Unidad de medida:</label>
+                        <select class="form-control" id="unidadMedida" name="unidadMedida">
                             <?php
                             // Conexión a la base de datos
                             include '../php/conexion_be.php';
@@ -1681,298 +1555,436 @@ function obtenerNumeroFicha($conexion)
                             ?>
                         </select>
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <!-- Cantidad Vendida -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="cantidadVendidaPC">Cantidad vendida</label>
-                        <input type="number" class="form-control" id="cantidadVendidaPC" name="cantidadVendidaPC" min="0">
+                    <!-- Mercado y botón Agregar -->
+                    <div class="col-md-3 d-flex align-items-end">
+                        <div class="form-group flex-grow-1 mr-2">
+                            <label for="mercado">Mercado</label>
+                            <input type="text" class="form-control" id="mercado" name="mercado">
+                        </div>
+                    </div>
+
+                    <!-- Botón Agregar -->
+                    <div class="col-md-3 d-flex align-items-center">
+                        <button type="button" class="btn btn-info" onclick="agregarAUnidadesVendidas()">Agregar</button>
                     </div>
                 </div>
 
-                <!-- Precio de Venta -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="precioVentaPC">Precio de venta (Lps)</label>
-                        <input type="number" class="form-control" id="precioVentaPC" name="precioVentaPC" min="0" step="0.01">
-                    </div>
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tipo de Animal</th>
+                            <th>Precio de Venta</th>
+                            <th>Unidad de Medida</th>
+                            <th>Mercado</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaUnidadesVendidas">
+                        <!-- Los datos agregados aparecerán aquí -->
+                    </tbody>
+                </table>
+
+
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#ddatosPecuariaForm1')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPrCoForm')" class="btn btn-actualizar">Siguiente</button>
+
                 </div>
-
-                <!-- A quién Vendió -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="cliente">A quién le vendió</label>
-                        <input type="text" class="form-control" id="cliente" name="cliente">
-                    </div>
-                </div>
+            </form>
 
 
-            </div>
 
-            <!-- Botón Agregar -->
-            <div class="row">
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-info" id="btnAgregar" onclick="agregarATablaProduccion()">Agregar</button>
-                </div>
-            </div>
-            <br>
+            <!-- 11 -->
 
-            <!-- Tabla para visualizar los datos agregados -->
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Tipo de Producción</th>
-                                <th>Periodicidad</th>
-                                <th>Unidad de Medida</th>
-                                <th>Cantidad Vendida</th>
-                                <th>Precio de Venta (Lps)</th>
-                                <th>A quién le vendió</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaDatosPecuaria">
-                            <!-- Las filas agregadas se visualizarán aquí -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <form action="modelos/datosPrCoForm.php" method="POST" id="datosPrCoForm" class="form-section" style="display: none;">
+                <h3>11. Producción y Comercialización Pecuaria</h3>
 
-            <div class="modal-footer center-content-between">
-                <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPecuariaForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosOtrosForm')" class="btn btn-actualizar">Siguiente</button>
-
-            </div>
-        </form>
-
-
-        <!-- 12 -->
-        <form action="modelos/datosOtrosForm.php" method="POST" id="datosOtrosForm" class="form-section" style="display: none;">
-            <h3>12. Otros ingresos en el hogar</h3>
-
-            <div class="row">
-                <!-- Tipo de Ingreso -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="tipoIngreso">Tipo de Ingreso</label>
-                        <select class="form-control" id="tipoIngreso" name="tipoIngreso">
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_tipo_negocio, tipo_negocio FROM tbl_tipo_negocios ORDER BY id_tipo_negocio ASC";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["id_tipo_negocio"] . '">' . $row["tipo_negocio"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay tipos de negocio disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Cantidad -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="cantidadIngreso">Cantidad</label>
-                        <input type="text" class="form-control" id="cantidadIngreso" name="cantidadIngreso" placeholder="Ingrese la cantidad" onkeyup="formatoMoneda(this);">
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Botón Agregar -->
-            <div class="row">
-                <div class="col-md-12 text-left">
-                    <button type="button" class="btn btn-info mt-2" onclick="agregarIngreso()">Agregar</button>
-                </div>
-            </div>
-            <br>
-
-            <table class="table">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Tipo de Ingreso</th>
-                        <th>Cantidad (L)</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody id="tablaIngresos">
-                    <!-- Los datos agregados se mostrarán aquí -->
-                </tbody>
-            </table>
-
-            <div class="modal-footer center-content-between">
-                <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosCreditoForm')" class="btn btn-actualizar">Siguiente</button>
-            </div>
-        </form>
-
-        <!-- 13 -->
-        <form action="modelos/datosCreditoForm.php" method="POST" id="datosCreditoForm" class="form-section" style="display: none;">
-            <h3>13. Crédito para la producción agropecuaria</h3>
-
-            <!-- Pregunta sobre préstamos -->
-            <div class="form-group">
-                <label>¿Ha solicitado préstamos para la producción agropecuaria?</label><br>
-                <input type="radio" id="prestamoSi" name="prestamo" value="Si">
-                <label for="prestamoSi">SI</label>
-                <input type="radio" id="prestamoNo" name="prestamo" value="No">
-                <label for="prestamoNo">NO</label>
-            </div>
-
-            <!-- Opciones si la respuesta es SI -->
-            <div class="form-group" id="opcionesPrestamoSi" style="display: none;">
-
-            </div>
-
-            <!-- Opciones si la respuesta es NO -->
-            <div class="form-group" id="opcionesPrestamoNo" style="display: none;">
-
-            </div>
-
-            <div class="modal-footer center-content-between">
-                <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosActividadesForm')" class="btn btn-actualizar">Siguiente</button>
-
-            </div>
-        </form>
-
-
-        <!-- 14 -->
-        <form action="modelos/datosActividadesForm.php" method="POST" id="datosActividadesForm" class="form-section" style="display: none;">
-            <h3>14. Actividades externas a la unidad productiva</h3>
-
-            <!-- Actividades fuera de la finca -->
-            <div class="form-group">
-                <label>¿Miembros de este hogar realizan actividades fuera de la finca?</label><br>
-                <input type="radio" id="actividadesFueraSi" name="actividadesFuera" value="Yes">
-                <label for="actividadesFueraSi">SI</label>
-                <input type="radio" id="actividadesFueraNo" name="actividadesFuera" value="Not">
-                <label for="actividadesFueraNo">NO</label>
-                <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos" style="display: none;">
-
-            </div>
-
-            <!-- Contratación de trabajadores no miembros -->
-            <div class="form-group" id="seccionTrabajadores" style="display: none;">
-                <label>En las actividades productivas de su finca, ¿contrata trabajadores(as) que no son miembros de su hogar?</label>
                 <div class="row">
-                    <!-- Trabajadores Permanentes -->
-                    <div class="col-md-6">
-                        <label for="trabajadoresPermanentes">Permanentes</label>
-                        <input type="number" class="form-control" id="trabajadoresPermanentes" name="trabajadoresPermanentes" placeholder="cuántos">
+                    <!-- Formulario para tipo de producción -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tipoProduccion">Tipo de Producción</label>
+                            <select class="form-control" id="tipoProduccion" name="tipoProduccion">
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_tipo_produccion, tipo_produccion FROM tbl_tipo_produccion";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_tipo_produccion"] . '">' . $row["tipo_produccion"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Trabajadores Temporales -->
-                    <div class="col-md-6">
-                        <label for="trabajadoresTemporales">Temporales</label>
-                        <input type="number" class="form-control" id="trabajadoresTemporales" name="trabajadoresTemporales" placeholder="cuántos">
+                    <!-- Periodicidad -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="unidadMedidaVenta">Periodicidad</label>
+                            <select class="form-control" id="periodoTiempo" name="periodoTiempo">
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_periodo, periodo FROM tbl_periodicidad";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_periodo"] . '">' . $row["periodo"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Unidad de Medida -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="unidadMedidaPC">Unidad de medida</label>
+                            <select class="form-control" id="unidadMedidaPC" name="unidadMedidaPC">
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="row">
+                    <!-- Cantidad Vendida -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cantidadVendidaPC">Cantidad vendida</label>
+                            <input type="number" class="form-control" id="cantidadVendidaPC" name="cantidadVendidaPC" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Precio de Venta -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="precioVentaPC">Precio de venta (Lps)</label>
+                            <input type="number" class="form-control" id="precioVentaPC" name="precioVentaPC" min="0" step="0.01">
+                        </div>
+                    </div>
+
+                    <!-- A quién Vendió -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="cliente">A quién le vendió</label>
+                            <input type="text" class="form-control" id="cliente" name="cliente">
+                        </div>
+                    </div>
 
 
-            <!-- Tomador de decisiones -->
+                </div>
 
-            <div class="form-group" id="seccionTomadorDecisiones" style="display: none;">
-                <h4>14.1. ¿Quién es el tomador de decisiones con relación a las actividades agropecuarias de la finca?</h4>
-                <div class="form-checkbox" id="CheckboxDecisiones"></div>
-            </div>
+                <!-- Botón Agregar -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-info" id="btnAgregar" onclick="agregarATablaProduccion()">Agregar</button>
+                    </div>
+                </div>
+                <br>
 
-            <div class="modal-footer center-content-between">
-                <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosCreditoForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPracticaForm')" class="btn btn-actualizar">Siguiente</button>
+                <!-- Tabla para visualizar los datos agregados -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Tipo de Producción</th>
+                                    <th>Periodicidad</th>
+                                    <th>Unidad de Medida</th>
+                                    <th>Cantidad Vendida</th>
+                                    <th>Precio de Venta (Lps)</th>
+                                    <th>A quién le vendió</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaDatosPecuaria">
+                                <!-- Las filas agregadas se visualizarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-            </div>
-        </form>
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPecuariaForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosOtrosForm')" class="btn btn-actualizar">Siguiente</button>
 
-        <!-- 15 -->
-
-        <form action="modelos/datosPracticaForm.php" method="POST" id="datosPracticaForm" class="form-section" style="display: none;">
-            <h3>15. Prácticas para producción en la unidad productiva</h3>
-
-            <div class="form-group">
-                <label>Seleccione las prácticas que realiza en su finca:</label>
-                <div class="form-checkbox" id="CheckboxPracticas"></div>
-            </div>
-
-
-            <div class="modal-footer center-content-between">
-                <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosActividadesForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosApoyoForm')" class="btn btn-actualizar">Siguiente</button>
-
-            </div>
-        </form>
-
-        <!-- 16 -->
-
-        <form action="modelos/datosApoyoForm.php" method="POST" id="datosApoyoForm" class="form-section" style="display: none;">
-            <h3>16. Apoyo para la producción agropecuaria</h3>
-
-            <!-- Pregunta sobre la recepción de apoyo -->
-            <div class="form-group">
-                <label>¿Recibe apoyo para la producción agrícola?</label><br>
-                <input type="radio" id="apoyoSi" name="recibeApoyo" value="SiApoyo">
-                <label for="apoyoSi">SI</label>
-                <input type="radio" id="apoyoNo" name="recibeApoyo" value="NoApoyo">
-                <label for="apoyoNo">NO</label> (Finalice la entrevista)
-            </div>
-
-            <!-- Selección múltiple de quién provee el apoyo -->
-            <div class="form-group seccionOculta">
-                <label>¿De quién recibe apoyo para la producción agropecuaria? (selección múltiple)</label><br>
-                <div class="form-checkbox" id="CheckboxTipoOrganizacion"></div>
-            </div>
-
-            <div class="form-group seccionOculta">
-                <label>¿Qué tipo de apoyo recibe? (selección múltiple)</label>
-                <div class="form-checkbox" id="CheckboxApoyo"></div>
-            </div>
-
-            <div class="form-group seccionOculta">
-                <label>Está siendo usted atendido por la Unidad de Agricultura Familiar:</label><br>
-                <input type="radio" id="atendidoSi" name="atendidoUnidadAgricultura" value="Si">
-                <label for="atendidoSi">SI</label>
-                <input type="radio" id="atendidoNo" name="atendidoUnidadAgricultura" value="No">
-                <label for="atendidoNo">NO</label>
-            </div>
-
-            <div class="form-group seccionOculta">
-                <label>¿Usted sabe si algunos de sus productos son vendidos para el Programa de Alimentación Escolar?</label><br>
-                <input type="radio" id="productosVendidosSi" name="productosVendidosProgramaAlimentacion" value="Siyes">
-                <label for="productosVendidosSi">SI</label>
-                <input type="radio" id="productosVendidosNo" name="productosVendidosProgramaAlimentacion" value="Nonot">
-                <label for="productosVendidosNo">NO</label>
-            </div>
+                </div>
+            </form>
 
 
+            <!-- 12 -->
+            <form action="modelos/datosOtrosForm.php" method="POST" id="datosOtrosForm" class="form-section" style="display: none;">
+                <h3>12. Otros ingresos en el hogar</h3>
+
+                <div class="row">
+                    <!-- Tipo de Ingreso -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tipoIngreso">Tipo de Ingreso</label>
+                            <select class="form-control" id="tipoIngreso" name="tipoIngreso">
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT id_tipo_negocio, tipo_negocio FROM tbl_tipo_negocios ORDER BY id_tipo_negocio ASC";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["id_tipo_negocio"] . '">' . $row["tipo_negocio"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay tipos de negocio disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cantidad -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cantidadIngreso">Cantidad</label>
+                            <input type="text" class="form-control" id="cantidadIngreso" name="cantidadIngreso" placeholder="Ingrese la cantidad" onkeyup="formatoMoneda(this);">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Botón Agregar -->
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <button type="button" class="btn btn-info mt-2" onclick="agregarIngreso()">Agregar</button>
+                    </div>
+                </div>
+                <br>
+
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tipo de Ingreso</th>
+                            <th>Cantidad (L)</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaIngresos">
+                        <!-- Los datos agregados se mostrarán aquí -->
+                    </tbody>
+                </table>
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosCreditoForm')" class="btn btn-actualizar">Siguiente</button>
+                </div>
+            </form>
+
+            <!-- 13 -->
+            <form action="modelos/datosCreditoForm.php" method="POST" id="datosCreditoForm" class="form-section" style="display: none;">
+                <h3>13. Crédito para la producción agropecuaria</h3>
+
+                <!-- Pregunta sobre préstamos -->
+                <div class="form-group">
+                    <label>¿Ha solicitado préstamos para la producción agropecuaria?</label><br>
+                    <input type="radio" id="prestamoSi" name="prestamo" value="Si">
+                    <label for="prestamoSi">SI</label>
+                    <input type="radio" id="prestamoNo" name="prestamo" value="No">
+                    <label for="prestamoNo">NO</label>
+                </div>
+
+                <!-- Opciones si la respuesta es SI -->
+                <div class="form-group" id="opcionesPrestamoSi" style="display: none;">
+
+                </div>
+
+                <!-- Opciones si la respuesta es NO -->
+                <div class="form-group" id="opcionesPrestamoNo" style="display: none;">
+
+                </div>
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosOtrosForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosActividadesForm')" class="btn btn-actualizar">Siguiente</button>
+
+                </div>
+            </form>
 
 
-            <div class="modal-footer center-content-between">
-                <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPracticaForm')">Regresar</button>
-                <button type="submit" id="guardarBtn" class="btn btn-actualizar">Enviar</button>
+            <!-- 14 -->
+            <form action="modelos/datosActividadesForm.php" method="POST" id="datosActividadesForm" class="form-section" style="display: none;">
+                <h3>14. Actividades externas a la unidad productiva</h3>
 
-            </div>
-        </form>
+                <!-- Actividades fuera de la finca -->
+                <div class="form-group">
+                    <label>¿Miembros de este hogar realizan actividades fuera de la finca?</label><br>
+                    <input type="radio" id="actividadesFueraSi" name="actividadesFuera" value="Yes">
+                    <label for="actividadesFueraSi">SI</label>
+                    <input type="radio" id="actividadesFueraNo" name="actividadesFuera" value="Not">
+                    <label for="actividadesFueraNo">NO</label>
+                    <input type="text" class="form-control" id="cuantosActividadesFuera" name="cuantosActividadesFuera" placeholder="cuantos" style="display: none;">
 
+                </div>
+
+                <!-- Contratación de trabajadores no miembros -->
+                <div class="form-group" id="seccionTrabajadores" style="display: none;">
+                    <label>En las actividades productivas de su finca, ¿contrata trabajadores(as) que no son miembros de su hogar?</label>
+                    <div class="row">
+                        <!-- Trabajadores Permanentes -->
+                        <div class="col-md-6">
+                            <label for="trabajadoresPermanentes">Permanentes</label>
+                            <input type="number" class="form-control" id="trabajadoresPermanentes" name="trabajadoresPermanentes" placeholder="cuántos">
+                        </div>
+
+                        <!-- Trabajadores Temporales -->
+                        <div class="col-md-6">
+                            <label for="trabajadoresTemporales">Temporales</label>
+                            <input type="number" class="form-control" id="trabajadoresTemporales" name="trabajadoresTemporales" placeholder="cuántos">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Tomador de decisiones -->
+
+                <div class="form-group" id="seccionTomadorDecisiones" style="display: none;">
+                    <h4>14.1. ¿Quién es el tomador de decisiones con relación a las actividades agropecuarias de la finca?</h4>
+                    <div class="form-checkbox" id="CheckboxDecisiones"></div>
+                </div>
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosCreditoForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosPracticaForm')" class="btn btn-actualizar">Siguiente</button>
+
+                </div>
+            </form>
+
+            <!-- 15 -->
+
+            <form action="modelos/datosPracticaForm.php" method="POST" id="datosPracticaForm" class="form-section" style="display: none;">
+                <h3>15. Prácticas para producción en la unidad productiva</h3>
+
+                <div class="form-group">
+                    <label>Seleccione las prácticas que realiza en su finca:</label>
+                    <div class="form-checkbox" id="CheckboxPracticas"></div>
+                </div>
+
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosActividadesForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosApoyoForm')" class="btn btn-actualizar">Siguiente</button>
+
+                </div>
+            </form>
+
+            <!-- 16 -->
+
+            <form action="modelos/datosApoyoForm.php" method="POST" id="datosApoyoForm" class="form-section" style="display: none;">
+                <h3>16. Apoyo para la producción agropecuaria</h3>
+
+                <!-- Pregunta sobre la recepción de apoyo -->
+                <div class="form-group">
+                    <label>¿Recibe apoyo para la producción agrícola?</label><br>
+                    <input type="radio" id="apoyoSi" name="recibeApoyo" value="SiApoyo">
+                    <label for="apoyoSi">SI</label>
+                    <input type="radio" id="apoyoNo" name="recibeApoyo" value="NoApoyo">
+                    <label for="apoyoNo">NO</label> (Finalice la entrevista)
+                </div>
+
+                <!-- Selección múltiple de quién provee el apoyo -->
+                <div class="form-group seccionOculta">
+                    <label>¿De quién recibe apoyo para la producción agropecuaria? (selección múltiple)</label><br>
+                    <div class="form-checkbox" id="CheckboxTipoOrganizacion"></div>
+                </div>
+
+                <div class="form-group seccionOculta">
+                    <label>¿Qué tipo de apoyo recibe? (selección múltiple)</label>
+                    <div class="form-checkbox" id="CheckboxApoyo"></div>
+                </div>
+
+                <div class="form-group seccionOculta">
+                    <label>Está siendo usted atendido por la Unidad de Agricultura Familiar:</label><br>
+                    <input type="radio" id="atendidoSi" name="atendidoUnidadAgricultura" value="Si">
+                    <label for="atendidoSi">SI</label>
+                    <input type="radio" id="atendidoNo" name="atendidoUnidadAgricultura" value="No">
+                    <label for="atendidoNo">NO</label>
+                </div>
+
+                <div class="form-group seccionOculta">
+                    <label>¿Usted sabe si algunos de sus productos son vendidos para el Programa de Alimentación Escolar?</label><br>
+                    <input type="radio" id="productosVendidosSi" name="productosVendidosProgramaAlimentacion" value="Siyes">
+                    <label for="productosVendidosSi">SI</label>
+                    <input type="radio" id="productosVendidosNo" name="productosVendidosProgramaAlimentacion" value="Nonot">
+                    <label for="productosVendidosNo">NO</label>
+                </div>
+
+
+
+
+                <div class="modal-footer center-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosPracticaForm')">Regresar</button>
+                    <button type="submit" id="guardarBtn" class="btn btn-actualizar">Enviar</button>
+
+                </div>
+            </form>
+
+        </div>
     </div>
-</div>
 </div>
 </div>
 </div>
@@ -1984,9 +1996,9 @@ function obtenerNumeroFicha($conexion)
 
 <script>
     function eliminarFila(boton) {
-            var fila = boton.parentNode.parentNode;
-            fila.parentNode.removeChild(fila);
-        }
+        var fila = boton.parentNode.parentNode;
+        fila.parentNode.removeChild(fila);
+    }
 
     $(document).ready(function() {
         $("#datosApoyoForm").submit(function(event) {
@@ -2005,7 +2017,7 @@ function obtenerNumeroFicha($conexion)
                         icon: "success"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            CargarContenido('vistas/Mantenimiento_Ficha.php','content-wrapper');
+                            CargarContenido('vistas/Mantenimiento_Ficha.php', 'content-wrapper');
                         }
                     });
                 },
@@ -2136,7 +2148,7 @@ function obtenerNumeroFicha($conexion)
         document.getElementById('generoAnimal').value = '';
         document.getElementById('cantidadAnimal').value = '';
 
-        
+
         function eliminarFila(fila) {
             fila.parentNode.removeChild(fila);
         }
@@ -2144,41 +2156,40 @@ function obtenerNumeroFicha($conexion)
 </script>
 
 <script>
- function agregarTablaCultivo() {
-    var cultivo = document.getElementById('nombreCultivo');
-    var siembra = document.getElementById('tipoSiembra');
-    var areaSembrada = document.getElementById('areaSembrada');
-    var pObtenida = document.getElementById('produccionObtenida').value;
-    var uProduccion = document.getElementById('unidadMedidaProduccion');
-    var cantidadV = document.getElementById('cantidadVendida').value;
-    var uVenta = document.getElementById('unidadMedidaVenta');
-    var precioUnidad = document.getElementById('precioVenta').value;
-    var Venta = document.getElementById('comprador').value;
+    function agregarTablaCultivo() {
+        var cultivo = document.getElementById('nombreCultivo');
+        var siembra = document.getElementById('tipoSiembra');
+        var areaSembrada = document.getElementById('areaSembrada');
+        var pObtenida = document.getElementById('produccionObtenida').value;
+        var uProduccion = document.getElementById('unidadMedidaProduccion');
+        var cantidadV = document.getElementById('cantidadVendida').value;
+        var uVenta = document.getElementById('unidadMedidaVenta');
+        var precioUnidad = document.getElementById('precioVenta').value;
+        var Venta = document.getElementById('comprador').value;
 
-    var cultivoName = cultivo.options[cultivo.selectedIndex].text;
-    var siembraText = siembra.options[siembra.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
-    var areaSembradaText = areaSembrada.options[areaSembrada.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
-    var uProduccionText = uProduccion.options[uProduccion.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
-    var uVentaText = uVenta.options[uVenta.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
+        var cultivoName = cultivo.options[cultivo.selectedIndex].text;
+        var siembraText = siembra.options[siembra.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
+        var areaSembradaText = areaSembrada.options[areaSembrada.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
+        var uProduccionText = uProduccion.options[uProduccion.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
+        var uVentaText = uVenta.options[uVenta.selectedIndex].text; // Cambié el nombre de la variable para evitar la colisión de nombres
 
-    // Crear una nueva fila
-    var fila = "<tr><td>" + cultivoName + "</td><td>" + siembraText + "</td><td>" + areaSembradaText + "</td><td>" + pObtenida + "</td><td>" + uProduccionText + "</td><td>" + cantidadV + "</td><td>" + uVentaText + "</td><td>" + precioUnidad + "</td><td>" + Venta + "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
+        // Crear una nueva fila
+        var fila = "<tr><td>" + cultivoName + "</td><td>" + siembraText + "</td><td>" + areaSembradaText + "</td><td>" + pObtenida + "</td><td>" + uProduccionText + "</td><td>" + cantidadV + "</td><td>" + uVentaText + "</td><td>" + precioUnidad + "</td><td>" + Venta + "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
 
-    // Agregar la fila a la tabla
-    document.getElementById('tablaTemporalCultivo').innerHTML += fila;
+        // Agregar la fila a la tabla
+        document.getElementById('tablaTemporalCultivo').innerHTML += fila;
 
-    //Limpiar los campos después de agregar
-    cultivo.value = '';
-    siembra.value = '';
-    areaSembrada.value = '';
-    document.getElementById('produccionObtenida').value = '';
-    uProduccion.value = '';
-    document.getElementById('cantidadVendida').value = '';
-    uVenta.value = '';
-    document.getElementById('precioVenta').value = '';
-    document.getElementById('comprador').value = '';
-}
-
+        //Limpiar los campos después de agregar
+        cultivo.value = '';
+        siembra.value = '';
+        areaSembrada.value = '';
+        document.getElementById('produccionObtenida').value = '';
+        uProduccion.value = '';
+        document.getElementById('cantidadVendida').value = '';
+        uVenta.value = '';
+        document.getElementById('precioVenta').value = '';
+        document.getElementById('comprador').value = '';
+    }
 </script>
 
 <script>
@@ -3224,7 +3235,7 @@ function obtenerNumeroFicha($conexion)
 </script>
 
 <script>
-     $("#CheckboxTipoOrganizacion").load("demo.txt", function(responseTxt, statusTxt, xhr) {
+    $("#CheckboxTipoOrganizacion").load("demo.txt", function(responseTxt, statusTxt, xhr) {
         let contenedor = document.getElementById('CheckboxTipoOrganizacion')
         $.ajax({
             url: "modelos/cargarDatosCheckbox.php",
@@ -3314,5 +3325,4 @@ function obtenerNumeroFicha($conexion)
         });
 
     })
-
 </script>

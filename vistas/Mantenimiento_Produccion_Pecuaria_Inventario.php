@@ -12,6 +12,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- DATATABLES -->
+ <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+    <!-- BOOTSTRAP -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+
+
 
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
@@ -23,29 +31,12 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
             </a>
         </div>
 
-        <div class="mb-4 border-bottom">
-            <form class="d-flex" role="search">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar Inventario..." aria-label="Search">
-                </div>
-            </form>
-        </div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
     <!--  seleccion de registros -->
-    <div class="formulario-registros">
-        <label for="cantidadRegistros" style="margin-left: 1350px;">Mostrar
-            <select id="cantidadRegistros">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-            </select>
-            <span class="registros-text">Registros</span></label>
-    </div>
+
     <!--  funcion para mostrar registros -->
     <script>
         // Obtiene referencias a los elementos HTML
@@ -58,14 +49,15 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     </script>
 
     <div class="table-responsive">
-
-        <table class="table table-hover">
+        <!--El diseño de la table cuando ya esté todo unido 
+    <table id="tablax" class="table table-striped table-bordered" style="width:100%"> -->
+    <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                     <th scope="col">Nº Ficha</th>
                     <th scope="col">Productor</th>
                     <th scope="col">Tipo Pecuario</th>
-                    <th scope="col">Año produccion</th>
+
                     <th scope="col">Cantidad hembras</th>
                     <th scope="col">Cantidad machos</th>
                     <th scope="col">Cantidad total</th>
@@ -83,33 +75,18 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                 F.id_ficha
             FROM
                 tbl_produccion_pecuaria PP
-                INNER JOIN tbl_tipo_pecuarios TP ON PP.Id_Tipo_Pecuario = TP.Id_Tipo_Pecuario
+                INNER JOIN tbl_tipo_pecuarios TP ON PP.id_tipo_pecuario = TP.id_tipo_pecuario
                 INNER JOIN tbl_productor P ON PP.Id_Productor = P.id_productor
                 INNER JOIN fichas F ON PP.Id_Ficha = F.id_ficha;
+            
             ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->Id_Produccion_Pecuaria ?></td>
+                        <td><?= $datos->id_ficha ?></td>
                         <td><?= $datos->primer_nombre ?></td>
-                        <td><?php
-                            $tipo_pecuario = $datos->tipo_pecuario; // Supongamos que $datos->tipo_pecuario contiene el tipo de pecuario ("ovino", "bovino", "caprino").
+                        <td><?= $datos ->tipo_pecuario ?></td>
 
-                            switch ($tipo_pecuario) {
-                                case "b":
-                                    echo '<span >Bovino</span>';
-                                    break;
-                                case "o":
-                                    echo '<span >Ovino</span>';
-                                    break;
-                                case "c":
-                                    echo '<span >Caprino</span>';
-                                    break;
-                                default:
-                                    echo '<span class="badge bg-danger">Tipo Desconocido</span>';
-                            }
-                            ?>
-                        </td>
-                        <td><?= $datos->Año_Produccion ?></td>
+
                         <td><?= $datos->Cantidad_Hembras ?></td>
                         <td><?= $datos->Cantidad_Machos ?></td>
                         <td><?= $datos->Cantidad_Total ?></td>
@@ -141,20 +118,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         </table>
     </div>
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-                <a class="page-link">Anterior</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Siguiente</a>
-            </li>
-        </ul>
-    </nav>
-</div>
+
 
 <!-- Modal para editar usuarios -->
 <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -737,5 +701,56 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         }
     }
 </script>
+
+<!-- JQUERY -->
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+        </script> -->
+
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+
+
+
+
+
+<script>
+    $(document).ready(function(){
+        $('#tablax').DataTable({
+            language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Buscar&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_ elementos",
+                    info: "Mostrando del elemento _START_ al _END_ de un total de _TOTAL_ elementos",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+            
+        });
+    })
+
+
+</script>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

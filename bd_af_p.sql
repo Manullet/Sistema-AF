@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-04-2024 a las 19:41:45
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 29-04-2024 a las 17:53:33
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -429,6 +429,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarPracticaProduccion` (IN `
         `Id_Practica_Produccion` = Id_Practica_Produccion_param;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarPregunta` (IN `p_id_pregunta` BIGINT, IN `p_pregunta` VARCHAR(255), IN `p_actualizado_por` VARCHAR(40), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE preguntas 
+    SET Pregunta = p_pregunta,
+        Actualizado_Por = p_actualizado_por,
+        Fecha_Actualizacion = CURRENT_TIMESTAMP,
+        estado = p_estado
+    WHERE Id_pregunta = p_id_pregunta;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarProduccionAgricolaAnterior` (IN `p_Id_Produccion_Anterior` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Ubicacion` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipo_Cultivo` BIGINT, IN `p_Superficie_Primera_Postrera` DECIMAL(10,2), IN `p_Id_Medida_Primera_Postrera` BIGINT, IN `p_Produccion_Obtenida` DECIMAL(10,2), IN `p_Id_Medida_Produccion_Obtenida` BIGINT, IN `p_Cantidad_Vendida` DECIMAL(10,2), IN `p_Id_Medida_Vendida` BIGINT, IN `p_Precio_Venta` DECIMAL(10,2), IN `p_A_Quien_Se_Vendio` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(255), IN `p_nuevo_estado` ENUM('A','I'))   BEGIN
     -- Verificar si el registro a actualizar existe en la tabla tbl_produccion_agricola_anterior
     IF NOT EXISTS (
@@ -762,6 +771,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUsuario` (IN `p_Id_Usuari
         id_estado = p_id_estado
     WHERE
         Id_Usuario = p_Id_Usuario;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CrearUsuario` (IN `p_nombre_completo` VARCHAR(255), IN `p_correo` VARCHAR(255), IN `p_usuario` VARCHAR(255), IN `p_contrasena` VARCHAR(255), IN `p_id_rol` BIGINT)   BEGIN
+    -- Insertar el nuevo usuario
+    INSERT INTO usuario (id_rol, nombre_completo, correo, usuario, contrasena, id_estado)
+    VALUES (p_id_rol, p_nombre_completo, p_correo, p_usuario, p_contrasena, 3);
+    
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DeleteEtnia` (IN `etniaId` INT)   BEGIN
@@ -2645,6 +2661,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPracticas` (IN `tipo_practi
   VALUES (tipo_practica_param, descripcion_param, 'Manuel', 'Manuel', 'ACTIVO');
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPregunta` (IN `p_pregunta` VARCHAR(255), IN `p_creador_por` VARCHAR(40), IN `p_actualizado_por` VARCHAR(40))   BEGIN
+    INSERT INTO preguntas (Pregunta, Creador_Por, Fecha_Creacion, Actualizado_Por, Fecha_Actualizacion, estado)
+    VALUES (p_pregunta, p_creador_por, CURRENT_TIMESTAMP, p_actualizado_por, CURRENT_TIMESTAMP, 'A');
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarProduccionAgricolaAnterior` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Ubicacion` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipo_Cultivo` BIGINT, IN `p_Superficie_Primera_Postrera` DECIMAL(10,2), IN `p_Id_Medida_Primera_Postrera` BIGINT, IN `p_Produccion_Obtenida` DECIMAL(10,2), IN `p_Id_Medida_Produccion_Obtenida` BIGINT, IN `p_Cantidad_Vendida` DECIMAL(10,2), IN `p_Id_Medida_Vendida` BIGINT, IN `p_Precio_Venta` DECIMAL(10,2), IN `p_A_Quien_Se_Vendio` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
     -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
     INSERT INTO `tbl_produccion_agricola_anterior` (
@@ -3345,6 +3366,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertObejtos` (IN `newObjeto` VARC
     VALUES (newObjeto , newDescripcion, newActualizado_Por, newCreado_Por, currentDate, currentDate,'Activo');
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertObjeto` (IN `p_Objeto` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_tipo_objeto` VARCHAR(50), IN `p_Creado_Por` VARCHAR(40))   BEGIN
+    INSERT INTO objetos (Objeto, Descripcion, tipo_objeto, Creado_Por, Status)
+    VALUES (p_Objeto, p_Descripcion, p_tipo_objeto, p_Creado_Por, 'A');
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertOrganizationData` (IN `p_pertenece_a_organizacion` ENUM('S','N'), IN `p_creado_por` VARCHAR(255))   BEGIN
     DECLARE last_id_productor BIGINT;
     DECLARE last_id_ficha BIGINT;
@@ -3388,13 +3414,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPermisos` (IN `newId_rol` BIG
     
     INSERT INTO permisos (Id_rol, Id_objetos, permiso_eliminacion, permiso_actualizacion, permiso_consulta, permiso_insercion, Creado_Por, Fecha_Creacion, Fecha_Actualizacion, Estado)
     VALUES (newId_rol, newId_objetos, newpermiso_eliminacion, newpermiso_actualizacion, newpermiso_consulta, newpermiso_insercion, newCreado_Por, currentDate, currentDate, newEstado );
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPreguntas` (IN `newPregunta` VARCHAR(255), IN `newActualizado_Por` VARCHAR(255), IN `newCreador_Por` VARCHAR(255))   BEGIN
-    DECLARE currentDate TIMESTAMP;
-    SET currentDate = NOW();
- INSERT INTO Preguntas (Pregunta, Actualizado_Por, Creador_Por, Fecha_Creacion, Fecha_Actualizacion)
-    VALUES (newPregunta, newActualizado_Por, newCreador_Por, currentDate, currentDate);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `INSERTProduccion_AgrAnterior` (IN `p_id_ubicacion` INT, IN `p_id_ficha` INT, IN `p_id_productor` INT, IN `p_Id_Tipo_Cultivo` BIGINT(20), IN `p_Superficie_Primera_Postrera` ENUM('Primera','Postrera'), IN `p_Id_Medida_Primera_Postrera` BIGINT(20), IN `p_Produccion_Obtenida` DECIMAL(10,2), IN `p_Id_Medida_Produccion_Obtenida` BIGINT(20), IN `p_Cantidad_Vendida` DECIMAL(10,2), IN `p_Id_Medida_Vendida` BIGINT(20), IN `p_Precio_Venta` DECIMAL(10,2), IN `p_A_Quien_Se_Vendio` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
@@ -3748,14 +3767,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePermiso` (IN `newId_Permisos`
         WHERE Id_Permisos = newId_Permisos;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePregunta` (IN `p_Id_pregunta` INT, IN `p_Pregunta` VARCHAR(255), IN `p_Actualizado_Por` VARCHAR(255))   BEGIN
-    UPDATE Preguntas
-    SET
-        Pregunta = p_Pregunta,
-        Actualizado_Por = p_Actualizado_Por
-    WHERE Id_pregunta = p_Id_pregunta;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateRole` (IN `newIdRol` BIGINT(20), IN `newNombre` VARCHAR(255), IN `newDescripcion` VARCHAR(255), IN `newStatus` VARCHAR(255))   BEGIN
     UPDATE roles
     SET Nombre = newNombre,
@@ -4012,6 +4023,17 @@ CREATE TABLE `historial_contrasenas` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `historial_contrasenas`
+--
+
+INSERT INTO `historial_contrasenas` (`id_historial`, `usuario_id`, `contrasena_hash`, `fecha_creacion`) VALUES
+(1, 9, '$2y$10$o2I2ApYtBul2Yjm6j5sfL.kKOySMFtk3Yqb3uj6O0/iHwNGl8VfBi', '2024-04-28 04:38:00'),
+(2, 9, '$2y$10$OYa/poBKf/7HvQAfg0nOdu3giNsH61cfE.PcsSW/MJfCkP8.csSLi', '2024-04-28 04:41:25'),
+(3, 9, '$2y$10$zQ4V8DhqaznBKRXFXS33L.nDk0SWhvjdZ1fXadC7levKDnImsRpru', '2024-04-28 04:41:42'),
+(4, 15, '$2y$10$EY0Z2Ro6taSicrlSDgKh2O7XvNL89AZ43NDkkwi7oKoPhePVT5a8.', '2024-04-28 22:06:22'),
+(5, 9, '$2y$10$bqrIfn1INEBy25aFEoQD6eiGROE9tESDrt3ruuKWf/3MbnMgmlzbK', '2024-04-29 02:58:46');
+
 -- --------------------------------------------------------
 
 --
@@ -4059,38 +4081,61 @@ CREATE TABLE `objetos` (
 --
 
 INSERT INTO `objetos` (`Id_objetos`, `Objeto`, `Descripcion`, `tipo_objeto`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Status`) VALUES
-(1, 'Login', 'Login del sistema', 'Pantalla', '0', '2024-04-21 17:02:33', '0', '2024-04-21 17:02:33', 'A'),
-(2, 'usuario', 'Pantalla de usuarios', 'Pantalla', 'PRUEBA1', '2024-04-21 17:04:00', 'PRUEBA1', '2024-04-21 17:04:00', 'A'),
-(3, 'Permisos', 'Pantalla de permisos', 'Pantalla', 'HARU', '2024-04-21 17:05:15', 'HARU', '2024-04-21 17:05:15', 'A'),
-(4, 'Preguntas', 'Pantalla de preguntas', 'Pantalla', 'HARU', '2024-04-21 17:05:42', 'HARU', '2024-04-21 17:05:42', 'A'),
-(5, 'Objetos', 'Pantalla de los objetos', 'Pantalla', 'HARU', '2024-04-21 17:06:15', 'HARU', '2024-04-21 17:06:15', 'A'),
-(6, 'Roles', 'Pantalla de roles', 'Pantalla', 'HARU', '2024-04-21 17:06:58', 'HARU', '2024-04-21 17:06:58', 'A'),
-(7, 'Bitacora', 'Pantalla de la bitacora', 'Pantalla', 'HARU', '2024-04-21 17:07:38', 'HARU', '2024-04-21 17:07:38', 'A'),
-(8, 'Backup', 'Pantalla para hacer el backup', 'Pantalla', 'HARU', '2024-04-21 17:08:21', 'HARU', '2024-04-21 17:08:21', 'A'),
-(9, 'Llenar Formulario', 'Pantalla para llenar el formulario', 'Pantalla', 'HARU', '2024-04-21 17:11:07', 'HARU', '2024-04-21 17:11:07', 'A'),
-(10, 'Ficha', 'Mantenimiento de fichas', 'Pantalla/Mantenimiento', 'HARU', '2024-04-21 17:13:04', 'HARU', '2024-04-21 17:13:04', 'A'),
-(11, 'Datos Generales', 'Datos generales del agricultor', 'Pantalla', 'HARU', '2024-04-21 17:13:56', 'HARU', '2024-04-21 17:13:56', 'A'),
-(12, 'Pertenencia a ORG', 'Pantalla para buscar los agricultores con organizacion', 'Pantalla', 'HARU', '2024-04-21 17:15:09', 'HARU', '2024-04-21 17:15:09', 'A'),
-(13, 'Organizaciones Productor', 'Pantalla que muestras las organizaciones por productor', 'Pantalla', 'HARU', '2024-04-21 17:15:54', 'HARU', '2024-04-21 17:15:54', 'A'),
-(14, 'Relevo Generacional', 'Pantalla que muestra los relevos que tiene un productor', 'Pantalla', 'HARU', '2024-04-21 17:16:50', 'HARU', '2024-04-21 17:16:50', 'A'),
-(15, 'Ubicacion Greografica', 'Pantalla de la ubicacion del productor', 'Pantalla', 'HARU', '2024-04-21 17:17:42', 'HARU', '2024-04-21 17:17:42', 'A'),
-(16, 'Composicion del hogar', 'pantalla de la Composicion del hogar', 'Pantalla', 'HARU', '2024-04-21 17:20:11', 'HARU', '2024-04-21 17:20:11', 'A'),
-(17, 'Migracion familiar', 'pantalla sobre si hay migracion del productor', 'Pantalla', 'HARU', '2024-04-21 17:21:07', 'HARU', '2024-04-21 17:21:07', 'A'),
-(18, 'Informacion Basica', 'pantalla de la informacion basica de la agricultura ', 'Pantalla', 'HARU', '2024-04-21 17:22:48', 'HARU', '2024-04-21 17:22:48', 'A'),
-(19, 'Manejo de riego', 'Pantalla que muestra si el agricultor maneja de riego', 'Pantalla', 'HARU', '2024-04-21 17:24:17', 'HARU', '2024-04-21 17:24:17', 'A'),
-(20, 'Produccion Agricola Año Anterior', 'Pantalla que muestra la Produccion Agricola del  Año Anterior', 'Pantalla', 'HARU', '2024-04-21 17:25:02', 'HARU', '2024-04-21 17:25:02', 'A'),
-(21, 'Inventario', 'Pantalla que muestra el inventario del productor', 'Pantalla', 'HARU', '2024-04-21 17:27:50', 'HARU', '2024-04-21 17:27:50', 'A'),
-(22, 'Produccion vendida', 'Pantalla que muestra la produccion que se vendio en el transcursos del año', 'Pantalla', 'HARU', '2024-04-21 17:28:39', 'HARU', '2024-04-21 17:28:39', 'A'),
-(23, 'comercializacion', 'Pantalla que muestra la informcion de la comercializacion', 'Pantalla', 'HARU', '2024-04-21 17:30:09', 'HARU', '2024-04-21 17:30:09', 'A'),
-(24, 'Otros ingresos', 'Pantalla que muestra los ingresos que genera el productor', 'Pantalla', 'HARU', '2024-04-21 17:32:30', 'HARU', '2024-04-21 17:32:30', 'A'),
-(25, 'No Credito', 'Pantalla que muestra porque no tiene credito', 'Pantalla', 'HARU', '2024-04-21 17:40:53', 'HARU', '2024-04-21 17:40:53', 'A'),
-(26, 'Credito', 'Pantalla que muestra los creditos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:41:34', 'HARU', '2024-04-21 17:41:34', 'A'),
-(27, 'TRABEXT', 'Pantalla que muestra los trabajores externos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:42:37', 'HARU', '2024-04-21 17:42:37', 'A'),
-(28, 'PAE', 'Pantalla de PAE', 'Pantalla', 'HARU', '2024-04-21 17:43:00', 'HARU', '2024-04-21 17:43:00', 'A'),
-(29, 'Practicas para produccion', 'Pantalla que muestra las practicas que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:43:53', 'HARU', '2024-04-21 17:43:53', 'A'),
-(30, 'Tipos Apoyos', 'Pantalla que muestra los tipos de apoyos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:44:43', 'HARU', '2024-04-21 17:44:43', 'A'),
-(31, 'Apoyo Productor', 'Pantalla que muestra los apoyos que recibe el productor', 'Pantalla', 'HARU', '2024-04-21 17:45:51', 'HARU', '2024-04-21 17:45:51', 'A'),
-(32, 'Apoyos Externos', 'Pantallas que muestra los apoyos externos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 17:47:08', 'HARU', '2024-04-21 17:47:08', 'A');
+(1, 'Login', 'Login del sistema', 'Pantalla', '0', '2024-04-21 23:02:33', '0', '2024-04-21 23:02:33', 'A'),
+(2, 'usuario', 'Pantalla de usuarios', 'Pantalla', 'PRUEBA1', '2024-04-21 23:04:00', 'PRUEBA1', '2024-04-21 23:04:00', 'A'),
+(3, 'Permisos', 'Pantalla de permisos', 'Pantalla', 'HARU', '2024-04-21 23:05:15', 'HARU', '2024-04-21 23:05:15', 'A'),
+(4, 'Preguntas', 'Pantalla de preguntas', 'Pantalla', 'HARU', '2024-04-21 23:05:42', 'HARU', '2024-04-21 23:05:42', 'A'),
+(5, 'Objetos', 'Pantalla de los objetos', 'Pantalla', 'HARU', '2024-04-21 23:06:15', 'HARU', '2024-04-21 23:06:15', 'A'),
+(6, 'Roles', 'Pantalla de roles', 'Pantalla', 'HARU', '2024-04-21 23:06:58', 'HARU', '2024-04-21 23:06:58', 'A'),
+(7, 'Bitacora', 'Pantalla de la bitacora', 'Pantalla', 'HARU', '2024-04-21 23:07:38', 'HARU', '2024-04-21 23:07:38', 'A'),
+(8, 'Backup', 'Pantalla para hacer el backup', 'Pantalla', 'HARU', '2024-04-21 23:08:21', 'HARU', '2024-04-21 23:08:21', 'A'),
+(9, 'Llenar Formulario', 'Pantalla para llenar el formulario', 'Pantalla', 'HARU', '2024-04-21 23:11:07', 'HARU', '2024-04-21 23:11:07', 'A'),
+(10, 'Ficha', 'Mantenimiento de fichas', 'Pantalla/Mantenimiento', 'HARU', '2024-04-21 23:13:04', 'HARU', '2024-04-21 23:13:04', 'A'),
+(11, 'Datos Generales', 'Datos generales del agricultor', 'Pantalla', 'HARU', '2024-04-21 23:13:56', 'HARU', '2024-04-21 23:13:56', 'A'),
+(12, 'Pertenencia a ORG', 'Pantalla para buscar los agricultores con organizacion', 'Pantalla', 'HARU', '2024-04-21 23:15:09', 'HARU', '2024-04-21 23:15:09', 'A'),
+(13, 'Organizaciones Productor', 'Pantalla que muestras las organizaciones por productor', 'Pantalla', 'HARU', '2024-04-21 23:15:54', 'HARU', '2024-04-21 23:15:54', 'A'),
+(14, 'Relevo Generacional', 'Pantalla que muestra los relevos que tiene un productor', 'Pantalla', 'HARU', '2024-04-21 23:16:50', 'HARU', '2024-04-21 23:16:50', 'A'),
+(15, 'Ubicacion Greografica', 'Pantalla de la ubicacion del productor', 'Pantalla', 'HARU', '2024-04-21 23:17:42', 'HARU', '2024-04-21 23:17:42', 'A'),
+(16, 'Composicion del hogar', 'pantalla de la Composicion del hogar', 'Pantalla', 'HARU', '2024-04-21 23:20:11', 'HARU', '2024-04-21 23:20:11', 'A'),
+(17, 'Migracion familiar', 'pantalla sobre si hay migracion del productor', 'Pantalla', 'HARU', '2024-04-21 23:21:07', 'HARU', '2024-04-21 23:21:07', 'A'),
+(18, 'Informacion Basica', 'pantalla de la informacion basica de la agricultura ', 'Pantalla', 'HARU', '2024-04-21 23:22:48', 'HARU', '2024-04-21 23:22:48', 'A'),
+(19, 'Manejo de riego', 'Pantalla que muestra si el agricultor maneja de riego', 'Pantalla', 'HARU', '2024-04-21 23:24:17', 'HARU', '2024-04-21 23:24:17', 'A'),
+(20, 'Produccion Agricola Año Anterior', 'Pantalla que muestra la Produccion Agricola del  Año Anterior', 'Pantalla', 'HARU', '2024-04-21 23:25:02', 'HARU', '2024-04-21 23:25:02', 'A'),
+(21, 'Inventario', 'Pantalla que muestra el inventario del productor', 'Pantalla', 'HARU', '2024-04-21 23:27:50', 'HARU', '2024-04-21 23:27:50', 'A'),
+(22, 'Produccion vendida', 'Pantalla que muestra la produccion que se vendio en el transcursos del año', 'Pantalla', 'HARU', '2024-04-21 23:28:39', 'HARU', '2024-04-21 23:28:39', 'A'),
+(23, 'comercializacion', 'Pantalla que muestra la informcion de la comercializacion', 'Pantalla', 'HARU', '2024-04-21 23:30:09', 'HARU', '2024-04-21 23:30:09', 'A'),
+(24, 'Otros ingresos', 'Pantalla que muestra los ingresos que genera el productor', 'Pantalla', 'HARU', '2024-04-21 23:32:30', 'HARU', '2024-04-21 23:32:30', 'A'),
+(25, 'No Credito', 'Pantalla que muestra porque no tiene credito', 'Pantalla', 'HARU', '2024-04-21 23:40:53', 'HARU', '2024-04-21 23:40:53', 'A'),
+(26, 'Credito', 'Pantalla que muestra los creditos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 23:41:34', 'HARU', '2024-04-21 23:41:34', 'A'),
+(27, 'TRABEXT', 'Pantalla que muestra los trabajores externos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 23:42:37', 'HARU', '2024-04-21 23:42:37', 'A'),
+(28, 'PAE', 'Pantalla de PAE', 'Pantalla', 'HARU', '2024-04-21 23:43:00', 'HARU', '2024-04-21 23:43:00', 'A'),
+(29, 'Practicas para produccion', 'Pantalla que muestra las practicas que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 23:43:53', 'HARU', '2024-04-21 23:43:53', 'A'),
+(30, 'Tipos Apoyos', 'Pantalla que muestra los tipos de apoyos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 23:44:43', 'HARU', '2024-04-21 23:44:43', 'A'),
+(31, 'Apoyo Productor', 'Pantalla que muestra los apoyos que recibe el productor', 'Pantalla', 'HARU', '2024-04-21 23:45:51', 'HARU', '2024-04-21 23:45:51', 'A'),
+(32, 'Apoyos Externos', 'Pantallas que muestra los apoyos externos que tiene el productor', 'Pantalla', 'HARU', '2024-04-21 23:47:08', 'HARU', '2024-04-21 23:47:08', 'A'),
+(33, 'Etnia', 'Etnias que existen', 'Pantalla', 'HARU', '2024-04-28 13:17:12', '', '2024-04-28 13:17:12', 'A'),
+(34, 'Departamento', 'Mantenimiento donde esta cada departamento de HN', 'Pantalla', 'HARU', '2024-04-28 13:25:34', '', '2024-04-28 13:25:34', 'A'),
+(35, 'Municipios', 'Los municipios de cada departamento', 'Pantalla', 'HARU', '2024-04-28 13:26:05', '', '2024-04-28 13:26:05', 'A'),
+(36, 'Aldea', 'Aldea de los municipios', 'Pantalla', 'HARU', '2024-04-28 13:27:03', '', '2024-04-28 13:27:03', 'A'),
+(37, 'Cacerios', 'son los cacerios de las aldeas', 'Pantalla', 'HARU', '2024-04-28 13:27:58', '', '2024-04-28 13:27:58', 'A'),
+(38, 'Organizaciones', 'Son las organizaciones que existe', 'Pantalla', 'HARU', '2024-04-28 13:28:50', '', '2024-04-28 13:28:50', 'A'),
+(39, 'Tipo de Organizacion', 'son los tipos de organizaciones', 'Pantalla', 'HARU', '2024-04-28 13:29:55', '', '2024-04-28 13:29:55', 'A'),
+(40, 'Motivos Migracion', 'Son los motivos de migracion ', 'Pantalla', 'HARU', '2024-04-28 13:30:48', '', '2024-04-28 13:30:48', 'A'),
+(41, 'Medidas', 'son las medidas que se pueden usar para diversos usos', 'Pantalla', 'HARU', '2024-04-28 13:31:31', '', '2024-04-28 13:31:31', 'A'),
+(42, 'Riego', 'son los tipos de riegos que existen', 'Pantalla', 'HARU', '2024-04-28 13:31:56', '', '2024-04-28 13:31:56', 'A'),
+(43, 'Cultivo', 'son los tipos de cultivos que se puede cultivar el productor', 'Pantalla', 'HARU', '2024-04-28 13:32:36', '', '2024-04-28 13:32:36', 'A'),
+(44, 'Tipos pecuarios', 'Son los tipos de animales que se pueden meter', 'Pantalla', 'HARU', '2024-04-28 13:34:04', '', '2024-04-28 13:34:04', 'A'),
+(45, 'Tipo de producción', 'Son los tipos de productos que el productor elabora', 'Pantalla', 'HARU', '2024-04-28 13:34:50', '', '2024-04-28 13:34:50', 'A'),
+(46, 'Periodos', 'son los tiempos en periodos', 'Pantalla', 'HARU', '2024-04-28 13:40:50', '', '2024-04-28 13:40:50', 'A'),
+(47, 'Negocio', 'Son los negocios que puede tener el productor', 'Pantalla', 'HARU', '2024-04-28 13:42:19', '', '2024-04-28 13:42:19', 'A'),
+(48, 'Motivos no credito', 'son los motivos por el cual el productor no puede tener un credito', 'Pantalla', 'HARU', '2024-04-28 13:43:03', '', '2024-04-28 13:43:03', 'A'),
+(49, 'Fuente de credito', 'son las fuentes de credito que le productor puede recibir', 'Pantalla', 'HARU', '2024-04-28 13:43:37', '', '2024-04-28 13:43:37', 'A'),
+(50, 'Toma de desiciones ', 'es quien toma la decision de la finca', 'Pantalla', 'HARU', '2024-04-28 13:45:48', '', '2024-04-28 13:45:48', 'A'),
+(51, 'Tipos de trabajadores', 'son los tipos de trabajadores que existen', 'Pantalla', 'HARU', '2024-04-28 13:47:09', '', '2024-04-28 13:47:09', 'A'),
+(52, 'Practicas/Productivas', 'Pantalla que muestras las practicas que puede tener un productor', 'Pantalla', 'HARU', '2024-04-28 13:48:15', '', '2024-04-28 13:48:15', 'A'),
+(53, 'Apoyo', 'pantalla que dice que apoyos puede tener un productor', 'Pantalla', 'HARU', '2024-04-28 13:48:50', '', '2024-04-28 13:48:50', 'A'),
+(54, 'Tipos de apoyos', 'son los tipos de apoyos que puede recibir los productores', 'Pantalla', 'HARU', '2024-04-28 13:49:28', '', '2024-04-28 13:49:28', 'A'),
+(55, 'ETNICIDAD', 'Pantalla donde muestra la informacion de la ETNICIDAD de los productores', 'Pantalla', 'HARU', '2024-04-28 23:10:16', '', '2024-04-28 23:10:16', 'A');
 
 -- --------------------------------------------------------
 
@@ -4131,12 +4176,28 @@ CREATE TABLE `permisos` (
   `id_permisos` bigint(20) NOT NULL,
   `Id_rol` bigint(20) NOT NULL,
   `permiso_eliminacion` int(11) NOT NULL,
-  `id_objeto` bigint(20) NOT NULL,
+  `id_objeto` int(10) NOT NULL,
   `permiso_actualizacion` int(11) NOT NULL,
   `permiso_insercion` int(11) NOT NULL,
+  `permiso_consulta` int(11) DEFAULT NULL,
   `Actualizado_Por` varchar(255) NOT NULL,
   `Fecha_Actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `permisos`
+--
+
+INSERT INTO `permisos` (`id_permisos`, `Id_rol`, `permiso_eliminacion`, `id_objeto`, `permiso_actualizacion`, `permiso_insercion`, `permiso_consulta`, `Actualizado_Por`, `Fecha_Actualizacion`) VALUES
+(1, 1, 1, 33, 1, 1, 1, 'HARU', '2024-04-28 13:20:44'),
+(5, 1, 1, 35, 1, 1, NULL, 'HARU', '2024-04-28 15:21:51'),
+(6, 1, 1, 36, 1, 1, NULL, 'HARU', '2024-04-28 15:21:51'),
+(7, 1, 1, 38, 1, 1, NULL, 'HARU', '2024-04-28 15:21:51'),
+(8, 1, 1, 2, 1, 1, NULL, 'HARU', '2024-04-28 23:01:51'),
+(9, 1, 1, 5, 1, 1, NULL, 'HARU', '2024-04-28 23:09:34'),
+(10, 1, 1, 4, 1, 1, NULL, 'HARU', '2024-04-28 20:33:51'),
+(11, 1, 1, 3, 1, 1, NULL, 'HARU', '2024-04-28 22:14:03'),
+(12, 18, 0, 33, 0, 0, 0, 'HARU', '2024-04-28 22:25:57');
 
 -- --------------------------------------------------------
 
@@ -4147,19 +4208,21 @@ CREATE TABLE `permisos` (
 CREATE TABLE `preguntas` (
   `Id_pregunta` bigint(20) NOT NULL,
   `Pregunta` varchar(255) NOT NULL,
-  `Creador_Por` bigint(20) NOT NULL,
+  `Creador_Por` varchar(40) NOT NULL,
   `Fecha_Creacion` timestamp NULL DEFAULT NULL,
-  `Actualizado_Por` bigint(20) NOT NULL,
-  `Fecha_Actualizacion` timestamp NULL DEFAULT NULL
+  `Actualizado_Por` varchar(40) NOT NULL,
+  `Fecha_Actualizacion` timestamp NULL DEFAULT NULL,
+  `estado` enum('A','I') NOT NULL DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `preguntas`
 --
 
-INSERT INTO `preguntas` (`Id_pregunta`, `Pregunta`, `Creador_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`) VALUES
-(1, '¿Cuál es tu color favorito?', 1, '2023-10-11 09:45:08', 1, '2023-10-12 09:45:08'),
-(2, '¿que equipo es tu favorito?', 1, '2023-10-29 02:14:09', 1, '2023-10-29 02:14:09');
+INSERT INTO `preguntas` (`Id_pregunta`, `Pregunta`, `Creador_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `estado`) VALUES
+(1, '¿Cuál es tu color favorito?', 'Haru', '2023-10-11 09:45:08', 'Haru', '2023-10-12 09:45:08', 'A'),
+(2, '¿que equipo es tu favorito?', 'Haru', '2023-10-29 02:14:09', 'Haru', '2023-10-29 02:14:09', 'A'),
+(6, '¿Comida Favorita?', 'HARU', '2024-04-28 20:49:50', 'HARU', '2024-04-28 20:55:23', 'A');
 
 -- --------------------------------------------------------
 
@@ -4185,7 +4248,8 @@ CREATE TABLE `preguntas_usuario` (
 INSERT INTO `preguntas_usuario` (`Id_Pregunta_U`, `Id_pregunta`, `Id_Usuario`, `Respuestas`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
 (1, 1, 1, 'Rojo', '1', '2023-10-27 22:53:34', '1', '2023-10-31 22:53:34'),
 (2, 2, 1, 'gato', '1', '2023-10-28 20:14:35', '1', '2023-10-31 20:14:35'),
-(3, 1, 14, 'rosita', '14', '2024-04-28 19:26:20', NULL, NULL);
+(3, 1, 14, 'rosita', '14', '2024-04-28 19:26:20', NULL, NULL),
+(4, 2, 15, 'PSG', '15', '2024-04-28 21:11:43', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4237,8 +4301,7 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`Id_rol`, `Nombre`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `STATUS`) VALUES
 (1, 'ADMINISTRADOR', 'ADMIN', 1, '2023-10-17 12:01:16', 2, '2023-10-18 12:01:16', 'ACTIVO'),
-(2, 'Nuevo', 'Personal Nuevo', 1, '2023-10-29 05:42:09', 1, NULL, 'ACTIVO'),
-(18, 'nomnre', 'SFD', 1, '2023-10-31 08:04:04', 1, '2023-10-31 08:04:04', 'ACTIVO');
+(2, 'Nuevo', 'Personal Nuevo', 1, '2023-10-29 05:42:09', 1, NULL, 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -5406,9 +5469,6 @@ CREATE TABLE `tbl_produccion_pecuaria` (
   `Cantidad_Machos` int(11) DEFAULT NULL,
   `Cantidad_Total` int(11) DEFAULT NULL,
   `Descripcion_Otros` varchar(255) DEFAULT NULL,
-  `Precio_Venta` decimal(10,2) DEFAULT NULL,
-  `Id_Medida_Venta` bigint(20) DEFAULT NULL,
-  `Cantidad_Mercado` int(11) DEFAULT NULL,
   `Descripcion` varchar(255) DEFAULT NULL,
   `Creado_Por` varchar(255) DEFAULT NULL,
   `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -5416,15 +5476,6 @@ CREATE TABLE `tbl_produccion_pecuaria` (
   `Fecha_Modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tbl_produccion_pecuaria`
---
-
-INSERT INTO `tbl_produccion_pecuaria` (`Id_Produccion_Pecuaria`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Año_Produccion`, `Id_Tipo_Pecuario`, `Cantidad_Hembras`, `Cantidad_Machos`, `Cantidad_Total`, `Descripcion_Otros`, `Precio_Venta`, `Id_Medida_Venta`, `Cantidad_Mercado`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(8, 1, 7, 12, 0, 2, 50, 0, 50, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-25 23:56:28', NULL, '2024-04-25 23:56:28', 'A'),
-(9, 1, 7, 12, 0, 3, 10, 0, 10, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-25 23:56:28', NULL, '2024-04-25 23:56:28', 'A'),
-(10, 1, 7, 12, 0, 8, 1000, 0, 1000, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-25 23:56:28', NULL, '2024-04-25 23:56:28', 'A');
 
 -- --------------------------------------------------------
 
@@ -5551,6 +5602,30 @@ INSERT INTO `tbl_relevo_organizacion` (`id_ficha`, `id_productor`, `Id_Relevo`, 
 (3, 14, 12, 'S', 2, NULL, 'HARU', '2024-04-26 02:08:32', 'HARU', '2024-04-27 03:47:06', 'A'),
 (4, 15, 13, 'S', 2, NULL, 'HARU', '2024-04-26 02:08:32', 'HARU', '2024-04-27 03:37:57', 'A'),
 (5, 16, 14, 'S', 3, NULL, 'HARU', '2024-04-27 03:17:19', NULL, '2024-04-27 03:17:19', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_siembra`
+--
+
+CREATE TABLE `tbl_siembra` (
+  `Id_siembra` bigint(20) NOT NULL,
+  `Tipo_siembra` varchar(50) NOT NULL,
+  `Creado_Por` varchar(50) NOT NULL,
+  `Fecha_Creacion` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Actualizado_Por` varchar(50) NOT NULL,
+  `Fecha_Actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Estado` enum('A','I') NOT NULL DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_siembra`
+--
+
+INSERT INTO `tbl_siembra` (`Id_siembra`, `Tipo_siembra`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Estado`) VALUES
+(1, 'Primera', 'Haru', '2024-04-29 06:08:41', 'Haru', '2024-04-29 06:08:41', 'A'),
+(2, 'Postrera', 'Haru', '2024-04-29 06:09:15', 'Haru', '2024-04-29 06:09:15', 'A');
 
 -- --------------------------------------------------------
 
@@ -6043,6 +6118,27 @@ INSERT INTO `tbl_unidad_productora` (`Id_Ubicacion`, `Id_Ficha`, `Id_Unidad_Prod
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_venta_pecuario`
+--
+
+CREATE TABLE `tbl_venta_pecuario` (
+  `Id_ficha` bigint(20) NOT NULL,
+  `Id_productor` bigint(20) NOT NULL,
+  `Id_venta_pecuario` bigint(20) NOT NULL,
+  `Tipo_pecurio` bigint(20) NOT NULL,
+  `Precio_venta` decimal(20,0) NOT NULL,
+  `Unidad_medida` bigint(20) NOT NULL,
+  `Mercado` varchar(50) NOT NULL,
+  `Creado_Por` varchar(50) DEFAULT NULL,
+  `Fecha_creacion` timestamp NULL DEFAULT current_timestamp(),
+  `Actualizado_por` varchar(50) DEFAULT NULL,
+  `Fecha_Actualizacion` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `Estado` enum('A','I') NOT NULL DEFAULT 'A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -6074,10 +6170,11 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`Id_Usuario`, `id_rol`, `nombre_completo`, `correo`, `usuario`, `contrasena`, `Token`, `Fecha_Vencimiento_Token`, `fecha_creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Preguntas_Contestadas`, `Estado`, `id_estado`, `Primera_Vez`, `fecha_vencimiento`, `Intentos_Preguntas`, `Preguntas_Correctas`, `Intentos_Fallidos`) VALUES
 (1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', NULL, '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 'ACTIVO', 1, 'SI', '2023-10-31 06:00:00', NULL, NULL, 0),
-(9, 2, 'MANUEL FIGUEROA', 'manuelfigueroa2818@gmail.com', 'HARU', '$2y$10$WHs2RM.ozD3KRQu1Dq8Ks.adgThvWCNojDPlhvYpVulktVmlC18/q', NULL, NULL, '2023-12-10 14:00:24', 0, '2023-12-10 07:00:24', 0, 'ACTIVO', 1, 'SI', '1970-01-01 07:00:00', NULL, NULL, 0),
+(9, 1, 'MANUEL FIGUEROA', 'manuelfigueroa2818@gmail.com', 'HARU', '$2y$10$bqrIfn1INEBy25aFEoQD6eiGROE9tESDrt3ruuKWf/3MbnMgmlzbK', NULL, NULL, '2023-12-10 14:00:24', 0, '2023-12-10 07:00:24', 0, 'ACTIVO', 1, 'SI', '1970-01-01 07:00:00', NULL, NULL, 0),
 (11, 2, 'MANUEL FIGUEROA BARAHONA', 'mdfigueroa@unah.hn', 'MANUBARA', '$2y$10$UF/ahTJn5okUojk8aTN/uOiuWNJ2AnDdySKNNewLKLaC7WtZORzTu', NULL, NULL, '2023-12-10 22:25:54', 0, '2023-12-10 15:25:54', 0, 'ACTIVO', 1, 'SI', '2024-12-04 22:25:54', NULL, NULL, 0),
-(13, 2, 'Enrique', 'manuelfigueroa2818@gmail.com', 'Enri', '$2y$10$pwhObKfogmDRxnB57iSfr.ux6s2E3HJYB6snkAg8LXmRaxrOAfiK6', NULL, NULL, '2024-02-18 20:26:49', 0, '2024-02-18 20:26:49', 0, 'ACTIVO', 1, 'SI', '2024-02-18 20:26:49', NULL, NULL, NULL),
-(14, 2, 'USUARIO', 'usuario@usuario.com', 'USUARIO', '$2y$10$9HA5T4UCKNsoV5KMD8lSbOmh6RlwV242sLIcpBQxrBtmXJ7WrB4p.', NULL, NULL, '2024-04-29 01:25:52', 0, '2024-04-28 17:25:52', 0, 'ACTIVO', 1, 'SI', '2025-04-24 01:25:52', NULL, NULL, 0);
+(13, 1, 'Enrique', 'manuelfigueroa2818@gmail.com', 'Enri', '$2y$10$pwhObKfogmDRxnB57iSfr.ux6s2E3HJYB6snkAg8LXmRaxrOAfiK6', NULL, NULL, '2024-02-18 20:26:49', 0, '2024-02-18 20:26:49', 0, 'ACTIVO', 1, 'SI', '2024-02-18 20:26:49', NULL, NULL, NULL),
+(14, 2, 'USUARIO', 'usuario@usuario.com', 'USUARIO', '$2y$10$by/vvPFO95qpW98PpThfGOB1jPqEs9dELQduMTdJU.Ygl42.pzQZ2', NULL, NULL, '2024-04-29 01:25:52', 0, '2024-04-28 17:25:52', 0, 'ACTIVO', 1, 'SI', '2025-04-24 01:25:52', NULL, NULL, 0),
+(15, 2, 'CARLOS VACAS', 'principal@gmail.com', 'CARLOSV', '$2y$10$EY0Z2Ro6taSicrlSDgKh2O7XvNL89AZ43NDkkwi7oKoPhePVT5a8.', NULL, NULL, '2024-04-29 03:11:09', 0, '2024-04-28 19:11:09', 0, 'ACTIVO', 1, 'SI', '2025-04-24 03:11:09', NULL, NULL, 0);
 
 --
 -- Índices para tablas volcadas
@@ -6125,8 +6222,9 @@ ALTER TABLE `parametros`
 --
 ALTER TABLE `permisos`
   ADD PRIMARY KEY (`id_permisos`),
-  ADD KEY `fk_permisos_roles` (`Id_rol`),
-  ADD KEY `fk_permisos_objetos` (`id_objeto`);
+  ADD KEY `id_rol` (`Id_rol`) USING BTREE,
+  ADD KEY `id_objeto` (`id_objeto`),
+  ADD KEY `Id_rol_2` (`Id_rol`);
 
 --
 -- Indices de la tabla `preguntas`
@@ -6375,7 +6473,6 @@ ALTER TABLE `tbl_produccion_pecuaria`
   ADD KEY `FK_Id_Ubicacion_Produccion_Pecuaria` (`Id_Ubicacion`),
   ADD KEY `FK_Id_Productor_Produccion_Pecuaria` (`Id_Productor`),
   ADD KEY `FK_Id_Tipo_Pecuario_Produccion_Pecuaria` (`Id_Tipo_Pecuario`),
-  ADD KEY `FK_Id_Medida_Venta_Produccion_Pecuaria` (`Id_Medida_Venta`),
   ADD KEY `FK_Id_Ficha_Produccion_Pecuaria` (`Id_Ficha`);
 
 --
@@ -6408,6 +6505,12 @@ ALTER TABLE `tbl_relevo_organizacion`
   ADD PRIMARY KEY (`Id_Relevo`),
   ADD KEY `fk_id_ficha` (`id_ficha`),
   ADD KEY `fk_id_productor_relevo` (`id_productor`);
+
+--
+-- Indices de la tabla `tbl_siembra`
+--
+ALTER TABLE `tbl_siembra`
+  ADD PRIMARY KEY (`Id_siembra`);
 
 --
 -- Indices de la tabla `tbl_tipos_apoyos`
@@ -6514,6 +6617,16 @@ ALTER TABLE `tbl_unidad_productora`
   ADD KEY `FK_Id_Medida_Forestal` (`Id_Medida_Forestal`);
 
 --
+-- Indices de la tabla `tbl_venta_pecuario`
+--
+ALTER TABLE `tbl_venta_pecuario`
+  ADD PRIMARY KEY (`Id_venta_pecuario`),
+  ADD KEY `fk_tipo_pecuario` (`Tipo_pecurio`),
+  ADD KEY `fk_unidad_medida` (`Unidad_medida`),
+  ADD KEY `fk_id_ficha_tbl_venta_pecuario` (`Id_ficha`),
+  ADD KEY `fk_id_productor_tbl_venta_pecuario` (`Id_productor`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -6538,10 +6651,16 @@ ALTER TABLE `estado_usuario`
   MODIFY `id_estado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `historial_contrasenas`
+--
+ALTER TABLE `historial_contrasenas`
+  MODIFY `id_historial` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `objetos`
 --
 ALTER TABLE `objetos`
-  MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `parametros`
@@ -6553,19 +6672,19 @@ ALTER TABLE `parametros`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permisos` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_permisos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `Id_pregunta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id_pregunta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas_usuario`
 --
 ALTER TABLE `preguntas_usuario`
-  MODIFY `Id_Pregunta_U` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Pregunta_U` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -6766,6 +6885,12 @@ ALTER TABLE `tbl_relevo_organizacion`
   MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_siembra`
+--
+ALTER TABLE `tbl_siembra`
+  MODIFY `Id_siembra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyos`
 --
 ALTER TABLE `tbl_tipos_apoyos`
@@ -6850,10 +6975,16 @@ ALTER TABLE `tbl_unidad_productora`
   MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_venta_pecuario`
+--
+ALTER TABLE `tbl_venta_pecuario`
+  MODIFY `Id_venta_pecuario` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
@@ -6864,13 +6995,6 @@ ALTER TABLE `usuario`
 --
 ALTER TABLE `historial_contrasenas`
   ADD CONSTRAINT `fk_historial_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`Id_Usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `permisos`
---
-ALTER TABLE `permisos`
-  ADD CONSTRAINT `fk_permisos_objetos` FOREIGN KEY (`id_objeto`) REFERENCES `objetos` (`Id_objetos`),
-  ADD CONSTRAINT `fk_permisos_roles` FOREIGN KEY (`Id_rol`) REFERENCES `roles` (`Id_rol`);
 
 --
 -- Filtros para la tabla `preguntas_usuario`
@@ -7073,6 +7197,15 @@ ALTER TABLE `tbl_ubicacion_productor`
   ADD CONSTRAINT `fk_municipio_ubicacion_productor` FOREIGN KEY (`Id_Municipio`) REFERENCES `tbl_municipios` (`Id_Municipio`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_5` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`),
   ADD CONSTRAINT `tbl_ubicacion_productor_ibfk_6` FOREIGN KEY (`id_productor`) REFERENCES `tbl_productor` (`id_productor`);
+
+--
+-- Filtros para la tabla `tbl_venta_pecuario`
+--
+ALTER TABLE `tbl_venta_pecuario`
+  ADD CONSTRAINT `fk_id_ficha_tbl_venta_pecuario` FOREIGN KEY (`Id_ficha`) REFERENCES `fichas` (`id_ficha`),
+  ADD CONSTRAINT `fk_id_productor_tbl_venta_pecuario` FOREIGN KEY (`Id_productor`) REFERENCES `tbl_productor` (`id_productor`),
+  ADD CONSTRAINT `fk_tipo_pecuario` FOREIGN KEY (`Tipo_pecurio`) REFERENCES `tbl_tipo_pecuarios` (`id_tipo_pecuario`),
+  ADD CONSTRAINT `fk_unidad_medida` FOREIGN KEY (`Unidad_medida`) REFERENCES `tbl_medidas_tierra` (`id_medida`);
 
 --
 -- Filtros para la tabla `usuario`

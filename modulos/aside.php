@@ -49,9 +49,9 @@
                         </li>
 
                         <li class="nav-item nav-item-custom">
-                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_usuarios.php','content-wrapper')">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Backup.php','content-wrapper')">
                                 <i class="nav-icon bi bi-people-fill"></i>
-                                <p>Usuarios</p>
+                                <p>Backup</p>
                             </a>
                         </li>
 
@@ -247,12 +247,12 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item nav-item-custom">
+                       <!-- <li class="nav-item nav-item-custom">
                             <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_TrabExt.php','content-wrapper')">
                                 <i class="bi bi-person-workspace"></i>
                                 <p>TRABEXT</p>
                             </a>
-                        </li>
+                        </li>-->
                         <li class="nav-item nav-item-custom">
                             <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_PAE.php','content-wrapper')">
                                 <i class="bi bi-person-workspace"></i>
@@ -358,7 +358,7 @@
                         <li class="nav-item nav-item-custom">
                             <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_medidas.php','content-wrapper')">
                                 <i class="bi bi-ui-radios"></i>
-                                <p>Medidas de tierra</p>
+                                <p>Medidas</p>
                             </a>
                         </li>
                         <li class="nav-item nav-item-custom">

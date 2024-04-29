@@ -6,6 +6,7 @@ $id = isset($_POST['Id_Usuario']) ? $_POST['Id_Usuario'] : null;
 $nombre_completo = isset($_POST['nombre_completo']) ? $_POST['nombre_completo'] : null;
 $correo = isset($_POST['correo']) ? $_POST['correo'] : null;
 $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : null;
+$Id_rol = isset($_POST['id_rol']) ? $_POST['id_rol'] : null;
 $id_estado = isset($_POST['id_estado']) ? $_POST['id_estado'] : null;
 
 // Verificar que los datos esenciales estén presentes

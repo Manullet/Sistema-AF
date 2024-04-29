@@ -2,6 +2,28 @@
 session_start();
  $_SESSION['url'] = 'vistas/Mantenimiento_Migracion.php';
  $_SESSION['content-wrapper'] = 'content-wrapper';
+ include "../php/conexion_be.php";
+ // Definir permisos predeterminados
+ $permiso_insercion = 2;
+ $permiso_actualizacion = 2;
+ $permiso_eliminacion = 2;
+ 
+ // Verificar si la sesión 'usuario' está definida y no es un array
+ if(isset($_SESSION['usuario'])) {
+     $idRolUsuario = $_SESSION['usuario']['id_rol'];
+ 
+     // Consultar los permisos del usuario para el objeto de usuarios (ID de objeto = 3)
+     $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 40";
+     $resultadoPermisos = $conexion->query($sqlPermisos);
+ 
+     if ($resultadoPermisos->num_rows > 0) {
+         // Si se encuentran registros de permisos para el usuario y el objeto
+         $filaPermisos = $resultadoPermisos->fetch_assoc();
+         $permiso_insercion= $filaPermisos['permiso_insercion'];
+         $permiso_actualizacion = $filaPermisos['permiso_actualizacion'];
+         $permiso_eliminacion = $filaPermisos['permiso_eliminacion'];
+     } 
+ }
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,18 +36,19 @@ session_start();
 <!-- DATATABLES -->
  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
     <!-- BOOTSTRAP -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-
 
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
             <h1 class="poppins-font mb-2">MIGRACION</h1>
             <br>
+            <?php if ($permiso_insercion == 1) : ?>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
             <i class="bi bi-plus-square icono-grande"></i> Crear 
             </a>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -56,7 +79,9 @@ session_start();
                     <th scope="col">Rol</th>
                     <th scope="col">Fecha Creación</th>
                     <th scope="col">Vencimiento</th>-->
+                    <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -76,11 +101,14 @@ session_start();
                             }
                             ?></td>
                         <td>
+                        <?php if ($permiso_actualizacion == 1) : ?>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->Id_motivo ?>', '<?= $datos->Motivo ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
+                            <?php endif; ?>
+ 				<?php if ($permiso_eliminacion == 1) : ?>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_migracion.php" style="display: inline;">
                                 <input type="hidden" name="Id_motivo" value="<?= $datos->Id_motivo ?>">
                                 <button type="submit" class="btn btn-eliminar">
@@ -88,6 +116,7 @@ session_start();
                                     Eliminar
                                 </button>
                             </form>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php }

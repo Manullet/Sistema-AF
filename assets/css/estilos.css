@@ -97,3 +97,7 @@ body.sidebar-collapse .poppins-font-aside {
 .btn-eliminar {
     transition: background-color 0.3s ease;
 }
+
+.hidden {
+    display: none;
+}

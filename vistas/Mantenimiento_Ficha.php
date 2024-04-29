@@ -101,15 +101,21 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->id_ficha ?>', '<?= $datos->fecha_solicitud ?>', '<?= $datos->anio_solicitud ?>','<?= $datos->fecha_entrevista ?>', '<?= $datos->nombre_encuentrador ?>', '<?= $datos->nombre_encuestador ?>', '<?= $datos->nombre_supervisor ?>',  '<?= $datos->descripcion ?>',  '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
-                                Editar
+                                
                             </button>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_ficha.php" style="display: inline;">
                                 <input type="hidden" name="id_ficha" value="<?= $datos->id_ficha ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
-                                    Eliminar
+                                    
                                 </button>
                             </form>
+                            <button type="button" class="btn btn-warning" onclick=" CargarContenido('vistas/ver_ficha.php','content-wrapper',<?= $datos->id_ficha ?>)">
+                                    <i class="bi bi-eye"></i>
+                                    
+                                </button>
+                           
+                            <p></p>
                             <form id="duplicar" method="POST" action="" style="display: inline;">
                                 <input type="hidden" name="id_ficha" id="id_ficha_act" value="<?= $datos->id_ficha ?>">
                                 <button type="button" class="btn btn-primary" onclick="duplicarFicha(<?= $datos->id_ficha ?>)">
@@ -117,17 +123,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                     Crear Registro para nuevo año
                                 </button>
                             </form>
+                            <p></p>
                             
                                 <button type="button" class="btn btn-primary" onclick=" CargarContenido('vistas/editar_ficha.php','content-wrapper',<?= $datos->id_ficha ?>)">
                                     <i class="bi bi-pencil-square"></i>
                                     Editar Ficha
                                 </button>
-
-                                <button type="button" class="btn btn-warning" onclick=" CargarContenido('vistas/ver_ficha.php','content-wrapper',<?= $datos->id_ficha ?>)">
-                                    <i class="bi bi-eye"></i>
-                                    Ver Ficha
-                                </button>
-                           
+                               
+                                
                         </td>
                     </tr>
                 <?php }

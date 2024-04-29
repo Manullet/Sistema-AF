@@ -318,3 +318,6 @@ body{
         position: relative;
     }
 }
+.hidden {
+    display: none;
+}

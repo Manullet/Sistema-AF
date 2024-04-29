@@ -7,7 +7,6 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
 
 // Incluir el archivo de conexión a la base de datos
 include "../php/conexion_be.php";
-
 // Definir permisos predeterminados
 $permiso_insercion = 2;
 $permiso_actualizacion = 2;
@@ -18,7 +17,7 @@ if(isset($_SESSION['usuario'])) {
     $idRolUsuario = $_SESSION['usuario']['id_rol'];
 
     // Consultar los permisos del usuario para el objeto de usuarios (ID de objeto = 3)
-    $sqlPermisos = "SELECT * FROM permisos WHERE id_rol = $idRolUsuario AND id_objeto = 3";
+    $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 2";
     $resultadoPermisos = $conexion->query($sqlPermisos);
 
     if ($resultadoPermisos->num_rows > 0) {
@@ -41,6 +40,11 @@ if(isset($_SESSION['usuario'])) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- DATATABLES -->
+ <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+    <!-- BOOTSTRAP -->
+    <link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 
 
 <div class="containertable">
@@ -48,28 +52,19 @@ if(isset($_SESSION['usuario'])) {
         <div>
             <h1 class="poppins-font mb-2">MANTENIMIENTO USUARIOS</h1>
             <br>
-            <?php if ($permiso_insercion == 1) : ?><!-- esto se agrega a todos los botones de creaer -->
+            <?php if ($permiso_insercion == 1) : ?>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                     <i class="nav-icon bi bi-people-fill"></i> Crear usuario
                 </a>
-            <?php endif; ?><!-- esto se agrega a todos los botones de creaer -->
+            <?php endif; ?>
         </div>
 
-        <div class="mb-4 border-bottom">
-            <form class="d-flex" role="search">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    </div>
-                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar Usuario" aria-label="Search">
-                </div>
-            </form>
-        </div>
     </div>
 
     <div class="table-responsive">
-
-        <table class="table table-hover">
+     <!--El diseño de la table cuando ya esté todo unido 
+    <table id="tablax" class="table table-striped table-bordered" style="width:100%"> -->
+    <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
                 <th scope="col">Id Usuario</th>
@@ -85,7 +80,7 @@ if(isset($_SESSION['usuario'])) {
                 include "../php/conexion_be.php";
                 $sql = $conexion->query("
                 SELECT 
-                usuario.Id_Usuario,
+                usuario.Id_usuario,
                 usuario.nombre_completo,
                 usuario.usuario,
                 usuario.correo,
@@ -97,7 +92,7 @@ if(isset($_SESSION['usuario'])) {
             
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->Id_Usuario ?></td>
+                        <td><?= $datos->Id_usuario ?></td>
                         <td><?= $datos->nombre_completo ?></td>
                         <td><?= $datos->usuario ?></td>
                         <td><?= $datos->correo?></td>
@@ -113,15 +108,15 @@ if(isset($_SESSION['usuario'])) {
                             }
                             ?></td>
                         <td>
-                        <?php if ($permiso_actualizacion == 1) : ?><!-- esto se agrega a todos los botones de actualizar -->
+                        <?php if ($permiso_actualizacion == 1) : ?>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar(
-                                '<?= $datos->Id_Usuario ?>', '<?= $datos->nombre_completo ?>', '<?= $datos->usuario ?>', '<?= $datos->correo ?>', '<?= $datos->id_estado ?>')">
+                                '<?= $datos->id ?>', '<?= $datos->nombre_completo ?>', '<?= $datos->usuario ?>', '<?= $datos->correo ?>', '<?= $datos->id_estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                        <?php endif; ?><!-- esto se agrega a todos los botones de actualizar -->
+                        <?php endif; ?>
 
-                        <?php if ($permiso_eliminacion == 1) : ?><!-- esto se agrega a todos los botones de eliminar -->
+                        <?php if ($permiso_eliminacion == 1) : ?>
                             <form id="deleteForm" method="POST" action="modelos\delete_usuario.php" style="display: inline;">
                                 <input type="hidden" name="id" value="<?= $datos->id ?>">
                                 <button type="submit" class="btn btn-eliminar">
@@ -129,7 +124,7 @@ if(isset($_SESSION['usuario'])) {
                                     Eliminar
                                 </button>
                             </form>
-                        <?php endif; ?><!-- esto se agrega a todos los botones de eliminar -->
+                        <?php endif; ?>
                         </td>
                     </tr>
                 <?php }
@@ -138,19 +133,7 @@ if(isset($_SESSION['usuario'])) {
         </table>
     </div>
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-                <a class="page-link">Anterior</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Siguiente</a>
-            </li>
-        </ul>
-    </nav>
+  
 </div>
 
 <!-- Modal para editar usuario -->
@@ -167,8 +150,8 @@ if(isset($_SESSION['usuario'])) {
                 <form id="formularioEditar" method="POST" action="modelos\update_usuario.php">
 
                     <div class="form-group" style="display: none;">
-                        <label for="Id_Usuario">ID Usuario</label>
-                        <input type="text" class="form-control" id="Id_Usuario" name="Id_Usuario" readonly>
+                        <label for="id">ID Usuario</label>
+                        <input type="text" class="form-control" id="id" name="id" readonly>
                     </div>
 
                     <div class="form-group">
@@ -263,8 +246,8 @@ if(isset($_SESSION['usuario'])) {
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_Usuario, nombre_completo, usuario, correo, id_estado) {
-        document.getElementById("Id_Usuario").value = Id_Usuario;
+    function abrirModalEditar(id, nombre_completo, usuario, correo, id_estado) {
+        document.getElementById("id").value = id;
         document.getElementById("nombre_completo").value = nombre_completo;
         document.getElementById("usuario").value = usuario;
         document.getElementById("correo").value = correo;
@@ -370,3 +353,49 @@ if(isset($_SESSION['usuario'])) {
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<!-- JQUERY -->
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
+        </script> -->
+
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+    </script>
+
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+    </script>
+
+
+<script>
+    $(document).ready(function(){
+        $('#tablax').DataTable({
+            language: {
+                    processing: "Tratamiento en curso...",
+                    search: "Buscar&nbsp;:",
+                    lengthMenu: "Agrupar de _MENU_ elementos",
+                    info: "Mostrando del elemento START al END de un total de TOTAL elementos",
+                    infoEmpty: "No existen datos.",
+                    infoFiltered: "(filtrado de MAX elementos en total)",
+                    infoPostFix: "",
+                    loadingRecords: "Cargando...",
+                    zeroRecords: "No se encontraron datos con tu busqueda",
+                    emptyTable: "No hay datos disponibles en la tabla.",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Ultimo"
+                    },
+                    aria: {
+                        sortAscending: ": active para ordenar la columna en orden ascendente",
+                        sortDescending: ": active para ordenar la columna en orden descendente"
+                    }
+                },
+            
+        });
+    })
+
+
+</script>

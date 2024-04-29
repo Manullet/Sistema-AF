@@ -9,6 +9,8 @@ use PHPMailer\PHPMailer\Exception;
 $nombre_completo = $_POST['nombre_completo'];
 $correo = $_POST['correo'];
 $usuario = $_POST['usuario'];
+$Id_rol = $_POST['id_rol'];
+
 
 // Generar una contraseña aleatoria de 8 caracteres
 $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
@@ -28,7 +30,7 @@ if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
     $hash = password_hash($contrasena_aleatoria, PASSWORD_BCRYPT);
 
     // Preparar la consulta SQL para llamar al procedimiento almacenado
-    $sql = "CALL InsertarUsuario('$nombre_completo', '$correo', '$usuario', '$hash')";
+    $sql = "CALL CrearUsuario('$nombre_completo', '$correo', '$usuario', '$Id_rol' ,'$hash')";
 
     $resultado = mysqli_query($conexion, $sql);
 
