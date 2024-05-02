@@ -275,6 +275,41 @@ switch($generarSelect){
         mysqli_close($conexion);
     break;
 
+    case 'Objetos': 
+        $query = "SELECT Id_objetos, Objeto FROM objetos";
+        $result = mysqli_query($conexion, $query);
+    
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            // Array para almacenar los datos de los municipios
+            $objetos = array();
+    
+            // Iterar sobre los resultados y guardar los datos en el array
+            while ($row = mysqli_fetch_assoc($result)) {
+                $objeto = array(
+                    'id' => $row['Id_objetos'],
+                    'objeto' => $row['Objeto'],
+                );
+                $objetos[] = $objeto;
+            }
+    
+            // Convertir el array a formato JSON
+            $json_response = json_encode($objetos);
+    
+            // Retornar el JSON como respuesta
+            echo $json_response;
+    
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron categorias para la ficha con ID $id.";
+        }
+    
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
+    
+
 }
 
 

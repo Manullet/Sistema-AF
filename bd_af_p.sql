@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-05-2024 a las 12:38:26
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 02-05-2024 a las 14:31:33
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -3443,13 +3443,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertOrUpdatePermiso` (IN `p_id_ro
     Fecha_Actualizacion = NOW();
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPermisos` (IN `newId_rol` BIGINT(20), IN `newId_objetos` BIGINT(20), IN `newpermiso_eliminacion` VARCHAR(10), IN `newpermiso_actualizacion` VARCHAR(10), IN `newpermiso_consulta` VARCHAR(10), IN `newpermiso_insercion` VARCHAR(10), IN `newCreado_Por` BIGINT(20), IN `newEstado` ENUM('ACTIVO','INACTIVO'))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertPermisos` (IN `newId_rol` BIGINT(20), IN `newId_objetos` BIGINT(20), IN `newpermiso_eliminacion` VARCHAR(10), IN `newpermiso_actualizacion` VARCHAR(10), IN `newpermiso_insercion` VARCHAR(10), IN `newpermiso_consulta` VARCHAR(10), IN `newCreado_Por` VARCHAR(50))   BEGIN
     DECLARE currentDate TIMESTAMP;  
     
     SET currentDate = NOW();  
     
-    INSERT INTO permisos (Id_rol, Id_objetos, permiso_eliminacion, permiso_actualizacion, permiso_consulta, permiso_insercion, Creado_Por, Fecha_Creacion, Fecha_Actualizacion, Estado)
-    VALUES (newId_rol, newId_objetos, newpermiso_eliminacion, newpermiso_actualizacion, newpermiso_consulta, newpermiso_insercion, newCreado_Por, currentDate, currentDate, newEstado );
+    INSERT INTO permisos (Id_rol, permiso_eliminacion, id_objeto, permiso_actualizacion, permiso_insercion,  permiso_consulta, Actualizado_Por, Fecha_Actualizacion)
+    VALUES (newId_rol, newpermiso_eliminacion, newId_objetos, newpermiso_actualizacion, newpermiso_insercion, newpermiso_consulta, newCreado_Por, currentDate);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `INSERTProduccion_AgrAnterior` (IN `p_id_ubicacion` INT, IN `p_id_ficha` INT, IN `p_id_productor` INT, IN `p_Id_Tipo_Cultivo` BIGINT(20), IN `p_Superficie_Primera_Postrera` INT, IN `p_Id_Medida_Primera_Postrera` BIGINT(20), IN `p_Produccion_Obtenida` DECIMAL(10,2), IN `p_Id_Medida_Produccion_Obtenida` BIGINT(20), IN `p_Cantidad_Vendida` DECIMAL(10,2), IN `p_Id_Medida_Vendida` BIGINT(20), IN `p_Precio_Venta` DECIMAL(10,2), IN `p_A_Quien_Se_Vendio` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
@@ -3774,16 +3774,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateObjeto` (IN `newID_Objeto` BI
     WHERE Id_objetos = newID_Objeto;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePermiso` (IN `newId_Permisos` BIGINT(20), IN `newpermiso_eliminacion` VARCHAR(10), IN `newpermiso_actualizacion` VARCHAR(10), IN `newpermiso_consulta` VARCHAR(10), IN `newpermiso_insercion` VARCHAR(10), IN `newActualizado_Por` BIGINT(20), IN `newEstado` ENUM('ACTIVO','INACTIVO'))   BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdatePermiso` (IN `newIdPermiso` BIGINT(20), IN `newId_Rol` BIGINT(20), IN `newId_Objeto` INT, IN `newpermiso_eliminacion` VARCHAR(10), IN `newpermiso_actualizacion` VARCHAR(10), IN `newpermiso_consulta` VARCHAR(10), IN `newpermiso_insercion` VARCHAR(10), IN `newActualizado` INT)   BEGIN 
     UPDATE permisos
     SET permiso_eliminacion = newpermiso_eliminacion,
+    		id_rol = newId_Rol,
+    		id_objeto = newId_Objeto,
         permiso_actualizacion = newpermiso_actualizacion,
         permiso_consulta = newpermiso_consulta,
         permiso_insercion = newpermiso_insercion,
-        Actualizado_Por = newActualizado_Por,
-        Fecha_Actualizacion = CURRENT_TIMESTAMP,
-        Estado = newEstado
-        WHERE Id_Permisos = newId_Permisos;
+        Actualizado_Por = newActualizado,
+        Fecha_Actualizacion = CURRENT_TIMESTAMP
+        WHERE id_permisos = newIdPermiso;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateRole` (IN `newIdRol` BIGINT(20), IN `newNombre` VARCHAR(255), IN `newDescripcion` VARCHAR(255), IN `newStatus` VARCHAR(255))   BEGIN
@@ -4344,7 +4345,7 @@ INSERT INTO `permisos` (`id_permisos`, `Id_rol`, `permiso_eliminacion`, `id_obje
 (11, 1, 1, 3, 1, 1, NULL, 'HARU', '2024-04-28 22:14:03'),
 (12, 18, 0, 33, 0, 0, 0, 'HARU', '2024-04-28 22:25:57'),
 (13, 1, 1, 55, 1, 1, 1, 'HARU', '2024-05-02 06:03:10'),
-(14, 1, 1, 12, 1, 1, 1, 'HARU', '2024-05-02 06:07:59'),
+(14, 1, 1, 16, 1, 1, 1, '0', '2024-05-02 12:22:46'),
 (15, 1, 1, 34, 1, 1, 1, 'Hru', '2024-05-02 08:20:05'),
 (16, 1, 1, 37, 1, 1, 1, 'HAru', '2024-05-02 08:34:18'),
 (17, 1, 1, 39, 1, 1, 1, 'HAru', '2024-05-02 10:00:26'),
@@ -7422,7 +7423,7 @@ ALTER TABLE `parametros`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permisos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_permisos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`

@@ -87,6 +87,7 @@ if(isset($_SESSION['usuario'])) {
                             objetos.Objeto,
                             roles.id_rol,
                             roles.nombre,
+                            permisos.id_objeto,
                             permisos.permiso_eliminacion,
                             permisos.permiso_actualizacion,
                             permisos.permiso_insercion,
@@ -112,7 +113,7 @@ if(isset($_SESSION['usuario'])) {
                             <td>
                             <?php if ($permiso_actualizacion == 1) : ?>
                                 <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar(
-                                    '<?= $datos->id_permisos ?>', '<?= $datos->id_rol ?>', '<?= $datos->permiso_eliminacion ?>', '<?= $datos->permiso_actualizacion ?>', '<?= $datos->permiso_insercion ?>', '<?= $datos->permiso_consulta ?>', '<?= $datos->Actualizado_Por ?>', '<?= $datos->Fecha_Actualizacion ?>'
+                                    '<?= $datos->id_permisos ?>', '<?= $datos->id_rol ?>','<?= $datos->id_objeto ?>', '<?= $datos->permiso_eliminacion ?>', '<?= $datos->permiso_actualizacion ?>', '<?= $datos->permiso_insercion ?>', '<?= $datos->permiso_consulta ?>', '<?= $datos->Actualizado_Por ?>', '<?= $datos->Fecha_Actualizacion ?>'
                                 )">
                                     <i class="bi bi-pencil-square"></i> Editar
                                 </button>
@@ -149,10 +150,10 @@ if(isset($_SESSION['usuario'])) {
             </div>
             <div class="modal-body">
                 <form id="formularioEditar" method="POST" action="modelos/update_permiso.php">
-                <div class="form-group" style="display: none;">>
-                <label for="id_permisos">ID Permiso:</label>
-                 <input type="text" class="form-control" id="id_permisos" name="id_permisos" readonly>
-                </div>
+                <div class="form-group" style="display: none;">
+                    <label for="id_permisos">ID Permiso:</label>
+                        <input type="text" class="form-control" id="id_permisos" name="id_permisos" readonly>
+                    </div>
                     <div class="form-group">
                         <label for="id_rol">Rol:</label>
                         <select class="form-control" id="id_rol" name="id_rol" required>
@@ -180,6 +181,12 @@ if(isset($_SESSION['usuario'])) {
                             ?>
                         </select>
                     </div>
+                    <div class="form-group">
+                            <label for="id_objetoEdit">Objeto:</label>
+                            <select class="form-control" id="id_objetoEdit" name="id_objeto" required>
+                               
+                            </select>
+                        </div>
                     <div class="form-group">
                         <label for="permiso_eliminacion">Permiso Eliminar:</label>
                         <select class="form-control" id="permiso_eliminacion" name="permiso_eliminacion" required>
@@ -229,8 +236,8 @@ if(isset($_SESSION['usuario'])) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="modelos\insert_permisos.php">
-                    <div class="form-group">
+                        <form method="POST" action="modelos\insert_permisos.php">
+                        <div class="form-group">    
                             <label for="id_rol">Rol:</label>
                             <select class="form-control" id="id_rol" name="id_rol" required>
                                 <?php
@@ -255,6 +262,12 @@ if(isset($_SESSION['usuario'])) {
                                 // Cierra la conexión a la base de datos
                                 mysqli_close($conexion);
                                 ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_rol">Objeto:</label>
+                            <select class="form-control" id="id_objeto" name="id_objeto" required>
+                               
                             </select>
                         </div>
                         <div class="form-group">
@@ -299,9 +312,10 @@ if(isset($_SESSION['usuario'])) {
     <!-- JavaScript para manejar la edición de usuarios -->
     <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(id_permisos, id_rol, permiso_eliminacion, permiso_actualizacion, permiso_insercion, permiso_consulta, actualizado_por, fecha_actualizacion) {
+    function abrirModalEditar(id_permisos, id_rol, id_objeto, permiso_eliminacion, permiso_actualizacion, permiso_insercion, permiso_consulta, actualizado_por, fecha_actualizacion) {
         document.getElementById("id_permisos").value = id_permisos; // Modificado a "id_permisos"
         document.getElementById("id_rol").value = id_rol;
+        document.getElementById("id_objetoEdit").value = id_objeto;
         document.getElementById("permiso_eliminacion").value = permiso_eliminacion;
         document.getElementById("permiso_actualizacion").value = permiso_actualizacion;
         document.getElementById("permiso_insercion").value = permiso_insercion;
@@ -313,6 +327,58 @@ if(isset($_SESSION['usuario'])) {
     }
 </script>
 
+
+<script>
+    $(document).ready(function() {
+        $("#id_objeto").load("demo.txt", function (responseTxt, statusTxt, xhr) {
+            let selectRol= document.getElementById('id_objeto')
+
+            $.ajax({
+                url: "modelos/cargarDatosSelect.php",
+                type: "GET",
+                data: {select:'Objetos'},
+                success: function(data) {
+                const objetos=JSON.parse(data)
+            
+                objetos.forEach(objeto => {
+                    //Creación de la fila
+                    const opcion = document.createElement("option");
+                    opcion.value = objeto.id;
+                    opcion.textContent=objeto.objeto;
+                    
+                    selectRol.appendChild(opcion)
+                    }) 
+                },
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#id_objetoEdit").load("demo.txt", function (responseTxt, statusTxt, xhr) {
+            let selectRol= document.getElementById('id_objetoEdit')
+
+            $.ajax({
+                url: "modelos/cargarDatosSelect.php",
+                type: "GET",
+                data: {select:'Objetos'},
+                success: function(data) {
+                const objetos=JSON.parse(data)
+            
+                objetos.forEach(objeto => {
+                    //Creación de la fila
+                    const opcion = document.createElement("option");
+                    opcion.value = objeto.id;
+                    opcion.textContent=objeto.objeto;
+                    
+                    selectRol.appendChild(opcion)
+                    }) 
+                },
+            });
+        });
+    });
+</script>
 
     <!--------------------------------------------------------------------------------------
     ---------------------------------ALERTAS----------------------------------------------
@@ -379,7 +445,6 @@ if(isset($_SESSION['usuario'])) {
                             data: form.serialize(),
                             success: function(response) {
                                 if (response == "success") {
-
                                     Swal.fire({
                                         title: "Error",
                                         text: "Hubo un problema al eliminar.",
@@ -388,6 +453,8 @@ if(isset($_SESSION['usuario'])) {
                                     }).then(function() {
                                         location.reload(); // Recarga la página
                                     });
+                                    
+                                    
                                     
                                 } else {
                                     Swal.fire({
