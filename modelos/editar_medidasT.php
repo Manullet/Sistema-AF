@@ -1,10 +1,12 @@
 <?php
 ob_start();
+session_start();
 include "../php/conexion_be.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_medida  = $_POST["id_medida"];
     $medida = $_POST["medida"];
     $descripcion = $_POST["descripcion"];
+    $Modificado_Por = $_SESSION["usuario"] ['usuario'];
     $estado = $_POST["estado"];
 
 
@@ -19,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    $sql = "CALL EditarMedidaTierra('$id_medida', '$medida', '$descripcion', '$estado');";
+    $sql = "CALL ActualizarMedidaTierra('$id_medida', '$medida', '$descripcion','$Modificado_Por' ,'$estado');";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

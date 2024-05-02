@@ -1,11 +1,13 @@
 <?php
 ob_start();
 include "../php/conexion_be.php";
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Id_motivo=$_POST["Id_motivo"];
     $Motivo=$_POST["Motivo"];
     $Descripcion=$_POST["Descripcion"];
+    $Modificado_Por = $_SESSION["usuario"] ['usuario'];
     $Estado=$_POST["Estado"];
 
 
@@ -20,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
 
 
-    $sql = "CALL EditarMotivo('$Id_motivo', '$Motivo', '$Descripcion', '$Estado');";
+    $sql = "CALL ActualizarMotivoMigracion('$Id_motivo', '$Motivo', '$Descripcion', '$Modificado_Por','$Estado');";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

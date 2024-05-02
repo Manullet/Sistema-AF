@@ -1,10 +1,12 @@
 <?php
 
 include "../php/conexion_be.php";
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Motivo=$_POST["Motivo"];
     $Descripcion=$_POST["Descripcion"];
+    $Creado_Por = $_SESSION["usuario"] ['usuario'];
 
 
     $sql_verificar = "SELECT * FROM tbl_motivos_migracion WHERE Motivo = '$Motivo' ";
@@ -26,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
             </script>
         ';
-    } else {$sql = "CALL InsertarMotivo('$Motivo', '$Descripcion');";
+    } else {$sql = "CALL InsertarMotivoMigracion('$Motivo', '$Descripcion','$Creado_Por');";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

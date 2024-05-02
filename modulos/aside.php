@@ -435,12 +435,12 @@ $usuario = $_SESSION['usuario'];
                                 <p>Toma de decisiones</p>
                             </a>
                         </li>
-                        <li class="nav-item nav-item-custom">
+                        <!--<li class="nav-item nav-item-custom">
                             <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_tipoT.php','content-wrapper')">
                                 <i class="bi bi-people"></i>
                                 <p>Tipo de trabajadores</p>
                             </a>
-                        </li>
+                        </li>-->
                         <li class="nav-item nav-item-custom">
                             <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Practicas_Productivas.php','content-wrapper')">
                                 <i class="bi bi-clipboard2-data-fill"></i>

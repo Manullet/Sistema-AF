@@ -10,6 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_SESSION["usuario"]["usuario"];
     $estado = $_POST["estado"];
 
+
+
+    $sql_verificar = "SELECT * FROM tbl_etnias WHERE etnia = '$nombre_etnia' AND id_etnia != '$id_etnia_to_update'";
+   $resultado_verificar = $conexion->query($sql_verificar);
+   if ($resultado_verificar->num_rows > 0) {
+    // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+    echo "existe";
+
+} else {
     // Llamada al procedimiento almacenado adaptado
     $sql = "CALL ActualizarEtnia('$id_etnia_to_update', '$nombre_etnia', '$descripcion_etnia', '$usuario', '$estado')";
 
@@ -20,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ob_end_clean();
         echo "Error al actualizar la etnia: " . mysqli_error($conexion);
     }
-
+}
     mysqli_close($conexion);
 }
 ?>

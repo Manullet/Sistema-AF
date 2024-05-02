@@ -45,11 +45,11 @@ if(isset($_SESSION['usuario'])) {
         <div>
             <h1 class="poppins-font mb-2">DATOS GENERALES</h1>
             <br>
-            <?php if ($permiso_insercion == 1) : ?>
+           
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                 <i class="bi bi-plus-square icono-grande"></i> Crear
             </a>
-            <?php endif; ?>
+            
         </div>
         </div>
       
@@ -110,16 +110,16 @@ if(isset($_SESSION['usuario'])) {
                             }
                             ?></td>
                         <td>
-                        <?php if ($permiso_actualizacion == 1) : ?>
+                      
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->id_productor ?>', '<?= $datos->id_ficha ?>', '<?= $datos->primer_nombre ?>', '<?= $datos->segundo_nombre ?>', '<?= $datos->primer_apellido ?>', '<?= $datos->segundo_apellido ?>', '<?= $datos->identificacion ?>', '<?= $datos->fecha_nacimiento ?>', '<?= $datos->genero ?>', '<?= $datos->estado_civil ?>', '<?= $datos->nivel_escolaridad ?>', '<?= $datos->ultimo_grado_escolar_aprobado ?>', '<?= $datos->telefono_1 ?>', '<?= $datos->telefono_2 ?>', '<?= $datos->telefono_3 ?>', '<?= $datos->email_1 ?>', '<?= $datos->email_2 ?>', '<?= $datos->email_3 ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <?php endif; ?>
+                     
  				
                             <p></p>
-                            <?php if ($permiso_eliminacion == 1) : ?>
+                            
                             <form id="deleteForm" method="POST" action="modelos/eliminar_periodicidad.php" style="display: inline;">
                                 <input type="hidden" name="id_periodo" value="<?= $datos->id_periodo ?>">
                                 <button type="submit" class="btn btn-eliminar">
@@ -127,7 +127,7 @@ if(isset($_SESSION['usuario'])) {
                                     Eliminar
                                 </button>
                             </form>
-                            <?php endif; ?>
+                           
                         </td>
                     </tr>
                 <?php }

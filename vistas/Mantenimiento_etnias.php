@@ -141,7 +141,7 @@ session_start();
     </div>
 </div>
 
-<!-- Modal para editar tipo de trabajadores -->
+
 <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -278,8 +278,8 @@ session_start();
                 success: function(response) {
                     if (response == "success") {
                         Swal.fire({
-                            title: "Tipo de Etnia actualizado correctamente",
-                            text: "El tipo de Etnia se ha actualizado correctamente.",
+                            title: "Etnia actualizado correctamente",
+                            text: "La Etnia se ha actualizado correctamente.",
                             icon: "success",
                             showCancelButton: false,
                             confirmButtonText: "Cerrar"
@@ -287,10 +287,20 @@ session_start();
                             $("#modalEditar").modal("hide");
                             location.reload(); // Recarga la página
                         });
-                    } else {
+                    }else if (response == "existe") {
                         Swal.fire({
                             title: "Error",
-                            text: "Hubo un problema al actualizar el tipo de Etnia.",
+                            text: "Ya existe una etnia con el mismo nombre.",
+                            icon: "error",
+                            confirmButtonText: "Cerrar"
+                        }).then(function() {
+                            location.reload(); // Recarga la página
+                        });
+                    }
+                     else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "Hubo un problema al actualizar el motivo.",
                             icon: "error",
                             confirmButtonText: "Cerrar"
                         }).then(function() {

@@ -14,7 +14,7 @@ if(isset($_SESSION['usuario'])) {
     $idRolUsuario = $_SESSION['usuario']['id_rol'];
 
     // Consultar los permisos del usuario para el objeto de usuarios (ID de objeto = 3)
-    $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 36";
+    $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 40";//crear el objeto y ponerle el numero correspondiente
     $resultadoPermisos = $conexion->query($sqlPermisos);
 
     if ($resultadoPermisos->num_rows > 0) {

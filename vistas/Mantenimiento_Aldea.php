@@ -168,7 +168,7 @@ if(isset($_SESSION['usuario'])) {
                                     include '../php/conexion_be.php';
 
                                     // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                                    $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+                                    $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos WHERE Estado='A'";
 
                                     // Ejecutar la consulta
                                     $result = mysqli_query($conexion, $sql);
@@ -198,7 +198,7 @@ if(isset($_SESSION['usuario'])) {
                                     include '../php/conexion_be.php';
 
                                     // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                                    $sql = "SELECT Id_Municipio, Nombre_Municipio FROM tbl_municipios";
+                                    $sql = "SELECT Id_Municipio, Nombre_Municipio FROM tbl_municipios WHERE Estado='A'";
 
                                     // Ejecutar la consulta
                                     $result = mysqli_query($conexion, $sql);
@@ -276,7 +276,7 @@ if(isset($_SESSION['usuario'])) {
                                     include '../php/conexion_be.php';
 
                                     // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                                    $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+                                    $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos WHERE Estado='A'";
 
                                     // Ejecutar la consulta
                                     $result = mysqli_query($conexion, $sql);

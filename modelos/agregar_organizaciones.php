@@ -1,10 +1,13 @@
 <?php
-
+session_start();
 include "../php/conexion_be.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
     $organizacion=$_POST["organizacion"];
+    $id_tipo_organizacion=$_POST["id_tipo_organizacion"];
     $descripcion=$_POST["descripcion"];
+    $Creado_Por = $_SESSION["usuario"] ['usuario'];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
   $sql_verificar = "SELECT * FROM tbl_organizaciones WHERE organizacion = '$organizacion' ";
@@ -29,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
 
 
-    $sql = "CALL InsertarOrganizacion('$organizacion', '$descripcion')";
+    $sql = "CALL InsertarOrganizacion('$organizacion', '$id_tipo_organizacion','$descripcion', '$Creado_Por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

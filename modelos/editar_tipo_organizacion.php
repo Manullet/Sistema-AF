@@ -1,10 +1,13 @@
 <?php
 ob_start();
+session_start();
 include "../php/conexion_be.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_tipo_organizacion = $_POST["id_tipo_organizacion"];
     $tipo_organizacion = $_POST["tipo_organizacion"];
     $descripcion = $_POST["descripcion"];
+        
+    $Modificado_Por = $_SESSION["usuario"] ['usuario'];
     $estado = $_POST["estado"];
 
      // Verifica si ya existe una categoría de cultivo con el mismo nombre
@@ -16,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    } else {
 
-    $sql = "CALL EditarTipo_Organizacion('$id_tipo_organizacion', '$tipo_organizacion', '$descripcion', '$estado');";
+    $sql = "CALL ActualizarTipoOrganizacion('$id_tipo_organizacion', '$tipo_organizacion', '$descripcion','$Modificado_Por' ,'$estado');";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

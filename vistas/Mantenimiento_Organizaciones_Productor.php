@@ -57,8 +57,8 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                 <tr>
                     <th scope="col">Nº Ficha</th>
                     <th scope="col">Productor</th>
-                    <th scope="col">Nº Organizacion</th>
-                    <th scope="col">Descripción</th>
+                    <th scope="col">Organizacion</th>
+
                     <th scope="col">Estado</th>
 
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -73,7 +73,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                         <td><?= $datos->id_ficha ?></td>
                         <td><?= $datos->primer_nombre ?></td>
                         <td><?= $datos->organizacion ?></td>
-                        <td><?= $datos->descripcion ?></td>
+
                         <td><?php
                             if ($datos->estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';

@@ -1,10 +1,13 @@
 <?php
 
 include "../php/conexion_be.php";
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $medida=$_POST["medida"];
     $descripcion=$_POST["descripcion"];
+    $Creado_Por = $_SESSION["usuario"] ['usuario'];
+
 
     $sql_verificar = "SELECT * FROM tbl_medidas_tierra WHERE medida = '$medida' ";
     $resultado_verificar = $conexion->query($sql_verificar);
@@ -25,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
             </script>
         ';
-    } else {$sql = "CALL InsertarMedidaTierra('$medida', '$descripcion')";
+    } else {$sql = "CALL InsertarMedidaTierra('$medida', '$descripcion', '$Creado_Por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

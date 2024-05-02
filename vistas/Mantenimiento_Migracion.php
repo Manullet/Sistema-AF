@@ -195,12 +195,12 @@ session_start();
                     <div class="row mb-3">
                         <div class="col">
                             <label for="Motivo" class="form-label">Motivo</label>
-                            <input type="text" class="form-control" id="Motivo" name="Motivo" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <input type="text" class="form-control" id="Motivo" name="Motivo">
                             <span id="error_message" style="color: red;"></span>
                         </div>
                         <div class="col">
                             <label for="Descripcion" class="form-label">Descripción </label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" >
                             <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
@@ -344,18 +344,7 @@ session_start();
         });
     });
 </script>
-<script>
-    function validateInput(input) {
-        var regex = /^[A-Za-z]+$/;
-        var error_message = document.getElementById('error_message');
 
-        if (!regex.test(input.value)) {
-            error_message.textContent = 'Solo se permiten letras en este campo.';
-        } else {
-            error_message.textContent = '';
-        }
-    }
-</script>
 
 <!-- JQUERY -->
 <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"

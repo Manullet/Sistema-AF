@@ -88,7 +88,7 @@ if(isset($_SESSION['usuario'])) {
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT o.id_organizacion, o.organizacion, o.descripcion , o.estado ,t.tipo_organizacion AS tipo_organizacion
+                $sql = $conexion->query("SELECT o.*, t.tipo_organizacion
                 FROM tbl_organizaciones o
                 INNER JOIN tbl_tipo_organizacion t ON o.id_tipo_organizacion = t.id_tipo_organizacion;
                 ");
@@ -107,8 +107,8 @@ if(isset($_SESSION['usuario'])) {
                             ?></td>
                         <td>
                         <?php if ($permiso_actualizacion == 1) : ?>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                             ('<?= $datos->id_organizacion ?>', '<?= $datos->organizacion ?>', '<?= $datos->id_tipo_organizacion ?>', '<?= $datos->descripcion ?>','<?= $datos->estado ?>')">
+                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick=
+                            "abrirModalEditar('<?= $datos->id_organizacion?>', '<?= $datos->organizacion?>', '<?= $datos->id_tipo_organizacion?>', '<?= $datos->descripcion?>','<?= $datos->estado?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
@@ -168,7 +168,7 @@ if(isset($_SESSION['usuario'])) {
                                     include '../php/conexion_be.php';
 
                                     // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
-                                    $sql = "SELECT id_tipo_organizacion, tipo_organizacion FROM tbl_tipo_organizacion";
+                                    $sql = "SELECT id_tipo_organizacion, tipo_organizacion FROM tbl_tipo_organizacion WHERE estado='A'";
 
                                     // Ejecutar la consulta
                                     $result = mysqli_query($conexion, $sql);
@@ -234,10 +234,7 @@ if(isset($_SESSION['usuario'])) {
                             <input type="text" class="form-control" id="organizacion" name="organizacion">
                         </div>
 
-                        <div class="col-6">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion">
-                        </div>
+                        
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="id_tipo_organizacion">organizacion</label>
@@ -248,7 +245,7 @@ if(isset($_SESSION['usuario'])) {
                                     include '../php/conexion_be.php';
 
                                     // Consulta SQL para obtener los valores disponibles de ID y Nombre de Aldea
-                                    $sql = "SELECT id_tipo_organizacion, tipo_organizacion FROM tbl_tipo_organizacion";
+                                    $sql = "SELECT id_tipo_organizacion, tipo_organizacion FROM tbl_tipo_organizacion WHERE estado='A'";
 
                                     // Ejecutar la consulta
                                     $result = mysqli_query($conexion, $sql);
@@ -267,6 +264,10 @@ if(isset($_SESSION['usuario'])) {
                                     ?>
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-6">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion">
                         </div>
                     </div>
                     <div class="modal-footer">
