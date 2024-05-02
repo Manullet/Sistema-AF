@@ -32,14 +32,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $resultado = $stmt->get_result();
     $datos_usuario = $resultado->fetch_assoc();
-    $fecha_nacimiento_actual = $datos_usuario['fecha_nacimiento'];
-
+    $fecha_nacimiento_actual = date('Y-m-d');
 
     // Comparar las fechas
-    if ($fechaNacimiento > $fecha_nacimiento_actual) {
-        echo "error";
-
+    if ($fecha_ingresada > $fecha_nacimiento_actual) {
+        echo "La fecha ingresada es mayor que la fecha de hoy.";
         die();
+    } else {
+        echo "La fecha ingresada es válida.";
     }
 
     // Llamar al procedimiento almacenado

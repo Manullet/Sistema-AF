@@ -2,7 +2,7 @@
 include '../php/conexion_be.php';
 
 // Obtener el ID del usuario que deseas eliminar
-$id_usuario = $_POST['Id_Usuario'];
+$id_usuario = $_POST['id'];
 
 // Preparar la llamada al procedimiento almacenado
 $sql = "CALL EliminarUsuario(?)";

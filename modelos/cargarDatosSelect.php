@@ -241,6 +241,40 @@ switch($generarSelect){
         mysqli_close($conexion);
     break;
 
+
+    case 'Roles': 
+        $query = "SELECT Id_rol, Nombre FROM roles WHERE STATUS = 'ACTIVO'";
+        $result = mysqli_query($conexion, $query);
+
+        // Verificar si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            // Array para almacenar los datos de los municipios
+            $roles = array();
+
+            // Iterar sobre los resultados y guardar los datos en el array
+            while ($row = mysqli_fetch_assoc($result)) {
+                $rol = array(
+                    'id' => $row['Id_rol'],
+                    'nombre' => $row['Nombre']
+                );
+                $roles[] = $rol;
+            }
+
+            // Convertir el array a formato JSON
+            $json_response = json_encode($roles);
+
+            // Retornar el JSON como respuesta
+            echo $json_response;
+        } else {
+            // No se encontraron resultados
+            echo "No se encontraron roles.";
+        }
+
+        // Liberar el resultado y cerrar la conexión a la base de datos
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+    break;
+
 }
 
 

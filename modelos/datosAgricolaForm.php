@@ -81,6 +81,16 @@ session_start();
                         $p_Id_Medida_Vendida = $row['id_medida'];
                     }
                 }
+
+                $query = "SELECT Id_siembra FROM tbl_siembra WHERE Tipo_siembra = '$p_Superficie_Primera_Postrera' limit 1";
+                $result = mysqli_query($conexion, $query);
+
+                if ($result) {
+                    // Verificar si se encontró el ID del motivo
+                    if ($row = mysqli_fetch_assoc($result)) {
+                        $p_Id_siembra = $row['Id_siembra'];
+                    }
+                }
             
                 // Consulta SQL para insertar los datos en la tabla
                 // Llamar al procedimiento almacenado
@@ -89,7 +99,7 @@ session_start();
                     $idFicha,
                     $idProductor,
                     $p_Id_Tipo_Cultivo,
-                    '$p_Superficie_Primera_Postrera',
+                    $p_Id_siembra,
                     $p_Id_Medida_Primera_Postrera,
                     $p_Produccion_Obtenida,
                     $p_Id_Medida_Produccion_Obtenida,

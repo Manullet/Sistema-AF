@@ -12,7 +12,7 @@
             position: relative;
         }
 
-        input {
+        input, a {
             width: 100%;
             box-sizing: border-box;
             margin-bottom: 10px;
@@ -28,6 +28,14 @@
             right: 10px;
             transform: translateY(-50%);
             cursor: pointer;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -47,7 +55,11 @@
             <span class="eye-icon" onclick="togglePassword('confirmarContrasena')">&#128065;</span>
         </div>
         <input type="submit" class="btn" value="Registrarse">
+
+        <a href="index.php" class="btn btn-link text-info" style="padding:1rem;"><i class="fa fa-angle-left"></i> Regresar</a>
     </form>
+
+    
 
     <!-- Scripts para las funciones de validación -->
 

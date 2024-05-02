@@ -30,6 +30,20 @@
         </div>
     </div>
 
+    <!-- <div class="containertable text-center">
+        <h1 class="poppins-font mb-3">Restaurar Backup</h1>
+        <div>
+            <img src="assets/images/img-backup.jpg" alt="Imagen de la base de datos" class="img-fluid" style="max-width: 100%;">
+        </div>
+
+        <div class="mt-3">
+            <form action="modelos/restaurarBackup.php" method="post" enctype="multipart/form-data">
+                <input type="file" name="archivo_sql" accept=".sql" class="form-control">
+                <button type="submit" class="btn btn-success"name="submit">Restaurar</button>
+            </form>
+        </div>
+    </div> -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <!-- ... (resto de tus scripts) ... -->
 

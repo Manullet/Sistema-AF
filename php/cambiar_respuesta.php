@@ -100,7 +100,7 @@ $usuario = $_SESSION['usuario'];
 </head>
 <body>
     <div class="contenedor">
-        <h2>Configurar Pregunta de Seguridad</h2>
+        <h2>Cambiar Pregunta de Seguridad</h2>
         <h5>Seleccione una pregunta de seguridad e ingrese una respuesta que considere conveniente.
              Esa respuesta le servirá en caso de necesitar recuperar su contraseña
         </h5>
@@ -171,7 +171,19 @@ $usuario = $_SESSION['usuario'];
                 success: function(data) {
                     // Si la respuesta del servidor indica que la validación es correcta, redirigir al usuario
                     if(data.valid === true) {
-                        window.location.href = '../bienvenida.php';
+                        Swal.fire({
+                            title: 'Cambio Realizado',
+                            text: 'Pregunta de seguridad cambiada exitosamente',
+                            icon: 'success',
+                            confirmButtonText: 'Ok'
+                        }).then((result) => {
+                            // Aquí puedes realizar la funcionalidad que desees cuando el usuario haga clic en el botón "Ok"
+                            if (result.isConfirmed) {
+                                // Por ejemplo, redirigir a otra página
+                                window.location.href = '../bienvenida.php';
+                            }
+                        });
+                        
                     } else {
                         // Si la validación falla, mostrar un mensaje de error
                         Swal.fire(

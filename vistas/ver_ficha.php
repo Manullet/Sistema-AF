@@ -1178,72 +1178,12 @@ $_SESSION['id_ficha'] = $numeroFicha;
             <h3>Producción Pecuaria (Inventario)</h3>
             <br>
 
-            <div class="row">
-                <!-- Tipo de Animal -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="tipoAnimal">Tipo de Animal</label>
-                        <select class="form-control" id="tipoAnimal" name="tipoAnimal">
-                            <?php
-                            // Conexión a la base de datos
-                            include '../php/conexion_be.php';
-
-                            // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios";
-
-                            // Ejecutar la consulta
-                            $result = mysqli_query($conexion, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                    echo '<option value="' . $row["id_tipo_pecuario"] . '">' . $row["tipo_pecuario"] . '</option>';
-                                }
-                            } else {
-                                echo '<option value="">No hay municipios disponibles</option>';
-                            }
-
-                            // Cierra la conexión a la base de datos
-                            mysqli_close($conexion);
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Género -->
-                <div class="col-md-4">
-                    <div class="form-group" id="divGenero">
-                        <label for="generoAnimal">Género</label>
-                        <select class="form-control" id="generoAnimal" name="generoAnimal">
-                            <option value="Hembra">Hembra</option>
-                            <option value="Macho">Macho</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Cantidad -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="cantidadAnimal">Cantidad</label>
-                        <input type="number" class="form-control" id="cantidadAnimal" name="cantidadAnimal" placeholder="Cantidad" min="1">
-                    </div>
-                </div>
-
-                <!-- Botón Agregar -->
-                <div class="col-md-3 d-flex align-items-center">
-                    <button type="button" class="btn btn-info" onclick="agregarATabla()">Agregar</button>
-                </div>
-                <br>
-                <br>
-            </div>
-
             <table class="table">
                 <thead class="table-dark">
                     <tr>
                         <th>Tipo de Animal</th>
                         <th>Género</th>
                         <th>Cantidad</th>
-                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody id="tablaTemporalAnimales" class="table-hover">
@@ -1253,85 +1193,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
 
 
             <h3>Unidades vendidas año anterior</h3>
-            <div class="row form-group">
-                <!-- Tipo de Animal -->
-                <div class="col-md-3">
-                    <label for="tipoAnimal">Tipo de Animal</label>
-                    <select class="form-control" id="tipoAnimalU" name="tipoAnimalU">
-                        <?php
-                        // Conexión a la base de datos
-                        include '../php/conexion_be.php';
-
-                        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                        $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios";
-
-                        // Ejecutar la consulta
-                        $result = mysqli_query($conexion, $sql);
-
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                echo '<option value="' . $row["id_tipo_pecuario"] . '">' . $row["tipo_pecuario"] . '</option>';
-                            }
-                        } else {
-                            echo '<option value="">No hay municipios disponibles</option>';
-                        }
-
-                        // Cierra la conexión a la base de datos
-                        mysqli_close($conexion);
-                        ?>
-                    </select>
-                </div>
-
-                <!-- Precio de Venta -->
-                <div class="col-md-3">
-                    <label for="precioVentaU">Precio de venta (Lps)</label>
-                    <input type="number" class="form-control" id="precioVentaU" name="precioVentaU" min="0" step="0.01">
-                </div>
-
-                <!-- Unidad de Medida -->
-                <div class="col-md-3">
-                    <label for="unidadMedida">Unidad de medida:</label>
-                    <select class="form-control" id="unidadMedida" name="unidadMedida">
-                        <?php
-                        // Conexión a la base de datos
-                        include '../php/conexion_be.php';
-
-                        // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                        $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
-
-                        // Ejecutar la consulta
-                        $result = mysqli_query($conexion, $sql);
-
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
-                                echo '<option value="' . $row["id_medida"] . '">' . $row["medida"] . '</option>';
-                            }
-                        } else {
-                            echo '<option value="">No hay municipios disponibles</option>';
-                        }
-
-                        // Cierra la conexión a la base de datos
-                        mysqli_close($conexion);
-                        ?>
-                    </select>
-                </div>
-
-                <!-- Mercado y botón Agregar -->
-                <div class="col-md-3 d-flex align-items-end">
-                    <div class="form-group flex-grow-1 mr-2">
-                        <label for="mercado">Mercado</label>
-                        <input type="text" class="form-control" id="mercado" name="mercado">
-                    </div>
-                </div>
-
-                <!-- Botón Agregar -->
-                <div class="col-md-3 d-flex align-items-center">
-                    <button type="button" class="btn btn-info" onclick="agregarAUnidadesVendidas()">Agregar</button>
-                </div>
-            </div>
-
             <table class="table">
                 <thead class="table-dark">
                     <tr>
@@ -1525,12 +1386,12 @@ $_SESSION['id_ficha'] = $numeroFicha;
             <!-- Selección múltiple de quién provee el apoyo -->
             <div class="form-group seccionOculta">
                 <label>¿De quién recibe apoyo para la producción agropecuaria? (selección múltiple)</label><br>
-                <div class="form-checkbox" id="CheckboxTipoOrganizacion"></div>
+                <div class="form-checkbox" id="CheckboxApoyo"></div>
             </div>
 
             <div class="form-group seccionOculta">
                 <label>¿Qué tipo de apoyo recibe? (selección múltiple)</label>
-                <div class="form-checkbox" id="CheckboxApoyo"></div>
+                <div class="form-checkbox" id="CheckboxTipoOrganizacion"></div>
             </div>
 
             <div class="form-group seccionOculta">

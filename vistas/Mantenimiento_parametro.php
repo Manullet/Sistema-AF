@@ -1,6 +1,6 @@
 <?php 
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_roles.php';
+ $_SESSION['url'] = 'vistas/Mantenimiento_parametro.php';
  $_SESSION['content-wrapper'] = 'content-wrapper';
 ?>
 
@@ -17,7 +17,7 @@ session_start();
 <div class="containertable">
         <div class="d-flex justify-content-between align-items-end mb-4">
             <div>
-                <h1 class="poppins-font mb-2">MANTENIMIENTO ROLES</h1>
+                <h1 class="poppins-font mb-2">MANTENIMIENTO PARAMETROS</h1>
                 <br>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                     <i class="nav-icon bi bi-people-fill"></i> Crear
@@ -40,14 +40,10 @@ session_start();
         <table class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">Id Rol</th>
+                    <th scope="col">Id Parámetro</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col"></th>
-                    <th scope="col">Creado Por</th>
+                    <th scope="col">Valor</th>
                     <th scope="col">Fecha Creación</th>
-                    <th scope="col">Actualizado Por</th>
                     <th scope="col">Fecha Actualización</th>
                     <th scope="col">Acciones</th>
                 </tr>
@@ -55,35 +51,22 @@ session_start();
             <tbody class="text-center">
                 <?php
                 include "../php/conexion_be.php";
-                $sql = $conexion->query("SELECT * FROM roles");
+                $sql = $conexion->query("SELECT * FROM parametros");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
-                        <td><?= $datos->Id_rol ?></td>
-                        <td><?= $datos->Nombre?></td>
-                        <td><?= $datos->Descripcion ?></td>
-                        <td><?php
-                            if ($datos->STATUS == "ACTIVO") {
-                                echo '<span class="badge bg-success">Activo</span>';
-                            } else {
-                                echo '<span class="badge bg-danger">Inactivo</span>';
-                            }
-                            ?></td>
-                        <td>
-                        <td><?= $datos->Creado_Por ?></td>
+                        <td><?= $datos->Id_parametros ?></td>
+                        <td><?= $datos->Parametro?></td>
+                        <td><?= $datos->Valor ?></td>
                         <td><?= $datos->Fecha_Creacion ?></td>
-                        <td><?= $datos->Actualizado_Por  ?></td>
                         <td><?= $datos->Fecha_Actualizacion ?></td>
                         <td>
-                          <button class="btn btn-primary btn-permisos" data-toggle="modal" data-target="#modalCrear" data-id="<?= $datos->Id_rol ?>" data-nombre="<?= $datos->Nombre ?>" onclick="ObtenerRol(this)">
-                            <i class="fa fa-eye"></i> Permisos
-                          </button>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->Id_rol ?>', '<?= $datos->Nombre ?>', '<?= $datos->Descripcion ?>', '<?= $datos->Creado_Por ?>', '<?= $datos->Fecha_Creacion ?>', '<?= $datos->Actualizado_Por ?>', '<?= $datos->Fecha_Actualizacion ?>', '<?= $datos->STATUS ?>')">
+                            ('<?= $datos->Id_parametros ?>', '<?= $datos->Parametro ?>', '<?= $datos->Valor ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 Editar
                             </button>
-                            <form id="deleteForm" method="POST" action="php/delete_roles.php" style="display: inline;">
-                                <input type="hidden" name="Id_rol" value="<?= $datos->Id_rol ?>">
+                            <form id="deleteForm" method="POST" action="modelos/deleteParametro.php" style="display: inline;">
+                                <input type="hidden" name="Id_parametro" value="<?= $datos->Id_parametros ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>
                                     Eliminar
@@ -111,95 +94,6 @@ session_start();
     </nav>
 </div>
 
-<!-- Modal crear Permisos -->
-<div class="modal fade" id="modalCrear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Listado de Permisos</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            <h2><span id="nombreRolSeleccionado"></span></h2> <!-- Mostrar el nombre del rol -->
-                <h2>Rol: <span id="idRolSeleccionado"></span></h2> <!--  Mostrar el ID del rol -->
-                <form id="permissionForm" method="POST" action="vistas/guardar_permisos.php">
-                    <input type="hidden" id="Id_rol_modal" name="Id_rol">
-                    <table class="table table-hover">
-                        <thead class="table-dark text-center" style="background-color: #343A40;">
-                            <tr>
-                                <th>Objeto</th>
-                                <th>Crear</th>
-                                <th>Actualizar</th>
-                                <th>Eliminar</th>
-                                <th>Consulta</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center"  id="permisos">
-                            
-                        </tbody>
-                    </table>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<script>
-    function ObtenerRol(button) {
-        var idRol = button.getAttribute("data-id");
-        var nombreRol = button.getAttribute("data-nombre");
-        document.getElementById("Id_rol_modal").value = idRol;
-        document.getElementById("nombreRolSeleccionado").textContent = nombreRol;
-        document.getElementById("idRolSeleccionado").textContent = idRol;
-
-        var table = document.getElementById('permisos')
-        while (table.rows.length > 1) {
-            table.deleteRow(1);
-        }
-
-    $.ajax({
-            url: "modelos/cargarDatosFicha.php",
-            type: "GET",
-            data: {
-                contenedor: 'PermisosCheckbox', id: idRol
-            },
-            success: function(data) {
-                console.log(data)
-                const datosArray = JSON.parse(data)
-
-                datosArray.forEach(function(datos) {
-                    // Crea una nueva fila
-                    var row = table.insertRow();
-
-                    // Crea celdas para cada dato y checkbox
-                    var objetoCell = row.insertCell();
-                    objetoCell.textContent = datos.Objeto;
-
-                    var crearCell = row.insertCell();
-                    crearCell.innerHTML = "<input type='checkbox' name='crear_" + datos.Id_objeto + "' value='1'" + (datos.permiso_insercion == 1 ? " checked" : "") + ">";
-
-                    var actualizarCell = row.insertCell();
-                    actualizarCell.innerHTML = "<input type='checkbox' name='actualizar_" + datos.Id_objeto + "' value='1'" + (datos.permiso_actualizacion == 1 ? " checked" : "") + ">";
-
-                    var eliminarCell = row.insertCell();
-                    eliminarCell.innerHTML = "<input type='checkbox' name='eliminar_" + datos.Id_objeto + "' value='1'" + (datos.permiso_eliminacion == 1 ? " checked" : "") + ">";
-
-                    var consultarCell = row.insertCell();
-                    consultarCell.innerHTML = "<input type='checkbox' name='consultar_" + datos.Id_objeto + "' value='1'" + (datos.permiso_consulta == 1 ? " checked" : "") + ">";
-                });
-            },
-        });
-
-    }
-</script>
 
 <!-- Modal para editar -->
 <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -212,33 +106,25 @@ session_start();
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formularioEditar" method="POST" action="modelos/update_rol.php">
+                <form id="formularioEditar" method="POST" action="modelos/editarParametro.php">
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Id_rol">Id Rol</label>
-                                <input type="text" class="form-control" id="Id_rol" name="Id_rol" readonly>
+                                <label for="Id_parametro">Id Parámetro</label>
+                                <input type="text" class="form-control" id="Id_Parametro" name="Id_Parametro" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="nombre">Nombre </label>
-                                <input type="text" class="form-control" id="nombre_edit" name="nombre" required>
+                                <input type="text" class="form-control" id="nombre_edit" name="nombre_edit" required>
                             </div>
                         </div>
                     </div>
                     <div class="col-8">
-                        <label for="Descripcion" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="Descripcion_edit" name="Descripcion" rows="4"></textarea>
+                        <label for="Descripcion" class="form-label">Valor</label>
+                        <textarea class="form-control" id="valor_edit" name="valor_edit" rows="4"></textarea>
                       </div>
-                      <div class="col-8">
-                            <label for="nombre" class="form-label">Estado</label>
-                            <select name="estadoEdit" id="estadoEdit" class="form-control">
-                                <option value="" disabled selected>Seleccione una opción</option>
-                                <option value="ACTIVO">ACTIVO</option>
-                                <option value="INACTIVO">INACTIVO</option>
-                            </select>
-                        </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary" id="actualizarBtn">Actualizar</button>
@@ -260,23 +146,15 @@ session_start();
                 </button>
             </div>
             <div class="modal-body">
-                <form action="modelos/insert_rol.php" method="POST">
+                <form action="modelos/insertarParametro.php" method="POST">
                         <div class="col-8">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombre" name="nombre">
                         </div>
                         <div class="col-8">
-                        <label for="Descripcion" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="Descripcion" name="Descripcion" rows="4"></textarea>
+                        <label for="Descripcion" class="form-label">Valor</label>
+                        <textarea class="form-control" id="valor" name="valor" rows="4"></textarea>
                       </div>
-                      <div class="col-8">
-                            <label for="nombre" class="form-label">Estado</label>
-                            <select name="estado" id="estado" class="form-control">
-                                <option value="" disabled selected>Seleccione una opción</option>
-                                <option value="ACTIVO">ACTIVO</option>
-                                <option value="INACTIVO">INACTIVO</option>
-                            </select>
-                        </div>
                     <br>
                     <button type="submit" class="btn btn-success" name="btnnuevo" value="ok">Crear</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -289,15 +167,12 @@ session_start();
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
     // Función para abrir el modal de edición
-    function abrirModalEditar(Id_rol, nombre, Descripcion, Creado_Por, Fecha_Creacion, Actualizado_Por, Fecha_Actualizacion, status) {
-        document.getElementById("Id_rol").value = Id_rol;
-        document.getElementById("nombre_edit").value = nombre;
-        document.getElementById("Descripcion_edit").value = Descripcion;
-        document.getElementById("estadoEdit").value = status;
-        document.getElementById("Fecha_Creacion").value = Fecha_Creacion;
-        document.getElementById("Actualizado_Por").value = Actualizado_Por;
-        document.getElementById("Fecha_Actualizacion").value = Fecha_Actualizacion;
+    function abrirModalEditar(Id, nombre, valor) {
+        console.log(Id)
 
+        document.getElementById("Id_Parametro").value = Id;
+        document.getElementById("nombre_edit").value = nombre;
+        document.getElementById("valor_edit").value = valor;
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
     }
 </script>
@@ -313,14 +188,14 @@ session_start();
         });
 
         // Validación para el formulario de creación
-        $("form[action='modelos/insert_rol.php']").on("submit", function(event) {
+        $("form[action='modelos/insertarParametro.php']").on("submit", function(event) {
             event.preventDefault();
             validarCreacion($(this));
         });
 
         function validarEdicion(formulario) {
             // Convertir el valor del campo de nombre a mayúsculas antes de enviar el formulario
-            var nombreEditInput = formulario.find("input[name='nombre']");
+            var nombreEditInput = formulario.find("input[name='nombre_edit']");
             nombreEditInput.val(nombreEditInput.val().toUpperCase());
 
             $.ajax({
@@ -403,33 +278,22 @@ session_start();
                         url: form.attr("action"),
                         method: "POST",
                         data: form.serialize(),
-                        dataType: "json",
                         success: function(response) {
-                            if (response.error)  {
+                            if (response == "success") {
                                 Swal.fire({
-                                    title: "Error al eliminar",
-                                    text: "El rol ha sido asignado a un usuario y no se puede eliminar",
+                                    title: "Error",
+                                    text: "Hubo un problema al eliminar el Registro.",
                                     icon: "error",
                                     confirmButtonText: "Cerrar"
-                                })
-                            }
-
-                            if (response.success)  {
+                                }).then(function() {
+                                    location.reload(); // Recarga la página
+                                });
+                            } else {
                                 Swal.fire({
                                     title: "Registro eliminado correctamente",
                                     text: "El Registro se ha eliminado correctamente.",
                                     icon: "success",
                                     showCancelButton: false,
-                                    confirmButtonText: "Cerrar"
-                                }).then(function() {
-                                    location.reload(); // Recarga la página
-                                });
-                                
-                            } else{
-                                Swal.fire({
-                                    title: "Error",
-                                    text: "Hubo un problema al eliminar el Registro.",
-                                    icon: "error",
                                     confirmButtonText: "Cerrar"
                                 }).then(function() {
                                     location.reload(); // Recarga la página

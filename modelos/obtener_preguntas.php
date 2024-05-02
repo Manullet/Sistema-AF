@@ -4,7 +4,7 @@ include "../php/conexion_be.php";
 
 try {
     $preguntas = array();
-    $consulta = "SELECT id_pregunta, Pregunta FROM preguntas";
+    $consulta = "SELECT id_pregunta, Pregunta FROM preguntas where estado='A'";
     $resultado = $conexion->query($consulta);
 
     while ($fila = $resultado->fetch_assoc()) {

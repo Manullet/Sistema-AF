@@ -98,11 +98,16 @@ if (isset($_SESSION['usuario'])) {
     <input type="hidden" name="usuario" value="<?php echo htmlspecialchars($usuario_actual['usuario']); ?>">
 
     <label for="contrasena_actual">Contraseña Actual:</label>
-    <input type="password" id="contrasena_actual" name="contrasena_actual" required>
+    <div style="position: relative;">
+        <input type="password" id="contrasena_actual" name="contrasena_actual" required>
+        <span style="position: absolute; top: 27%; right: 7%; transform: translateY(-50%); cursor: pointer;" onclick="togglePasswordVisibility(this.previousElementSibling, this)">🔒</span>
+    </div>
+
     <label for="nueva_contrasena">Nueva Contraseña:</label> 
     
     <div style="position: relative;">
         <input type="password" id="nueva_contrasena" name="nueva_contrasena" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*-_?&])[A-Za-z\d@$!-_%*?&]{8,32}$" title="Debe contener al menos 8 caracteres, una mayúscula, un número y un carácter especial" required>
+        <span style="position: absolute; top: 15%; right: 7%; transform: translateY(-50%); cursor: pointer;" onclick="togglePasswordVisibility(this.previousElementSibling, this)">🔒</span>
         <div class="section">
     <a href="../bienvenida.php" class="back-button" style="background: #52C6DA; color: white; border: none; padding: 10px 0px; border-radius: 5px; cursor: pointer; width: 100%; display: block; text-align: center; margin-top: 20px; text-decoration: none; font-size: 14px;">Volver</a>
 </div>
@@ -117,6 +122,19 @@ if (isset($_SESSION['usuario'])) {
                     contraseñaInput.type = "text";
                 } else {
                     contraseñaInput.type = "password";
+                }
+            }
+        </script>
+
+<script type="text/javascript">
+            function togglePasswordVisibility(inputField, eyeIcon) {
+                var fieldType = inputField.type;
+                if (fieldType === "password") {
+                    inputField.type = "text";
+                    eyeIcon.textContent = "👁️"; // Cambia el ícono de ojo abierto
+                } else {
+                    inputField.type = "password";
+                    eyeIcon.textContent = "🔒"; // Cambia el ícono de ojo cerrado
                 }
             }
         </script>

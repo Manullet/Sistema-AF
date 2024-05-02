@@ -139,7 +139,7 @@ switch($generarCheckbox){
 
 
     case 'Apoyo': 
-        $query = "SELECT tipo_apoyos FROM tbl_tipos_apoyos WHERE Estado='ACTIVO'";
+        $query = "SELECT tipo_apoyo_produccion FROM tbl_apoyos WHERE Estado='ACTIVO'";
         $result = mysqli_query($conexion, $query);
 
         // Verificar si hay resultados
@@ -150,7 +150,7 @@ switch($generarCheckbox){
             // Iterar sobre los resultados y guardar los datos en el array
             while ($row = mysqli_fetch_assoc($result)) {
                 $apoyo = array(
-                    'nombre' => $row['tipo_apoyos']
+                    'nombre' => $row['tipo_apoyo_produccion']
                 );
                 $apoyos[] = $apoyo;
             }

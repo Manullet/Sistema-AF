@@ -1229,8 +1229,28 @@ $_SESSION['id_ficha'] = $numeroFicha;
                             <label for="tipoSiembra">Siembra</label>
                             <select class="form-control" id="tipoSiembra" name="tipoSiembra">
                                 <option value="">Seleccione una opción</option>
-                                <option value="Primera">Primera</option>
-                                <option value="Postrera">Postrera</option>
+                                <?php
+                                // Conexión a la base de datos
+                                include '../php/conexion_be.php';
+
+                                // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
+                                $sql = "SELECT Id_siembra, Tipo_siembra FROM tbl_siembra where Estado='A'";
+
+                                // Ejecutar la consulta
+                                $result = mysqli_query($conexion, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        // Genera opciones con el nombre del municipio como etiqueta y el ID como valor
+                                        echo '<option value="' . $row["Id_siembra"] . '">' . $row["Tipo_siembra"] . '</option>';
+                                    }
+                                } else {
+                                    echo '<option value="">No hay municipios disponibles</option>';
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                mysqli_close($conexion);
+                                ?>
                             </select>
                         </div>
 
@@ -1919,12 +1939,12 @@ $_SESSION['id_ficha'] = $numeroFicha;
             <!-- Selección múltiple de quién provee el apoyo -->
             <div class="form-group seccionOculta">
                 <label>¿De quién recibe apoyo para la producción agropecuaria? (selección múltiple)</label><br>
-                <div class="form-checkbox" id="CheckboxTipoOrganizacion"></div>
+                <div class="form-checkbox" id="CheckboxApoyo"></div>
             </div>
 
             <div class="form-group seccionOculta">
                 <label>¿Qué tipo de apoyo recibe? (selección múltiple)</label>
-                <div class="form-checkbox" id="CheckboxApoyo"></div>
+                <div class="form-checkbox" id="CheckboxTipoOrganizacion"></div>
             </div>
 
             <div class="form-group seccionOculta">
@@ -2220,12 +2240,13 @@ $_SESSION['id_ficha'] = $numeroFicha;
     function agregarAUnidadesVendidas() {
         var tipoAnimal = document.getElementById('tipoAnimalU');
         var precioVenta = document.getElementById('precioVentaU').value;
-        var unidadMedida = document.getElementById('unidadMedida').value;
+        var unidadMedida = document.getElementById('unidadMedida');
         var mercado = document.getElementById('mercado').value;
 
+        var unidadMedidaName = unidadMedida.options[unidadMedida.selectedIndex].text;
         var tipoAnimalName = tipoAnimal.options[tipoAnimal.selectedIndex].text;
         // Crear una nueva fila para la tabla de unidades vendidas
-        var filaUnidadesVendidas = "<tr><td>" + tipoAnimalName + "</td><td>" + precioVenta + "</td><td>" + unidadMedida + "</td><td>" + mercado + "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
+        var filaUnidadesVendidas = "<tr><td>" + tipoAnimalName + "</td><td>" + precioVenta + "</td><td>" + unidadMedidaName + "</td><td>" + mercado + "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
 
         // Agregar la fila a la tabla correspondiente
         document.getElementById('tablaUnidadesVendidas').innerHTML += filaUnidadesVendidas;
@@ -2348,35 +2369,39 @@ $_SESSION['id_ficha'] = $numeroFicha;
     $(document).ready(function() {
         $('#datosTrabajadorForm').submit(function(e) {
             e.preventDefault(); // Evitar la recarga de la página
+            var fechaIngresada = document.getElementById("fechaNacimiento").value;
+            var hoy = new Date().toISOString().slice(0,10);
+
+            if (fechaIngresada > hoy) {
+                Swal.fire({
+                    title: "Error",
+                    text: "La fecha de nacimiento no puede ser mayor a la fecha de hoy",
+                    icon: "error"
+                    });
+            }else{
+                $.ajax({
+                    type: 'POST',
+                    url: 'modelos/EdicionFichas/editar_productor.php',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Aquí puedes manejar la respuesta del servidor si es necesario
+                        console.log(response);
+                        navigateToForm('#datosUbiForm')
+                        // Deshabilita el botón después de hacer clic
+                        //$('#guardarBtn').prop('disabled', true);
+                        // O puedes ocultar el botón si prefieres
+                        // $('#guardarBtn').hide();
+                    },
+                    error: function(error) {
+                        // Manejar el error si es necesario
+                        console.error(error);
+                    }
+                });
+
+            }
 
             // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/EdicionFichas/editar_productor.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-
-                    if(response=='error'){
-                        Swal.fire(
-                            'Error',
-                            'La fecha de nacimiento no puede ser mayor a la que se encuentra ya registrada',
-                            'error'
-                        )
-                    }else{
-                        navigateToForm('#datosUbiForm')
-                    }
-                    // Deshabilita el botón después de hacer clic
-                    //$('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
+            
         });
     });
 </script>
@@ -2680,8 +2705,6 @@ $_SESSION['id_ficha'] = $numeroFicha;
     });
 </script>
 
-
-
 <script>
     $(document).ready(function() {
         document.getElementById('divGenero').style.display = "none"
@@ -2704,6 +2727,34 @@ $_SESSION['id_ficha'] = $numeroFicha;
             // Convertir los datos de la primera tabla a JSON
             const datosJSON1 = JSON.stringify(datos1);
 
+            // Enviar los datos al servidor mediante una solicitud AJAX
+            $.ajax({
+                url: 'modelos/EdicionFichas/editar_ProduccionPecuaria.php',
+                type: 'POST',
+                contentType: 'application/json',
+                data: datosJSON1,
+                success: function(response) {
+                    // Manejar la respuesta del servidor
+                    console.log(response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Manejar errores
+                    console.error('Error:', errorThrown);
+                }
+            });
+
+            // Evitar que se envíe el formulario normalmente
+            e.preventDefault();
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        document.getElementById('divGenero').style.display = "none"
+
+        $('#datosPecuariaForm').submit(function(e) {
             // Captura los datos de la segunda tabla
             const tablaTemporal2 = document.getElementById('tablaUnidadesVendidas');
             const filas2 = tablaTemporal2.querySelectorAll('tr');
@@ -2721,20 +2772,12 @@ $_SESSION['id_ficha'] = $numeroFicha;
             // Convertir los datos de la segunda tabla a JSON
             const datosJSON2 = JSON.stringify(datos2);
 
-            // Combinar ambos conjuntos de datos si es necesario
-            const datosTotales = {
-                "tabla1": datosJSON1,
-                "tabla2": datosJSON2
-            };
-
-            const datosJSON = JSON.stringify(datosTotales);
-
             // Enviar los datos al servidor mediante una solicitud AJAX
             $.ajax({
-                url: 'modelos/EdicionFichas/editar_ProduccionPecuaria.php',
+                url: 'modelos/EdicionFichas/editar_VentaPecuaria.php',
                 type: 'POST',
                 contentType: 'application/json',
-                data: datosJSON,
+                data: datosJSON2,
                 success: function(response) {
                     // Manejar la respuesta del servidor
                     console.log(response);

@@ -3,17 +3,13 @@ ob_start();
 include "../../php/conexion_be.php";
 session_start();
 
-// Se guarda el dato del usuario creador
+//Se guarda el dato del usuario creador
 $creado_por = $_SESSION["usuario"]["usuario"]; // Reemplaza con la lógica adecuada para obtener el nombre de usuario
 
-// Obtener datos del formulario
-$jsonData = file_get_contents('php://input');
+ // Obtener datos del formulario
+ $idFicha=$_SESSION['id_ficha'];
 
-// Verificar si se recibieron datos
-if (!empty($jsonData)) {
-    $idFicha=$_SESSION['id_ficha'];
-
-    $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
+ $sql = "SELECT id_productor from tbl_productor where id_ficha='$idFicha' limit 1";
     $result = $conexion->query($sql);
     $row = $result->fetch_assoc();
    
@@ -26,11 +22,14 @@ if (!empty($jsonData)) {
     $idUbicacion = $row['id_ubicacion'];
 
     // Decodificar los datos JSON a un array PHP
+    $jsonData = file_get_contents('php://input');
+
+// Verificar si se recibieron datos
+if (!empty($jsonData)) {
+    // Decodificar los datos JSON a un array PHP
     $data = json_decode($jsonData, true);
 
-    $datosTabla1 = json_decode($data['tabla1'], true);
-    $datosTabla2 = json_decode($data['tabla2'], true);
-
+    if ($data !== null) {
         // Bandera para verificar si hubo algún error en las inserciones
         $error = false;
 
@@ -39,7 +38,7 @@ if (!empty($jsonData)) {
         and Id_Productor = '$idProductor' and Id_Ubicacion = '$idUbicacion'";
         $result = $conexion->query($sql);
 
-        foreach ($datosTabla1 as $fila) {
+        foreach ($data as $fila) {
             $cantidadMachos=0;
             $cantidadHembras=0;
 
@@ -68,27 +67,9 @@ if (!empty($jsonData)) {
         
             // Consulta SQL para insertar los datos en la tabla
             $sql = "INSERT INTO tbl_produccion_pecuaria(Id_Ficha, Id_Ubicacion, Id_Productor, Año_Produccion, Id_Tipo_Pecuario,
-                    Cantidad_Hembras, Cantidad_Machos, Cantidad_Total)
-                    VALUES($idFicha,$idUbicacion,$idProductor,'a', $idTipo, $cantidadHembras, $cantidadMachos, $cantidadHembras+$cantidadMachos)";
-        
-            // Ejecutar la consulta
-            if (!mysqli_query($conexion, $sql)) {
-                // Si hay un error en alguna de las inserciones, establece la bandera a true
-                $error = true;
-                echo "Error al guardar los datos: " . mysqli_error($conexion);
-                break;
-            }
-        }
-
-        foreach ($datosTabla2 as $fila) {
-            $precioVenta = mysqli_real_escape_string($conexion, $fila[1]);
-            $unidadMedida = mysqli_real_escape_string($conexion, $fila[2]);
-            $mercado = mysqli_real_escape_string($conexion, $fila[3]);
-
-            // Consulta SQL para insertar los datos en la tabla
-            $sql = "UPDATE tbl_produccion_pecuaria SET Precio_Venta=$precioVenta, Id_Medida_Venta='$unidadMedida', 
-                    Cantidad_Mercado=$mercado, Creado_Por='$creado_por'
-            WHERE Id_Ficha=$idFicha AND Id_Ubicacion=$idUbicacion AND Id_Productor=$idProductor";
+                    Cantidad_Hembras, Cantidad_Machos, Cantidad_Total, Creado_Por, Fecha_Creacion)
+                    VALUES($idFicha,$idUbicacion,$idProductor,'a', $idTipo, $cantidadHembras, $cantidadMachos, $cantidadHembras+$cantidadMachos,
+                    NULL, now())";
         
             // Ejecutar la consulta
             if (!mysqli_query($conexion, $sql)) {
@@ -102,7 +83,6 @@ if (!empty($jsonData)) {
         // Si no hubo errores en las inserciones, redirige a la siguiente página
         if (!$error) {
             // Redirige a la siguiente página
-            //header("Location: siguiente_pagina.php");
             exit(); // Detener la ejecución del script
         }
 
@@ -111,7 +91,12 @@ if (!empty($jsonData)) {
         
         // Puedes enviar una respuesta al cliente si es necesario
         echo "Datos recibidos correctamente.";
-} 
 
+    } else {
+        echo "Error al decodificar los datos JSON.";
+    }
+} else {
+    echo "No se recibieron datos.";
+}
 
 ?>

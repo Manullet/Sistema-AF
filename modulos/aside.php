@@ -1,3 +1,10 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+}
+
+$usuario = $_SESSION['usuario'];
+?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="padding-top: 20px;">
     <!-- Brand Logo -->
@@ -26,6 +33,9 @@
                     </a>
                 </li>
 
+                <?php
+                if ($usuario['id_rol']==1) {
+                ?>
                 <li class="nav-item has-treeview">
                     <a style="cursor:pointer;" class="nav-link">
                         <i class="nav-icon bi bi-gear"></i>
@@ -74,6 +84,12 @@
                             </a>
                         </li>
                         <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_parametro.php','content-wrapper')">
+                                <i class="nav-icon bi bi-badge-ad"></i>
+                                <p>Parámetros</p>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-item-custom">
                             <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Bitacora.php','content-wrapper')">
                                 <i class="nav-icon bi bi-badge-ad"></i>
                                 <p>Bitacora</p>
@@ -82,7 +98,9 @@
                         <!-- desde aqui se puede añadir mas Mantenimientos -->
                     </ul>
                 </li>
-
+                <?php
+                }
+                ?>
 
                 <li class="nav-item has-treeview">
                     <a style="cursor:pointer;" class="nav-link">
@@ -441,6 +459,13 @@
                                 <p>Tipo de apoyo</p>
                             </a>
                         </li>
+
+                        <li class="nav-item nav-item-custom">
+                            <a style="cursor:pointer;" class="nav-link" onclick="CargarContenido('vistas/Mantenimiento_Siembra.php','content-wrapper')">
+                                <i class="bi bi-person-workspace"></i>
+                                <p>Siembra</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -463,6 +488,9 @@
     <div class="p-3">
         <h5>Mi Perfil</h5>
         <a href="modelos\cambiar_contraseña.php">Cambiar Contraseña</a>
+        <br>
+        <a href="" onclick="CargarContenido('vistas/Mantenimiento_preguntasUsuario.php','content-wrapper',<?= $usuario['Id_Usuario'] ?>)">
+            Preguntas de Seguridad de Usuarios</a>
     </div>
 </aside>
 <script>

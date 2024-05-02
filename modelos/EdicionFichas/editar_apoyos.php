@@ -50,13 +50,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $apoyo_escapado = mysqli_real_escape_string($conexion, $apoyo);
     
             // Consulta para obtener el ID del motivo seleccionado
-            $query = "SELECT id_tipo_apoyos FROM tbl_tipos_apoyos WHERE tipo_apoyos = '$apoyo_escapado'";
+            $query = "SELECT id_apoyo_produccion FROM tbl_apoyos WHERE tipo_apoyo_produccion = '$apoyo_escapado'";
             $result = mysqli_query($conexion, $query);
     
             if ($result) {
                 // Verificar si se encontró el ID del motivo
                 if ($row = mysqli_fetch_assoc($result)) {
-                    $id_tipo_apoyo[] = $row['id_tipo_apoyos'];
+                    $id_tipo_apoyo[] = $row['id_apoyo_produccion'];
                 }
             } else {
                 echo "Error al obtener ID del motivo: " . mysqli_error($conexion);

@@ -13,10 +13,10 @@ $salida_sql = $db_name . '_' . $fecha . '.sql';
 // Modifica la ruta completa al ejecutable mysqldump
 $mysqldump_path = 'C:\\xampp\\mysql\\bin\\mysqldump.exe';
 
-// Construir el comando mysqldump sin la opción -p si no hay contraseña
+// Construir el comando mysqldump con opciones para incluir procedimientos almacenados y triggers
 $dump_command = $db_pass !== '' ?
-    "\"$mysqldump_path\" -h$db_host -u$db_user -p$db_pass --opt $db_name > $salida_sql" :
-    "\"$mysqldump_path\" -h$db_host -u$db_user --opt $db_name > $salida_sql";
+    "\"$mysqldump_path\" -h$db_host -u$db_user -p$db_pass --opt --routines --triggers $db_name > $salida_sql" :
+    "\"$mysqldump_path\" -h$db_host -u$db_user --opt --routines --triggers $db_name > $salida_sql";
 
 // Ejecutar el comando mysqldump y capturar la salida y el código de retorno
 exec($dump_command, $output, $return_code);

@@ -598,6 +598,86 @@ $(document).ready(function () {
   );
 
 
+  $("#datosPecuariaForm").load(
+    "demo.txt",
+    function (responseTxt, statusTxt, xhr) {
+      let id = document.getElementById("codigo").value;
+
+      $.ajax({
+        url: "modelos/cargarDatosFicha.php",
+        type: "GET",
+        data: {
+          contenedor: "TablaProduccionPecuaria",
+          id: id,
+        },
+        success: function (data) {
+          const datos = JSON.parse(data);
+          console.log(datos);
+
+          var tabla = document.getElementById("tablaTemporalAnimales");
+
+          // Limpiar el contenido previo de la tabla
+          tabla.innerHTML = "";
+
+          // Iterar sobre el objeto y agregar cada elemento como una fila en la tabla
+          datos.forEach(function (elemento) {
+            var fila =
+              "<tr><td>" +
+              elemento.tipo_pecuario +
+              "</td><td>" +
+              elemento.genero +
+              "</td><td>" +
+              elemento.cantidad +
+            "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
+            tabla.innerHTML += fila;
+          });
+        },
+      });
+    }
+  );
+
+
+  $("#datosPecuariaForm").load(
+    "demo.txt",
+    function (responseTxt, statusTxt, xhr) {
+      let id = document.getElementById("codigo").value;
+
+      $.ajax({
+        url: "modelos/cargarDatosFicha.php",
+        type: "GET",
+        data: {
+          contenedor: "TablaVentaPecuaria",
+          id: id,
+        },
+        success: function (data) {
+          const datos = JSON.parse(data);
+          console.log(datos);
+
+          var tabla = document.getElementById("tablaUnidadesVendidas");
+
+          // Limpiar el contenido previo de la tabla
+          tabla.innerHTML = "";
+
+          // Iterar sobre el objeto y agregar cada elemento como una fila en la tabla
+          datos.forEach(function (elemento) {
+            var fila =
+              "<tr><td>" +
+              elemento.tipo_pecuario +
+              "</td><td>" +
+              elemento.precio_venta +
+              "</td><td>" +
+              elemento.medida +
+              "</td><td>" +
+              elemento.mercado +
+            "</td><td><button onclick='eliminarFila(this)' class='btn btn-danger eliminar-btn'><i class='fas fa-trash-alt'></i></button></td></tr>";
+            tabla.innerHTML += fila;
+          });
+        },
+      });
+    }
+  );
+
+
   $("#datosPrCoForm").load(
     "demo.txt",
     function (responseTxt, statusTxt, xhr) {
@@ -958,7 +1038,7 @@ $(document).ready(function () {
 
           // Filtra los checkboxes por el valor del atributo 'value'
           var checkbox = Array.from(checkboxes).find(function (cb) {
-            return cb.value === item.tipo_apoyos;
+            return cb.value === item.tipo_apoyo_produccion;
           });
 
           if (checkbox !== undefined) {

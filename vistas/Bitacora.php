@@ -12,11 +12,6 @@ session_start();
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- DATATABLES -->
- <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
-    <!-- BOOTSTRAP -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 
 
 <div class="containertable">
@@ -26,22 +21,20 @@ session_start();
             <br>
         </div>
 
+        <div class="mb-4 border-bottom">
+            <form class="d-flex" role="search">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                    </div>
+                    <input class="form-control" id="searchInput" type="search" placeholder="Buscar ..." aria-label="Search">
+                    
+                </div>
+                
+            </form>
 
+        </div>
     </div>  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.8/xlsx.full.min.js"></script>
-    <!--  seleccion de registros -->
-
-    <!--  funcion para mostrar registros -->
-    <script>
-        // Obtiene referencias a los elementos HTML
-        const selectCantidadRegistros = document.getElementById("cantidadRegistros");
-
-        selectCantidadRegistros.addEventListener("change", function() {
-            const cantidadSeleccionada = parseInt(selectCantidadRegistros.value);
-            console.log(`Se seleccionaron ${cantidadSeleccionada} registros.`);
-        });
-    </script>
-    
     <div class="container">
         <div class="row">
             <div class="col-sm">
@@ -49,14 +42,10 @@ session_start();
             </div>
             <div class="col-sm">
                 <form action="" method="post" id="eliminarTrigger">
-                    <button type="submit" class="btn btn-danger" name="tipo" value="Eliminar Triggers"><i class="fas fa-ban"></i>&nbsp;Desactivar Bitácora</button>
+                    <button type="submit" class="btn btn-danger" name="tipo" value="Eliminar Triggers"><i class="fas fa-ban"></i>&nbsp;Activar / Desactivar Bitácora</button>
                 </form>
             </div>
-            <div class="col-sm">
-                <form action="" method="post" id="crearTrigger">
-                    <button type="submit" class="btn btn-primary"name="tipo" value="Eliminar Triggers"><i class="fas fa-check-circle"></i>&nbsp;Reactivar Bitácora</button>
-                </form>
-            </div>
+            
         </div>
     </div>
 <div>
@@ -66,22 +55,18 @@ session_start();
     <div class="table-responsive">
         
 
-
-        <!--El diseño de la table cuando ya esté todo unido 
-    <table id="tablax" class="table table-striped table-bordered" style="width:100%"> -->
-    <table id="tablax" class="table table-hover">
-            <thead class="table-dark text-center" style="background-color: #343A40;">
+<table class="table table-hover">
+    <thead class="table-dark text-center" style="background-color: #343A40;">
         <tr>
-            <th scope="col">Nº</th>
+            <th scope="col">Id Bitacora</th>
             <th scope="col">Fecha</th>
-            <th scope="col">Tabla</th>
             <th scope="col">Ejecutor</th>
             <th scope="col">Actividad Realizada</th>
             <th scope="col">Información Actual</th>
             <th scope="col">Información Anterior</th>
-          
+            <th scope="col">Tabla</th>
             <th scope="col">Información Eliminada</th>
-          
+            <th scope="col"></th>
 
         </tr>
     </thead>
@@ -93,14 +78,15 @@ session_start();
             <tr>
                 <td><?= $datos->id_bitacora ?></td>
                 <td><?= $datos->fecha ?></td>
-                <td><?= $datos->tabla ?></td>
                 <td><?= $datos->ejecutor ?></td>
                 <td><?= $datos->actividad_realizada ?></td>
                 <td><?= $datos->informacion_actual ?></td>
                 <td><?= $datos->informacion_anterior ?></td>
-
+                <td><?= $datos->tabla ?></td>
                 <td><?= $datos->informacion_eliminada?></td>
-                
+                <td>
+                    
+                </td>
             </tr>
         <?php }
         ?>
@@ -145,7 +131,19 @@ session_start();
 
    
 
-
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <li class="page-item disabled">
+                <a class="page-link">Anterior</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 <!-- Modal para editar -->
@@ -246,9 +244,23 @@ session_start();
             $.ajax({
                 type: 'GET',
                 url: 'modelos/datosTrigger.php',
-                data: {tipo: 'Eliminar'},
                 success: function(response) {
-                    console.error(response);
+                    console.log(response);
+
+                    if(response == 'Triggers recreados correctamente.'){
+                        Swal.fire(
+                            'Bitácora Activa',
+                            'La bitácora ha sido reactivada exitosamente',
+                            'success'
+                        )
+                    }else{
+                        Swal.fire(
+                            'Bitácora Inactiva',
+                            'La bitácora ha sido inactivada exitosamente',
+                            'success'
+                        )
+                    }
+
                     CargarContenido('vistas/Bitacora.php','content-wrapper');
                     //location.reload()
                 },
@@ -260,76 +272,8 @@ session_start();
         });
     });
 
-
-    $(document).ready(function() {
-        $('#crearTrigger').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'GET',
-                url: 'modelos/datosTrigger.php',
-                data: {tipo: 'Crear'},
-                success: function(response) {
-                    console.error(response);
-                    //location.reload()
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
-        });
-    });
 </script>
-<!-- JQUERY -->
-<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
-        </script> -->
 
-    <!-- DATATABLES -->
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
-    </script>
-
-    <!-- BOOTSTRAP -->
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
-    </script>
-
-
-
-
-
-<script>
-    $(document).ready(function(){
-        $('#tablax').DataTable({
-            language: {
-                    processing: "Tratamiento en curso...",
-                    search: "Buscar&nbsp;:",
-                    lengthMenu: "Agrupar de _MENU_ elementos",
-                    info: "Mostrando del elemento _START_ al _END_ de un total de _TOTAL_ elementos",
-                    infoEmpty: "No existen datos.",
-                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
-                    infoPostFix: "",
-                    loadingRecords: "Cargando...",
-                    zeroRecords: "No se encontraron datos con tu busqueda",
-                    emptyTable: "No hay datos disponibles en la tabla.",
-                    paginate: {
-                        first: "Primero",
-                        previous: "Anterior",
-                        next: "Siguiente",
-                        last: "Ultimo"
-                    },
-                    aria: {
-                        sortAscending: ": active para ordenar la columna en orden ascendente",
-                        sortDescending: ": active para ordenar la columna en orden descendente"
-                    }
-                },
-            
-        });
-    })
-
-
-</script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
