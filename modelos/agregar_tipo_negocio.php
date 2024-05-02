@@ -1,10 +1,13 @@
 <?php
 
+session_start();
 include "../php/conexion_be.php";
+ob_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tipo_negocio = $_POST["tipo_negocio"];
     $descripcion = $_POST["descripcion"];
+    $Creado_Por = $_SESSION["usuario"] ['usuario'];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
     $sql_verificar = "SELECT * FROM tbl_tipo_negocios WHERE tipo_negocio = '$tipo_negocio' ";
@@ -28,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       ';
     } else {
 
-        $sql = "CALL InsertarTipo_Negocio('$tipo_negocio', '$descripcion')";
+        $sql = "CALL InsertarTipoNegocio('$tipo_negocio', '$descripcion','$Creado_Por')";
 
         if (mysqli_query($conexion, $sql)) {
             header("Location: ../bienvenida.php?success=true");

@@ -97,7 +97,7 @@ session_start();
                      
 
                      
-                            <form id="deleteForm" method="POST" action="modelos\delete_usuario.php" style="display: inline;">
+                            <form id="deleteForm" method="POST" action="modelos/delete_usuario.php" style="display: inline;">
                                 <input type="hidden" name="id" value="<?= $datos->Id_Usuario ?>">
                                 <button type="submit" class="btn btn-eliminar">
                                     <i class="bi bi-trash"></i>

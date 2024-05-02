@@ -1,10 +1,13 @@
 <?php
 ob_start();
 include "../php/conexion_be.php";
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_tipo_practica = $_POST["id_tipo_practica"];
     $tipo_practica = $_POST["tipo_practica"];
     $descripcion = $_POST["descripcion"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
     $estado = $_POST["estado"];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
@@ -15,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "existe";
     } else {
 
-        $sql = "CALL EditarPracticas('$id_tipo_practica', '$tipo_practica', '$descripcion', '$estado');";
+        $sql = "CALL ActualizarTipoPracticaProductiva('$id_tipo_practica', '$tipo_practica', '$descripcion','$modificado_por' , '$estado');";
 
         if (mysqli_query($conexion, $sql)) {
             ob_end_flush();
@@ -27,3 +30,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     mysqli_close($conexion);
 }
+?>

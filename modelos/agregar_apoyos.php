@@ -1,10 +1,14 @@
 <?php
 
+session_start();
 include "../php/conexion_be.php";
+ob_start();
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tipo_apoyo_produccion = $_POST["tipo_apoyo_produccion"];
     $descripcion = $_POST["descripcion"];
+    $Creado_Por = $_SESSION["usuario"] ['usuario'];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
     $sql_verificar = "SELECT * FROM tbl_apoyos WHERE tipo_apoyo_produccion = '$tipo_apoyo_produccion' ";
@@ -28,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       ';
     } else {
 
-        $sql = "CALL InsertarApoyo('$tipo_apoyo_produccion', '$descripcion')";
+        $sql = "CALL InsertarApoyo('$tipo_apoyo_produccion', '$descripcion','$Creado_Por')";
 
         if (mysqli_query($conexion, $sql)) {
             header("Location: ../bienvenida.php?success=true");

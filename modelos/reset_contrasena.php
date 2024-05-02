@@ -118,7 +118,9 @@ if (!$tokenValido) {
             <h2>Cambiar Contraseña</h2>
             <form id="formCambiarPass" name="formCambiarPass" class="forget-form" action="">
                 <input type="password" id="txtPassword" name="txtPassword" placeholder="Nueva contraseña" required>
+                <span style="position: absolute; top: 45.5%; right: 42%; transform: translateY(-50%); cursor: pointer;" onclick="togglePasswordVisibility(this.previousElementSibling, this)">🔒</span>
                 <input type="password" id="txtPasswordConfirm" name="txtPasswordConfirm" placeholder="Confirmar contraseña" required>
+                <span style="position: absolute; top: 51.5%; right: 42%; transform: translateY(-50%); cursor: pointer;" onclick="togglePasswordVisibility(this.previousElementSibling, this)">🔒</span>
                 <button type="submit">Cambiar Contraseña</button>
                 <a href="../index.php">INICIO</a>
             </form>
@@ -208,7 +210,18 @@ if (!$tokenValido) {
             });
         });
     </script>
-
+<script type="text/javascript">
+            function togglePasswordVisibility(inputField, eyeIcon) {
+                var fieldType = inputField.type;
+                if (fieldType === "password") {
+                    inputField.type = "text";
+                    eyeIcon.textContent = "👁️"; // Cambia el ícono de ojo abierto
+                } else {
+                    inputField.type = "password";
+                    eyeIcon.textContent = "🔒"; // Cambia el ícono de ojo cerrado
+                }
+            }
+        </script>
 
 </body>
 

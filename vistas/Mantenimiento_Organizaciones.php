@@ -75,11 +75,16 @@ if(isset($_SESSION['usuario'])) {
     <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">Código</th>
                     <th scope="col">Organización</th>
                     <th scope="col">Tipo de organización</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">estado</th>
+                    <th scope="col" class="hidden">Creado Por</th>
+                    <th scope="col" class="hidden">Fecha Creación</th>
+                    <th scope="col" class="hidden">Modificado Por</th>
+                    <th scope="col" class="hidden">Fecha Modificacion</th>
                     <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                     <?php endif; ?>
@@ -94,6 +99,7 @@ if(isset($_SESSION['usuario'])) {
                 ");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
+                        <td><button class="btn btn-primary"onclick="toggleColumns(this)"><i class="fas fa-eye" style="color:white"></i></button></td>   
                         <td><?= $datos->id_organizacion ?></td>
                         <td><?= $datos->organizacion ?></td>
                         <td><?= $datos->tipo_organizacion ?></td>
@@ -105,6 +111,10 @@ if(isset($_SESSION['usuario'])) {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
+                            <td class="hidden"><?= $datos->creado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_creacion?></td>
+                            <td class="hidden"><?= $datos->modificado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_modificacion?></td>
                         <td>
                         <?php if ($permiso_actualizacion == 1) : ?>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick=
@@ -293,7 +303,31 @@ if(isset($_SESSION['usuario'])) {
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
     }
 </script>
+<script>
+    function toggleColumns(button) {
+        var row = button.parentNode.parentNode;
+        var creado = row.querySelector("td:nth-child(7)");
+        var fechaCreacion = row.querySelector("td:nth-child(8)");
+        var actualizado = row.querySelector("td:nth-child(9)");
+        var fechaAct = row.querySelector("td:nth-child(10)");
 
+  
+        var creadoColumn = document.querySelector("th:nth-child(7)");
+        var fechaCreacionColumn = document.querySelector("th:nth-child(8)");
+        var actualizadoColumn = document.querySelector("th:nth-child(9)");
+        var fechaActColumn = document.querySelector("th:nth-child(10)");
+
+        creado.classList.toggle("hidden");
+        fechaCreacion.classList.toggle("hidden");
+        actualizado.classList.toggle("hidden");
+        fechaAct.classList.toggle("hidden");
+
+        creadoColumn.classList.toggle("hidden");   
+        fechaCreacionColumn.classList.toggle("hidden");
+        actualizadoColumn.classList.toggle("hidden");
+        fechaActColumn.classList.toggle("hidden");
+    }
+</script>
 <!-- Script para mostrar el mensaje al momento de editar una organizacion-->
 <script>
     $(document).ready(function() {

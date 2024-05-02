@@ -77,12 +77,17 @@ session_start();
     <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">Código</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripción</th>
                     
-                    <th scope="col">Fecha Creación</th>
+
                     <th scope="col">Estado</th>
+                    <th scope="col" class="hidden">Creado Por</th>
+                    <th scope="col" class="hidden">Fecha Creacion</th>
+                    <th scope="col" class="hidden">Modificado Por</th>
+                    <th scope="col" class="hidden">Fecha Modificacion</th>
 
                     <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -95,11 +100,12 @@ session_start();
                 $sql = $conexion->query("SELECT * FROM tbl_departamentos");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
+                    <td><button class="btn btn-primary"onclick="toggleColumns(this)"><i class="fas fa-eye" style="color:white"></i></button></td>
                         <td><?= $datos->Id_Departamento ?></td>
                         <td><?= $datos->Nombre_Departamento ?></td>
                         <td><?= $datos->Descripcion ?></td>
                        
-                        <td><?= $datos->Fecha_Creacion ?></td>
+
                         <td><?php
                             if ($datos->Estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
@@ -107,6 +113,10 @@ session_start();
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
+                             <td class="hidden"><?= $datos->Creado_Por?></td>
+                            <td class="hidden"><?= $datos->Fecha_Creacion?></td>
+                            <td class="hidden"><?= $datos->Modificado_Por?></td>
+                            <td class="hidden"><?= $datos->Fecha_Modificacion?></td>
                         <td>
                         <?php if ($permiso_actualizacion == 1) : ?>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
@@ -233,6 +243,31 @@ session_start();
         document.getElementById("Estado").value = Estado;
 
         $('#modalEditar').modal('show'); // Mostrar el modal de edición
+    }
+</script>
+<script>
+    function toggleColumns(button) {
+        var row = button.parentNode.parentNode;
+        var creado = row.querySelector("td:nth-child(6)");
+        var fechaCreacion = row.querySelector("td:nth-child(7)");
+        var actualizado = row.querySelector("td:nth-child(8)");
+        var fechaAct = row.querySelector("td:nth-child(9)");
+
+  
+        var creadoColumn = document.querySelector("th:nth-child(6)");
+        var fechaCreacionColumn = document.querySelector("th:nth-child(7)");
+        var actualizadoColumn = document.querySelector("th:nth-child(8)");
+        var fechaActColumn = document.querySelector("th:nth-child(9)");
+
+        creado.classList.toggle("hidden");
+        fechaCreacion.classList.toggle("hidden");
+        actualizado.classList.toggle("hidden");
+        fechaAct.classList.toggle("hidden");
+
+        creadoColumn.classList.toggle("hidden");   
+        fechaCreacionColumn.classList.toggle("hidden");
+        actualizadoColumn.classList.toggle("hidden");
+        fechaActColumn.classList.toggle("hidden");
     }
 </script>
 

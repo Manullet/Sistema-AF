@@ -1,29 +1,29 @@
-<?php 
+<?php
 session_start();
- $_SESSION['url'] = 'vistas/Mantenimiento_FuentesCredito.php';
- $_SESSION['content-wrapper'] = 'content-wrapper';
- include "../php/conexion_be.php";
- // Definir permisos predeterminados
- $permiso_insercion = 2;
- $permiso_actualizacion = 2;
- $permiso_eliminacion = 2;
- 
- // Verificar si la sesión 'usuario' está definida y no es un array
- if(isset($_SESSION['usuario'])) {
-     $idRolUsuario = $_SESSION['usuario']['id_rol'];
- 
-     // Consultar los permisos del usuario para el objeto de usuarios (ID de objeto = 3)
-     $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 49";
-     $resultadoPermisos = $conexion->query($sqlPermisos);
- 
-     if ($resultadoPermisos->num_rows > 0) {
-         // Si se encuentran registros de permisos para el usuario y el objeto
-         $filaPermisos = $resultadoPermisos->fetch_assoc();
-         $permiso_insercion= $filaPermisos['permiso_insercion'];
-         $permiso_actualizacion = $filaPermisos['permiso_actualizacion'];
-         $permiso_eliminacion = $filaPermisos['permiso_eliminacion'];
-     } 
- }
+$_SESSION['url'] = 'vistas/Mantenimiento_FuentesCredito.php';
+$_SESSION['content-wrapper'] = 'content-wrapper';
+include "../php/conexion_be.php";
+// Definir permisos predeterminados
+$permiso_insercion = 2;
+$permiso_actualizacion = 2;
+$permiso_eliminacion = 2;
+
+// Verificar si la sesión 'usuario' está definida y no es un array
+if (isset($_SESSION['usuario'])) {
+    $idRolUsuario = $_SESSION['usuario']['id_rol'];
+
+    // Consultar los permisos del usuario para el objeto de usuarios (ID de objeto = 3)
+    $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 49";
+    $resultadoPermisos = $conexion->query($sqlPermisos);
+
+    if ($resultadoPermisos->num_rows > 0) {
+        // Si se encuentran registros de permisos para el usuario y el objeto
+        $filaPermisos = $resultadoPermisos->fetch_assoc();
+        $permiso_insercion = $filaPermisos['permiso_insercion'];
+        $permiso_actualizacion = $filaPermisos['permiso_actualizacion'];
+        $permiso_eliminacion = $filaPermisos['permiso_eliminacion'];
+    }
+}
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,10 +34,10 @@ session_start();
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- DATATABLES -->
- <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
-    <!-- BOOTSTRAP -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+<!-- BOOTSTRAP -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 
 <div class="containertable">
     <div class="d-flex justify-content-between align-items-end mb-4">
@@ -45,10 +45,10 @@ session_start();
             <h1 class="poppins-font mb-2">FUENTES DE CREDITO</h1>
             <br>
             <?php if ($permiso_insercion == 1) : ?>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#modalagregarEtnia" class="btn btn-info">
-            <i class="bi bi-plus-square icono-grande"></i> Crear 
-        
-            </a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
+                    <i class="bi bi-plus-square icono-grande"></i> Crear
+
+                </a>
             <?php endif; ?>
         </div>
     </div>
@@ -69,18 +69,21 @@ session_start();
     <div class="table-responsive">
 
         <!--El diseño de la table cuando ya esté todo unido 
-    <table id="tablax" class="table table-striped table-bordered" style="width:100%"> -->
-<table id="tablax" class="table table-hover">
+        <table id="tablax" class="table table-striped table-bordered" style="width:100%"> -->
+        <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">Código</th>
                     <th scope="col">Fuente de crédito</th>
                     <th scope="col">Descripción</th>
-                    <th scope="col">Creador por</th>
-                    <th scope="col">Fecha de creación</th>
                     <th scope="col">Estado</th>
+                    <td class="hidden"><?= $datos->creado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_creacion?></td>
+                            <td class="hidden"><?= $datos->modificado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_modificacion?></td>
                     <?php if ($permiso_insercion == 1) : ?>
-                    <th scope="col">Acciones</th> <!-- Added text-center class here -->
+                        <th scope="col">Acciones</th> <!-- Added text-center class here -->
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -91,11 +94,10 @@ session_start();
                 while ($datos = $sql->fetch_object()) {
                 ?>
                     <tr>
+                    <td><button class="btn btn-primary"onclick="toggleColumns(this)"><i class="fas fa-eye" style="color:white"></i></button></td>
                         <td><?= $datos->id_fuente_credito ?></td>
                         <td><?= $datos->fuente_credito ?></td>
                         <td><?= $datos->descripcion ?></td>
-                        <td><?= $datos->creado_por ?></td>
-                        <td><?= $datos->fecha_creacion ?></td>
                         <td>
                             <?php
                             if ($datos->estado == "A") {
@@ -105,23 +107,26 @@ session_start();
                             }
                             ?>
                         </td>
+                        <td class="hidden"><?= $datos->creado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_creacion?></td>
+                            <td class="hidden"><?= $datos->modificado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_modificacion?></td>
                         <td>
-                        <?php if ($permiso_actualizacion == 1) : ?>
-                            <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
-                            ('<?= $datos->id_fuente_credito ?>', '<?= $datos->fuente_credito ?>', '<?= $datos->descripcion ?>', '<?= $datos->creado_por ?>', '<?= $datos->fecha_creacion ?>', '<?= $datos->estado ?>')">
-                                <i class="bi bi-pencil-square"></i>
-                                Editar
-                            </button>
-                            <?php endif; ?>
- 				<?php if ($permiso_eliminacion == 1) : ?>
-                            <form id="deleteForm" method="POST" action="./php/eliminar_fuentecredito.php" style="display: inline;">
-                                <input type="hidden" name="id_fuente_credito" value="<?= $datos->id_fuente_credito ?>">
-                                <button type="submit" class="btn btn-eliminar">
-                                    <i class="bi bi-trash"></i>
-                                    Eliminar
+                            <?php if ($permiso_actualizacion == 1) : ?>
+                                <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->id_fuente_credito ?>', '<?= $datos->fuente_credito ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Editar
                                 </button>
-                            </form>
-                            
+                            <?php endif; ?>
+                            <?php if ($permiso_eliminacion == 1) : ?>
+                                <form id="deleteForm" method="POST" action="./php/eliminar_fuentecredito.php" style="display: inline;">
+                                    <input type="hidden" name="id_fuente_credito" value="<?= $datos->id_fuente_credito ?>">
+                                    <button type="submit" class="btn btn-eliminar">
+                                        <i class="bi bi-trash"></i>
+                                        Eliminar
+                                    </button>
+                                </form>
+
                             <?php endif; ?>
                     </tr>
                 <?php }
@@ -167,8 +172,8 @@ session_start();
                         <div class="form-group col-md-6">
                             <label for="estado">Estado</label>
                             <select class="form-control" id="estado" name="estado" required>
-                            <option value="" disabled selected>Selecciona un estado</option>
-                            <option value="A">Activo</option>
+                                <option value="" disabled selected>Selecciona un estado</option>
+                                <option value="A">Activo</option>
                                 <option value="I">Inactivo</option>
                             </select>
                         </div>
@@ -183,12 +188,16 @@ session_start();
     </div>
 </div>
 
-<!-- Modal para crear etnia -->
-<div class="modal fade" id="modalagregarEtnia" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+
+
+<!-- Modal para crear Motivo No Credito -->
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" role="document">
             <div class="modal-header" style="background-color: #17A2B8;">
-                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR FUENTE DE CREDITO</h5>
+                <h5 class="poppins-modal mb-2" id="exampleModalLabel">CREAR MOTIVO NO CREDITO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -197,17 +206,16 @@ session_start();
                 <form action="modelos/agregar_fuente_credito.php" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="fuente_credito" class="form-label">Fuente de Credito</label>
+                            <label for="fuente_credito" class="form-label">Fuente Credito</label>
                             <input type="text" class="form-control" id="fuente_credito" name="fuente_credito">
                         </div>
                         <div class="col">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
-                            <span id="error_message" style="color: red;"></span>
+                            <label for="descripcion" class="form-label">descripcion</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion">
                         </div>
+
                     </div>
-                   
-                    
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-actualizar">Crear</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"></i>Cancelar</button>
@@ -217,6 +225,14 @@ session_start();
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
 
 <!-- JavaScript para manejar la edición de usuarios -->
 <script>
@@ -253,7 +269,7 @@ session_start();
                             $("#modalEditar").modal("hide");
                             location.reload(); // Recarga la página
                         });
-                    }else if (response == "existe") {
+                    } else if (response == "existe") {
                         Swal.fire({
                             title: "Error",
                             text: "Ya existe un registro con el mismo nombre.",
@@ -262,8 +278,7 @@ session_start();
                         }).then(function() {
                             location.reload(); // Recarga la página
                         });
-                    }
-                     else {
+                    } else {
                         Swal.fire({
                             title: "Error",
                             text: "Hubo un problema al actualizar la Fuente de Credito.",
@@ -278,45 +293,31 @@ session_start();
         });
     });
 </script>
-
 <script>
-    $(document).ready(function() {
-        $("#modalagregarEtnia").on("submit", function(event) {
-            event.preventDefault();
+    function toggleColumns(button) {
+        var row = button.parentNode.parentNode;
+        var creado = row.querySelector("td:nth-child(6)");
+        var fechaCreacion = row.querySelector("td:nth-child(7)");
+        var actualizado = row.querySelector("td:nth-child(8)");
+        var fechaAct = row.querySelector("td:nth-child(9)");
 
-            $.ajax({
-                url: "php/Agregar_etnia.php",
-                method: "POST",
-                data: $(this).serialize(),
-                success: function(response) {
-                    if (response == "success") {
-                        Swal.fire({
-                            title: "Registro agregado correctamente",
-                            text: "La Etnia se ha agregado correctamente.",
-                            icon: "success",
-                            showCancelButton: false,
-                            confirmButtonText: "Cerrar"
-                        }).then(function() {
-                            $("#modalagregarEtnia").modal("hide");
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "Error",
-                            text: "Hubo un problema al actualizar la Etnia.",
-                            icon: "error",
-                            confirmButtonText: "Cerrar"
-                        }).then(function() {
-                            location.reload();
-                        });
-                    }
-                }
-            });
-        });
-    });
+  
+        var creadoColumn = document.querySelector("th:nth-child(6)");
+        var fechaCreacionColumn = document.querySelector("th:nth-child(7)");
+        var actualizadoColumn = document.querySelector("th:nth-child(8)");
+        var fechaActColumn = document.querySelector("th:nth-child(9)");
+
+        creado.classList.toggle("hidden");
+        fechaCreacion.classList.toggle("hidden");
+        actualizado.classList.toggle("hidden");
+        fechaAct.classList.toggle("hidden");
+
+        creadoColumn.classList.toggle("hidden");   
+        fechaCreacionColumn.classList.toggle("hidden");
+        actualizadoColumn.classList.toggle("hidden");
+        fechaActColumn.classList.toggle("hidden");
+    }
 </script>
-
-
 <!-- Script para mostrar el mensaje al momento de eliminar un registro -->
 <script>
     $(document).ready(function() {
@@ -406,76 +407,52 @@ session_start();
     });
 </script>
 
-<script>
-    $(document).ready(function() {
-        $("#searchInput").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $(".table tbody tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-    });
-</script>
-<script>
-    function validateInput(input) {
-        var regex = /^[A-Za-z]+$/;
-        var error_message = document.getElementById('error_message');
-
-        if (!regex.test(input.value)) {
-            error_message.textContent = 'Solo se permiten letras en este campo.';
-        } else {
-            error_message.textContent = '';
-        }
-    }
-</script>
 
 <!-- JQUERY -->
 <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous">
         </script> -->
 
-    <!-- DATATABLES -->
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
-    </script>
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js">
+</script>
 
-    <!-- BOOTSTRAP -->
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
-    </script>
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
+</script>
 
 
 
 
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         $('#tablax').DataTable({
             language: {
-                    processing: "Tratamiento en curso...",
-                    search: "Buscar&nbsp;:",
-                    lengthMenu: "Agrupar de _MENU_ elementos",
-                    info: "Mostrando del elemento _START_ al _END_ de un total de _TOTAL_ elementos",
-                    infoEmpty: "No existen datos.",
-                    infoFiltered: "(filtrado de _MAX_ elementos en total)",
-                    infoPostFix: "",
-                    loadingRecords: "Cargando...",
-                    zeroRecords: "No se encontraron datos con tu busqueda",
-                    emptyTable: "No hay datos disponibles en la tabla.",
-                    paginate: {
-                        first: "Primero",
-                        previous: "Anterior",
-                        next: "Siguiente",
-                        last: "Ultimo"
-                    },
-                    aria: {
-                        sortAscending: ": active para ordenar la columna en orden ascendente",
-                        sortDescending: ": active para ordenar la columna en orden descendente"
-                    }
+                processing: "Tratamiento en curso...",
+                search: "Buscar&nbsp;:",
+                lengthMenu: "Agrupar de _MENU_ elementos",
+                info: "Mostrando del elemento _START_ al _END_ de un total de _TOTAL_ elementos",
+                infoEmpty: "No existen datos.",
+                infoFiltered: "(filtrado de _MAX_ elementos en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron datos con tu busqueda",
+                emptyTable: "No hay datos disponibles en la tabla.",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Ultimo"
                 },
-            
+                aria: {
+                    sortAscending: ": active para ordenar la columna en orden ascendente",
+                    sortDescending: ": active para ordenar la columna en orden descendente"
+                }
+            },
+
         });
     })
-
-
 </script>
 
 

@@ -84,10 +84,10 @@ session_start();
                     <th scope="col">ETNIAS</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
-                    <th scope="col" class="hidden">creado_por</th>
-                    <th scope="col" class="hidden">fecha_creacion</th>
-                    <th scope="col" class="hidden">modificado_por</th>
-                    <th scope="col" class="hidden">fecha_modificacion</th>
+                    <th scope="col" class="hidden">Creado Por</th>
+                    <th scope="col" class="hidden">Fecha Creacion</th>
+                    <th scope="col" class="hidden">Modificado Por</th>
+                    <th scope="col" class="hidden">Fecha Modificacion</th>
 
                     <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->

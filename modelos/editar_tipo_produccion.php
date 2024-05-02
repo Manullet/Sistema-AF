@@ -1,10 +1,12 @@
 <?php
 ob_start();
 include "../php/conexion_be.php";
+session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_tipo_produccion = $_POST["id_tipo_produccion"];
     $tipo_produccion = $_POST["tipo_produccion"];
     $descripcion = $_POST["descripcion"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
     $estado = $_POST["estado"];
 
 
@@ -17,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 } else {
 
-    $sql = "CALL EditarTipo_Produccion('$id_tipo_produccion', '$tipo_produccion', '$descripcion', '$estado');";
+    $sql = "CALL ActualizarTipoProduccion('$id_tipo_produccion', '$tipo_produccion', '$descripcion', '$modificado_por','$estado');";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

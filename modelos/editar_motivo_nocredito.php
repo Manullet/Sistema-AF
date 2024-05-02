@@ -7,8 +7,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_motivos_no_credito  = $_POST["id_motivos_no_credito"];
     $motivo_no_credito = $_POST["motivo_no_credito"];
     $descripcion = $_POST["descripcion"];
-    $estado = $_POST["estado"];
     $modificado_por = $_SESSION["usuario"]["usuario"];
+    $estado = $_POST["estado"];
+
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
     $sql_verificar = "SELECT * FROM tbl_motivos_no_creditos WHERE motivo_no_credito = '$motivo_no_credito' AND id_motivos_no_credito != '$id_motivos_no_credito'";
@@ -18,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "existe";
     } else {
 
-        $sql = "CALL ActualizarMotivoNoCredito('$id_motivos_no_credito', '$motivo_no_credito', '$descripcion', '$estado', '$modificado_por');";
+        $sql = "CALL ActualizarMotivoNoCredito('$id_motivos_no_credito', '$motivo_no_credito', '$descripcion', '$modificado_por','$estado');";
 
         if (mysqli_query($conexion, $sql)) {
             ob_end_flush();

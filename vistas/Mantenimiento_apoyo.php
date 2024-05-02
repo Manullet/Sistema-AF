@@ -77,10 +77,15 @@ session_start();
     <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">Código</th>
                     <th scope="col">Apoyo</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
+                    <th scope="col" class="hidden">Creado Por</th>
+                    <th scope="col" class="hidden">Fecha Creacion</th>
+                    <th scope="col" class="hidden">Modificado Por</th>
+                    <th scope="col" class="hidden">Fecha Modificacion</th>
 
                     <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -93,6 +98,7 @@ session_start();
                 $sql = $conexion->query("SELECT * FROM tbl_apoyos");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
+                    <td><button class="btn btn-primary"onclick="toggleColumns(this)"><i class="fas fa-eye" style="color:white"></i></button></td>
                         <td><?= $datos->id_apoyo_produccion  ?></td>
                         <td><?= $datos->tipo_apoyo_produccion ?></td>
                         <td><?= $datos->descripcion ?></td>
@@ -103,6 +109,10 @@ session_start();
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
+                             <td class="hidden"><?= $datos->creado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_creacion?></td>
+                            <td class="hidden"><?= $datos->modificado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_modificacion?></td>
                         <td>
                         <?php if ($permiso_actualizacion == 1) : ?>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
@@ -198,12 +208,12 @@ session_start();
                     <div class="row mb-3">
                         <div class="col">
                             <label for="tipo_apoyo_produccion" class="form-label">Tipo de apoyo producción</label>
-                            <input type="text" class="form-control" id="tipo_apoyo_produccion" name="tipo_apoyo_produccion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <input type="text" class="form-control" id="tipo_apoyo_produccion" name="tipo_apoyo_produccion" >
                             <span id="error_message" style="color: red;"></span>
                         </div>
                         <div class="col">
                             <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcion" name="descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" >
                             <span id="error_message" style="color: red;"></span>
                         </div>
                     </div>
@@ -216,7 +226,31 @@ session_start();
         </div>
     </div>
 </div>
+<script>
+    function toggleColumns(button) {
+        var row = button.parentNode.parentNode;
+        var creado = row.querySelector("td:nth-child(6)");
+        var fechaCreacion = row.querySelector("td:nth-child(7)");
+        var actualizado = row.querySelector("td:nth-child(8)");
+        var fechaAct = row.querySelector("td:nth-child(9)");
 
+  
+        var creadoColumn = document.querySelector("th:nth-child(6)");
+        var fechaCreacionColumn = document.querySelector("th:nth-child(7)");
+        var actualizadoColumn = document.querySelector("th:nth-child(8)");
+        var fechaActColumn = document.querySelector("th:nth-child(9)");
+
+        creado.classList.toggle("hidden");
+        fechaCreacion.classList.toggle("hidden");
+        actualizado.classList.toggle("hidden");
+        fechaAct.classList.toggle("hidden");
+
+        creadoColumn.classList.toggle("hidden");   
+        fechaCreacionColumn.classList.toggle("hidden");
+        actualizadoColumn.classList.toggle("hidden");
+        fechaActColumn.classList.toggle("hidden");
+    }
+</script>
 <!-- JavaScript para manejar la edición de apoyo -->
 <script>
     // Función para abrir el modal de edición
@@ -337,18 +371,6 @@ session_start();
             });
         });
     });
-</script>
-<script>
-    function validateInput(input) {
-        var regex = /^[A-Za-z]+$/;
-        var error_message = document.getElementById('error_message');
-
-        if (!regex.test(input.value)) {
-            error_message.textContent = 'Solo se permiten letras en este campo.';
-        } else {
-            error_message.textContent = '';
-        }
-    }
 </script>
 
 

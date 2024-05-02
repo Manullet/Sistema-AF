@@ -1,10 +1,13 @@
 <?php
-ob_start();
+session_start();
 include "../php/conexion_be.php";
+ob_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_tipo_negocio = $_POST["id_tipo_negocio"];
     $tipo_negocio = $_POST["tipo_negocio"];
     $descripcion = $_POST["descripcion"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
     $estado = $_POST["estado"];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
@@ -15,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "existe";
     } else {
 
-        $sql = "CALL EditarTipo_Negocio('$id_tipo_negocio', '$tipo_negocio', '$descripcion', '$estado');";
+        $sql = "CALL ActualizarTipoNegocio('$id_tipo_negocio', '$tipo_negocio', '$descripcion', '$modificado_por','$estado');";
 
         if (mysqli_query($conexion, $sql)) {
             ob_end_flush();
