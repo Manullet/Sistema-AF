@@ -1,11 +1,13 @@
 <?php
 ob_start();
 include "../php/conexion_be.php";
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_periodo = $_POST["id_periodo"];
     $periodo = $_POST["periodo"];
     $descripcion = $_POST["descripcion"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
     $estado = $_POST["estado"];
     
     $sql_verificar = "SELECT * FROM tbl_periodicidad WHERE periodo = '$periodo' AND id_periodo != '$id_periodo'";
@@ -16,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 } else {
 
-    $sql = "CALL EditarPeriodicidad('$id_periodo', '$periodo', '$descripcion', '$estado');";
+    $sql = "CALL ActualizarPeriodicidad('$id_periodo', '$periodo', '$descripcion','$modificado_por' ,'$estado');";
 
     if (mysqli_query($conexion, $sql)) {
         ob_end_flush(); 

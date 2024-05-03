@@ -1,6 +1,6 @@
 <?php
 ob_start();
-
+session_start();
 include 'conexion_be.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_fuente_credito = $_POST["id_fuente_credito"];
     $fuente_credito = $_POST["fuente_credito"];
     $descripcion = $_POST["descripcion"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
     $estado = $_POST["estado"];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
@@ -18,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "existe";
     } else {
 
-        $sql = "CALL UpdateFuenteCredito('$id_fuente_credito', '$fuente_credito', '$descripcion', '$estado')";
+        $sql = "CALL ActualizarFuenteCredito('$id_fuente_credito', '$fuente_credito', '$descripcion', '$modificado_por','$estado')";
 
         if (mysqli_query($conexion, $sql)) {
             ob_end_flush();

@@ -74,10 +74,15 @@ if(isset($_SESSION['usuario'])) {
 <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">Código</th>
                     <th scope="col">Motivo</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Estado</th>
+                    <th scope="col" class="hidden">Creado Por</th>
+                    <th scope="col" class="hidden">Fecha Creacion</th>
+                    <th scope="col" class="hidden">Modificado Por</th>
+                    <th scope="col" class="hidden">Fecha Modificacion</th>
 
                     <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
@@ -90,6 +95,7 @@ if(isset($_SESSION['usuario'])) {
                 $sql = $conexion->query("SELECT * FROM  tbl_motivos_no_creditos");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
+                    <td><button class="btn btn-primary"onclick="toggleColumns(this)"><i class="fas fa-eye" style="color:white"></i></button></td>
                         <td><?= $datos->id_motivos_no_credito  ?></td>
                         <td><?= $datos->motivo_no_credito ?></td>
                         <td><?= $datos->descripcion ?></td>
@@ -101,6 +107,10 @@ if(isset($_SESSION['usuario'])) {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
+                              <td class="hidden"><?= $datos->creado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_creacion?></td>
+                            <td class="hidden"><?= $datos->modificado_por?></td>
+                            <td class="hidden"><?= $datos->fecha_modificacion?></td>
                         <td>
                         <?php if ($permiso_actualizacion == 1) : ?>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar('<?= $datos->id_motivos_no_credito ?>', '<?= $datos->motivo_no_credito ?>', '<?= $datos->descripcion ?>', '<?= $datos->estado ?>')">
@@ -141,14 +151,16 @@ if(isset($_SESSION['usuario'])) {
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
+                            <label for="id_motivos_no_credito">Codigo</label>
                                 <input type="text" class="form-control" id="id_motivos_no_credito" name="id_motivos_no_credito" readonly>
-                                <label for="id_motivos_no_credito">Codigo</label>
+                               
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
+                            <label for="motivo_no_credito">Motivo</label>
                                 <input type="text" class="form-control" id="motivo_no_credito" name="motivo_no_credito" required>
-                                <label for="motivo_no_credito">Motivo</label>
+                           
                             </div>
                         </div>
                         <div class="col-6">

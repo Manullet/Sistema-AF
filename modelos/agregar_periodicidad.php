@@ -1,12 +1,14 @@
 <?php
-
+session_start();
 include "../php/conexion_be.php";
+ob_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $periodo=$_POST["periodo"];
     $descripcion=$_POST["descripcion"];
+    $Creado_Por = $_SESSION["usuario"] ['usuario'];
 
-    $sql_verificar = "SELECT * FROM tbl_motivos_migracion WHERE Motivo = '$Motivo' ";
+    $sql_verificar = "SELECT * FROM tbl_periodicidad WHERE periodo = '$periodo' ";
     $resultado_verificar = $conexion->query($sql_verificar);
     if ($resultado_verificar->num_rows > 0) {
         // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
@@ -28,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
 
 
-    $sql = "CALL InsertarPeriodicidad('$periodo', '$descripcion')";
+    $sql = "CALL InsertarPeriodicidad('$periodo', '$descripcion','$Creado_Por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

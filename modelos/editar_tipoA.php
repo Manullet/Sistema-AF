@@ -1,10 +1,12 @@
 <?php
 ob_start();
 include "../php/conexion_be.php";
+session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_tipo_apoyos  = $_POST["id_tipo_apoyos"];
     $tipo_apoyos = $_POST["tipo_apoyos"];
     $descripcion = $_POST["descripcion"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
     $estado = $_POST["estado"];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
@@ -15,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "existe";
     } else {
 
-        $sql = "CALL EditarTipoApoyo('$id_tipo_apoyos', '$tipo_apoyos', '$descripcion', '$estado');";
+        $sql = "CALL ActualizarTipoApoyo('$id_tipo_apoyos', '$tipo_apoyos', '$descripcion', '$modificado_por', '$estado');";
 
         if (mysqli_query($conexion, $sql)) {
             ob_end_flush();

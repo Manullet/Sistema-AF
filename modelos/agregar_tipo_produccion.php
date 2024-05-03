@@ -1,10 +1,12 @@
 <?php
-
+ob_start();
 include "../php/conexion_be.php";
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tipo_produccion=$_POST["tipo_produccion"];
     $descripcion=$_POST["descripcion"];
+    $Creado_Por = $_SESSION["usuario"] ['usuario'];
 
     $sql_verificar = "SELECT * FROM tbl_tipo_produccion WHERE tipo_produccion = '$tipo_produccion' ";
     $resultado_verificar = $conexion->query($sql_verificar);
@@ -26,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </script>
         ';
     } else {
-    $sql = "CALL InsertarTipo_Produccion('$tipo_produccion', '$descripcion')";
+    $sql = "CALL InsertarTipoProduccion('$tipo_produccion', '$descripcion', '$Creado_Por')";
 
     if (mysqli_query($conexion,$sql)) {
         header("Location: ../bienvenida.php?success=true");

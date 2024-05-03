@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = $_POST["id_fuente_credito"];
         
         // Llama al procedimiento almacenado con el argumento "id_etnia"
-        $sql = "CALL DeleteFuenteCredito($id)";
+        $sql = "CALL EliminarFuenteCredito($id)";
         
         if (mysqli_query($conexion, $sql)) {
             ob_end_flush();

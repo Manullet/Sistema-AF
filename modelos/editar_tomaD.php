@@ -1,10 +1,12 @@
 <?php
-ob_start();
+session_start();
 include "../php/conexion_be.php";
+ob_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_tipo_tomador  = $_POST["id_tipo_tomador"];
     $tomador = $_POST["tomador"];
     $descripcion = $_POST["descripcion"];
+    $modificado_por = $_SESSION["usuario"]["usuario"];
     $estado = $_POST["estado"];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
@@ -15,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "existe";
     } else {
 
-        $sql = "CALL EditarTomaDecisiones('$id_tipo_tomador', '$tomador', '$descripcion', '$estado');";
+        $sql = "CALL ActualizarTomadorDecisiones('$id_tipo_tomador', '$tomador', '$descripcion', '$modificado_por','$estado');";
 
         if (mysqli_query($conexion, $sql)) {
             ob_end_flush();

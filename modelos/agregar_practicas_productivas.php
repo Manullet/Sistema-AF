@@ -1,10 +1,13 @@
 <?php
 
+session_start();
 include "../php/conexion_be.php";
+ob_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tipo_practica = $_POST["tipo_practica"];
     $descripcion = $_POST["descripcion"];
+    $Creado_Por = $_SESSION["usuario"] ['usuario'];
 
     // Verifica si ya existe una categoría de cultivo con el mismo nombre
     $sql_verificar = "SELECT * FROM tbl_tipo_practicas_productivas WHERE tipo_practica = '$tipo_practica' ";
@@ -28,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       ';
     } else {
 
-        $sql = "CALL InsertarPracticas('$tipo_practica', '$descripcion')";
+        $sql = "CALL InsertarTipoPracticaProductiva('$tipo_practica', '$descripcion','$Creado_Por')";
 
         if (mysqli_query($conexion, $sql)) {
             header("Location: ../bienvenida.php?success=true");

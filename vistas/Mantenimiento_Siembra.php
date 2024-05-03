@@ -14,7 +14,7 @@ if(isset($_SESSION['usuario'])) {
     $idRolUsuario = $_SESSION['usuario']['id_rol'];
 
     // Consultar los permisos del usuario para el objeto de usuarios (ID de objeto = 3)
-    $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 40";//crear el objeto y ponerle el numero correspondiente
+    $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 57";//crear el objeto y ponerle el numero correspondiente
     $resultadoPermisos = $conexion->query($sqlPermisos);
 
     if ($resultadoPermisos->num_rows > 0) {
@@ -76,11 +76,15 @@ if(isset($_SESSION['usuario'])) {
     <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col"></th>
+                    <th scope="col">Codigo</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Creado Por</th>
-                    <th scope="col">Fecha Creación</th>
                     <th scope="col">Estado</th>
+                    <th scope="col" class="hidden">Creado Por</th>
+                    <th scope="col" class="hidden">Fecha Creacion</th>
+                    <th scope="col" class="hidden">Modificado Por</th>
+                    <th scope="col" class="hidden">Fecha Modificacion</th>
+
                     <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
                     <?php endif; ?>
@@ -92,10 +96,9 @@ if(isset($_SESSION['usuario'])) {
                 $sql = $conexion->query("SELECT * FROM tbl_siembra");
                 while ($datos = $sql->fetch_object()) { ?>
                     <tr>
+                    <td><button class="btn btn-primary"onclick="toggleColumns(this)"><i class="fas fa-eye" style="color:white"></i></button></td>
                         <td><?= $datos->Id_siembra ?></td>
                         <td><?= $datos->Tipo_siembra ?></td>
-                        <td><?= $datos->Creado_Por ?></td>
-                        <td><?= $datos->Fecha_Creacion ?></td>
                         <td><?php
                             if ($datos->Estado == "A") {
                                 echo '<span class="badge bg-success">Activo</span>';
@@ -103,6 +106,11 @@ if(isset($_SESSION['usuario'])) {
                                 echo '<span class="badge bg-danger">Inactivo</span>';
                             }
                             ?></td>
+                            <td class="hidden"><?= $datos->Creado_Por?></td>
+                            <td class="hidden"><?= $datos->Fecha_Creacion?></td>
+                            <td class="hidden"><?= $datos->Actualizado_Por?></td>
+                            <td class="hidden"><?= $datos->Fecha_Actualizacion?></td>
+
                         <td>
                             
 <?php if ($permiso_actualizacion == 1) : ?>
@@ -219,7 +227,31 @@ if(isset($_SESSION['usuario'])) {
         </div>
     </div>
 </div>
+<script>
+    function toggleColumns(button) {
+        var row = button.parentNode.parentNode;
+        var creado = row.querySelector("td:nth-child(5)");
+        var fechaCreacion = row.querySelector("td:nth-child(6)");
+        var actualizado = row.querySelector("td:nth-child(7)");
+        var fechaAct = row.querySelector("td:nth-child(8)");
 
+  
+        var creadoColumn = document.querySelector("th:nth-child(5)");
+        var fechaCreacionColumn = document.querySelector("th:nth-child(6)");
+        var actualizadoColumn = document.querySelector("th:nth-child(7)");
+        var fechaActColumn = document.querySelector("th:nth-child(8)");
+
+        creado.classList.toggle("hidden");
+        fechaCreacion.classList.toggle("hidden");
+        actualizado.classList.toggle("hidden");
+        fechaAct.classList.toggle("hidden");
+
+        creadoColumn.classList.toggle("hidden");   
+        fechaCreacionColumn.classList.toggle("hidden");
+        actualizadoColumn.classList.toggle("hidden");
+        fechaActColumn.classList.toggle("hidden");
+    }
+</script>
 <!-- JavaScript para manejar la edición de aldeas -->
 <script>
     // Función para abrir el modal de edición
