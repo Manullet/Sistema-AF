@@ -419,7 +419,7 @@ function obtenerNumeroFicha($conexion)
 
                 <div class="modal-footer center-content-between">
                     <button type="button" class="btn btn-secondary" onclick="navigateToForm('#datosFichaForm')">Regresar</button>
-                    <button type="submit" id="guardarBtn" onclick="navigateToForm('#datosUbiForm')" class="btn btn-actualizar">Siguiente</button>
+                    <button type="submit" id="guardarBtn" class="btn btn-actualizar">Siguiente</button>
                 </div>
             </form>
 
@@ -2444,7 +2444,7 @@ function obtenerNumeroFicha($conexion)
 <script>
     $(document).ready(function() {
         $('#datosTrabajadorForm').submit(function(e) {
-            e.preventDefault(); // Evitar la recarga de la página
+            
             var fechaIngresada = document.getElementById("fechaNacimiento").value;
             var hoy = new Date().toISOString().slice(0,10);
 
@@ -2476,7 +2476,7 @@ function obtenerNumeroFicha($conexion)
 
             }
 
-            // Realizar la solicitud AJAX
+            e.preventDefault(); 
             
         });
     });
