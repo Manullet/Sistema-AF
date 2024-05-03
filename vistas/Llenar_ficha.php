@@ -2445,25 +2445,39 @@ function obtenerNumeroFicha($conexion)
     $(document).ready(function() {
         $('#datosTrabajadorForm').submit(function(e) {
             e.preventDefault(); // Evitar la recarga de la página
+            var fechaIngresada = document.getElementById("fechaNacimiento").value;
+            var hoy = new Date().toISOString().slice(0,10);
+
+            if (fechaIngresada > hoy) {
+                Swal.fire({
+                    title: "Error",
+                    text: "La fecha de nacimiento no puede ser mayor a la fecha de hoy",
+                    icon: "error"
+                    });
+            }else{
+                $.ajax({
+                    type: 'POST',
+                    url: 'modelos/datosTrabajadorForm.php',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Aquí puedes manejar la respuesta del servidor si es necesario
+                        console.log(response);
+                        navigateToForm('#datosUbiForm')
+                        // Deshabilita el botón después de hacer clic
+                        //$('#guardarBtn').prop('disabled', true);
+                        // O puedes ocultar el botón si prefieres
+                        // $('#guardarBtn').hide();
+                    },
+                    error: function(error) {
+                        // Manejar el error si es necesario
+                        console.error(error);
+                    }
+                });
+
+            }
 
             // Realizar la solicitud AJAX
-            $.ajax({
-                type: 'POST',
-                url: 'modelos/datosTrabajadorForm.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Aquí puedes manejar la respuesta del servidor si es necesario
-                    console.log(response);
-                    // Deshabilita el botón después de hacer clic
-                    $('#guardarBtn').prop('disabled', true);
-                    // O puedes ocultar el botón si prefieres
-                    // $('#guardarBtn').hide();
-                },
-                error: function(error) {
-                    // Manejar el error si es necesario
-                    console.error(error);
-                }
-            });
+            
         });
     });
 </script>
