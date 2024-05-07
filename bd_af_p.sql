@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-05-2024 a las 14:31:33
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 07-05-2024 a las 19:40:08
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -114,6 +114,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarApoyoProduccion` (IN `p_I
         WHERE
             `id_apoyo_prod` = p_Id_Apoyo_Produccion;
     END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarApoyos` (IN `p_id_apoyo_produccion` BIGINT, IN `p_tipo_apoyo_produccion` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('ACTIVO','INACTIVO'))   BEGIN
+    UPDATE tbl_apoyos
+    SET tipo_apoyo_produccion = p_tipo_apoyo_produccion,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_apoyo_produccion = p_id_apoyo_produccion;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarBaseOrganizacion` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Pertenece_A_Organizacion` ENUM('S','N'), IN `p_Descripcion` TEXT, IN `p_Modificado_Por` VARCHAR(50))   BEGIN
@@ -262,6 +272,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarFicha` (IN `p_Id_Ficha` B
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarFuenteCredito` (IN `p_id_fuente_credito` BIGINT, IN `p_fuente_credito` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE tbl_fuentes_credito
+    SET fuente_credito = p_fuente_credito,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_fuente_credito = p_id_fuente_credito;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarIngresoFamiliar` (IN `p_Id_Ingreso_Familiar` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipo_Negocio` BIGINT, IN `p_Total_Ingreso` DECIMAL(10,2), IN `p_Id_Periodo_Ingreso` BIGINT, IN `p_Descripcion_Otros` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
     -- Verificar si el registro a actualizar existe en la tabla tbl_ingreso_familiar
     IF NOT EXISTS (
@@ -370,16 +390,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarMotivoMigracion` (IN `p_i
     WHERE Id_motivo = p_id_motivo;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarMotivoNoCredito` (IN `id_motivo_no_credito_param` INT, IN `nuevo_motivo_no_credito` VARCHAR(255), IN `nueva_descripcion` TEXT, IN `modificado_por_param` VARCHAR(255))   BEGIN
-    -- Utiliza CURRENT_TIMESTAMP para la fecha de modificación
-    UPDATE `tbl_motivos_no_creditos`
-    SET
-        `motivo_no_credito` = nuevo_motivo_no_credito,
-        `descripcion` = nueva_descripcion,
-        `modificado_por` = modificado_por_param,
-        `fecha_modificacion` = CURRENT_TIMESTAMP
-    WHERE
-        `id_motivos_no_credito` = id_motivo_no_credito_param;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarMotivoNoCredito` (IN `p_id_motivo_no_credito` BIGINT, IN `p_motivo_no_credito` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE tbl_motivos_no_creditos
+    SET motivo_no_credito = p_motivo_no_credito,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_motivos_no_credito = p_id_motivo_no_credito;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarMunicipio` (IN `p_Id_Municipio` BIGINT, IN `p_Id_Departamento` BIGINT, IN `p_Nombre_Municipio` VARCHAR(100), IN `p_Descripcion` VARCHAR(255), IN `p_Modificado_Por` VARCHAR(100), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
@@ -454,6 +472,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarOrganizacionPorProductor`
         `estado` = p_estado
     WHERE
         `Id_Organizacion_Productor` = p_Id_Organizacion_Productor;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarPeriodicidad` (IN `p_id_periodo` BIGINT, IN `p_periodo` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE tbl_periodicidad
+    SET periodo = p_periodo,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_periodo = p_id_periodo;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarPracticaProduccion` (IN `Id_Practica_Produccion_param` BIGINT, IN `Id_Ficha_param` BIGINT, IN `Id_Productor_param` BIGINT, IN `Id_Tipo_Practica_param` BIGINT, IN `Descripcion_param` TEXT, IN `Modificado_Por_param` VARCHAR(255), IN `nuevo_estado` ENUM('A','I'))   BEGIN
@@ -670,6 +698,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarRelevoOrganizacion` (IN `
             id_ficha = p_id_ficha AND id_productor = p_id_productor;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoApoyo` (IN `p_id_tipo_apoyos` BIGINT, IN `p_tipo_apoyos` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('ACTIVO','INACTIVO'))   BEGIN
+    UPDATE tbl_tipos_apoyos
+    SET tipo_apoyos = p_tipo_apoyos,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_tipo_apoyos = p_id_tipo_apoyos;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoApoyoProduccion` (IN `p_Id_TipoApoyoProduccion` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipos_Apoyos` BIGINT, IN `p_Otros_Detalles` TEXT, IN `p_Descripcion` TEXT, IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
     -- Verificar si el registro a actualizar existe en la tabla tbl_tipos_apoyo_produccion
     IF NOT EXISTS (
@@ -696,6 +734,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoApoyoProduccion` (IN 
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoNegocio` (IN `p_id_tipo_negocio` BIGINT, IN `p_tipo_negocio` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE tbl_tipo_negocios
+    SET tipo_negocio = p_tipo_negocio,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_tipo_negocio = p_id_tipo_negocio;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoOrganizacion` (IN `p_id_tipo_organizacion` BIGINT, IN `p_tipo_organizacion` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
     UPDATE tbl_tipo_organizacion
     SET tipo_organizacion = p_tipo_organizacion,
@@ -706,7 +754,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoOrganizacion` (IN `p_
     WHERE id_tipo_organizacion = p_id_tipo_organizacion;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoPecuario` (IN `id_tipo_pecuario_param` BIGINT, IN `nuevo_tipo_pecuario` ENUM('b','o','c'), IN `nueva_raza_con_genero` ENUM('s','n'), IN `nueva_descripcion` TEXT, IN `modificado_por_param` VARCHAR(50), IN `nuevo_estado` ENUM('A','I'))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoPecuario` (IN `id_tipo_pecuario_param` BIGINT, IN `nuevo_tipo_pecuario` VARCHAR(50), IN `nueva_raza_con_genero` ENUM('s','n'), IN `nueva_descripcion` TEXT, IN `modificado_por_param` VARCHAR(50), IN `nuevo_estado` ENUM('A','I'))   BEGIN
     -- Utiliza CURRENT_TIMESTAMP para la fecha de modificación
     UPDATE `tbl_tipo_pecuarios`
     SET
@@ -718,6 +766,36 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoPecuario` (IN `id_tip
         `estado` = nuevo_estado
     WHERE
         `id_tipo_pecuario` = id_tipo_pecuario_param;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoPracticaProductiva` (IN `p_id_tipo_practica` BIGINT, IN `p_tipo_practica` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE tbl_tipo_practicas_productivas
+    SET tipo_practica = p_tipo_practica,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_tipo_practica = p_id_tipo_practica;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTipoProduccion` (IN `p_id_tipo_produccion` BIGINT, IN `p_tipo_produccion` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE tbl_tipo_produccion
+    SET tipo_produccion = p_tipo_produccion,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_tipo_produccion = p_id_tipo_produccion;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTomadorDecisiones` (IN `p_id_tipo_tomador` BIGINT, IN `p_tomador` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_modificado_por` VARCHAR(255), IN `p_estado` ENUM('A','I'))   BEGIN
+    UPDATE tbl_toma_decisiones
+    SET tomador = p_tomador,
+        descripcion = p_descripcion,
+        modificado_por = p_modificado_por,
+        fecha_modificacion = CURRENT_TIMESTAMP(),
+        estado = p_estado
+    WHERE id_tipo_tomador = p_id_tipo_tomador;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarTrabajadorExterno` (IN `p_Id_TrabajadorExterno` BIGINT, IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipo_Trabajador` BIGINT, IN `p_Cantidad_Trabajador` INT, IN `p_Descripcion` TEXT, IN `p_Modificado_Por` VARCHAR(255), IN `p_Nuevo_Estado` ENUM('A','I'))   BEGIN
@@ -1571,16 +1649,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DuplicarFicha` (IN `p_id_ficha` INT
 		
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarApoyo` (IN `id_apoyo_produccion_param` INT, IN `tipo_apoyo_produccion_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
-  UPDATE `tbl_apoyos`
-  SET
-    `tipo_apoyo_produccion` = tipo_apoyo_produccion_param,
-    `descripcion` = descripcion_param,
-    `estado` = estado_param,
-    `fecha_modificacion` = CURRENT_TIMESTAMP
-  WHERE `id_apoyo_produccion` = id_apoyo_produccion_param;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarCacerio` (IN `newId_Cacerio` BIGINT(20), IN `newNombre_Cacerio` VARCHAR(100), IN `newDescripcion` VARCHAR(255), IN `newEstado` ENUM('A','I'), IN `newId_Aldea` BIGINT(20))   BEGIN
     UPDATE tbl_cacerios
     SET Nombre_Cacerio = newNombre_Cacerio,
@@ -1601,26 +1669,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarCultivo` (IN `id_tipo_cultivo
   WHERE `id_tipo_cultivo` = id_tipo_cultivo_param;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarPeriodicidad` (IN `id_periodo_param` INT, IN `periodo_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
-  UPDATE `tbl_periodicidad`
-  SET
-    `periodo` = periodo_param,
-    `descripcion` = descripcion_param,
-    `estado` = estado_param,
-    `fecha_modificacion` = CURRENT_TIMESTAMP
-  WHERE `id_periodo` = id_periodo_param;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarPracticas` (IN `id_tipo_practica_param` INT, IN `tipo_practica_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
-  UPDATE `tbl_tipo_practicas_productivas`
-  SET
-    `tipo_practica` = tipo_practica_param,
-    `descripcion` = descripcion_param,
-    `estado` = estado_param,
-    `fecha_modificacion` = CURRENT_TIMESTAMP
-  WHERE `id_tipo_practica` = id_tipo_practica_param;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarRiego` (IN `id_tipo_riego_param` INT, IN `tipo_riego_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
   UPDATE `tbl_tipo_riego`
   SET
@@ -1631,16 +1679,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarRiego` (IN `id_tipo_riego_par
   WHERE `id_tipo_riego` = id_tipo_riego_param;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarTipoApoyo` (IN `id_tipo_apoyos_param` INT, IN `tipo_apoyos_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
-  UPDATE `tbl_tipos_apoyos`
-  SET
-    `tipo_apoyos` = tipo_apoyos_param,
-    `descripcion` = descripcion_param,
-    `estado` = estado_param,
-    `fecha_modificacion` = CURRENT_TIMESTAMP
-  WHERE `id_tipo_apoyos` = id_tipo_apoyos_param;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarTipoTrabajador` (IN `id_tipo_trabajador_param` INT, IN `tipo_trabajador_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
   UPDATE `tbl_tipo_trabajadores`
   SET
@@ -1649,35 +1687,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarTipoTrabajador` (IN `id_tipo_
     `estado` = estado_param,
     `fecha_modificacion` = CURRENT_TIMESTAMP
   WHERE `id_tipo_trabajador` = id_tipo_trabajador_param;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarTipo_Negocio` (IN `id_tipo_negocio_param` INT, IN `tipo_negocio_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
-
-  UPDATE `tbl_tipo_negocios`
-  SET
-    `tipo_negocio` = tipo_negocio_param,
-    `descripcion` = descripcion_param,
-    `estado` = estado_param
-  WHERE `id_tipo_negocio` = id_tipo_negocio_param;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarTipo_Produccion` (IN `id_tipo_produccion_param` INT, IN `tipo_produccion_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('1','2'))   BEGIN
-  UPDATE `tbl_tipo_produccion`
-  SET
-    `tipo_produccion` = tipo_produccion_param,
-    `descripcion` = descripcion_param,
-    `estado` = estado_param
-  WHERE `id_tipo_produccion` = id_tipo_produccion_param;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarTomaDecisiones` (IN `id_tipo_tomador_param` INT, IN `tomador_param` VARCHAR(255), IN `descripcion_param` TEXT, IN `estado_param` ENUM('ACTIVO','INACTIVO'))   BEGIN
-  UPDATE `tbl_toma_decisiones`
-  SET
-    `tomador` =  tomador_param,
-    `descripcion` = descripcion_param,
-    `estado` = estado_param,
-    `fecha_modificacion` = CURRENT_TIMESTAMP
-  WHERE `id_tipo_tomador` = id_tipo_tomador_param;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarActividadExterna` (IN `p_Id_ActividadExterna` BIGINT)   BEGIN
@@ -1812,6 +1821,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarFicha` (IN `p_Id_Ficha` BIG
         DELETE FROM `fichas`
         WHERE `id_ficha` = p_Id_Ficha;
     END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarFuenteCredito` (IN `p_id_fuente_credito` BIGINT)   BEGIN
+    DELETE FROM tbl_fuentes_credito
+    WHERE id_fuente_credito = p_id_fuente_credito;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarIngresoFamiliar` (IN `p_Id_Ingreso_Familiar` BIGINT)   BEGIN
@@ -2010,6 +2024,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarTipoPecuario` (IN `id_tipo_
     WHERE `id_tipo_pecuario` = id_tipo_pecuario_param;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarTipoProduccion` (IN `p_id_tipo_produccion` BIGINT)   BEGIN
+    DELETE FROM tbl_tipo_produccion
+    WHERE id_tipo_produccion = p_id_tipo_produccion;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarTipoTrabajador` (IN `id_tipo_trabajador_param` INT(11))   BEGIN
   DELETE FROM tbl_tipo_trabajadores WHERE id_tipo_trabajador = id_tipo_trabajador_param;
 END$$
@@ -2042,7 +2061,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarTrabajadorExterno` (IN `p_I
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarUsuario` (IN `p_id_usuario` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarUsuario` (IN `p_id_usuario` BIGINT)   BEGIN
     DELETE FROM usuario WHERE Id_Usuario = p_id_usuario;
 END$$
 
@@ -2100,9 +2119,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarAldea` (IN `p_Id_Departamen
     );
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarApoyo` (IN `tipo_apoyo_produccion_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
-  INSERT INTO `tbl_apoyos` (`tipo_apoyo_produccion`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
-  VALUES (tipo_apoyo_produccion_param, descripcion_param, 'Daniela', 'Daniela', 'ACTIVO');
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarApoyo` (IN `p_tipo_apoyo_produccion` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO tbl_apoyos (tipo_apoyo_produccion, descripcion, creado_por, estado)
+    VALUES (p_tipo_apoyo_produccion, p_descripcion, p_creado_por, 'ACTIVO');
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarApoyoActividadExterna` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Recibe_Apoyo_Produccion_Agricola` ENUM('S','N'), IN `p_Atencion_Por_UAG` ENUM('S','N'), IN `p_Productos_Vendidos_Por_Pralesc` ENUM('S','N'), IN `p_Descripcion` TEXT, IN `p_Creado_Por` VARCHAR(255))   BEGIN
@@ -2437,6 +2456,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarfichaformulario` (IN `p_fec
     );
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarFuenteCredito` (IN `p_fuente_credito` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO tbl_fuentes_credito (fuente_credito, descripcion, creado_por, estado)
+    VALUES (p_fuente_credito, p_descripcion, p_creado_por, 'A');
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarIngresoFamiliar` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipo_Negocio` BIGINT, IN `p_Total_Ingreso` DECIMAL(10,2), IN `p_Id_Periodo_Ingreso` BIGINT, IN `p_Descripcion_Otros` VARCHAR(255), IN `p_Descripcion` VARCHAR(255), IN `p_Creado_Por` VARCHAR(255))   BEGIN
     -- Utiliza CURRENT_TIMESTAMP para la fecha de creación y modificación
     INSERT INTO `tbl_ingreso_familiar` (
@@ -2659,9 +2683,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarOrganizacionProductor` (IN 
     );
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPeriodicidad` (IN `periodo_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
-  INSERT INTO `tbl_periodicidad` (`periodo`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
-  VALUES (periodo_param, descripcion_param, 'Manuel', 'Manuel', 'ACTIVO');
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPeriodicidad` (IN `p_periodo` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO tbl_periodicidad (periodo, descripcion, creado_por, estado)
+    VALUES (p_periodo, p_descripcion, p_creado_por, 'A');
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPracticaProduccion` (IN `Id_Ficha_param` BIGINT, IN `Id_Productor_param` BIGINT, IN `Id_Tipo_Practica_param` BIGINT, IN `Descripcion_param` TEXT, IN `Creado_Por_param` VARCHAR(255))   BEGIN
@@ -2690,11 +2714,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPracticaProduccion` (IN `Id
         CURRENT_TIMESTAMP,
         'A'
     );
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPracticas` (IN `tipo_practica_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
-  INSERT INTO `tbl_tipo_practicas_productivas` (`tipo_practica`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
-  VALUES (tipo_practica_param, descripcion_param, 'Manuel', 'Manuel', 'ACTIVO');
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarPregunta` (IN `p_pregunta` VARCHAR(255), IN `p_creador_por` VARCHAR(40), IN `p_actualizado_por` VARCHAR(40))   BEGIN
@@ -3052,9 +3071,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarRiego` (IN `tipo_riego_para
   VALUES (tipo_riego_param, descripcion_param, 'Manuel', 'Manuel', 'ACTIVO');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoApoyo` (IN `tipo_apoyos_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
-  INSERT INTO `tbl_tipos_apoyos` (`tipo_apoyos`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
-  VALUES (tipo_apoyos_param, descripcion_param, 'Daniela', 'Daniela', 'ACTIVO');
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoApoyo` (IN `p_tipo_apoyos` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO tbl_tipos_apoyos (tipo_apoyos, descripcion, creado_por, estado)
+    VALUES (p_tipo_apoyos, p_descripcion, p_creado_por, 'ACTIVO');
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoApoyoProduccion` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipos_Apoyos` BIGINT, IN `p_Otros_Detalles` TEXT, IN `p_Descripcion` TEXT, IN `p_Creado_Por` VARCHAR(255))   BEGIN
@@ -3085,6 +3104,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoApoyoProduccion` (IN `p
     );
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoNegocio` (IN `p_tipo_negocio` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO tbl_tipo_negocios (tipo_negocio, descripcion, creado_por, estado)
+    VALUES (p_tipo_negocio, p_descripcion, p_creado_por, 'A');
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoOrganizacion` (IN `p_tipo_organizacion` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
     INSERT INTO tbl_tipo_organizacion (tipo_organizacion, descripcion, creado_por, estado)
     VALUES (p_tipo_organizacion, p_descripcion, p_creado_por, 'A');
@@ -3112,24 +3136,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoPecuario` (IN `p_tipo_p
     );
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoPracticaProductiva` (IN `p_tipo_practica` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO tbl_tipo_practicas_productivas (tipo_practica, descripcion, creado_por, estado)
+    VALUES (p_tipo_practica, p_descripcion, p_creado_por, 'A');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoProduccion` (IN `p_tipo_produccion` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO tbl_tipo_produccion (tipo_produccion, descripcion, creado_por, estado)
+    VALUES (p_tipo_produccion, p_descripcion, p_creado_por, 'A');
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipoTrabajador` (IN `tipo_trabajador_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
   INSERT INTO `tbl_tipo_trabajadores` (`tipo_trabajador`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
   VALUES (tipo_trabajador_param, descripcion_param, 'Daniela', 'Daniela', 'ACTIVO');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipo_Negocio` (IN `tipo_negocio_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
-  INSERT INTO `tbl_tipo_negocios` (`tipo_negocio`, `descripcion`, `creado_por`,`modificado_por` , `estado`) 
-  VALUES (tipo_negocio_param, descripcion_param, 'Kevin', 'Kevin', 'ACTIVO');
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTipo_Produccion` (IN `tipo_produccion_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
-  INSERT INTO `tbl_tipo_produccion` (`tipo_produccion`, `descripcion`, `creado_por`,`modificado_por` , `estado`) 
-  VALUES (tipo_produccion_param, descripcion_param, 'Kevin', 'Kevin', '1');
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTomaDecisones` (IN `tomador_param` VARCHAR(255), IN `descripcion_param` TEXT)   BEGIN
-  INSERT INTO `tbl_toma_decisiones` (`tomador`, `descripcion`,`creado_por`,`modificado_por` , `estado`) 
-  VALUES (tomador_param, descripcion_param, 'Daniela', 'Daniela', 'ACTIVO');
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTomadorDecisiones` (IN `p_tomador` VARCHAR(255), IN `p_descripcion` TEXT, IN `p_creado_por` VARCHAR(255))   BEGIN
+    INSERT INTO tbl_toma_decisiones (tomador, descripcion, creado_por, estado)
+    VALUES (p_tomador, p_descripcion, p_creado_por, 'A');
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarTrabajadorExterno` (IN `p_Id_Ficha` BIGINT, IN `p_Id_Productor` BIGINT, IN `p_Id_Tipo_Trabajador` BIGINT, IN `p_Cantidad_Trabajador` INT, IN `p_Descripcion` TEXT, IN `p_Creado_Por` VARCHAR(255))   BEGIN
@@ -3743,26 +3767,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Temp_Insertar_Ubicacion_Productor` 
     );
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateFuenteCredito` (IN `id_fuente_creditoParam` INT, IN `fuente_creditoParam` VARCHAR(255), IN `descripcionParam` TEXT, IN `estadoParam` INT)   BEGIN
-    DECLARE creado_porParam VARCHAR(255);
-    DECLARE fecha_modificacionParam TIMESTAMP;
-    DECLARE modificado_porParam VARCHAR(255);
-
-    SET creado_porParam = 'usuario1';
-    SET fecha_modificacionParam = NOW();
-    SET modificado_porParam = 'usuario1';
-
-    UPDATE tbl_fuentes_credito
-    SET
-        fuente_credito = fuente_creditoParam,
-        descripcion = descripcionParam,
-        estado = estadoParam,
-        creado_por = creado_porParam,
-        fecha_modificacion = fecha_modificacionParam,
-        modificado_por = modificado_porParam
-    WHERE id_fuente_credito = id_fuente_creditoParam;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateObjeto` (IN `newID_Objeto` BIGINT(20), IN `newObjeto` VARCHAR(255), IN `newDescripcion` VARCHAR(255), IN `newActualizado_Por` VARCHAR(255), IN `newCreado_Por` VARCHAR(255), IN `newStatus` VARCHAR(255))   BEGIN
     UPDATE objetos
     SET Objeto = newObjeto,
@@ -4073,7 +4077,523 @@ INSERT INTO `bitacoras` (`id_bitacora`, `fecha`, `ejecutor`, `actividad_realizad
 (250, '2024-05-02 10:37:10', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_medidas_tierra', 'Información eliminada: id_medida = 16, medida = , descripcion = MedidaActiva'),
 (251, '2024-05-02 10:37:15', 'root@localhost', 'Se insertó', 'Información actual: id_medida = 20, medida = wrfsdefg, descripcion = aerfaefadfa', NULL, 'tbl_medidas_tierra', NULL),
 (252, '2024-05-02 10:37:23', 'root@localhost', 'Se actualizó', 'Información actualizada: id_medida = 20, medida = fdgafgafaef, descripcion = arfgaregafdga', 'Información anterior: id_medida = 20, medida = wrfsdefg, descripcion = aerfaefadfa', 'tbl_medidas_tierra', NULL),
-(253, '2024-05-02 10:37:28', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_medidas_tierra', 'Información eliminada: id_medida = 20, medida = fdgafgafaef, descripcion = arfgaregafdga');
+(253, '2024-05-02 10:37:28', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_medidas_tierra', 'Información eliminada: id_medida = 20, medida = fdgafgafaef, descripcion = arfgaregafdga'),
+(254, '2024-05-02 16:21:59', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_cultivo = 13, tipo_cultivo = fvsdfa, descripcion = asdasdads', NULL, 'tbl_tipo_cultivo', NULL),
+(255, '2024-05-02 16:22:06', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_cultivo = 13, tipo_cultivo = fvsdfa, descripcion = sdfada', 'Información anterior: id_tipo_cultivo = 13, tipo_cultivo = fvsdfa, descripcion = asdasdads', 'tbl_tipo_cultivo', NULL),
+(256, '2024-05-02 16:22:12', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_cultivo = 13, tipo_cultivo = afdgrsdefaedd, descripcion = sdfada', 'Información anterior: id_tipo_cultivo = 13, tipo_cultivo = fvsdfa, descripcion = sdfada', 'tbl_tipo_cultivo', NULL),
+(257, '2024-05-02 16:22:33', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_tipo_cultivo', 'Información eliminada: id_tipo_cultivo = 13, tipo_cultivo = afdgrsdefaedd, descripcion = sdfada'),
+(258, '2024-05-02 16:23:46', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_pecuario = 13, tipo_pecuario = ergafafawefaewrf, raza_con_genero = s, descripcion = TierrasSana', NULL, 'tbl_tipo_pecuarios', NULL),
+(259, '2024-05-02 16:23:52', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 13, tipo_pecuario = , raza_con_genero = s, descripcion = TierrasSana', 'Información anterior: id_tipo_pecuario = 13, tipo_pecuario = ergafafawefaewrf, raza_con_genero = s, descripcion = TierrasSana', 'tbl_tipo_pecuarios', NULL),
+(260, '2024-05-02 16:24:01', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 13, tipo_pecuario = , raza_con_genero = s, descripcion = TierrasSana', 'Información anterior: id_tipo_pecuario = 13, tipo_pecuario = , raza_con_genero = s, descripcion = TierrasSana', 'tbl_tipo_pecuarios', NULL),
+(261, '2024-05-02 16:24:06', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 13, tipo_pecuario = , raza_con_genero = s, descripcion = TierrasSana', 'Información anterior: id_tipo_pecuario = 13, tipo_pecuario = , raza_con_genero = s, descripcion = TierrasSana', 'tbl_tipo_pecuarios', NULL),
+(262, '2024-05-02 16:25:29', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 13, tipo_pecuario = sdfasfdasd, raza_con_genero = s, descripcion = TierrasSana', 'Información anterior: id_tipo_pecuario = 13, tipo_pecuario = , raza_con_genero = s, descripcion = TierrasSana', 'tbl_tipo_pecuarios', NULL),
+(263, '2024-05-02 16:25:36', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 12, tipo_pecuario = frgafasfd, raza_con_genero = s, descripcion = PeInactivo', 'Información anterior: id_tipo_pecuario = 12, tipo_pecuario = , raza_con_genero = s, descripcion = PeInactivo', 'tbl_tipo_pecuarios', NULL),
+(264, '2024-05-02 16:25:38', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 12, tipo_pecuario = frgafasfd, raza_con_genero = s, descripcion = PeInactivo', 'Información anterior: id_tipo_pecuario = 12, tipo_pecuario = frgafasfd, raza_con_genero = s, descripcion = PeInactivo', 'tbl_tipo_pecuarios', NULL),
+(265, '2024-05-02 16:25:46', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 12, tipo_pecuario = frgafasfd, raza_con_genero = s, descripcion = PeInactivo', 'Información anterior: id_tipo_pecuario = 12, tipo_pecuario = frgafasfd, raza_con_genero = s, descripcion = PeInactivo', 'tbl_tipo_pecuarios', NULL),
+(266, '2024-05-02 16:25:55', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 12, tipo_pecuario = PeInactivo, raza_con_genero = s, descripcion = PeInactivo', 'Información anterior: id_tipo_pecuario = 12, tipo_pecuario = frgafasfd, raza_con_genero = s, descripcion = PeInactivo', 'tbl_tipo_pecuarios', NULL),
+(267, '2024-05-02 16:26:03', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 12, tipo_pecuario = PeInactivo, raza_con_genero = s, descripcion = PeInactivo', 'Información anterior: id_tipo_pecuario = 12, tipo_pecuario = PeInactivo, raza_con_genero = s, descripcion = PeInactivo', 'tbl_tipo_pecuarios', NULL),
+(268, '2024-05-02 16:26:10', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_tipo_pecuarios', 'Información eliminada: id_tipo_pecuario = 13, tipo_pecuario = sdfasfdasd, raza_con_genero = s, descripcion = TierrasSana'),
+(269, '2024-05-02 16:33:17', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_produccion = 13, tipo_produccion = ProActivo, descripcion = TierrasSana', NULL, 'tbl_tipo_produccion', NULL),
+(270, '2024-05-02 16:33:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 1, tipo_produccion = Producción de leche, descripcion = Leche', 'Información anterior: id_tipo_produccion = 1, tipo_produccion = Producción de leche, descripcion = Leche', 'tbl_tipo_produccion', NULL),
+(271, '2024-05-02 16:33:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 2, tipo_produccion = Producción de carne, descripcion = Carne', 'Información anterior: id_tipo_produccion = 2, tipo_produccion = Producción de carne, descripcion = Carne', 'tbl_tipo_produccion', NULL),
+(272, '2024-05-02 16:33:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 3, tipo_produccion = Producción de derivados de leche, descripcion = Derivados de la leche', 'Información anterior: id_tipo_produccion = 3, tipo_produccion = Producción de derivados de leche, descripcion = Derivados de la leche', 'tbl_tipo_produccion', NULL),
+(273, '2024-05-02 16:33:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 4, tipo_produccion = Producción de huevos, descripcion = Huevos', 'Información anterior: id_tipo_produccion = 4, tipo_produccion = Producción de huevos, descripcion = Huevos', 'tbl_tipo_produccion', NULL),
+(274, '2024-05-02 16:33:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 5, tipo_produccion = Producción apícola , descripcion = Apicola', 'Información anterior: id_tipo_produccion = 5, tipo_produccion = Producción apícola , descripcion = Apicola', 'tbl_tipo_produccion', NULL),
+(275, '2024-05-02 16:33:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 6, tipo_produccion = Producto de Transformación, descripcion = Transformación', 'Información anterior: id_tipo_produccion = 6, tipo_produccion = Producto de Transformación, descripcion = Transformación', 'tbl_tipo_produccion', NULL),
+(276, '2024-05-02 16:33:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 12, tipo_produccion = ProInactivo, descripcion = ProInactivo', 'Información anterior: id_tipo_produccion = 12, tipo_produccion = ProInactivo, descripcion = ProInactivo', 'tbl_tipo_produccion', NULL),
+(277, '2024-05-02 16:33:51', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 12, tipo_produccion = ProInactivo, descripcion = ProInactivo', 'Información anterior: id_tipo_produccion = 12, tipo_produccion = ProInactivo, descripcion = ProInactivo', 'tbl_tipo_produccion', NULL),
+(278, '2024-05-02 16:36:20', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_produccion = 14, tipo_produccion = fseadwf, descripcion = arefWEFDAWEFD', NULL, 'tbl_tipo_produccion', NULL),
+(279, '2024-05-02 16:36:41', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 14, tipo_produccion = fgfgfgwwwwfgg, descripcion = poiujyhtf', 'Información anterior: id_tipo_produccion = 14, tipo_produccion = fseadwf, descripcion = arefWEFDAWEFD', 'tbl_tipo_produccion', NULL),
+(280, '2024-05-02 16:37:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_tipo_produccion', 'Información eliminada: id_tipo_produccion = 14, tipo_produccion = fgfgfgwwwwfgg, descripcion = poiujyhtf'),
+(281, '2024-05-02 16:38:53', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 13, tipo_produccion = ProActivo, descripcion = TierrasSana1', 'Información anterior: id_tipo_produccion = 13, tipo_produccion = ProActivo, descripcion = TierrasSana', 'tbl_tipo_produccion', NULL),
+(282, '2024-05-02 16:39:58', 'root@localhost', 'Se insertó', 'Información actual: id_periodo = 15, periodo = PerActivo, descripcion = PerActivo', NULL, 'tbl_periodicidad', NULL),
+(283, '2024-05-02 17:13:42', 'root@localhost', 'Se insertó', 'Información actual: id_periodo = 16, periodo = cera, descripcion = carea', NULL, 'tbl_periodicidad', NULL),
+(284, '2024-05-02 17:14:45', 'root@localhost', 'Se actualizó', 'Información actualizada: id_periodo = 16, periodo = edi, descripcion = fd', 'Información anterior: id_periodo = 16, periodo = cera, descripcion = carea', 'tbl_periodicidad', NULL),
+(285, '2024-05-02 17:14:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_periodicidad', 'Información eliminada: id_periodo = 16, periodo = edi, descripcion = fd'),
+(286, '2024-05-02 17:15:05', 'root@localhost', 'Se actualizó', 'Información actualizada: id_periodo = 15, periodo = PerActivo, descripcion = PerActivo', 'Información anterior: id_periodo = 15, periodo = PerActivo, descripcion = PerActivo', 'tbl_periodicidad', NULL),
+(287, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 1, tipo_negocio = Venta de servicio, descripcion = Venta de servicios', 'Información anterior: id_tipo_negocio = 1, tipo_negocio = Venta de servicio, descripcion = Venta de servicios', 'tbl_tipo_negocios', NULL),
+(288, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 2, tipo_negocio = Jornal agricola, descripcion = Jornal agricola', 'Información anterior: id_tipo_negocio = 2, tipo_negocio = Jornal agricola, descripcion = Jornal agricola', 'tbl_tipo_negocios', NULL),
+(289, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 3, tipo_negocio = Corte de café, descripcion = Café', 'Información anterior: id_tipo_negocio = 3, tipo_negocio = Corte de café, descripcion = Café', 'tbl_tipo_negocios', NULL),
+(290, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 4, tipo_negocio = Jornal no agrícola, descripcion = Jornal no agrícola', 'Información anterior: id_tipo_negocio = 4, tipo_negocio = Jornal no agrícola, descripcion = Jornal no agrícola', 'tbl_tipo_negocios', NULL),
+(291, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 5, tipo_negocio = Alquileres, descripcion = Alquileres', 'Información anterior: id_tipo_negocio = 5, tipo_negocio = Alquileres, descripcion = Alquileres', 'tbl_tipo_negocios', NULL),
+(292, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 6, tipo_negocio = Remesa del exterior, descripcion = Remesa del exterior', 'Información anterior: id_tipo_negocio = 6, tipo_negocio = Remesa del exterior, descripcion = Remesa del exterior', 'tbl_tipo_negocios', NULL),
+(293, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 7, tipo_negocio = Remesa nacional, descripcion = Remesa nacional', 'Información anterior: id_tipo_negocio = 7, tipo_negocio = Remesa nacional, descripcion = Remesa nacional', 'tbl_tipo_negocios', NULL),
+(294, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 8, tipo_negocio = Bono (10 mil, 3ra edad, escolar), descripcion = Bono(10 mil, 3ra edad, escolar)', 'Información anterior: id_tipo_negocio = 8, tipo_negocio = Bono (10 mil, 3ra edad, escolar), descripcion = Bono(10 mil, 3ra edad, escolar)', 'tbl_tipo_negocios', NULL),
+(295, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 9, tipo_negocio = Salario profesional, descripcion = Salario profesional', 'Información anterior: id_tipo_negocio = 9, tipo_negocio = Salario profesional, descripcion = Salario profesional', 'tbl_tipo_negocios', NULL),
+(296, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 10, tipo_negocio = Artesanía, descripcion = Artesanía', 'Información anterior: id_tipo_negocio = 10, tipo_negocio = Artesanía, descripcion = Artesanía', 'tbl_tipo_negocios', NULL),
+(297, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 11, tipo_negocio = Negocio, descripcion = Negocio', 'Información anterior: id_tipo_negocio = 11, tipo_negocio = Negocio, descripcion = Negocio', 'tbl_tipo_negocios', NULL),
+(298, '2024-05-02 17:18:30', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 14, tipo_negocio = NegInactivo, descripcion = NegInactivo', 'Información anterior: id_tipo_negocio = 14, tipo_negocio = NegInactivo, descripcion = NegInactivo', 'tbl_tipo_negocios', NULL),
+(299, '2024-05-02 17:19:01', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_negocio = 15, tipo_negocio = fsdef, descripcion = faeasfdew', NULL, 'tbl_tipo_negocios', NULL),
+(300, '2024-05-02 17:21:48', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_negocio = 16, tipo_negocio = fsgagt4r4ee, descripcion = dfgafda', NULL, 'tbl_tipo_negocios', NULL),
+(301, '2024-05-02 17:24:19', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 16, tipo_negocio = fsgagt4r4ee, descripcion = dfgafda', 'Información anterior: id_tipo_negocio = 16, tipo_negocio = fsgagt4r4ee, descripcion = dfgafda', 'tbl_tipo_negocios', NULL);
+INSERT INTO `bitacoras` (`id_bitacora`, `fecha`, `ejecutor`, `actividad_realizada`, `informacion_actual`, `informacion_anterior`, `tabla`, `informacion_eliminada`) VALUES
+(302, '2024-05-02 17:24:25', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 16, tipo_negocio = fsgagt4r4ee, descripcion = dfgafda', 'Información anterior: id_tipo_negocio = 16, tipo_negocio = fsgagt4r4ee, descripcion = dfgafda', 'tbl_tipo_negocios', NULL),
+(303, '2024-05-02 17:24:44', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_tipo_negocios', 'Información eliminada: id_tipo_negocio = 16, tipo_negocio = fsgagt4r4ee, descripcion = dfgafda'),
+(304, '2024-05-02 17:24:47', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_tipo_negocios', 'Información eliminada: id_tipo_negocio = 15, tipo_negocio = fsdef, descripcion = faeasfdew'),
+(305, '2024-05-02 17:24:53', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_negocio = 14, tipo_negocio = NegInactivo, descripcion = NegInactivo', 'Información anterior: id_tipo_negocio = 14, tipo_negocio = NegInactivo, descripcion = NegInactivo', 'tbl_tipo_negocios', NULL),
+(306, '2024-05-02 17:25:22', 'root@localhost', 'Se insertó', 'Información actual: id_motivos_no_credito = 10, motivo_no_credito = dfsdfsdf, descripcion = asdasdada', NULL, 'tbl_motivos_no_creditos', NULL),
+(307, '2024-05-02 17:28:19', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 10, motivo_no_credito = fgsdfasdf, descripcion = asdasdada', 'Información anterior: id_motivos_no_credito = 10, motivo_no_credito = dfsdfsdf, descripcion = asdasdada', 'tbl_motivos_no_creditos', NULL),
+(308, '2024-05-02 17:28:31', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 10, motivo_no_credito = zxzxzxzxx, descripcion = dafadfgshsgfb', 'Información anterior: id_motivos_no_credito = 10, motivo_no_credito = fgsdfasdf, descripcion = asdasdada', 'tbl_motivos_no_creditos', NULL),
+(309, '2024-05-02 17:29:28', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 10, motivo_no_credito = zxzxzxzxx, descripcion = dafadfgshsgfb', 'Información anterior: id_motivos_no_credito = 10, motivo_no_credito = zxzxzxzxx, descripcion = dafadfgshsgfb', 'tbl_motivos_no_creditos', NULL),
+(310, '2024-05-02 17:29:36', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 10, motivo_no_credito = rttrtrt, descripcion = wsdsdsd', 'Información anterior: id_motivos_no_credito = 10, motivo_no_credito = zxzxzxzxx, descripcion = dafadfgshsgfb', 'tbl_motivos_no_creditos', NULL),
+(311, '2024-05-02 17:29:43', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 10, motivo_no_credito = llllllllll, descripcion = lllllllll', 'Información anterior: id_motivos_no_credito = 10, motivo_no_credito = rttrtrt, descripcion = wsdsdsd', 'tbl_motivos_no_creditos', NULL),
+(312, '2024-05-02 17:30:04', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_motivos_no_creditos', 'Información eliminada: id_motivos_no_credito = 10, motivo_no_credito = llllllllll, descripcion = lllllllll'),
+(313, '2024-05-02 17:30:46', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 1, motivo_no_credito = Estoy en la central de riesgos, descripcion = Estoy en la central de riesgos', 'Información anterior: id_motivos_no_credito = 1, motivo_no_credito = Estoy en la central de riesgos, descripcion = Estoy en la central de riesgos', 'tbl_motivos_no_creditos', NULL),
+(314, '2024-05-02 17:30:50', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 2, motivo_no_credito = Son muchos los requisitos, descripcion = Son muchos los requisitos', 'Información anterior: id_motivos_no_credito = 2, motivo_no_credito = Son muchos los requisitos, descripcion = Son muchos los requisitos', 'tbl_motivos_no_creditos', NULL),
+(315, '2024-05-02 17:30:54', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 3, motivo_no_credito = No lo he necesitado, descripcion = No lo he necesitado', 'Información anterior: id_motivos_no_credito = 3, motivo_no_credito = No lo he necesitado, descripcion = No lo he necesitado', 'tbl_motivos_no_creditos', NULL),
+(316, '2024-05-02 17:30:58', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 4, motivo_no_credito = No tengo capacidad de pago, descripcion = No tengo capacidad de pago', 'Información anterior: id_motivos_no_credito = 4, motivo_no_credito = No tengo capacidad de pago, descripcion = No tengo capacidad de pago', 'tbl_motivos_no_creditos', NULL),
+(317, '2024-05-02 17:31:02', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 5, motivo_no_credito = Temor al rechazo , descripcion = Temor al rechazo ', 'Información anterior: id_motivos_no_credito = 5, motivo_no_credito = Temor al rechazo , descripcion = Temor al rechazo ', 'tbl_motivos_no_creditos', NULL),
+(318, '2024-05-02 17:31:06', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 6, motivo_no_credito = Temor a no pagarlo , descripcion = Temor a no pagarlo ', 'Información anterior: id_motivos_no_credito = 6, motivo_no_credito = Temor a no pagarlo , descripcion = Temor a no pagarlo ', 'tbl_motivos_no_creditos', NULL),
+(319, '2024-05-02 17:31:10', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 7, motivo_no_credito = Tasas de interés muy altas , descripcion = Tasas de interés muy altas ', 'Información anterior: id_motivos_no_credito = 7, motivo_no_credito = Tasas de interés muy altas , descripcion = Tasas de interés muy altas ', 'tbl_motivos_no_creditos', NULL),
+(320, '2024-05-02 17:35:30', 'root@localhost', 'Se insertó', 'Información actual: id_motivos_no_credito = 11, motivo_no_credito = sdad, descripcion = sadasda', NULL, 'tbl_motivos_no_creditos', NULL),
+(321, '2024-05-02 17:35:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 11, motivo_no_credito = dfasdfas, descripcion = zzzzzzzzz', 'Información anterior: id_motivos_no_credito = 11, motivo_no_credito = sdad, descripcion = sadasda', 'tbl_motivos_no_creditos', NULL),
+(322, '2024-05-02 17:35:46', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 11, motivo_no_credito = dfasdfas, descripcion = zzzzzzzzz', 'Información anterior: id_motivos_no_credito = 11, motivo_no_credito = dfasdfas, descripcion = zzzzzzzzz', 'tbl_motivos_no_creditos', NULL),
+(323, '2024-05-02 17:36:08', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_motivos_no_creditos', 'Información eliminada: id_motivos_no_credito = 11, motivo_no_credito = dfasdfas, descripcion = zzzzzzzzz'),
+(324, '2024-05-02 19:38:19', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_tomador = 7, tomador = vrsfrfdce, descripcion =  dcx dcx', NULL, 'tbl_toma_decisiones', NULL),
+(325, '2024-05-02 19:45:35', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_tomador = 8, tomador = rafe, descripcion = vfd', NULL, 'tbl_toma_decisiones', NULL),
+(326, '2024-05-02 19:46:58', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_tomador = 7, tomador = vrsfrfdce, descripcion =  dcx dcx', 'Información anterior: id_tipo_tomador = 7, tomador = vrsfrfdce, descripcion =  dcx dcx', 'tbl_toma_decisiones', NULL),
+(327, '2024-05-02 19:47:11', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_tomador = 6, tomador = TomaDInactivo, descripcion = TomaDInactivo', 'Información anterior: id_tipo_tomador = 6, tomador = TomaDInactivo, descripcion = TomaDInactivo', 'tbl_toma_decisiones', NULL),
+(328, '2024-05-02 19:47:28', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_toma_decisiones', 'Información eliminada: id_tipo_tomador = 8, tomador = rafe, descripcion = vfd'),
+(329, '2024-05-02 19:47:31', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_toma_decisiones', 'Información eliminada: id_tipo_tomador = 7, tomador = vrsfrfdce, descripcion =  dcx dcx'),
+(330, '2024-05-02 19:47:39', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_tomador = 1, tomador = Esposo, descripcion = Esposo', 'Información anterior: id_tipo_tomador = 1, tomador = Esposo, descripcion = Esposo', 'tbl_toma_decisiones', NULL),
+(331, '2024-05-02 19:47:43', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_tomador = 2, tomador = Esposa, descripcion = Esposa', 'Información anterior: id_tipo_tomador = 2, tomador = Esposa, descripcion = Esposa', 'tbl_toma_decisiones', NULL),
+(332, '2024-05-02 19:47:46', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_tomador = 3, tomador = Consenso en Familia, descripcion = Consenso en Familia', 'Información anterior: id_tipo_tomador = 3, tomador = Consenso en Familia, descripcion = Consenso en Familia', 'tbl_toma_decisiones', NULL),
+(333, '2024-05-02 19:47:51', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_tomador = 4, tomador = Un familiar, descripcion = Un familiar toma las deciones', 'Información anterior: id_tipo_tomador = 4, tomador = Un familiar, descripcion = Un familiar toma las deciones', 'tbl_toma_decisiones', NULL),
+(334, '2024-05-02 19:47:56', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_tomador = 5, tomador = Un administrador, descripcion = El administrador toma la decision', 'Información anterior: id_tipo_tomador = 5, tomador = Un administrador, descripcion = El administrador toma la decision', 'tbl_toma_decisiones', NULL),
+(335, '2024-05-02 20:15:22', 'root@localhost', 'Se insertó', 'Información actual: id_apoyo_produccion = 7, tipo_apoyo_produccion = fsfrewfewa, descripcion = gergrefrew', NULL, 'tbl_apoyos', NULL),
+(336, '2024-05-02 20:15:27', 'root@localhost', 'Se actualizó', 'Información actualizada: id_apoyo_produccion = 7, tipo_apoyo_produccion = fsfrewfewa, descripcion = gergrefrew', 'Información anterior: id_apoyo_produccion = 7, tipo_apoyo_produccion = fsfrewfewa, descripcion = gergrefrew', 'tbl_apoyos', NULL),
+(337, '2024-05-02 20:22:00', 'root@localhost', 'Se insertó', 'Información actual: id_apoyo_produccion = 8, tipo_apoyo_produccion = fghnf, descripcion = fgbfdgb', NULL, 'tbl_apoyos', NULL),
+(338, '2024-05-02 20:24:58', 'root@localhost', 'Se actualizó', 'Información actualizada: id_apoyo_produccion = 8, tipo_apoyo_produccion = yuyuyuu, descripcion = gtrfbgfdgsf', 'Información anterior: id_apoyo_produccion = 8, tipo_apoyo_produccion = fghnf, descripcion = fgbfdgb', 'tbl_apoyos', NULL),
+(339, '2024-05-02 20:25:26', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_apoyos', 'Información eliminada: id_apoyo_produccion = 8, tipo_apoyo_produccion = yuyuyuu, descripcion = gtrfbgfdgsf'),
+(340, '2024-05-02 20:25:29', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_apoyos', 'Información eliminada: id_apoyo_produccion = 7, tipo_apoyo_produccion = fsfrewfewa, descripcion = gergrefrew'),
+(341, '2024-05-02 20:30:39', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_apoyos = 19, tipo_apoyos = fgs f sfa, descripcion = fadf ', NULL, 'tbl_tipos_apoyos', NULL),
+(342, '2024-05-02 20:30:51', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_apoyos = 19, tipo_apoyos = ererer, descripcion = gfgfgfg', 'Información anterior: id_tipo_apoyos = 19, tipo_apoyos = fgs f sfa, descripcion = fadf ', 'tbl_tipos_apoyos', NULL),
+(343, '2024-05-02 20:31:22', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_apoyos = 19, tipo_apoyos = vcvcvc, descripcion = vc ', 'Información anterior: id_tipo_apoyos = 19, tipo_apoyos = ererer, descripcion = gfgfgfg', 'tbl_tipos_apoyos', NULL),
+(344, '2024-05-02 20:31:27', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_tipos_apoyos', 'Información eliminada: id_tipo_apoyos = 19, tipo_apoyos = vcvcvc, descripcion = vc '),
+(345, '2024-05-02 21:41:12', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Departamento = 1, Nombre_Departamento = Atlántida, Descripcion = Departamento en la costa norte de Honduras', 'Información anterior: Id_Departamento = 1, Nombre_Departamento = Atlántida, Descripcion = Departamento en la costa norte de Honduras', 'tbl_departamentos', NULL),
+(346, '2024-05-02 21:41:20', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Departamento = 1, Nombre_Departamento = Atlántida, Descripcion = Departamento en la costa norte de Honduras', 'Información anterior: Id_Departamento = 1, Nombre_Departamento = Atlántida, Descripcion = Departamento en la costa norte de Honduras', 'tbl_departamentos', NULL),
+(347, '2024-05-02 21:49:41', 'root@localhost', 'Se actualizó', 'Información actualizada: id_organizacion = 1, organizacion = Asociación, id_tipo_organizacion = 10, descripcion = Cooperativa Sagrada familia', 'Información anterior: id_organizacion = 1, organizacion = Asociación, id_tipo_organizacion = 1, descripcion = Cooperativa Sagrada familia', 'tbl_organizaciones', NULL),
+(348, '2024-05-02 21:49:47', 'root@localhost', 'Se actualizó', 'Información actualizada: id_organizacion = 1, organizacion = Asociación, id_tipo_organizacion = 10, descripcion = Cooperativa Sagrada familia', 'Información anterior: id_organizacion = 1, organizacion = Asociación, id_tipo_organizacion = 10, descripcion = Cooperativa Sagrada familia', 'tbl_organizaciones', NULL),
+(349, '2024-05-02 21:50:57', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 1, tipo_organizacion = Asociación, descripcion = Gobierno', 'Información anterior: id_tipo_organizacion = 1, tipo_organizacion = Asociación, descripcion = Gobierno', 'tbl_tipo_organizacion', NULL),
+(350, '2024-05-02 21:51:01', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 1, tipo_organizacion = Asociación, descripcion = Gobierno', 'Información anterior: id_tipo_organizacion = 1, tipo_organizacion = Asociación, descripcion = Gobierno', 'tbl_tipo_organizacion', NULL),
+(351, '2024-05-02 21:54:15', 'root@localhost', 'Se actualizó', 'Información actualizada: id_medida = 1, medida = TAREAS, descripcion = Son 5 tareas', 'Información anterior: id_medida = 1, medida = TAREAS, descripcion = Son 5 tareas', 'tbl_medidas_tierra', NULL),
+(352, '2024-05-02 21:54:19', 'root@localhost', 'Se actualizó', 'Información actualizada: id_medida = 1, medida = TAREAS, descripcion = Son 5 tareas', 'Información anterior: id_medida = 1, medida = TAREAS, descripcion = Son 5 tareas', 'tbl_medidas_tierra', NULL),
+(353, '2024-05-02 21:56:32', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_cultivo = 1, tipo_cultivo = Maiz, descripcion = Maiz amarillo', 'Información anterior: id_tipo_cultivo = 1, tipo_cultivo = Maiz, descripcion = Maiz amarillo', 'tbl_tipo_cultivo', NULL),
+(354, '2024-05-02 21:58:46', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 1, tipo_produccion = Producción de leche, descripcion = Leche', 'Información anterior: id_tipo_produccion = 1, tipo_produccion = Producción de leche, descripcion = Leche', 'tbl_tipo_produccion', NULL),
+(355, '2024-05-02 21:58:50', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 1, tipo_produccion = Producción de leche, descripcion = Leche', 'Información anterior: id_tipo_produccion = 1, tipo_produccion = Producción de leche, descripcion = Leche', 'tbl_tipo_produccion', NULL),
+(356, '2024-05-02 22:18:57', 'root@localhost', 'Se actualizó', 'Información actualizada: id_apoyo_produccion = 6, tipo_apoyo_produccion = APInactiva, descripcion = APInactiva', 'Información anterior: id_apoyo_produccion = 6, tipo_apoyo_produccion = APInactiva, descripcion = APInactiva', 'tbl_apoyos', NULL),
+(357, '2024-05-02 22:19:02', 'root@localhost', 'Se actualizó', 'Información actualizada: id_apoyo_produccion = 6, tipo_apoyo_produccion = APInactiva, descripcion = APInactiva', 'Información anterior: id_apoyo_produccion = 6, tipo_apoyo_produccion = APInactiva, descripcion = APInactiva', 'tbl_apoyos', NULL),
+(358, '2024-05-02 23:44:48', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-01, anio_solicitud: 2024, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-09, nombre_encuestador: Olivia Rodrigo', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-01 anio_solicitud: 2024, descripcion:  pruebaA, fecha_entrevista: 2024-05-09, nombre_encuestador: Olivia Rodrigo', 'fichas', NULL),
+(359, '2024-05-02 23:45:56', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  prueba del proyecro, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', NULL, 'fichas', NULL),
+(360, '2024-05-02 23:46:47', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  prueba del proyecro, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba'),
+(361, '2024-05-02 23:47:48', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba', NULL, 'fichas', NULL),
+(362, '2024-05-02 23:53:45', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 3, Id_Ficha = 3, Id_Ubicacion = 3, Id_Productor = 3, Tiene_Riego = S, Superficie_Riego = 12.00', NULL, 'tbl_manejo_riego', NULL),
+(363, '2024-05-02 23:55:00', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba', 'Información anterior = id_ficha: 3, fecha_solicitud: 2024-05-02 anio_solicitud: 2020, descripcion:  pruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba', 'fichas', NULL),
+(364, '2024-05-02 23:55:28', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 3, Id_Ficha = 3, Id_Ubicacion = 3, Id_Productor = 3, Tiene_Riego = S, Superficie_Riego = 12.00', 'Información anterior: Id_Manejo_Riego = 3, Id_Ficha = 3, Id_Ubicacion = 3, Id_Productor = 3, Tiene_Riego = S, Superficie_Riego = 12.00', 'tbl_manejo_riego', NULL),
+(365, '2024-05-02 23:57:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 8, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 35, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(366, '2024-05-02 23:57:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 9, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 37, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(367, '2024-05-02 23:57:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 10, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(368, '2024-05-03 00:00:35', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba', 'Información anterior = id_ficha: 3, fecha_solicitud: 2024-05-02 anio_solicitud: 2020, descripcion:  pruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba', 'fichas', NULL),
+(369, '2024-05-03 00:00:49', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 3, Id_Ficha = 3, Id_Ubicacion = 3, Id_Productor = 3, Tiene_Riego = S, Superficie_Riego = 12.00', 'Información anterior: Id_Manejo_Riego = 3, Id_Ficha = 3, Id_Ubicacion = 3, Id_Productor = 3, Tiene_Riego = S, Superficie_Riego = 12.00', 'tbl_manejo_riego', NULL),
+(370, '2024-05-03 00:00:58', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 8, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 35, Descripcion =  '),
+(371, '2024-05-03 00:00:58', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 9, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 37, Descripcion =  '),
+(372, '2024-05-03 00:00:58', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 10, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 44, Descripcion =  '),
+(373, '2024-05-03 00:00:58', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 11, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 35, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(374, '2024-05-03 00:00:58', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 12, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 37, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(375, '2024-05-03 00:00:58', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 13, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(376, '2024-05-03 00:01:10', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba', 'Información anterior = id_ficha: 3, fecha_solicitud: 2024-05-02 anio_solicitud: 2020, descripcion:  pruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba', 'fichas', NULL),
+(377, '2024-05-03 00:01:19', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 3, Id_Ficha = 3, Id_Ubicacion = 3, Id_Productor = 3, Tiene_Riego = S, Superficie_Riego = 12.00', 'Información anterior: Id_Manejo_Riego = 3, Id_Ficha = 3, Id_Ubicacion = 3, Id_Productor = 3, Tiene_Riego = S, Superficie_Riego = 12.00', 'tbl_manejo_riego', NULL),
+(378, '2024-05-03 00:01:41', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 4, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', NULL, 'fichas', NULL),
+(379, '2024-05-03 00:11:57', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 4, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(380, '2024-05-03 00:12:22', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  tbl_tipo_pecuarios, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: tbl_tipo_pecuarios', NULL, 'fichas', NULL),
+(381, '2024-05-03 00:13:00', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  tbl_tipo_pecuarios, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: tbl_tipo_pecuarios'),
+(382, '2024-05-03 01:07:51', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 4, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(383, '2024-05-03 01:08:23', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'Información anterior = id_ficha: 4, fecha_solicitud: 0000-00-00 anio_solicitud: 0, descripcion:  A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', 'fichas', NULL),
+(384, '2024-05-03 01:16:04', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  fda, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(385, '2024-05-03 01:17:39', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 4, Id_Ficha = 5, Id_Ubicacion = 4, Id_Productor = 6, Tiene_Riego = S, Superficie_Riego = 2.00', NULL, 'tbl_manejo_riego', NULL),
+(386, '2024-05-03 01:18:36', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 14, Id_Ficha = 5, Id_Productor = 6, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(387, '2024-05-03 01:18:46', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  fda, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'Información anterior = id_ficha: 5, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  fdaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'fichas', NULL),
+(388, '2024-05-03 01:18:54', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 4, Id_Ficha = 5, Id_Ubicacion = 4, Id_Productor = 6, Tiene_Riego = S, Superficie_Riego = 2.00', 'Información anterior: Id_Manejo_Riego = 4, Id_Ficha = 5, Id_Ubicacion = 4, Id_Productor = 6, Tiene_Riego = S, Superficie_Riego = 2.00', 'tbl_manejo_riego', NULL),
+(389, '2024-05-03 01:19:24', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 14, Id_Ficha = 5, Id_Productor = 6, Id_Tipo_Practica = 3, Descripcion =  '),
+(390, '2024-05-03 01:19:24', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 15, Id_Ficha = 5, Id_Productor = 6, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(391, '2024-05-03 01:19:33', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  fda, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'Información anterior = id_ficha: 5, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  fdaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'fichas', NULL),
+(392, '2024-05-03 01:19:39', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 4, Id_Ficha = 5, Id_Ubicacion = 4, Id_Productor = 6, Tiene_Riego = S, Superficie_Riego = 2.00', 'Información anterior: Id_Manejo_Riego = 4, Id_Ficha = 5, Id_Ubicacion = 4, Id_Productor = 6, Tiene_Riego = S, Superficie_Riego = 2.00', 'tbl_manejo_riego', NULL),
+(393, '2024-05-03 01:19:52', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 15, Id_Ficha = 5, Id_Productor = 6, Id_Tipo_Practica = 3, Descripcion =  '),
+(394, '2024-05-03 01:19:52', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 16, Id_Ficha = 5, Id_Productor = 6, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(395, '2024-05-03 01:22:20', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  fda, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'Información anterior = id_ficha: 5, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  fdaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'fichas', NULL),
+(396, '2024-05-03 01:22:30', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 4, Id_Ficha = 5, Id_Ubicacion = 4, Id_Productor = 6, Tiene_Riego = S, Superficie_Riego = 2.00', 'Información anterior: Id_Manejo_Riego = 4, Id_Ficha = 5, Id_Ubicacion = 4, Id_Productor = 6, Tiene_Riego = S, Superficie_Riego = 2.00', 'tbl_manejo_riego', NULL),
+(397, '2024-05-03 01:23:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 16, Id_Ficha = 5, Id_Productor = 6, Id_Tipo_Practica = 3, Descripcion =  '),
+(398, '2024-05-03 01:23:48', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 17, Id_Ficha = 5, Id_Productor = 6, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(399, '2024-05-03 01:56:12', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 1, Id_Ficha = 1, Id_Ubicacion = 1, Id_Productor = 1, Tiene_Riego = S, Superficie_Riego = 22.00'),
+(400, '2024-05-03 01:56:12', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 2, Id_Ficha = 2, Id_Ubicacion = 2, Id_Productor = 2, Tiene_Riego = S, Superficie_Riego = 22.00'),
+(401, '2024-05-03 01:56:12', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 3, Id_Ficha = 3, Id_Ubicacion = 3, Id_Productor = 3, Tiene_Riego = S, Superficie_Riego = 12.00'),
+(402, '2024-05-03 01:56:12', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 4, Id_Ficha = 5, Id_Ubicacion = 4, Id_Productor = 6, Tiene_Riego = S, Superficie_Riego = 2.00'),
+(403, '2024-05-03 01:56:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 1, Id_Ficha = 1, Id_Productor = 1, Id_Tipo_Practica = 12, Descripcion =  '),
+(404, '2024-05-03 01:56:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 2, Id_Ficha = 1, Id_Productor = 1, Id_Tipo_Practica = 13, Descripcion =  '),
+(405, '2024-05-03 01:56:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 6, Id_Ficha = 2, Id_Productor = 2, Id_Tipo_Practica = 12, Descripcion =  '),
+(406, '2024-05-03 01:56:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 7, Id_Ficha = 2, Id_Productor = 2, Id_Tipo_Practica = 13, Descripcion =  '),
+(407, '2024-05-03 01:56:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 11, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 35, Descripcion =  '),
+(408, '2024-05-03 01:56:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 12, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 37, Descripcion =  '),
+(409, '2024-05-03 01:56:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 13, Id_Ficha = 3, Id_Productor = 3, Id_Tipo_Practica = 44, Descripcion =  '),
+(410, '2024-05-03 01:56:48', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 17, Id_Ficha = 5, Id_Productor = 6, Id_Tipo_Practica = 3, Descripcion =  '),
+(411, '2024-05-03 02:01:35', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 1, fecha_solicitud: 2024-05-01, anio_solicitud: 2024, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-09, nombre_encuestador: Olivia Rodrigo'),
+(412, '2024-05-03 02:01:35', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 2, fecha_solicitud: 2024-05-01, anio_solicitud: 2024, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-09, nombre_encuestador: Olivia Rodrigo'),
+(413, '2024-05-03 02:01:35', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba'),
+(414, '2024-05-03 02:01:35', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 4, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: '),
+(415, '2024-05-03 02:01:35', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  fda, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras'),
+(416, '2024-05-03 02:02:27', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 1, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  Prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', NULL, 'fichas', NULL),
+(417, '2024-05-03 02:04:19', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 5, Id_Ficha = 1, Id_Ubicacion = 5, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 3.00', NULL, 'tbl_manejo_riego', NULL),
+(418, '2024-05-03 02:06:25', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 18, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(419, '2024-05-03 02:06:25', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 19, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(420, '2024-05-03 02:07:32', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  Prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  PruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'fichas', NULL),
+(421, '2024-05-03 02:07:47', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 5, Id_Ficha = 1, Id_Ubicacion = 5, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 3.00', 'Información anterior: Id_Manejo_Riego = 5, Id_Ficha = 1, Id_Ubicacion = 5, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 3.00', 'tbl_manejo_riego', NULL),
+(422, '2024-05-03 02:08:02', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 18, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 3, Descripcion =  '),
+(423, '2024-05-03 02:08:02', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 19, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 4, Descripcion =  '),
+(424, '2024-05-03 02:08:02', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 20, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(425, '2024-05-03 02:08:02', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 21, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(426, '2024-05-03 02:14:01', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 2, fecha_solicitud: 2024-05-02, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba', NULL, 'fichas', NULL),
+(427, '2024-05-03 02:15:31', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 6, Id_Ficha = 2, Id_Ubicacion = 6, Id_Productor = 9, Tiene_Riego = S, Superficie_Riego = 2.00', NULL, 'tbl_manejo_riego', NULL),
+(428, '2024-05-03 02:24:13', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 22, Id_Ficha = 2, Id_Productor = 9, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(429, '2024-05-03 02:25:30', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 3333, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(430, '2024-05-03 02:27:01', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 7, Id_Ficha = 3, Id_Ubicacion = 7, Id_Productor = 10, Tiene_Riego = S, Superficie_Riego = 3.00', NULL, 'tbl_manejo_riego', NULL),
+(431, '2024-05-03 02:28:27', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 23, Id_Ficha = 3, Id_Productor = 10, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(432, '2024-05-03 02:29:32', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 4, fecha_solicitud: 2024-05-02, anio_solicitud: 3333, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(433, '2024-05-03 02:29:32', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 8, Id_Ficha = 4, Id_Ubicacion = 8, Id_Productor = 11, Tiene_Riego = S, Superficie_Riego = 3.00', NULL, 'tbl_manejo_riego', NULL),
+(434, '2024-05-03 02:29:32', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 24, Id_Ficha = 4, Id_Productor = 11, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(435, '2024-05-03 02:29:34', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 2024-05-02, anio_solicitud: 3333, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'Información anterior = id_ficha: 4, fecha_solicitud: 2024-05-02 anio_solicitud: 3333, descripcion:  pruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'fichas', NULL),
+(436, '2024-05-03 02:29:41', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 8, Id_Ficha = 4, Id_Ubicacion = 8, Id_Productor = 11, Tiene_Riego = S, Superficie_Riego = 3.00', 'Información anterior: Id_Manejo_Riego = 8, Id_Ficha = 4, Id_Ubicacion = 8, Id_Productor = 11, Tiene_Riego = S, Superficie_Riego = 3.00', 'tbl_manejo_riego', NULL),
+(437, '2024-05-03 02:30:26', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 24, Id_Ficha = 4, Id_Productor = 11, Id_Tipo_Practica = 3, Descripcion =  '),
+(438, '2024-05-03 02:30:26', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 25, Id_Ficha = 4, Id_Productor = 11, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(439, '2024-05-03 02:33:21', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 222, descripcion:  Honduras, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(440, '2024-05-03 02:33:50', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 5, fecha_solicitud: 2024-05-02, anio_solicitud: 222, descripcion:  Honduras, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras'),
+(441, '2024-05-03 15:28:54', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 5, fecha_solicitud: 2024-05-03, anio_solicitud: 2323, descripcion: ewrwrwrw, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(442, '2024-05-03 15:29:36', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 5, fecha_solicitud: 2024-05-03, anio_solicitud: 2323, descripcion: ewrwrwrw, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras'),
+(443, '2024-05-03 17:34:40', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 4, fecha_solicitud: 2024-05-02, anio_solicitud: 3333, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'Información anterior = id_ficha: 4, fecha_solicitud: 2024-05-02 anio_solicitud: 3333, descripcion:  pruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras', 'fichas', NULL),
+(444, '2024-05-03 17:34:51', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 8, Id_Ficha = 4, Id_Ubicacion = 8, Id_Productor = 11, Tiene_Riego = S, Superficie_Riego = 3.00', 'Información anterior: Id_Manejo_Riego = 8, Id_Ficha = 4, Id_Ubicacion = 8, Id_Productor = 11, Tiene_Riego = S, Superficie_Riego = 3.00', 'tbl_manejo_riego', NULL),
+(445, '2024-05-03 17:34:58', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 25, Id_Ficha = 4, Id_Productor = 11, Id_Tipo_Practica = 3, Descripcion =  '),
+(446, '2024-05-03 17:34:58', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 26, Id_Ficha = 4, Id_Productor = 11, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(447, '2024-05-03 23:15:57', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 5, fecha_solicitud: 2024-05-03, anio_solicitud: 2023, descripcion:  Francisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(448, '2024-05-03 23:18:22', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 9, Id_Ficha = 5, Id_Ubicacion = 9, Id_Productor = 12, Tiene_Riego = S, Superficie_Riego = 10.00', NULL, 'tbl_manejo_riego', NULL),
+(449, '2024-05-03 23:20:13', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 27, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(450, '2024-05-03 23:20:13', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 28, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(451, '2024-05-03 23:20:13', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 29, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(452, '2024-05-03 23:21:08', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 5, fecha_solicitud: 2024-05-03, anio_solicitud: 2023, descripcion:  Francisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras', 'Información anterior = id_ficha: 5, fecha_solicitud: 2024-05-03 anio_solicitud: 2023, descripcion:  Francisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras', 'fichas', NULL),
+(453, '2024-05-03 23:21:50', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 9, Id_Ficha = 5, Id_Ubicacion = 9, Id_Productor = 12, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 9, Id_Ficha = 5, Id_Ubicacion = 9, Id_Productor = 12, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(454, '2024-05-03 23:22:09', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 27, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 3, Descripcion =  '),
+(455, '2024-05-03 23:22:09', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 28, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 28, Descripcion =  '),
+(456, '2024-05-03 23:22:09', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 29, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 44, Descripcion =  '),
+(457, '2024-05-03 23:22:09', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 30, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(458, '2024-05-03 23:22:09', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 31, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(459, '2024-05-03 23:22:09', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 32, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(460, '2024-05-03 23:26:22', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 5, fecha_solicitud: 2024-05-03, anio_solicitud: 2023, descripcion:  Francisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras', 'Información anterior = id_ficha: 5, fecha_solicitud: 2024-05-03 anio_solicitud: 2023, descripcion:  Francisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras', 'fichas', NULL),
+(461, '2024-05-03 23:27:02', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 9, Id_Ficha = 5, Id_Ubicacion = 9, Id_Productor = 12, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 9, Id_Ficha = 5, Id_Ubicacion = 9, Id_Productor = 12, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(462, '2024-05-03 23:27:23', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 30, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 3, Descripcion =  '),
+(463, '2024-05-03 23:27:23', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 31, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 28, Descripcion =  '),
+(464, '2024-05-03 23:27:23', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 32, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 44, Descripcion =  '),
+(465, '2024-05-03 23:27:23', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 33, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(466, '2024-05-03 23:27:23', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 34, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(467, '2024-05-03 23:27:23', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 35, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(468, '2024-05-03 23:31:37', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2023, descripcion:  Francisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(469, '2024-05-03 23:31:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', NULL, 'tbl_manejo_riego', NULL),
+(470, '2024-05-03 23:31:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 36, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(471, '2024-05-03 23:31:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 37, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(472, '2024-05-03 23:31:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 38, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(473, '2024-05-03 23:31:54', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-05-03 anio_solicitud: 2023, descripcion:  Francisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras', 'fichas', NULL),
+(474, '2024-05-03 23:32:29', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(475, '2024-05-03 23:33:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 36, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  '),
+(476, '2024-05-03 23:33:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 37, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  '),
+(477, '2024-05-03 23:33:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 38, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  '),
+(478, '2024-05-03 23:33:01', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 39, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(479, '2024-05-03 23:33:01', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 40, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(480, '2024-05-03 23:33:01', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 41, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(481, '2024-05-03 23:33:01', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 42, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL);
+INSERT INTO `bitacoras` (`id_bitacora`, `fecha`, `ejecutor`, `actividad_realizada`, `informacion_actual`, `informacion_anterior`, `tabla`, `informacion_eliminada`) VALUES
+(482, '2024-05-03 23:33:01', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 43, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(483, '2024-05-03 23:33:01', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 44, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(484, '2024-05-05 05:00:52', 'root@localhost', 'Se insertó', 'Información actual: id_etnia = 16, etnia = Etni2ewe, descripcion = sdasda', NULL, 'tbl_etnias', NULL),
+(485, '2024-05-05 05:00:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_etnias', 'Información eliminada: id_etnia = 16, etnia = Etni2ewe, descripcion = sdasda'),
+(486, '2024-05-05 05:01:10', 'root@localhost', 'Se actualizó', 'Información actualizada: id_etnia = 11, etnia = Otros(Especifique), descripcion = Descripción de Etnia 11', 'Información anterior: id_etnia = 11, etnia = Otros(Especifique), descripcion = Descripción de Etnia 11', 'tbl_etnias', NULL),
+(487, '2024-05-05 05:01:43', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  Prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  PruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'fichas', NULL),
+(488, '2024-05-05 05:05:00', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  Prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  PruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'fichas', NULL),
+(489, '2024-05-05 05:05:13', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  Prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  PruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'fichas', NULL),
+(490, '2024-05-05 05:05:50', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  Prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  PruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'fichas', NULL),
+(491, '2024-05-05 05:36:15', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-05-03 anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'fichas', NULL),
+(492, '2024-05-05 05:36:36', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(493, '2024-05-05 05:37:16', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 39, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  '),
+(494, '2024-05-05 05:37:16', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 40, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  '),
+(495, '2024-05-05 05:37:16', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 41, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  '),
+(496, '2024-05-05 05:37:16', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 42, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  '),
+(497, '2024-05-05 05:37:16', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 43, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  '),
+(498, '2024-05-05 05:37:16', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 44, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  '),
+(499, '2024-05-05 05:37:16', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 45, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(500, '2024-05-05 05:37:16', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 46, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(501, '2024-05-05 05:37:16', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 47, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(502, '2024-05-05 05:37:16', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 48, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(503, '2024-05-05 05:37:16', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 49, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(504, '2024-05-05 05:37:16', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 50, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(505, '2024-05-05 05:50:06', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-05-03 anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'fichas', NULL),
+(506, '2024-05-05 05:50:15', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(507, '2024-05-05 05:50:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 45, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  '),
+(508, '2024-05-05 05:50:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 46, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  '),
+(509, '2024-05-05 05:50:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 47, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  '),
+(510, '2024-05-05 05:50:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 48, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  '),
+(511, '2024-05-05 05:50:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 49, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  '),
+(512, '2024-05-05 05:50:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 50, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  '),
+(513, '2024-05-05 05:50:43', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 51, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(514, '2024-05-05 05:50:43', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 52, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(515, '2024-05-05 05:50:43', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 53, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(516, '2024-05-05 05:50:43', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 54, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(517, '2024-05-05 05:50:43', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 55, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(518, '2024-05-05 05:50:43', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 56, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(519, '2024-05-05 05:52:50', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-05-03 anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'fichas', NULL),
+(520, '2024-05-05 05:53:27', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(521, '2024-05-05 05:54:48', 'root@localhost', 'Se insertó', 'Información actual: id_etnia = 17, etnia = Etni2ewe, descripcion = sdadad', NULL, 'tbl_etnias', NULL),
+(522, '2024-05-05 05:55:16', 'root@localhost', 'Se insertó', 'Información actual: id_etnia = 18, etnia = Lenca, descripcion = xfasd', NULL, 'tbl_etnias', NULL),
+(523, '2024-05-05 05:55:23', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_etnias', 'Información eliminada: id_etnia = 18, etnia = Lenca, descripcion = xfasd'),
+(524, '2024-05-05 05:59:45', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_etnias', 'Información eliminada: id_etnia = 17, etnia = Etni2ewe, descripcion = sdadad'),
+(525, '2024-05-05 06:00:28', 'root@localhost', 'Se insertó', 'Información actual: Id_Departamento = 25, Nombre_Departamento = fdafdad, Descripcion = fadfadfaf', NULL, 'tbl_departamentos', NULL),
+(526, '2024-05-05 06:00:34', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Departamento = 25, Nombre_Departamento = fdafdad, Descripcion = fadfadfaf', 'Información anterior: Id_Departamento = 25, Nombre_Departamento = fdafdad, Descripcion = fadfadfaf', 'tbl_departamentos', NULL),
+(527, '2024-05-05 06:00:38', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_departamentos', 'Información eliminada: Id_Departamento = 25, Nombre_Departamento = fdafdad, Descripcion = fadfadfaf'),
+(528, '2024-05-05 06:00:50', 'root@localhost', 'Se insertó', 'Información actual: Id_Municipio = 96, Id_Departamento = 22, Nombre_Municipio = fasewasfde, Descripcion = fewasfd', NULL, 'tbl_municipios', NULL),
+(529, '2024-05-05 06:01:18', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_municipios', 'Información eliminada: Id_Municipio = 96, Id_Departamento = 22, Nombre_Municipio = fasewasfde, Descripcion = fewasfd'),
+(530, '2024-05-05 06:01:47', 'root@localhost', 'Se insertó', 'Información actual: Id_Aldea = 155, Id_Departamento = 22, Id_Municipio = 91, Nombre_Aldea = deafedaew, Descripcion = dasasd, Estado = A', NULL, 'tbl_aldeas', NULL),
+(531, '2024-05-05 06:04:02', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_aldeas', 'Información eliminada: Id_Aldea = 155, Id_Departamento = 22, Id_Municipio = 91, Nombre_Aldea = deafedaew, Descripcion = dasasd, Estado = A'),
+(532, '2024-05-05 06:04:39', 'root@localhost', 'Se insertó', 'Información actual: Id_Cacerio = 8, Id_Aldea = 1, Id_Municipio = 1, Id_Departamento = 1, Nombre_Cacerio = Pueblo Nuevo, Descripcion = Pueblo Nuevo', NULL, 'tbl_cacerios', NULL),
+(533, '2024-05-05 06:05:09', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Cacerio = 8, Id_Aldea = 1, Id_Municipio = 1, Id_Departamento = 1, Nombre_Cacerio = Pueblo Nuevo, Descripcion = Pueblo Nuevo', 'Información anterior: Id_Cacerio = 8, Id_Aldea = 1, Id_Municipio = 1, Id_Departamento = 1, Nombre_Cacerio = Pueblo Nuevo, Descripcion = Pueblo Nuevo', 'tbl_cacerios', NULL),
+(534, '2024-05-05 06:05:12', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_cacerios', 'Información eliminada: Id_Cacerio = 8, Id_Aldea = 1, Id_Municipio = 1, Id_Departamento = 1, Nombre_Cacerio = Pueblo Nuevo, Descripcion = Pueblo Nuevo'),
+(535, '2024-05-05 06:05:33', 'root@localhost', 'Se insertó', 'Información actual: id_organizacion = 13, organizacion = orga2, id_tipo_organizacion = 8, descripcion = TierrasSana', NULL, 'tbl_organizaciones', NULL),
+(536, '2024-05-05 06:06:13', 'root@localhost', 'Se actualizó', 'Información actualizada: id_organizacion = 13, organizacion = orga2, id_tipo_organizacion = 8, descripcion = TierrasSana', 'Información anterior: id_organizacion = 13, organizacion = orga2, id_tipo_organizacion = 8, descripcion = TierrasSana', 'tbl_organizaciones', NULL),
+(537, '2024-05-05 06:06:22', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_organizaciones', 'Información eliminada: id_organizacion = 13, organizacion = orga2, id_tipo_organizacion = 8, descripcion = TierrasSana'),
+(538, '2024-05-05 06:07:13', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  Prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-02 anio_solicitud: 2023, descripcion:  PruebaA, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba', 'fichas', NULL),
+(539, '2024-05-05 06:09:58', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 5, Id_Ficha = 1, Id_Ubicacion = 5, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 3.00', 'Información anterior: Id_Manejo_Riego = 5, Id_Ficha = 1, Id_Ubicacion = 5, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 3.00', 'tbl_manejo_riego', NULL),
+(540, '2024-05-05 06:10:18', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 20, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 3, Descripcion =  '),
+(541, '2024-05-05 06:10:18', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 21, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 4, Descripcion =  '),
+(542, '2024-05-05 06:10:18', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 57, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(543, '2024-05-05 06:10:18', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 58, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(544, '2024-05-05 06:11:14', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 1, tipo_organizacion = Crédito, descripcion = Gobierno', 'Información anterior: id_tipo_organizacion = 1, tipo_organizacion = Asociación, descripcion = Gobierno', 'tbl_tipo_organizacion', NULL),
+(545, '2024-05-05 06:11:31', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 2, tipo_organizacion = Capacitación, descripcion = ONG', 'Información anterior: id_tipo_organizacion = 2, tipo_organizacion = Cooperativa, descripcion = ONG', 'tbl_tipo_organizacion', NULL),
+(546, '2024-05-05 06:11:50', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 5, tipo_organizacion = Sistema de riego, descripcion = Sistema de riego', 'Información anterior: id_tipo_organizacion = 5, tipo_organizacion = Caja rural, descripcion = Amigo', 'tbl_tipo_organizacion', NULL),
+(547, '2024-05-05 06:12:06', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 6, tipo_organizacion = Cosechadoras de agua, descripcion = Cosechadoras de agua', 'Información anterior: id_tipo_organizacion = 6, tipo_organizacion = Patronato, descripcion = Cooperativa', 'tbl_tipo_organizacion', NULL),
+(548, '2024-05-05 06:12:21', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 7, tipo_organizacion = Semilla, descripcion = Semilla', 'Información anterior: id_tipo_organizacion = 7, tipo_organizacion = Junta de agua, descripcion = FAO', 'tbl_tipo_organizacion', NULL),
+(549, '2024-05-05 06:12:42', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 8, tipo_organizacion = Asistencia técnica, descripcion = Asistencia técnica', 'Información anterior: id_tipo_organizacion = 8, tipo_organizacion = ORGACtiva, descripcion = ORGActivo', 'tbl_tipo_organizacion', NULL),
+(550, '2024-05-05 06:12:56', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 9, tipo_organizacion = Equipo agrícola, descripcion = Equipo agrícola', 'Información anterior: id_tipo_organizacion = 9, tipo_organizacion = tbl_tipo_organizacion, descripcion = tbl_tipo_organizacion', 'tbl_tipo_organizacion', NULL),
+(551, '2024-05-05 06:13:13', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_organizacion = 12, tipo_organizacion = Pie de cría, descripcion = Pie de cría', NULL, 'tbl_tipo_organizacion', NULL),
+(552, '2024-05-05 06:13:24', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_organizacion = 13, tipo_organizacion = Fertilizante, descripcion = Fertilizante', NULL, 'tbl_tipo_organizacion', NULL),
+(553, '2024-05-05 06:13:36', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_organizacion = 14, tipo_organizacion = Herramientas de trabajo, descripcion = Herramientas de trabajo', NULL, 'tbl_tipo_organizacion', NULL),
+(554, '2024-05-05 06:13:44', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_organizacion = 15, tipo_organizacion = Silos, descripcion = Silos', NULL, 'tbl_tipo_organizacion', NULL),
+(555, '2024-05-05 06:13:58', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_organizacion = 16, tipo_organizacion = Información de precios, descripcion = Información de precios', NULL, 'tbl_tipo_organizacion', NULL),
+(556, '2024-05-05 06:14:08', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-05-03 anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'fichas', NULL),
+(557, '2024-05-05 06:14:18', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(558, '2024-05-05 06:14:34', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 51, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  '),
+(559, '2024-05-05 06:14:34', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 52, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  '),
+(560, '2024-05-05 06:14:34', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 53, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  '),
+(561, '2024-05-05 06:14:34', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 54, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  '),
+(562, '2024-05-05 06:14:34', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 55, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  '),
+(563, '2024-05-05 06:14:34', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 56, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  '),
+(564, '2024-05-05 06:14:34', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 59, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(565, '2024-05-05 06:14:34', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 60, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(566, '2024-05-05 06:14:34', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 61, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(567, '2024-05-05 06:14:34', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 62, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(568, '2024-05-05 06:14:34', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 63, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(569, '2024-05-05 06:14:34', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 64, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(570, '2024-05-05 06:15:00', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-05-03 anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'fichas', NULL),
+(571, '2024-05-05 06:15:51', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 2, tipo_organizacion = Capacitación, descripcion = ONG', 'Información anterior: id_tipo_organizacion = 2, tipo_organizacion = Capacitación, descripcion = ONG', 'tbl_tipo_organizacion', NULL),
+(572, '2024-05-05 06:15:56', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 1, tipo_organizacion = Crédito, descripcion = Gobierno', 'Información anterior: id_tipo_organizacion = 1, tipo_organizacion = Crédito, descripcion = Gobierno', 'tbl_tipo_organizacion', NULL),
+(573, '2024-05-05 06:16:00', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 5, tipo_organizacion = Sistema de riego, descripcion = Sistema de riego', 'Información anterior: id_tipo_organizacion = 5, tipo_organizacion = Sistema de riego, descripcion = Sistema de riego', 'tbl_tipo_organizacion', NULL),
+(574, '2024-05-05 06:16:04', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 6, tipo_organizacion = Cosechadoras de agua, descripcion = Cosechadoras de agua', 'Información anterior: id_tipo_organizacion = 6, tipo_organizacion = Cosechadoras de agua, descripcion = Cosechadoras de agua', 'tbl_tipo_organizacion', NULL),
+(575, '2024-05-05 06:16:08', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 7, tipo_organizacion = Semilla, descripcion = Semilla', 'Información anterior: id_tipo_organizacion = 7, tipo_organizacion = Semilla, descripcion = Semilla', 'tbl_tipo_organizacion', NULL),
+(576, '2024-05-05 06:16:24', 'root@localhost', 'Se actualizó', 'Información actualizada: id_organizacion = 2, organizacion = Cooperativa, id_tipo_organizacion = 2, descripcion = Cooperativa Elga', 'Información anterior: id_organizacion = 2, organizacion = Cooperativa, id_tipo_organizacion = 2, descripcion = Cooperativa Elga', 'tbl_organizaciones', NULL),
+(577, '2024-05-05 06:16:27', 'root@localhost', 'Se actualizó', 'Información actualizada: id_organizacion = 3, organizacion = Caja rural, id_tipo_organizacion = 1, descripcion = sfsdfsdfs', 'Información anterior: id_organizacion = 3, organizacion = Caja rural, id_tipo_organizacion = 1, descripcion = sfsdfsdfs', 'tbl_organizaciones', NULL),
+(578, '2024-05-05 06:16:31', 'root@localhost', 'Se actualizó', 'Información actualizada: id_organizacion = 4, organizacion = Patronato, id_tipo_organizacion = 6, descripcion = Patrono', 'Información anterior: id_organizacion = 4, organizacion = Patronato, id_tipo_organizacion = 6, descripcion = Patrono', 'tbl_organizaciones', NULL),
+(579, '2024-05-05 06:16:35', 'root@localhost', 'Se actualizó', 'Información actualizada: id_organizacion = 5, organizacion = Junta de agua, id_tipo_organizacion = 7, descripcion = Junta de agua', 'Información anterior: id_organizacion = 5, organizacion = Junta de agua, id_tipo_organizacion = 7, descripcion = Junta de agua', 'tbl_organizaciones', NULL),
+(580, '2024-05-05 06:16:47', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-05-03 anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'fichas', NULL),
+(581, '2024-05-05 06:17:35', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_motivo = 1, Motivo = Estudio, Descripcion = por el Estudio', 'Información anterior: Id_motivo = 1, Motivo = Estudio, Descripcion = por el Estudio', 'tbl_motivos_migracion', NULL),
+(582, '2024-05-05 06:17:40', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_motivo = 2, Motivo = Trabajo, Descripcion = No encuentra Trabajo en el país.', 'Información anterior: Id_motivo = 2, Motivo = Trabajo, Descripcion = No encuentra Trabajo en el país.', 'tbl_motivos_migracion', NULL),
+(583, '2024-05-05 06:17:43', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_motivo = 3, Motivo = Violencia, Descripcion = Violencia familiar o amenazas', 'Información anterior: Id_motivo = 3, Motivo = Violencia, Descripcion = Violencia familiar o amenazas', 'tbl_motivos_migracion', NULL),
+(584, '2024-05-05 06:17:47', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_motivo = 4, Motivo = Cambio climático, Descripcion = Cambio climático o desastre natural', 'Información anterior: Id_motivo = 4, Motivo = Cambio climático, Descripcion = Cambio climático o desastre natural', 'tbl_motivos_migracion', NULL),
+(585, '2024-05-05 06:19:52', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(586, '2024-05-05 06:20:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 59, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  '),
+(587, '2024-05-05 06:20:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 60, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  '),
+(588, '2024-05-05 06:20:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 61, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  '),
+(589, '2024-05-05 06:20:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 62, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  '),
+(590, '2024-05-05 06:20:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 63, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  '),
+(591, '2024-05-05 06:20:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 64, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  '),
+(592, '2024-05-05 06:20:59', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 65, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(593, '2024-05-05 06:20:59', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 66, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(594, '2024-05-05 06:20:59', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 67, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(595, '2024-05-05 06:20:59', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 68, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(596, '2024-05-05 06:20:59', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 69, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(597, '2024-05-05 06:20:59', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 70, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(598, '2024-05-05 06:21:14', 'root@localhost', 'Se actualizó', 'Información actualizada: id_apoyo_produccion = 2, tipo_apoyo_produccion = ONG, descripcion = Organismo internacional', 'Información anterior: id_apoyo_produccion = 2, tipo_apoyo_produccion = ONG, descripcion = Organismo internacional', 'tbl_apoyos', NULL),
+(599, '2024-05-05 06:21:21', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'Información anterior = id_ficha: 6, fecha_solicitud: 2024-05-03 anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco MorazanA, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg', 'fichas', NULL),
+(600, '2024-05-05 06:21:30', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'Información anterior: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00', 'tbl_manejo_riego', NULL),
+(601, '2024-05-05 06:21:49', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 65, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  '),
+(602, '2024-05-05 06:21:49', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 66, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  '),
+(603, '2024-05-05 06:21:49', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 67, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  '),
+(604, '2024-05-05 06:21:49', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 68, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  '),
+(605, '2024-05-05 06:21:49', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 69, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  '),
+(606, '2024-05-05 06:21:49', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 70, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  '),
+(607, '2024-05-05 06:21:49', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 71, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(608, '2024-05-05 06:21:49', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 72, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(609, '2024-05-05 06:21:49', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 73, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(610, '2024-05-05 06:21:49', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 74, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(611, '2024-05-05 06:21:49', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 75, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(612, '2024-05-05 06:21:49', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 76, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(613, '2024-05-05 19:42:28', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 7, fecha_solicitud: 2024-05-05, anio_solicitud: 2023, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: prueba', NULL, 'fichas', NULL),
+(614, '2024-05-05 19:46:14', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 11, Id_Ficha = 7, Id_Ubicacion = 11, Id_Productor = 14, Tiene_Riego = S, Superficie_Riego = 12.00', NULL, 'tbl_manejo_riego', NULL),
+(615, '2024-05-05 19:49:02', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 77, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(616, '2024-05-05 19:49:02', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 78, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(617, '2024-05-05 19:49:02', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 79, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(618, '2024-05-05 19:49:28', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 7, fecha_solicitud: 2024-05-05, anio_solicitud: 2023, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: prueba', 'Información anterior = id_ficha: 7, fecha_solicitud: 2024-05-05 anio_solicitud: 2023, descripcion:  pruebaA, fecha_entrevista: 2024-05-05, nombre_encuestador: prueba', 'fichas', NULL),
+(619, '2024-05-05 19:50:25', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 11, Id_Ficha = 7, Id_Ubicacion = 11, Id_Productor = 14, Tiene_Riego = S, Superficie_Riego = 12.00', 'Información anterior: Id_Manejo_Riego = 11, Id_Ficha = 7, Id_Ubicacion = 11, Id_Productor = 14, Tiene_Riego = S, Superficie_Riego = 12.00', 'tbl_manejo_riego', NULL),
+(620, '2024-05-05 19:50:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 77, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 3, Descripcion =  '),
+(621, '2024-05-05 19:50:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 78, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 4, Descripcion =  '),
+(622, '2024-05-05 19:50:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 79, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 5, Descripcion =  '),
+(623, '2024-05-05 19:50:56', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 80, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(624, '2024-05-05 19:50:56', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 81, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(625, '2024-05-05 19:50:56', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 82, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(626, '2024-05-05 19:52:31', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 8, fecha_solicitud: 2024-05-05, anio_solicitud: 2023, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: prueba', NULL, 'fichas', NULL),
+(627, '2024-05-05 19:52:31', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 12, Id_Ficha = 8, Id_Ubicacion = 12, Id_Productor = 15, Tiene_Riego = S, Superficie_Riego = 12.00', NULL, 'tbl_manejo_riego', NULL),
+(628, '2024-05-05 19:52:31', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 83, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(629, '2024-05-05 19:52:31', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 84, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(630, '2024-05-05 19:52:31', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 85, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(631, '2024-05-05 19:52:46', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 8, fecha_solicitud: 2024-05-05, anio_solicitud: 2024, descripcion:  prueba edicion, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: pruebaedicion', 'Información anterior = id_ficha: 8, fecha_solicitud: 2024-05-05 anio_solicitud: 2023, descripcion:  pruebaA, fecha_entrevista: 2024-05-05, nombre_encuestador: prueba', 'fichas', NULL),
+(632, '2024-05-05 19:54:23', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 12, Id_Ficha = 8, Id_Ubicacion = 12, Id_Productor = 15, Tiene_Riego = S, Superficie_Riego = 12.00', 'Información anterior: Id_Manejo_Riego = 12, Id_Ficha = 8, Id_Ubicacion = 12, Id_Productor = 15, Tiene_Riego = S, Superficie_Riego = 12.00', 'tbl_manejo_riego', NULL),
+(633, '2024-05-05 19:56:06', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 83, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 3, Descripcion =  '),
+(634, '2024-05-05 19:56:06', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 84, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 4, Descripcion =  '),
+(635, '2024-05-05 19:56:06', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 85, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 5, Descripcion =  '),
+(636, '2024-05-05 19:56:06', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 86, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(637, '2024-05-05 19:56:06', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 87, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(638, '2024-05-05 19:56:06', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 88, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(639, '2024-05-05 19:59:18', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 8, fecha_solicitud: 2024-05-05, anio_solicitud: 2024, descripcion:  prueba edicion, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: pruebaedicion', 'Información anterior = id_ficha: 8, fecha_solicitud: 2024-05-05 anio_solicitud: 2024, descripcion:  prueba edicionA, fecha_entrevista: 2024-05-05, nombre_encuestador: pruebaedicion', 'fichas', NULL),
+(640, '2024-05-05 19:59:35', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 12, Id_Ficha = 8, Id_Ubicacion = 12, Id_Productor = 15, Tiene_Riego = S, Superficie_Riego = 12.00', 'Información anterior: Id_Manejo_Riego = 12, Id_Ficha = 8, Id_Ubicacion = 12, Id_Productor = 15, Tiene_Riego = S, Superficie_Riego = 12.00', 'tbl_manejo_riego', NULL),
+(641, '2024-05-05 19:59:58', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 86, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 3, Descripcion =  '),
+(642, '2024-05-05 19:59:58', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 87, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 4, Descripcion =  '),
+(643, '2024-05-05 19:59:58', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 88, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 5, Descripcion =  '),
+(644, '2024-05-05 19:59:58', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 89, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(645, '2024-05-05 19:59:58', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 90, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(646, '2024-05-05 19:59:58', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 91, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(647, '2024-05-05 20:08:09', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 8, fecha_solicitud: 2024-05-05, anio_solicitud: 2024, descripcion:  prueba edicion, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: pruebaedicion', 'Información anterior = id_ficha: 8, fecha_solicitud: 2024-05-05 anio_solicitud: 2024, descripcion:  prueba edicionA, fecha_entrevista: 2024-05-05, nombre_encuestador: pruebaedicion', 'fichas', NULL),
+(648, '2024-05-05 20:08:28', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 12, Id_Ficha = 8, Id_Ubicacion = 12, Id_Productor = 15, Tiene_Riego = S, Superficie_Riego = 12.00', 'Información anterior: Id_Manejo_Riego = 12, Id_Ficha = 8, Id_Ubicacion = 12, Id_Productor = 15, Tiene_Riego = S, Superficie_Riego = 12.00', 'tbl_manejo_riego', NULL),
+(649, '2024-05-05 20:09:37', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 89, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 3, Descripcion =  '),
+(650, '2024-05-05 20:09:37', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 90, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 4, Descripcion =  '),
+(651, '2024-05-05 20:09:37', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 91, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 5, Descripcion =  '),
+(652, '2024-05-05 20:09:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 92, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(653, '2024-05-05 20:09:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 93, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(654, '2024-05-05 20:09:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 94, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(655, '2024-05-05 20:09:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 95, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 6, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(656, '2024-05-05 20:09:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 96, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 7, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(657, '2024-05-05 20:09:37', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 97, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 8, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(658, '2024-05-05 20:14:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 5, Id_Ficha = 1, Id_Ubicacion = 5, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 3.00'),
+(659, '2024-05-05 20:14:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 6, Id_Ficha = 2, Id_Ubicacion = 6, Id_Productor = 9, Tiene_Riego = S, Superficie_Riego = 2.00'),
+(660, '2024-05-05 20:14:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 7, Id_Ficha = 3, Id_Ubicacion = 7, Id_Productor = 10, Tiene_Riego = S, Superficie_Riego = 3.00'),
+(661, '2024-05-05 20:14:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 8, Id_Ficha = 4, Id_Ubicacion = 8, Id_Productor = 11, Tiene_Riego = S, Superficie_Riego = 3.00'),
+(662, '2024-05-05 20:14:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 9, Id_Ficha = 5, Id_Ubicacion = 9, Id_Productor = 12, Tiene_Riego = S, Superficie_Riego = 10.00'),
+(663, '2024-05-05 20:14:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 10, Id_Ficha = 6, Id_Ubicacion = 10, Id_Productor = 13, Tiene_Riego = S, Superficie_Riego = 10.00'),
+(664, '2024-05-05 20:14:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 11, Id_Ficha = 7, Id_Ubicacion = 11, Id_Productor = 14, Tiene_Riego = S, Superficie_Riego = 12.00'),
+(665, '2024-05-05 20:14:01', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 12, Id_Ficha = 8, Id_Ubicacion = 12, Id_Productor = 15, Tiene_Riego = S, Superficie_Riego = 12.00'),
+(666, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 22, Id_Ficha = 2, Id_Productor = 9, Id_Tipo_Practica = 3, Descripcion =  '),
+(667, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 23, Id_Ficha = 3, Id_Productor = 10, Id_Tipo_Practica = 3, Descripcion =  ');
+INSERT INTO `bitacoras` (`id_bitacora`, `fecha`, `ejecutor`, `actividad_realizada`, `informacion_actual`, `informacion_anterior`, `tabla`, `informacion_eliminada`) VALUES
+(668, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 26, Id_Ficha = 4, Id_Productor = 11, Id_Tipo_Practica = 3, Descripcion =  '),
+(669, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 33, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 3, Descripcion =  '),
+(670, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 34, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 28, Descripcion =  '),
+(671, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 35, Id_Ficha = 5, Id_Productor = 12, Id_Tipo_Practica = 44, Descripcion =  '),
+(672, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 57, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 3, Descripcion =  '),
+(673, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 58, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 4, Descripcion =  '),
+(674, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 71, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 3, Descripcion =  '),
+(675, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 72, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 4, Descripcion =  '),
+(676, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 73, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 5, Descripcion =  '),
+(677, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 74, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 6, Descripcion =  '),
+(678, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 75, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 28, Descripcion =  '),
+(679, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 76, Id_Ficha = 6, Id_Productor = 13, Id_Tipo_Practica = 44, Descripcion =  '),
+(680, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 80, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 3, Descripcion =  '),
+(681, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 81, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 4, Descripcion =  '),
+(682, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 82, Id_Ficha = 7, Id_Productor = 14, Id_Tipo_Practica = 5, Descripcion =  '),
+(683, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 92, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 3, Descripcion =  '),
+(684, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 93, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 4, Descripcion =  '),
+(685, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 94, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 5, Descripcion =  '),
+(686, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 95, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 6, Descripcion =  '),
+(687, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 96, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 7, Descripcion =  '),
+(688, '2024-05-05 20:14:56', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 97, Id_Ficha = 8, Id_Productor = 15, Id_Tipo_Practica = 8, Descripcion =  '),
+(689, '2024-05-05 20:18:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 1, fecha_solicitud: 2024-05-02, anio_solicitud: 2023, descripcion:  Prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Prueba'),
+(690, '2024-05-05 20:18:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 2, fecha_solicitud: 2024-05-02, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: prueba'),
+(691, '2024-05-05 20:18:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 3, fecha_solicitud: 2024-05-02, anio_solicitud: 3333, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras'),
+(692, '2024-05-05 20:18:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 4, fecha_solicitud: 2024-05-02, anio_solicitud: 3333, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-02, nombre_encuestador: Honduras'),
+(693, '2024-05-05 20:18:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 5, fecha_solicitud: 2024-05-03, anio_solicitud: 2023, descripcion:  Francisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Honduras'),
+(694, '2024-05-05 20:18:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 6, fecha_solicitud: 2024-05-03, anio_solicitud: 2024, descripcion:  Francisco MorazanFrancisco Morazan, estado: A, fecha_entrevista: 2024-05-03, nombre_encuestador: Hondurasjg'),
+(695, '2024-05-05 20:18:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 7, fecha_solicitud: 2024-05-05, anio_solicitud: 2023, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: prueba'),
+(696, '2024-05-05 20:18:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 8, fecha_solicitud: 2024-05-05, anio_solicitud: 2024, descripcion:  prueba edicion, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: pruebaedicion'),
+(697, '2024-05-05 22:31:43', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 1, fecha_solicitud: 2024-05-05, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: Honduras', NULL, 'fichas', NULL),
+(698, '2024-05-05 22:33:53', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 13, Id_Ficha = 1, Id_Ubicacion = 13, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 11.00', NULL, 'tbl_manejo_riego', NULL),
+(699, '2024-05-05 22:35:24', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 98, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(700, '2024-05-05 22:35:24', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 99, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 7, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(701, '2024-05-05 22:35:24', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 100, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 8, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(702, '2024-05-05 22:35:24', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 101, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 12, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(703, '2024-05-05 22:35:24', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 102, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 29, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(704, '2024-05-05 22:39:42', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-05, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: Honduras', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-05 anio_solicitud: 2020, descripcion:  pruebaA, fecha_entrevista: 2024-05-05, nombre_encuestador: Honduras', 'fichas', NULL),
+(705, '2024-05-05 22:41:05', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 13, Id_Ficha = 1, Id_Ubicacion = 13, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 22.00', 'Información anterior: Id_Manejo_Riego = 13, Id_Ficha = 1, Id_Ubicacion = 13, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 11.00', 'tbl_manejo_riego', NULL),
+(706, '2024-05-05 22:42:47', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 98, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 5, Descripcion =  '),
+(707, '2024-05-05 22:42:47', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 99, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 7, Descripcion =  '),
+(708, '2024-05-05 22:42:47', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 100, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 8, Descripcion =  '),
+(709, '2024-05-05 22:42:47', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 101, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 12, Descripcion =  '),
+(710, '2024-05-05 22:42:47', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 102, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 29, Descripcion =  '),
+(711, '2024-05-05 22:42:47', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 103, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 3, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(712, '2024-05-05 22:42:47', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 104, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 4, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(713, '2024-05-05 22:42:47', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 105, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 5, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(714, '2024-05-05 22:42:47', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 106, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 6, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(715, '2024-05-05 22:42:47', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 107, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 7, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(716, '2024-05-05 22:42:47', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 108, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 8, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(717, '2024-05-05 22:42:47', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 109, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 12, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(718, '2024-05-05 22:46:58', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_manejo_riego', 'Información eliminada: Id_Manejo_Riego = 13, Id_Ficha = 1, Id_Ubicacion = 13, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 22.00'),
+(719, '2024-05-05 22:47:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 103, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 3, Descripcion =  '),
+(720, '2024-05-05 22:47:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 104, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 4, Descripcion =  '),
+(721, '2024-05-05 22:47:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 105, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 5, Descripcion =  '),
+(722, '2024-05-05 22:47:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 106, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 6, Descripcion =  '),
+(723, '2024-05-05 22:47:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 107, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 7, Descripcion =  '),
+(724, '2024-05-05 22:47:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 108, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 8, Descripcion =  '),
+(725, '2024-05-05 22:47:43', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 109, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 12, Descripcion =  '),
+(726, '2024-05-05 22:49:41', 'root@localhost', 'Se eliminó', NULL, NULL, 'fichas', 'Información eliminada = id_ficha: 1, fecha_solicitud: 2024-05-05, anio_solicitud: 2020, descripcion:  prueba, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: Honduras'),
+(727, '2024-05-06 02:01:09', 'root@localhost', 'Se insertó', 'Información actual: id_etnia = 19, etnia = EtniaActiva, descripcion = EtniaActiva', NULL, 'tbl_etnias', NULL),
+(728, '2024-05-06 02:01:45', 'root@localhost', 'Se insertó', 'Información actual: id_etnia = 20, etnia = EtniaInactiva, descripcion = EtniaInactiva', NULL, 'tbl_etnias', NULL),
+(729, '2024-05-06 02:02:44', 'root@localhost', 'Se insertó', 'Información actual: Id_Cacerio = 9, Id_Aldea = 151, Id_Municipio = 91, Id_Departamento = 22, Nombre_Cacerio = CaceriosActivo, Descripcion = CaceriosActivo', NULL, 'tbl_cacerios', NULL),
+(730, '2024-05-06 02:03:17', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Municipio = 91, Id_Departamento = 22, Nombre_Municipio = MunicipioActivo, Descripcion = Activo', 'Información anterior: Id_Municipio = 91, Id_Departamento = 22, Nombre_Municipio = Activo, Descripcion = Activo', 'tbl_municipios', NULL),
+(731, '2024-05-06 02:04:49', 'root@localhost', 'Se insertó', 'Información actual: Id_Cacerio = 10, Id_Aldea = 151, Id_Municipio = 91, Id_Departamento = 22, Nombre_Cacerio = CaceriosInactivo, Descripcion = CaceriosInactivo', NULL, 'tbl_cacerios', NULL),
+(732, '2024-05-06 02:04:54', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Cacerio = 10, Id_Aldea = 151, Id_Municipio = 91, Id_Departamento = 22, Nombre_Cacerio = CaceriosInactivo, Descripcion = CaceriosInactivo', 'Información anterior: Id_Cacerio = 10, Id_Aldea = 151, Id_Municipio = 91, Id_Departamento = 22, Nombre_Cacerio = CaceriosInactivo, Descripcion = CaceriosInactivo', 'tbl_cacerios', NULL),
+(733, '2024-05-06 02:06:09', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_organizacion = 17, tipo_organizacion = TipoORGActivo, descripcion = TipoORGActivo', NULL, 'tbl_tipo_organizacion', NULL),
+(734, '2024-05-06 02:06:20', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_organizacion = 18, tipo_organizacion = TipoORGInactiva, descripcion = TipoORGInactiva', NULL, 'tbl_tipo_organizacion', NULL),
+(735, '2024-05-06 02:06:25', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_organizacion = 18, tipo_organizacion = TipoORGInactiva, descripcion = TipoORGInactiva', 'Información anterior: id_tipo_organizacion = 18, tipo_organizacion = TipoORGInactiva, descripcion = TipoORGInactiva', 'tbl_tipo_organizacion', NULL),
+(736, '2024-05-06 02:06:48', 'root@localhost', 'Se insertó', 'Información actual: id_organizacion = 14, organizacion = OrganizacionActiva, id_tipo_organizacion = 17, descripcion = OrganizacionActiva', NULL, 'tbl_organizaciones', NULL),
+(737, '2024-05-06 02:07:02', 'root@localhost', 'Se insertó', 'Información actual: id_organizacion = 15, organizacion = OrganizacionInactiva, id_tipo_organizacion = 17, descripcion = OrganizacionInactiva', NULL, 'tbl_organizaciones', NULL),
+(738, '2024-05-06 02:07:07', 'root@localhost', 'Se actualizó', 'Información actualizada: id_organizacion = 15, organizacion = OrganizacionInactiva, id_tipo_organizacion = 17, descripcion = OrganizacionInactiva', 'Información anterior: id_organizacion = 15, organizacion = OrganizacionInactiva, id_tipo_organizacion = 17, descripcion = OrganizacionInactiva', 'tbl_organizaciones', NULL),
+(739, '2024-05-06 02:07:37', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_motivo = 11, Motivo = MotivoMigracion, Descripcion = MotivoMigracionINac', 'Información anterior: Id_motivo = 11, Motivo = MotivoMigracion, Descripcion = MotivoMigracion', 'tbl_motivos_migracion', NULL),
+(740, '2024-05-06 02:07:52', 'root@localhost', 'Se insertó', 'Información actual: Id_motivo = 14, Motivo = MotivoActivo, Descripcion = MotivoActivo', NULL, 'tbl_motivos_migracion', NULL),
+(741, '2024-05-06 02:08:28', 'root@localhost', 'Se insertó', 'Información actual: id_medida = 21, medida = MedidaActiva, descripcion = MedidaActiva', NULL, 'tbl_medidas_tierra', NULL),
+(742, '2024-05-06 02:08:45', 'root@localhost', 'Se insertó', 'Información actual: id_medida = 22, medida = MedidaInactiva, descripcion = MedidaInactiva', NULL, 'tbl_medidas_tierra', NULL),
+(743, '2024-05-06 02:08:50', 'root@localhost', 'Se actualizó', 'Información actualizada: id_medida = 22, medida = MedidaInactiva, descripcion = MedidaInactiva', 'Información anterior: id_medida = 22, medida = MedidaInactiva, descripcion = MedidaInactiva', 'tbl_medidas_tierra', NULL),
+(744, '2024-05-06 02:09:39', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_pecuario = 11, tipo_pecuario = ActivoPEA, raza_con_genero = s, descripcion = ActivoPEA', 'Información anterior: id_tipo_pecuario = 11, tipo_pecuario = PeActivo, raza_con_genero = s, descripcion = PeActivo', 'tbl_tipo_pecuarios', NULL),
+(745, '2024-05-06 02:10:15', 'root@localhost', 'Se actualizó', 'Información actualizada: id_tipo_produccion = 6, tipo_produccion = Producto de Transformación, descripcion = Transformación', 'Información anterior: id_tipo_produccion = 6, tipo_produccion = Producto de Transformación, descripcion = Transformación', 'tbl_tipo_produccion', NULL),
+(746, '2024-05-06 02:10:51', 'root@localhost', 'Se insertó', 'Información actual: id_periodo = 17, periodo = PeriodoPrueba, descripcion = PeriodoPrueba', NULL, 'tbl_periodicidad', NULL),
+(747, '2024-05-06 02:11:22', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_negocio = 17, tipo_negocio = TNegocioActivo, descripcion = TNegocioActivo', NULL, 'tbl_tipo_negocios', NULL),
+(748, '2024-05-06 02:11:55', 'root@localhost', 'Se actualizó', 'Información actualizada: id_motivos_no_credito = 7, motivo_no_credito = Tasas de interés muy altas , descripcion = Tasas de interés muy altas ', 'Información anterior: id_motivos_no_credito = 7, motivo_no_credito = Tasas de interés muy altas , descripcion = Tasas de interés muy altas ', 'tbl_motivos_no_creditos', NULL),
+(749, '2024-05-06 02:13:21', 'root@localhost', 'Se insertó', 'Información actual: id_tipo_tomador = 9, tomador = TomaDActivo, descripcion = TomaDActivo', NULL, 'tbl_toma_decisiones', NULL),
+(750, '2024-05-06 02:16:22', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 1, fecha_solicitud: 2024-05-05, anio_solicitud: 2023, descripcion:  PruebaFInalEvaluacion, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: PruebaFInalEvaluacion', NULL, 'fichas', NULL),
+(751, '2024-05-06 02:21:59', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 14, Id_Ficha = 1, Id_Ubicacion = 14, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 100.00', NULL, 'tbl_manejo_riego', NULL),
+(752, '2024-05-06 02:24:49', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 110, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(753, '2024-05-06 02:27:13', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 2, fecha_solicitud: 2024-05-05, anio_solicitud: 2023, descripcion:  PruebaFInalEvaluacion, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: PruebaFInalEvaluacion', NULL, 'fichas', NULL),
+(754, '2024-05-06 02:27:13', 'root@localhost', 'Se insertó', 'Información actual: Id_Manejo_Riego = 15, Id_Ficha = 2, Id_Ubicacion = 15, Id_Productor = 9, Tiene_Riego = S, Superficie_Riego = 100.00', NULL, 'tbl_manejo_riego', NULL),
+(755, '2024-05-06 02:27:13', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 111, Id_Ficha = 2, Id_Productor = 9, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(756, '2024-05-06 02:27:22', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 2, fecha_solicitud: 2024-05-05, anio_solicitud: 2026, descripcion:  PruebaFInalEvaluacion, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: PruebaFInalEvaluacion', 'Información anterior = id_ficha: 2, fecha_solicitud: 2024-05-05 anio_solicitud: 2023, descripcion:  PruebaFInalEvaluacionA, fecha_entrevista: 2024-05-05, nombre_encuestador: PruebaFInalEvaluacion', 'fichas', NULL),
+(757, '2024-05-06 02:28:09', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 15, Id_Ficha = 2, Id_Ubicacion = 15, Id_Productor = 9, Tiene_Riego = S, Superficie_Riego = 100.00', 'Información anterior: Id_Manejo_Riego = 15, Id_Ficha = 2, Id_Ubicacion = 15, Id_Productor = 9, Tiene_Riego = S, Superficie_Riego = 100.00', 'tbl_manejo_riego', NULL),
+(758, '2024-05-06 02:28:59', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 111, Id_Ficha = 2, Id_Productor = 9, Id_Tipo_Practica = 44, Descripcion =  '),
+(759, '2024-05-06 02:28:59', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 112, Id_Ficha = 2, Id_Productor = 9, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL),
+(760, '2024-05-07 03:42:33', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 3, fecha_solicitud: 2024-05-06, anio_solicitud: 2023, descripcion:  registro de ficha de productor 2023, estado: A, fecha_entrevista: 2024-05-06, nombre_encuestador: Kevin', NULL, 'fichas', NULL),
+(761, '2024-05-07 03:43:39', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 4, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', NULL, 'fichas', NULL),
+(762, '2024-05-07 03:55:47', 'root@localhost', 'Se insertó', 'Información actual = id_ficha: 5, fecha_solicitud: 0000-00-00, anio_solicitud: 0, descripcion:  , estado: A, fecha_entrevista: 0000-00-00, nombre_encuestador: ', NULL, 'fichas', NULL),
+(763, '2024-05-07 04:00:57', 'root@localhost', 'Se actualizó', 'Información actualizada = id_ficha: 1, fecha_solicitud: 2024-05-05, anio_solicitud: 2023, descripcion:  PruebaFInalEvaluacion, estado: A, fecha_entrevista: 2024-05-05, nombre_encuestador: PruebaFInalEvaluacion', 'Información anterior = id_ficha: 1, fecha_solicitud: 2024-05-05 anio_solicitud: 2023, descripcion:  PruebaFInalEvaluacionA, fecha_entrevista: 2024-05-05, nombre_encuestador: PruebaFInalEvaluacion', 'fichas', NULL),
+(764, '2024-05-07 04:02:02', 'root@localhost', 'Se actualizó', 'Información actualizada: Id_Manejo_Riego = 14, Id_Ficha = 1, Id_Ubicacion = 14, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 100.00', 'Información anterior: Id_Manejo_Riego = 14, Id_Ficha = 1, Id_Ubicacion = 14, Id_Productor = 8, Tiene_Riego = S, Superficie_Riego = 100.00', 'tbl_manejo_riego', NULL),
+(765, '2024-05-07 04:03:20', 'root@localhost', 'Se eliminó', NULL, NULL, 'tbl_practicas_por_produccion', 'Información eliminada: Id_Practica_Produccion = 110, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 44, Descripcion =  '),
+(766, '2024-05-07 04:03:20', 'root@localhost', 'Se insertó', 'Información actual: Id_Practica_Produccion = 113, Id_Ficha = 1, Id_Productor = 8, Id_Tipo_Practica = 44, Descripcion =  ', NULL, 'tbl_practicas_por_produccion', NULL);
 
 -- --------------------------------------------------------
 
@@ -4126,8 +4646,11 @@ CREATE TABLE `fichas` (
 --
 
 INSERT INTO `fichas` (`id_ficha`, `fecha_solicitud`, `anio_solicitud`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`, `fecha_entrevista`, `nombre_encuentrador`, `firma_productor`, `nombre_encuestador`, `firma_encuestador`, `nombre_supervisor`, `firma_supervisor`) VALUES
-(1, '2024-05-01', 2024, ' prueba', 'HARU', '2024-05-02 02:25:40', NULL, '2024-05-02 02:25:40', 'A', '2024-05-09', 'Serj Tankian', NULL, 'Olivia Rodrigo', NULL, 'Marina Diamandis', NULL),
-(2, '2024-05-01', 2024, ' prueba', 'HARU', '2024-05-02 02:25:40', 'HARU', '2024-05-02 02:31:23', 'A', '2024-05-09', 'Serj Tankian', NULL, 'Olivia Rodrigo', NULL, 'Marina Diamandis', NULL);
+(1, '2024-05-05', 2023, ' PruebaFInalEvaluacion', 'HARU', '2024-05-06 02:16:22', 'HARU', '2024-05-07 04:00:57', 'A', '2024-05-05', 'PruebaFInalEvaluacion', NULL, 'PruebaFInalEvaluacion', NULL, 'PruebaFInalEvaluacion', NULL),
+(2, '2024-05-05', 2026, ' PruebaFInalEvaluacion', 'HARU', '2024-05-06 02:16:22', 'HARU', '2024-05-06 02:27:22', 'A', '2024-05-05', 'PruebaFInalEvaluacion', NULL, 'PruebaFInalEvaluacion', NULL, 'PruebaFInalEvaluacion', NULL),
+(3, '2024-05-06', 2023, ' registro de ficha de productor 2023', 'HARU', '2024-05-07 03:42:33', NULL, '2024-05-07 03:42:33', 'A', '2024-05-06', 'Manuel', NULL, 'Kevin', NULL, 'Joel', NULL),
+(4, '0000-00-00', 0, ' ', 'HARU', '2024-05-07 03:43:39', NULL, '2024-05-07 03:43:39', 'A', '0000-00-00', '', NULL, '', NULL, '', NULL),
+(5, '0000-00-00', 0, ' ', 'HARU', '2024-05-07 03:55:47', NULL, '2024-05-07 03:55:47', 'A', '0000-00-00', '', NULL, '', NULL, '', NULL);
 
 --
 -- Disparadores `fichas`
@@ -4176,7 +4699,8 @@ INSERT INTO `historial_contrasenas` (`id_historial`, `usuario_id`, `contrasena_h
 (3, 9, '$2y$10$zQ4V8DhqaznBKRXFXS33L.nDk0SWhvjdZ1fXadC7levKDnImsRpru', '2024-04-28 04:41:42'),
 (4, 15, '$2y$10$EY0Z2Ro6taSicrlSDgKh2O7XvNL89AZ43NDkkwi7oKoPhePVT5a8.', '2024-04-28 22:06:22'),
 (5, 9, '$2y$10$bqrIfn1INEBy25aFEoQD6eiGROE9tESDrt3ruuKWf/3MbnMgmlzbK', '2024-04-29 02:58:46'),
-(6, 19, '$2y$10$gSEv304U//i/5DSmWI/y1.zq.MGDZtIZBUZGdSIdStWsE66F.J12S', '2024-05-01 16:08:43');
+(6, 19, '$2y$10$gSEv304U//i/5DSmWI/y1.zq.MGDZtIZBUZGdSIdStWsE66F.J12S', '2024-05-01 16:08:43'),
+(7, 18, '$2y$10$7qoO.iCvc3C4jI0BCKjNiOEa6yUr.N/90VpoO/6BQ/KH8U5KMk6tW', '2024-05-02 22:35:48');
 
 -- --------------------------------------------------------
 
@@ -4280,7 +4804,8 @@ INSERT INTO `objetos` (`Id_objetos`, `Objeto`, `Descripcion`, `tipo_objeto`, `Cr
 (53, 'Apoyo', 'pantalla que dice que apoyos puede tener un productor', 'Pantalla', 'HARU', '2024-04-28 13:48:50', '', '2024-04-28 13:48:50', 'A'),
 (54, 'Tipos de apoyos', 'son los tipos de apoyos que puede recibir los productores', 'Pantalla', 'HARU', '2024-04-28 13:49:28', '', '2024-04-28 13:49:28', 'A'),
 (55, 'ETNICIDAD', 'Pantalla donde muestra la informacion de la ETNICIDAD de los productores', 'Pantalla', 'HARU', '2024-04-28 23:10:16', '', '2024-04-28 23:10:16', 'A'),
-(56, 'PRUEBA', 'SDA', 'Pantalla', 'HARU', '2024-05-02 07:31:57', '', '2024-05-02 07:31:57', 'A');
+(56, 'PRUEBA', 'SDA', 'Pantalla', 'HARU', '2024-05-02 07:31:57', '', '2024-05-02 07:31:57', 'A'),
+(57, 'Siembra', 'Las tipos de siembras que puede tener un productor', 'Pantalla', 'HARU', '2024-05-02 19:55:16', '', '2024-05-02 19:55:16', 'A');
 
 -- --------------------------------------------------------
 
@@ -4350,7 +4875,23 @@ INSERT INTO `permisos` (`id_permisos`, `Id_rol`, `permiso_eliminacion`, `id_obje
 (16, 1, 1, 37, 1, 1, 1, 'HAru', '2024-05-02 08:34:18'),
 (17, 1, 1, 39, 1, 1, 1, 'HAru', '2024-05-02 10:00:26'),
 (18, 1, 1, 40, 1, 1, 1, 'HARU', '2024-05-02 10:17:41'),
-(19, 1, 1, 41, 1, 1, 1, 'HAru', '2024-05-02 10:27:00');
+(19, 1, 1, 41, 1, 1, 1, 'HAru', '2024-05-02 10:27:00'),
+(23, 1, 1, 42, 1, 1, 1, 'HARU', '2024-05-02 16:20:45'),
+(24, 1, 1, 43, 1, 1, 1, 'HARU', '2024-05-02 16:21:44'),
+(25, 1, 1, 44, 1, 1, 1, 'HARU', '2024-05-02 16:23:12'),
+(26, 1, 1, 45, 1, 1, 1, 'HARU', '2024-05-02 16:27:13'),
+(27, 1, 1, 46, 1, 1, 1, 'HARU', '2024-05-02 16:39:24'),
+(28, 1, 1, 47, 1, 1, 1, 'HARU', '2024-05-02 17:15:53'),
+(29, 1, 1, 48, 1, 1, 1, 'HARU', '2024-05-02 17:25:11'),
+(30, 1, 1, 49, 1, 1, 1, 'HARU', '2024-05-02 17:31:58'),
+(31, 1, 1, 50, 1, 1, 1, 'HARU', '2024-05-02 19:36:58'),
+(32, 1, 1, 52, 1, 1, 1, 'HARU', '2024-05-02 19:48:16'),
+(33, 1, 1, 53, 1, 1, 1, 'HARU', '2024-05-02 19:54:25'),
+(34, 1, 1, 54, 1, 1, 1, 'HARU', '2024-05-02 19:54:31'),
+(35, 1, 1, 57, 1, 1, 1, 'HARU', '2024-05-02 19:55:29'),
+(37, 1, 1, 10, 1, 1, 1, 'HARU', '2024-05-03 17:29:02'),
+(39, 2, 1, 57, 1, 1, 1, 'HARU', '2024-05-05 23:21:26'),
+(40, 27, 2, 33, 1, 2, 1, 'HARU', '2024-05-05 23:34:58');
 
 -- --------------------------------------------------------
 
@@ -4375,7 +4916,8 @@ CREATE TABLE `preguntas` (
 INSERT INTO `preguntas` (`Id_pregunta`, `Pregunta`, `Creador_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `estado`) VALUES
 (1, '¿Cuál es tu color favorito?', 'Haru', '2023-10-11 09:45:08', 'Haru', '2023-10-12 09:45:08', 'A'),
 (2, '¿que equipo es tu favorito?', 'Haru', '2023-10-29 02:14:09', 'Haru', '2023-10-29 02:14:09', 'A'),
-(6, '¿Comida Favorita?', 'HARU', '2024-04-28 20:49:50', 'HARU', '2024-04-28 20:55:23', 'A');
+(6, '¿Comida Favorita?', 'HARU', '2024-04-28 20:49:50', 'HARU', '2024-04-28 20:55:23', 'A'),
+(8, '¿Tu apodo de la infancia?', 'HARU', '2024-05-02 22:49:26', 'HARU', '2024-05-02 22:49:26', 'A');
 
 -- --------------------------------------------------------
 
@@ -4399,7 +4941,10 @@ CREATE TABLE `preguntas_usuario` (
 --
 
 INSERT INTO `preguntas_usuario` (`Id_Pregunta_U`, `Id_pregunta`, `Id_Usuario`, `Respuestas`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`) VALUES
-(1, 1, 1, 'Rojo', '1', '2023-10-27 22:53:34', '1', '2023-10-31 22:53:34');
+(1, 1, 1, 'Rojo', '1', '2023-10-27 22:53:34', '1', '2023-10-31 22:53:34'),
+(15, 1, 19, 'morado', '19', '2024-05-03 00:45:42', NULL, NULL),
+(18, 6, 19, 'pizza', 'SIstem', '2024-05-03 09:16:58', NULL, NULL),
+(19, 1, 19, 'azul', 'SIstem', '2024-05-03 09:17:06', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4451,7 +4996,8 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`Id_rol`, `Nombre`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `STATUS`) VALUES
 (1, 'ADMINISTRADOR', 'ADMIN', 1, '2023-10-17 12:01:16', 2, '2023-10-18 12:01:16', 'ACTIVO'),
-(2, 'NUEVO', 'Personal Nuevo', 1, '2023-10-29 05:42:09', 1, '2024-05-01 21:19:06', 'ACTIVO');
+(2, 'NUEVO', 'Personal Nuevo', 1, '2023-10-29 05:42:09', 1, '2024-05-01 21:19:06', 'ACTIVO'),
+(27, 'PRUEBA', 'Prueba de roles', 1, '2024-05-02 22:40:59', 1, '2024-05-02 22:40:59', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -4699,11 +5245,11 @@ CREATE TABLE `tbl_apoyos` (
 
 INSERT INTO `tbl_apoyos` (`id_apoyo_produccion`, `tipo_apoyo_produccion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
 (1, 'Gobierno', 'Ayuda que da el gobierno', NULL, '2024-04-25 20:17:17', NULL, '2024-04-25 20:17:17', 'ACTIVO'),
-(2, 'ONG', 'Organismo internacional', 'Daniela', '2024-04-25 20:17:47', 'Daniela', '2024-04-25 20:17:47', 'INACTIVO'),
+(2, 'ONG', 'Organismo internacional', 'Daniela', '2024-05-05 06:21:14', 'HARU', '2024-05-05 06:21:14', 'ACTIVO'),
 (3, 'Amigo', 'Ayuda de un amigo', 'HAru', '2024-04-25 20:18:02', 'Haru', '2024-04-25 20:18:02', 'ACTIVO'),
 (4, 'Cooperativa', 'Ayuda de alguna cooperativa', 'Haru', '2024-04-25 20:19:00', 'Haru', '2024-04-25 20:19:00', 'ACTIVO'),
 (5, 'APActiva', 'APActiva', 'Daniela', '2024-04-26 01:50:54', 'Daniela', '2024-04-26 01:50:54', 'ACTIVO'),
-(6, 'APInactiva', 'APInactiva', 'Daniela', '2024-04-26 01:51:13', 'Daniela', '2024-04-26 01:51:13', 'INACTIVO');
+(6, 'APInactiva', 'APInactiva', 'Daniela', '2024-05-02 22:19:02', 'HARU', '2024-05-02 22:19:02', 'INACTIVO');
 
 --
 -- Disparadores `tbl_apoyos`
@@ -4761,10 +5307,8 @@ CREATE TABLE `tbl_apoyos_produccion` (
 --
 
 INSERT INTO `tbl_apoyos_produccion` (`id_apoyo_prod`, `id_ficha`, `id_productor`, `id_apoyo_produccion`, `otros_detalles`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 1, NULL, NULL, 'HARU', '2024-05-02 02:29:09', NULL, '2024-05-02 02:29:09', 'A'),
-(2, 1, 1, 3, NULL, NULL, 'HARU', '2024-05-02 02:29:09', NULL, '2024-05-02 02:29:09', 'A'),
-(6, 2, 2, 1, NULL, NULL, 'HARU', '2024-05-02 02:30:55', NULL, '2024-05-02 02:30:55', 'A'),
-(7, 2, 2, 3, NULL, NULL, 'HARU', '2024-05-02 02:30:55', NULL, '2024-05-02 02:30:55', 'A');
+(61, 2, 9, 5, NULL, NULL, 'HARU', '2024-05-06 02:29:10', NULL, '2024-05-06 02:29:10', 'A'),
+(62, 1, 8, 5, NULL, NULL, 'HARU', '2024-05-07 04:03:31', NULL, '2024-05-07 04:03:31', 'A');
 
 -- --------------------------------------------------------
 
@@ -4792,8 +5336,9 @@ CREATE TABLE `tbl_apoyo_actividad_externa` (
 --
 
 INSERT INTO `tbl_apoyo_actividad_externa` (`id_apoyo_ext`, `id_ficha`, `id_productor`, `recibe_apoyo_prodagrícola`, `atencion_por_UAG`, `productos_vendidospor_pralesc`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 'S', 'S', NULL, 'HARU', '2024-05-02 02:29:09', NULL, '2024-05-02 02:29:09', 'A'),
-(2, 2, 2, 'S', 'S', 'S', NULL, 'HARU', '2024-05-02 02:29:09', 'HARU', '2024-05-02 02:30:55', 'A');
+(14, 1, 8, 'S', 'S', 'S', NULL, 'HARU', '2024-05-06 02:25:05', 'HARU', '2024-05-07 04:03:31', 'A'),
+(15, 2, 9, 'S', 'S', 'S', NULL, 'HARU', '2024-05-06 02:25:05', 'HARU', '2024-05-06 02:29:10', 'A'),
+(16, 5, 12, 'N', 'N', 'N', NULL, 'HARU', '2024-05-07 04:00:41', NULL, '2024-05-07 04:00:41', 'A');
 
 -- --------------------------------------------------------
 
@@ -4817,8 +5362,8 @@ CREATE TABLE `tbl_apoyo_tipo_organizacion` (
 --
 
 INSERT INTO `tbl_apoyo_tipo_organizacion` (`id_ficha`, `id_productor`, `id_tipo_organizacion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 9, 'HARU', '2024-05-01 20:29:10', NULL, NULL, 'A'),
-(2, 2, 9, 'HARU', '2024-05-01 20:30:56', NULL, NULL, 'A');
+(2, 9, 17, 'HARU', '2024-05-05 20:29:10', NULL, NULL, 'A'),
+(1, 8, 17, 'HARU', '2024-05-06 22:03:31', NULL, NULL, 'A');
 
 -- --------------------------------------------------------
 
@@ -4844,8 +5389,9 @@ CREATE TABLE `tbl_base_organizacion` (
 --
 
 INSERT INTO `tbl_base_organizacion` (`id_pertenece_organizacion`, `id_ficha`, `id_productor`, `pertenece_a_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', NULL, 'HARU', '2024-05-02 02:26:38', NULL, '2024-05-02 02:26:38', 'A'),
-(2, 2, 2, 'S', NULL, 'HARU', '2024-05-02 02:26:38', 'HARU', '2024-05-02 02:31:25', 'A');
+(15, 1, 8, 'S', NULL, 'HARU', '2024-05-06 02:18:41', 'HARU', '2024-05-07 04:01:18', 'A'),
+(16, 2, 9, 'S', NULL, 'HARU', '2024-05-06 02:18:41', 'HARU', '2024-05-06 02:27:45', 'A'),
+(17, 5, 12, 'N', NULL, 'HARU', '2024-05-07 03:56:32', NULL, '2024-05-07 03:56:32', 'A');
 
 -- --------------------------------------------------------
 
@@ -4877,7 +5423,9 @@ INSERT INTO `tbl_cacerios` (`Id_Cacerio`, `Id_Aldea`, `Id_Municipio`, `Id_Depart
 (3, 26, 6, 2, 'Caserío de Trujillo 1', 'Caserío de Trujillo 1', 'A', 'Haru', '2024-04-25 05:19:25', 'Haru', '2024-04-25 05:19:25'),
 (4, 27, 6, 2, 'Caserío de Trujillo 2', 'Caserío de Trujillo 2', 'A', 'Haru', '2024-04-25 05:19:25', 'Haru', '2024-04-25 05:19:25'),
 (5, 51, 11, 3, 'Col. INCEHSA', 'Col. INCEHSA', 'A', 'Haru', '2024-04-26 00:20:54', 'Haru', '2024-04-25 05:28:17'),
-(6, 51, 11, 3, 'Bo. La Zarcita', 'Bo. La Zarcita', 'A', 'Haru', '2024-04-25 05:28:17', 'Haru', '2024-04-25 05:28:17');
+(6, 51, 11, 3, 'Bo. La Zarcita', 'Bo. La Zarcita', 'A', 'Haru', '2024-04-25 05:28:17', 'Haru', '2024-04-25 05:28:17'),
+(9, 151, 91, 22, 'CaceriosActivo', 'CaceriosActivo', 'A', 'HARU', '2024-05-06 02:02:44', NULL, '2024-05-06 02:02:44'),
+(10, 151, 91, 22, 'CaceriosInactivo', 'CaceriosInactivo', 'I', 'HARU', '2024-05-06 02:04:54', 'HARU', '2024-05-06 02:04:54');
 
 --
 -- Disparadores `tbl_cacerios`
@@ -4935,8 +5483,12 @@ CREATE TABLE `tbl_composicion` (
 --
 
 INSERT INTO `tbl_composicion` (`id_ficha`, `id_composicion`, `id_productor`, `genero`, `edad`, `cantidad`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'Mujer', '0-10', 1, 'HARU', '2024-05-02 02:26:43', NULL, '2024-05-02 02:26:43', 'A'),
-(2, 4, 2, 'Mujer', '0-10', 1, 'HARU', '2024-05-02 02:31:26', NULL, '2024-05-02 02:31:26', 'A');
+(2, 74, 9, 'Hombre', '41-50', 1, 'HARU', '2024-05-06 02:27:53', NULL, '2024-05-06 02:27:53', 'A'),
+(2, 75, 9, 'Hombre', '11-20', 1, 'HARU', '2024-05-06 02:27:53', NULL, '2024-05-06 02:27:53', 'A'),
+(2, 76, 9, 'Mujer', '0-10', 1, 'HARU', '2024-05-06 02:27:53', NULL, '2024-05-06 02:27:53', 'A'),
+(1, 77, 8, 'Hombre', '41-50', 1, 'HARU', '2024-05-07 04:01:24', NULL, '2024-05-07 04:01:24', 'A'),
+(1, 78, 8, 'Hombre', '11-20', 1, 'HARU', '2024-05-07 04:01:24', NULL, '2024-05-07 04:01:24', 'A'),
+(1, 79, 8, 'Mujer', '0-10', 1, 'HARU', '2024-05-07 04:01:24', NULL, '2024-05-07 04:01:24', 'A');
 
 -- --------------------------------------------------------
 
@@ -4965,8 +5517,8 @@ CREATE TABLE `tbl_credito_produccion` (
 --
 
 INSERT INTO `tbl_credito_produccion` (`id_credpro`, `id_ficha`, `id_productor`, `ha_solicitado_creditos`, `id_fuente_credito`, `monto_credito`, `id_motivos_no_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'N', NULL, NULL, 8, NULL, 'HARU', '2024-05-02 02:28:43', NULL, '2024-05-02 02:28:43', 'A'),
-(3, 2, 2, 'N', NULL, NULL, 8, NULL, 'HARU', '2024-05-02 02:30:51', NULL, '2024-05-02 02:30:51', 'A');
+(70, 2, 9, 'S', 10, NULL, NULL, NULL, 'HARU', '2024-05-06 02:28:51', NULL, '2024-05-06 02:28:51', 'A'),
+(71, 1, 8, 'S', 10, NULL, NULL, NULL, 'HARU', '2024-05-07 04:02:40', NULL, '2024-05-07 04:02:40', 'A');
 
 -- --------------------------------------------------------
 
@@ -4990,7 +5542,7 @@ CREATE TABLE `tbl_departamentos` (
 --
 
 INSERT INTO `tbl_departamentos` (`Id_Departamento`, `Nombre_Departamento`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 'Atlántida', 'Departamento en la costa norte de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
+(1, 'Atlántida', 'Departamento en la costa norte de Honduras', 'Admin', '2024-04-25 00:00:26', 'HARU', '2024-05-02 21:41:20', 'A'),
 (2, 'Colón', 'Departamento en la costa norte de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
 (3, 'Comayagua', 'Departamento en la región central de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
 (4, 'Copán', 'Departamento en el occidente de Honduras', 'Admin', '2024-04-25 00:00:26', NULL, '2024-04-25 00:00:26', 'A'),
@@ -5074,7 +5626,9 @@ INSERT INTO `tbl_etnias` (`id_etnia`, `etnia`, `descripcion`, `creado_por`, `fec
 (8, 'Nahua', 'Descripción de Etnia 8', 'Usuario8', '2023-12-11 20:41:25', 'Usuario8', '2023-12-11 20:41:25', 'A'),
 (9, 'Ladino', 'Descripción de Etnia 9', 'Usuario9', '2023-12-11 20:39:08', 'Usuario9', '2023-12-11 20:39:08', 'A'),
 (10, 'Negro habla inglesa', 'Descripción de Etnia 10', 'Usuario10', '2023-12-11 20:41:33', 'Usuario10', '2023-12-11 20:41:33', 'A'),
-(11, 'Otros(Especifique)', 'Descripción de Etnia 11', 'Usuario11', '2023-12-11 20:41:38', 'Usuario11', '2023-12-11 20:41:38', 'A');
+(11, 'Otros(Especifique)', 'Descripción de Etnia 11', 'Usuario11', '2024-05-05 05:01:10', 'HARU', '2024-05-05 05:01:10', 'I'),
+(19, 'EtniaActiva', 'EtniaActiva', 'HARU', '2024-05-06 02:01:09', NULL, '2024-05-06 02:01:09', 'A'),
+(20, 'EtniaInactiva', 'EtniaInactiva', 'HARU', '2024-05-06 02:01:45', NULL, '2024-05-06 02:01:45', 'A');
 
 --
 -- Disparadores `tbl_etnias`
@@ -5132,8 +5686,8 @@ CREATE TABLE `tbl_etnias_por_productor` (
 --
 
 INSERT INTO `tbl_etnias_por_productor` (`Id_etnicidad`, `id_ficha`, `id_productor`, `id_etnia`, `detalle_de_otros`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 9, '0', NULL, 'HARU', '2024-05-02 02:26:46', NULL, '2024-05-02 02:26:46', 'A'),
-(2, 2, 2, 9, '', NULL, 'HARU', '2024-05-02 02:26:46', 'HARU', '2024-05-02 02:31:27', 'A');
+(15, 1, 8, 1, '', NULL, 'HARU', '2024-05-06 02:20:09', 'HARU', '2024-05-07 04:01:32', 'A'),
+(16, 2, 9, 1, '', NULL, 'HARU', '2024-05-06 02:20:09', 'HARU', '2024-05-06 02:27:56', 'A');
 
 -- --------------------------------------------------------
 
@@ -5157,13 +5711,15 @@ CREATE TABLE `tbl_fuentes_credito` (
 --
 
 INSERT INTO `tbl_fuentes_credito` (`id_fuente_credito`, `fuente_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Banca', 'Bancos', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
-(2, 'Amigos', 'Amigos cercanos', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
-(3, 'Familia', 'Familiares', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
-(4, 'Cooperativa', 'Cooperativas', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
-(5, 'Prestamistas', 'Prestamistas', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
-(6, 'Microfinanciera', 'Microfinanciera', 'usuario1', '2024-04-27 03:21:40', 'usuario1', '2024-04-27 03:21:40', 'I'),
-(7, 'Fuente de credito', 'Fuente de credito', 'usuario1', '2024-04-27 03:21:19', 'usuario1', '2024-04-27 03:21:19', 'A');
+(1, 'Banca', 'Bancos', 'usuario1', '2024-05-05 06:20:27', 'HARU', '2024-05-05 06:20:27', 'A'),
+(2, 'Amigos', 'Amigos cercanos', 'usuario1', '2024-05-05 06:20:31', 'HARU', '2024-05-05 06:20:31', 'A'),
+(3, 'Familia', 'Familiares', 'usuario1', '2024-05-05 06:20:37', 'HARU', '2024-05-05 06:20:37', 'A'),
+(4, 'Cooperativa', 'Cooperativas', 'usuario1', '2024-05-05 06:20:42', 'HARU', '2024-05-05 06:20:42', 'A'),
+(5, 'Prestamistas', 'Prestamistas', 'usuario1', '2024-05-02 17:53:19', 'HARU', '2024-05-02 17:53:19', 'A'),
+(6, 'Microfinanciera', 'Microfinanciera', 'usuario1', '2024-05-02 17:53:14', 'HARU', '2024-05-02 17:53:14', 'A'),
+(7, 'Fuente de credito', 'Fuente de credito', 'usuario1', '2024-04-27 03:21:19', 'usuario1', '2024-04-27 03:21:19', 'A'),
+(10, 'FuenteCreActiva', 'FuenteCreActiva', 'HARU', '2024-05-06 02:12:36', NULL, '2024-05-06 02:12:36', 'A'),
+(11, 'FuenteCreInactivas', 'FuenteCreInactivas', 'HARU', '2024-05-06 02:12:51', 'HARU', '2024-05-06 02:12:51', 'I');
 
 -- --------------------------------------------------------
 
@@ -5192,8 +5748,8 @@ CREATE TABLE `tbl_ingreso_familiar` (
 --
 
 INSERT INTO `tbl_ingreso_familiar` (`Id_Ficha`, `Id_Productor`, `Id_Ingreso_Familiar`, `Id_Tipo_Negocio`, `Total_Ingreso`, `Id_Periodo_Ingreso`, `Descripcion_Otros`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 300.00, NULL, NULL, NULL, 'HARU', '2024-05-02 02:28:40', NULL, '2024-05-02 02:28:40', 'A'),
-(2, 2, 3, 1, 300.00, NULL, NULL, NULL, 'HARU', '2024-05-02 02:30:51', 'HARU', '2024-05-02 02:30:51', 'A');
+(2, 9, 70, 17, 1.00, NULL, NULL, NULL, 'HARU', '2024-05-06 02:28:47', 'HARU', '2024-05-06 02:28:47', 'A'),
+(1, 8, 71, 17, 1.00, NULL, NULL, NULL, 'HARU', '2024-05-07 04:02:31', 'HARU', '2024-05-07 04:02:31', 'A');
 
 -- --------------------------------------------------------
 
@@ -5226,8 +5782,8 @@ CREATE TABLE `tbl_manejo_riego` (
 --
 
 INSERT INTO `tbl_manejo_riego` (`Id_Manejo_Riego`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Tiene_Riego`, `Superficie_Riego`, `Id_Medida_Superficie_Riego`, `Id_Tipo_Riego`, `Fuente_Agua`, `Disponibilidad_Agua_Meses`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 1, 1, 'S', 22.00, 1, 2, '23', 5, NULL, NULL, 'HARU', '2024-05-02 02:27:33', NULL, '2024-05-02 02:27:33', 'A'),
-(2, 2, 2, 2, 'S', 22.00, 1, 2, '23', 5, NULL, NULL, 'HARU', '2024-05-02 02:27:33', NULL, '2024-05-02 02:27:33', 'A');
+(14, 1, 14, 8, 'S', 100.00, 21, 6, 'prueba', 12, NULL, NULL, 'HARU', '2024-05-06 02:21:59', NULL, '2024-05-06 02:21:59', 'A'),
+(15, 2, 15, 9, 'S', 100.00, 21, 6, 'prueba', 12, NULL, NULL, 'HARU', '2024-05-06 02:21:59', NULL, '2024-05-06 02:21:59', 'A');
 
 --
 -- Disparadores `tbl_manejo_riego`
@@ -5282,7 +5838,7 @@ CREATE TABLE `tbl_medidas_tierra` (
 --
 
 INSERT INTO `tbl_medidas_tierra` (`id_medida`, `medida`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'TAREAS', 'Son 5 tareas', NULL, '2023-11-04 14:08:58', NULL, '2023-11-04 14:08:58', 'ACTIVO'),
+(1, 'TAREAS', 'Son 5 tareas', 'HARU', '2024-05-02 21:54:19', 'HARU', '2024-05-02 21:54:19', 'ACTIVO'),
 (2, 'HA', 'Se compraron 2', 'Daniela', '2024-02-26 03:52:35', 'Daniela', '2024-02-26 03:52:35', 'ACTIVO'),
 (3, 'MZ', 'desc', 'Daniela', '2023-12-11 01:56:55', 'Daniela', '2023-12-11 01:56:55', 'ACTIVO'),
 (4, 'CM', 'CM (Centimetro)', 'manu', '2023-12-11 01:57:01', 'manu', '2023-12-11 01:57:01', 'ACTIVO'),
@@ -5296,7 +5852,9 @@ INSERT INTO `tbl_medidas_tierra` (`id_medida`, `medida`, `descripcion`, `creado_
 (12, 'Botella', 'Botella', 'Daniela', '2024-04-25 21:04:19', 'Daniela', '2024-04-25 21:04:19', 'ACTIVO'),
 (13, 'semanal', 'semanal', 'Haru', '2024-04-25 21:04:28', 'Haru', '2024-04-25 21:04:28', 'ACTIVO'),
 (14, 'mensual', 'mensual', 'Haru', '2024-04-25 21:04:28', 'Haru', '2024-04-25 21:04:28', 'ACTIVO'),
-(15, 'anual', 'anual', 'Haru', '2024-04-25 21:05:35', 'Haru', '2024-04-25 21:05:35', 'ACTIVO');
+(15, 'anual', 'anual', 'Haru', '2024-04-25 21:05:35', 'Haru', '2024-04-25 21:05:35', 'ACTIVO'),
+(21, 'MedidaActiva', 'MedidaActiva', 'HARU', '2024-05-06 02:08:28', NULL, '2024-05-06 02:08:28', 'ACTIVO'),
+(22, 'MedidaInactiva', 'MedidaInactiva', 'HARU', '2024-05-06 02:08:50', 'HARU', '2024-05-06 02:08:50', 'INACTIVO');
 
 --
 -- Disparadores `tbl_medidas_tierra`
@@ -5357,9 +5915,9 @@ CREATE TABLE `tbl_migracion_familiar` (
 --
 
 INSERT INTO `tbl_migracion_familiar` (`id_ficha`, `id_productor`, `id_migracion`, `tiene_migrantes`, `migracion_dentro_pais`, `migracion_fuera_pais`, `id_tipo_motivos`, `remesas`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 'S', 'N', 11, 'S', NULL, 'HARU', '2024-05-02 02:26:53', NULL, '2024-05-02 02:26:53', 'A'),
-(2, 2, 5, 'S', 'S', 'N', 11, 'S', NULL, 'HARU', '2024-05-02 02:31:29', NULL, '2024-05-02 02:31:29', 'A'),
-(2, 2, 6, 'S', 'S', 'N', 11, 'S', NULL, 'HARU', '2024-05-02 02:31:29', NULL, '2024-05-02 02:31:29', 'A');
+(2, 9, 99, 'S', 'S', 'N', 14, 'S', NULL, 'HARU', '2024-05-06 02:28:02', NULL, '2024-05-06 02:28:02', 'A'),
+(5, 12, 100, 'N', 'N', 'N', NULL, 'N', NULL, 'HARU', '2024-05-07 03:57:11', NULL, '2024-05-07 03:57:11', 'A'),
+(1, 8, 102, 'S', 'S', 'N', 14, 'S', NULL, 'HARU', '2024-05-07 04:01:47', NULL, '2024-05-07 04:01:47', 'A');
 
 -- --------------------------------------------------------
 
@@ -5383,11 +5941,12 @@ CREATE TABLE `tbl_motivos_migracion` (
 --
 
 INSERT INTO `tbl_motivos_migracion` (`Id_motivo`, `Motivo`, `Descripcion`, `Creado_por`, `Fecha_creacion`, `Modificado_por`, `Fecha_Actualizacion`, `Estado`) VALUES
-(1, 'Estudio', 'por el Estudio', 'Manuel', '2023-10-31 03:56:32', 'Manuel', '2024-04-27 03:18:16', 'I'),
-(2, 'Trabajo', 'No encuentra Trabajo en el país.', 'manuel', '2023-10-31 04:58:55', 'manuel', '2024-04-27 03:18:16', 'I'),
-(3, 'Violencia', 'Violencia familiar o amenazas', 'Manuel', '2023-10-31 05:07:18', 'Manuel', '2024-04-27 03:18:16', 'I'),
-(4, 'Cambio climático', 'Cambio climático o desastre natural', 'Manuel', '2023-10-31 05:15:26', 'Manuel', '2024-04-27 03:18:16', 'I'),
-(11, 'MotivoMigracion', 'MotivoMigracion', 'Manuel', '2024-04-27 01:34:31', 'Manuel', '2024-04-27 03:18:01', 'A');
+(1, 'Estudio', 'por el Estudio', 'Manuel', '2023-10-31 03:56:32', 'HARU', '2024-05-05 06:17:35', 'A'),
+(2, 'Trabajo', 'No encuentra Trabajo en el país.', 'manuel', '2023-10-31 04:58:55', 'HARU', '2024-05-05 06:17:40', 'A'),
+(3, 'Violencia', 'Violencia familiar o amenazas', 'Manuel', '2023-10-31 05:07:18', 'HARU', '2024-05-05 06:17:43', 'A'),
+(4, 'Cambio climático', 'Cambio climático o desastre natural', 'Manuel', '2023-10-31 05:15:26', 'HARU', '2024-05-05 06:17:47', 'A'),
+(11, 'MotivoMigracion', 'MotivoMigracionINac', 'Manuel', '2024-04-27 01:34:31', 'HARU', '2024-05-06 02:07:37', 'I'),
+(14, 'MotivoActivo', 'MotivoActivo', 'HARU', '2024-05-06 02:07:52', NULL, '2024-05-06 02:07:52', 'A');
 
 --
 -- Disparadores `tbl_motivos_migracion`
@@ -5442,13 +6001,13 @@ CREATE TABLE `tbl_motivos_no_creditos` (
 --
 
 INSERT INTO `tbl_motivos_no_creditos` (`id_motivos_no_credito`, `motivo_no_credito`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Estoy en la central de riesgos', 'Estoy en la central de riesgos', 'HARU', '2024-04-13 15:23:57', 'Haru', '2024-04-27 03:22:45', 'I'),
-(2, 'Son muchos los requisitos', 'Son muchos los requisitos', 'HARU', '2024-04-13 15:24:35', 'Haru', '2024-04-27 03:22:45', 'I'),
-(3, 'No lo he necesitado', 'No lo he necesitado', 'Haru', '2024-04-25 20:29:27', 'Haru', '2024-04-27 03:22:45', 'I'),
-(4, 'No tengo capacidad de pago', 'No tengo capacidad de pago', 'Haru', '2024-04-25 20:29:27', 'Haru', '2024-04-27 03:22:45', 'I'),
-(5, 'Temor al rechazo ', 'Temor al rechazo ', 'Haru', '2024-04-25 20:31:10', 'Haru', '2024-04-27 03:22:45', 'I'),
-(6, 'Temor a no pagarlo ', 'Temor a no pagarlo ', 'Haru', '2024-04-25 20:31:54', 'Haru', '2024-04-27 03:22:45', 'I'),
-(7, 'Tasas de interés muy altas ', 'Tasas de interés muy altas ', 'Haru', '2024-04-25 20:32:24', 'Haru', '2024-04-27 03:22:45', 'I'),
+(1, 'Estoy en la central de riesgos', 'Estoy en la central de riesgos', 'HARU', '2024-04-13 15:23:57', 'HARU', '2024-05-02 17:30:46', 'A'),
+(2, 'Son muchos los requisitos', 'Son muchos los requisitos', 'HARU', '2024-04-13 15:24:35', 'HARU', '2024-05-02 17:30:50', 'A'),
+(3, 'No lo he necesitado', 'No lo he necesitado', 'Haru', '2024-04-25 20:29:27', 'HARU', '2024-05-02 17:30:54', 'A'),
+(4, 'No tengo capacidad de pago', 'No tengo capacidad de pago', 'Haru', '2024-04-25 20:29:27', 'HARU', '2024-05-02 17:30:58', 'A'),
+(5, 'Temor al rechazo ', 'Temor al rechazo ', 'Haru', '2024-04-25 20:31:10', 'HARU', '2024-05-02 17:31:02', 'A'),
+(6, 'Temor a no pagarlo ', 'Temor a no pagarlo ', 'Haru', '2024-04-25 20:31:54', 'HARU', '2024-05-02 17:31:06', 'A'),
+(7, 'Tasas de interés muy altas ', 'Tasas de interés muy altas ', 'Haru', '2024-04-25 20:32:24', 'HARU', '2024-05-06 02:11:55', 'I'),
 (8, 'MNCreActivo', 'MNCreActivo', 'HARU', '2024-04-26 01:45:15', NULL, '2024-04-26 01:45:15', 'A'),
 (9, 'MNCreInactivo', 'MNCreInactivo', 'HARU', '2024-04-26 01:45:29', NULL, '2024-04-27 03:22:45', 'I');
 
@@ -5596,7 +6155,7 @@ INSERT INTO `tbl_municipios` (`Id_Municipio`, `Id_Departamento`, `Nombre_Municip
 (88, 18, 'Morazán', 'Descripción de Morazán', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
 (89, 18, 'Olanchito', 'Descripción de Olanchito', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
 (90, 18, 'Santa Rita', 'Descripción de Santa Rita', 'Admin', '2024-04-25 00:10:12', NULL, '2024-04-25 00:10:12', 'A'),
-(91, 22, 'Activo', 'Activo', 'HARU', '2024-04-26 01:23:28', NULL, '2024-04-26 01:23:28', 'A'),
+(91, 22, 'MunicipioActivo', 'Activo', 'HARU', '2024-04-26 01:23:28', 'HARU', '2024-05-06 02:03:17', 'A'),
 (92, 23, 'MunicipioInactivo', 'MunicipioInactivo', 'HARU', '2024-04-26 01:24:05', 'HARU', '2024-04-26 01:25:30', 'I');
 
 --
@@ -5672,12 +6231,14 @@ CREATE TABLE `tbl_organizaciones` (
 --
 
 INSERT INTO `tbl_organizaciones` (`id_organizacion`, `organizacion`, `id_tipo_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Asociación', 1, 'Cooperativa Sagrada familia', 'manuel', '2024-02-28 04:24:55', 'manuel', '2024-04-27 03:16:48', 'I'),
-(2, 'Cooperativa', 2, 'Cooperativa Elga', 'manuel', '2024-02-28 04:26:28', 'manuel', '2024-04-27 03:16:48', 'I'),
-(3, 'Caja rural', 1, 'sfsdfsdfs', 'Kevin', '2024-03-18 02:44:11', 'Kevin', '2024-04-27 03:16:48', 'I'),
-(4, 'Patronato', 6, 'Patrono', 'Haru', '2024-04-25 21:28:17', 'haru', '2024-04-27 03:16:48', 'I'),
-(5, 'Junta de agua', 7, 'Junta de agua', 'Haru', '2024-04-25 21:29:50', 'Haru', '2024-04-27 03:16:48', 'I'),
-(8, 'Organizacion', 1, 'Organizacion', 'Organizacion', '2024-04-26 01:31:31', 'Organizacion', '2024-04-27 03:16:28', 'A');
+(1, 'Asociación', 10, 'Cooperativa Sagrada familia', 'manuel', '2024-02-28 04:24:55', 'HARU', '2024-05-02 21:49:47', 'A'),
+(2, 'Cooperativa', 2, 'Cooperativa Elga', 'manuel', '2024-02-28 04:26:28', 'HARU', '2024-05-05 06:16:24', 'A'),
+(3, 'Caja rural', 1, 'sfsdfsdfs', 'Kevin', '2024-03-18 02:44:11', 'HARU', '2024-05-05 06:16:27', 'A'),
+(4, 'Patronato', 6, 'Patrono', 'Haru', '2024-04-25 21:28:17', 'HARU', '2024-05-05 06:16:31', 'A'),
+(5, 'Junta de agua', 7, 'Junta de agua', 'Haru', '2024-04-25 21:29:50', 'HARU', '2024-05-05 06:16:35', 'A'),
+(8, 'Organizacion', 1, 'Organizacion', 'Organizacion', '2024-04-26 01:31:31', 'Organizacion', '2024-04-27 03:16:28', 'A'),
+(14, 'OrganizacionActiva', 17, 'OrganizacionActiva', 'HARU', '2024-05-06 02:06:48', NULL, '2024-05-06 02:06:48', 'A'),
+(15, 'OrganizacionInactiva', 17, 'OrganizacionInactiva', 'HARU', '2024-05-06 02:07:02', 'HARU', '2024-05-06 02:07:07', 'I');
 
 --
 -- Disparadores `tbl_organizaciones`
@@ -5734,8 +6295,12 @@ CREATE TABLE `tbl_organizaciones_por_productor` (
 --
 
 INSERT INTO `tbl_organizaciones_por_productor` (`id_ficha`, `id_productor`, `id_organizacion`, `Id_Organizacion_Productor`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 8, 1, NULL, 'HARU', '2024-05-02 02:26:38', NULL, '2024-05-02 02:26:38', 'A'),
-(2, 2, 8, 4, NULL, 'HARU', '2024-05-02 02:31:25', NULL, '2024-05-02 02:31:25', 'A');
+(2, 9, 1, 66, NULL, 'HARU', '2024-05-06 02:27:45', NULL, '2024-05-06 02:27:45', 'A'),
+(2, 9, 2, 67, NULL, 'HARU', '2024-05-06 02:27:45', NULL, '2024-05-06 02:27:45', 'A'),
+(2, 9, 3, 68, NULL, 'HARU', '2024-05-06 02:27:45', NULL, '2024-05-06 02:27:45', 'A'),
+(1, 8, 1, 69, NULL, 'HARU', '2024-05-07 04:01:18', NULL, '2024-05-07 04:01:18', 'A'),
+(1, 8, 2, 70, NULL, 'HARU', '2024-05-07 04:01:18', NULL, '2024-05-07 04:01:18', 'A'),
+(1, 8, 3, 71, NULL, 'HARU', '2024-05-07 04:01:18', NULL, '2024-05-07 04:01:18', 'A');
 
 -- --------------------------------------------------------
 
@@ -5788,7 +6353,9 @@ INSERT INTO `tbl_periodicidad` (`id_periodo`, `periodo`, `descripcion`, `creado_
 (5, 'Semanal', 'Semanal', 'manu', '2023-12-11 01:33:15', 'manu', '2023-12-11 01:33:15', 'A'),
 (6, 'Quincenal', 'Quincenal', 'manu', '2023-12-11 01:34:18', 'manu', '2023-12-11 01:34:18', 'A'),
 (7, 'Mensual', 'Mensual', 'manu', '2023-12-11 01:35:19', 'manu', '2023-12-11 01:35:19', 'A'),
-(14, 'PerInactivo', 'PerInactivo', 'Manuel', '2024-04-26 01:43:54', 'Manuel', '2024-04-27 03:20:11', 'I');
+(14, 'PerInactivo', 'PerInactivo', 'Manuel', '2024-04-26 01:43:54', 'Manuel', '2024-04-27 03:20:11', 'I'),
+(15, 'PerActivo', 'PerActivo', 'Manuel', '2024-05-02 16:39:58', 'HARU', '2024-05-02 17:15:05', 'A'),
+(17, 'PeriodoPrueba', 'PeriodoPrueba', 'HARU', '2024-05-06 02:10:51', NULL, '2024-05-06 02:10:51', 'A');
 
 --
 -- Disparadores `tbl_periodicidad`
@@ -5846,10 +6413,8 @@ CREATE TABLE `tbl_practicas_por_produccion` (
 --
 
 INSERT INTO `tbl_practicas_por_produccion` (`Id_Practica_Produccion`, `Id_Ficha`, `Id_Productor`, `Id_Tipo_Practica`, `Descripcion`, `Id_Usuario`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(1, 1, 1, 12, ' ', NULL, 'HARU', '2024-05-02 02:28:55', NULL, '2024-05-02 02:28:55', 'A'),
-(2, 1, 1, 13, ' ', NULL, 'HARU', '2024-05-02 02:28:55', NULL, '2024-05-02 02:28:55', 'A'),
-(6, 2, 2, 12, ' ', NULL, 'HARU', '2024-05-02 02:30:55', NULL, '2024-05-02 02:30:55', 'A'),
-(7, 2, 2, 13, ' ', NULL, 'HARU', '2024-05-02 02:30:55', NULL, '2024-05-02 02:30:55', 'A');
+(112, 2, 9, 44, ' ', NULL, 'HARU', '2024-05-06 02:28:59', NULL, '2024-05-06 02:28:59', 'A'),
+(113, 1, 8, 44, ' ', NULL, 'HARU', '2024-05-07 04:03:20', NULL, '2024-05-07 04:03:20', 'A');
 
 --
 -- Disparadores `tbl_practicas_por_produccion`
@@ -5915,9 +6480,8 @@ CREATE TABLE `tbl_produccion_agricola_anterior` (
 --
 
 INSERT INTO `tbl_produccion_agricola_anterior` (`Id_Produccion_Anterior`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Cultivo`, `Superficie_Primera_Postrera`, `Id_Medida_Primera_Postrera`, `Produccion_Obtenida`, `Id_Medida_Produccion_Obtenida`, `Cantidad_Vendida`, `Id_Medida_Vendida`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 1, 1, 1, 1, 10, 11.00, 10, 12.00, 10, 1.00, '11', NULL, 'HARU', '2024-05-02 02:28:20', NULL, '2024-05-02 02:28:20', 'A'),
-(2, 2, 2, 2, 1, 1, 10, 11.00, 10, 12.00, 10, 1.00, '11', NULL, 'HARU', '2024-05-02 02:28:20', NULL, '2024-05-02 02:28:20', 'A'),
-(3, 2, 1, 1, 1, 1, 10, 11.00, 10, 12.00, 10, 1.00, '11', NULL, 'HARU', '2024-05-02 02:30:48', NULL, '2024-05-02 02:30:48', 'A');
+(23, 1, 14, 8, 12, 7, 21, 100.00, 21, 100.00, 21, 100.00, 'prueba', NULL, 'HARU', '2024-05-06 02:22:38', NULL, '2024-05-06 02:22:38', 'A'),
+(24, 2, 15, 9, 12, 7, 21, 100.00, 21, 100.00, 21, 100.00, 'prueba', NULL, 'HARU', '2024-05-06 02:22:38', NULL, '2024-05-06 02:22:38', 'A');
 
 -- --------------------------------------------------------
 
@@ -5949,8 +6513,8 @@ CREATE TABLE `tbl_produccion_comercializacion` (
 --
 
 INSERT INTO `tbl_produccion_comercializacion` (`Id_Produccion_Comercio`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Id_Tipo_Produccion`, `Cantidad_Produccion`, `Id_Medida_Produccion`, `Cantidad_Vendida`, `Id_Medida_Venta`, `Precio_Venta`, `A_Quien_Se_Vendio`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 1, NULL, 1, 123.00, 1, 457.00, 'fdsdf', 'HARU', '2024-05-02 02:28:35', NULL, '2024-05-02 02:28:35', 'A'),
-(3, 2, 2, 2, 1, NULL, 1, 123.00, 1, 457.00, 'fdsdf', 'HARU', '2024-05-02 02:30:50', NULL, '2024-05-02 02:30:50', 'A');
+(44, 2, 15, 9, 13, NULL, 15, 100.00, 21, 100.00, 'prueba', 'HARU', '2024-05-06 02:28:44', NULL, '2024-05-06 02:28:44', 'A'),
+(45, 1, 14, 8, 13, NULL, 15, 100.00, 21, 100.00, 'prueba', 'HARU', '2024-05-07 04:02:25', NULL, '2024-05-07 04:02:25', 'A');
 
 -- --------------------------------------------------------
 
@@ -5982,8 +6546,10 @@ CREATE TABLE `tbl_produccion_pecuaria` (
 --
 
 INSERT INTO `tbl_produccion_pecuaria` (`Id_Produccion_Pecuaria`, `Id_Ficha`, `Id_Ubicacion`, `Id_Productor`, `Año_Produccion`, `Id_Tipo_Pecuario`, `Cantidad_Hembras`, `Cantidad_Machos`, `Cantidad_Total`, `Descripcion_Otros`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `Estado`) VALUES
-(1, 1, 1, 1, 0, 1, 2, 0, 2, NULL, NULL, NULL, '2024-05-02 02:28:24', NULL, '2024-05-02 02:28:24', 'A'),
-(3, 2, 2, 2, 0, 1, 2, 0, 2, NULL, NULL, NULL, '2024-05-02 02:30:49', NULL, '2024-05-02 02:30:49', 'A');
+(85, 2, 15, 9, 0, 11, 0, 100, 100, NULL, NULL, NULL, '2024-05-06 02:28:39', NULL, '2024-05-06 02:28:39', 'A'),
+(86, 2, 15, 9, 0, 11, 100, 0, 100, NULL, NULL, NULL, '2024-05-06 02:28:39', NULL, '2024-05-06 02:28:39', 'A'),
+(87, 1, 14, 8, 0, 11, 0, 100, 100, NULL, NULL, NULL, '2024-05-07 04:02:17', NULL, '2024-05-07 04:02:17', 'A'),
+(88, 1, 14, 8, 0, 11, 100, 0, 100, NULL, NULL, NULL, '2024-05-07 04:02:17', NULL, '2024-05-07 04:02:17', 'A');
 
 -- --------------------------------------------------------
 
@@ -6043,8 +6609,19 @@ CREATE TABLE `tbl_productor` (
 --
 
 INSERT INTO `tbl_productor` (`id_ficha`, `id_productor`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `identificacion`, `fecha_nacimiento`, `genero`, `estado_civil`, `nivel_escolaridad`, `ultimo_grado_escolar_aprobado`, `telefono_1`, `telefono_2`, `telefono_3`, `email_1`, `email_2`, `email_3`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-('1', 1, 'Olivia', '', 'Rodrigo', '', 801, '1998-12-01', 'Femenino', 'Soltero(a)', 'secundaria', '8', 98128712, 0, 0, '', '', '', NULL, 'HARU', '2024-05-02 02:26:23', NULL, '2024-05-02 02:26:23', 'A'),
-('2', 2, 'Olivia', '', 'Rodrigo', '', 801, '1998-12-01', 'Femenino', 'Soltero(a)', 'secundaria', '8', 98128712, 0, 0, '', '', '', NULL, 'HARU', '2024-05-02 02:31:23', '0', '2024-05-02 02:31:23', 'A');
+('1', 8, 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 801200105125, '2024-03-12', 'Masculino', 'Soltero(a)', 'secundaria', '6', 31673917, 22222222, 33333333, 'manubara200128@gmail.com', 'prueba@ds.com', 'md@gmail.com', NULL, 'HARU', '2024-05-07 04:01:04', '0', '2024-05-07 04:01:04', 'A'),
+('2', 9, 'prueba', 'Manuel', 'prueba', 'Figueroa Barahona', 801200105125, '2024-04-24', 'Masculino', 'Casado(a)', 'primaria', '4', 31673917, 31673917, 31673917, 'manubara200128@gmail.com', 'manubara200128@gmail.com', 'manubara200128@gmail.com', NULL, 'HARU', '2024-05-06 02:27:34', '0', '2024-05-06 02:27:34', 'A'),
+('3', 10, 'prueba', 'Manuel', 'prueba', 'Figueroa Barahona', 801200105125, '2024-04-30', 'Femenino', 'Soltero(a)', 'secundaria', '4', 31673917, 31673917, 31673917, 'prueba@ds.com', 'prueba@ds.com', 'prueba@ds.com', NULL, 'HARU', '2024-05-03 02:25:53', NULL, '2024-05-03 02:25:53', 'A'),
+('4', 11, 'prueba', 'Manuel', 'prueba', 'Figueroa Barahona', 801200105125, '2024-04-30', 'Femenino', 'Soltero(a)', 'secundaria', '4', 31673917, 31673917, 31673917, 'prueba@ds.com', 'prueba@ds.com', 'prueba@ds.com', NULL, 'HARU', '2024-05-03 17:34:40', '0', '2024-05-03 17:34:40', 'A'),
+('5', 12, 'Francisco Morazan', 'jesus', 'figueroa', 'barahona', 23131654, '2021-12-27', 'Masculino', 'Unión libre', 'primaria', '4', 31313131, 31673917, 32058341, 'manubara200128@gmail.com', 'manubara200128@gmail.com', 'manubara200128@gmail.com', NULL, 'HARU', '2024-05-03 23:26:43', '0', '2024-05-03 23:26:43', 'A'),
+('6', 13, 'Francisco Morazan', 'jesus', 'figueroa', 'barahona', 23131654, '2021-12-27', 'Masculino', 'Casado(a)', 'secundaria', '4', 31313131, 31673917, 32058341, 'manubara200128@gmail.com', 'manubara200128@gmail.com', 'manubara200128@gmail.com', NULL, 'HARU', '2024-05-05 06:21:22', '0', '2024-05-05 06:21:22', 'A'),
+('7', 14, 'Francisco Morazan', 'jesus', 'figueroa', 'barahona', 23131654, '2022-11-08', 'Masculino', 'Casado(a)', 'primaria', '4', 31313131, 31673917, 32058341, 'manubara200128@gmail.com', 'manubara200128@gmail.com', 'manubara200128@gmail.com', NULL, 'HARU', '2024-05-05 19:49:49', '0', '2024-05-05 19:49:49', 'A'),
+('8', 15, 'Francisco Morazan', 'jesus', 'figueroa', 'barahona', 23131654, '2022-11-08', 'Masculino', 'Casado(a)', 'primaria', '4', 31313131, 31673917, 32058341, 'manubara200128@gmail.com', 'manubara200128@gmail.com', 'manubara200128@gmail.com', NULL, 'HARU', '2024-05-05 20:08:09', '0', '2024-05-05 20:08:09', 'A'),
+('1', 16, 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 801200105125, '2024-03-12', 'Masculino', 'Soltero(a)', 'secundaria', '6', 31673917, 22222222, 33333333, 'manubara200128@gmail.com', 'prueba@ds.com', 'md@gmail.com', NULL, 'HARU', '2024-05-07 04:01:04', '0', '2024-05-07 04:01:04', 'A'),
+('1', 17, 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 'PruebaFInalEvaluacion', 801200105125, '2024-03-12', 'Masculino', 'Soltero(a)', 'secundaria', '6', 31673917, 22222222, 33333333, 'manubara200128@gmail.com', 'prueba@ds.com', 'md@gmail.com', NULL, 'HARU', '2024-05-07 04:01:04', '0', '2024-05-07 04:01:04', 'A'),
+('2', 18, 'prueba', 'Manuel', 'prueba', 'Figueroa Barahona', 801200105125, '2024-04-24', 'Masculino', 'Casado(a)', 'primaria', '4', 31673917, 31673917, 31673917, 'manubara200128@gmail.com', 'manubara200128@gmail.com', 'manubara200128@gmail.com', NULL, 'HARU', '2024-05-06 02:27:34', '0', '2024-05-06 02:27:34', 'A'),
+('4', 19, 'manuel', 'jesus', 'Figueroa ', 'Barahona', 801200105125, '2024-05-06', 'Masculino', 'Casado(a)', 'universitaria', '4', 31673917, 31673917, 31673917, 'manubara200128@gmail.com', 'manubara200128@gmail.com', 'manubara200128@gmail.com', NULL, 'HARU', '2024-05-07 03:44:01', NULL, '2024-05-07 03:44:01', 'A'),
+('5', 20, '', '', '', '', 0, '0000-00-00', '', '', '', '', 0, 0, 0, '', '', '', NULL, 'HARU', '2024-05-07 03:56:02', NULL, '2024-05-07 03:56:02', 'A');
 
 -- --------------------------------------------------------
 
@@ -6074,8 +6651,8 @@ CREATE TABLE `tbl_productor_actividad_externa` (
 --
 
 INSERT INTO `tbl_productor_actividad_externa` (`id_actividad_ext`, `id_ficha`, `id_productor`, `miembros_realizan_actividades_fuera_finca`, `cuantos_miembros`, `trabajadores_temporales`, `trabajadores_permanentes`, `id_tomador_decisiones`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 1, 2, 2, 6, NULL, 'HARU', '2024-05-02 02:28:52', NULL, '2024-05-02 02:28:52', 'A'),
-(3, 2, 2, 'S', 1, 2, 2, 6, NULL, 'HARU', '2024-05-02 02:30:53', NULL, '2024-05-02 02:30:53', 'A');
+(55, 2, 9, 'S', 100, 100, 100, 9, NULL, 'HARU', '2024-05-06 02:28:54', NULL, '2024-05-06 02:28:54', 'A'),
+(56, 1, 8, 'S', 100, 100, 100, 9, NULL, 'HARU', '2024-05-07 04:02:48', NULL, '2024-05-07 04:02:48', 'A');
 
 -- --------------------------------------------------------
 
@@ -6102,8 +6679,9 @@ CREATE TABLE `tbl_relevo_organizacion` (
 --
 
 INSERT INTO `tbl_relevo_organizacion` (`id_ficha`, `id_productor`, `Id_Relevo`, `tendra_relevo`, `cuantos_relevos`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 'S', 2, NULL, 'HARU', '2024-05-02 02:26:49', NULL, '2024-05-02 02:26:49', 'A'),
-(2, 2, 2, 'S', 2, NULL, 'HARU', '2024-05-02 02:26:49', 'HARU', '2024-05-02 02:31:28', 'A');
+(1, 8, 15, 'S', 12, NULL, 'HARU', '2024-05-06 02:20:17', 'HARU', '2024-05-07 04:01:40', 'A'),
+(2, 9, 16, 'S', 12, NULL, 'HARU', '2024-05-06 02:20:17', 'HARU', '2024-05-06 02:27:59', 'A'),
+(5, 12, 17, 'N', 0, NULL, 'HARU', '2024-05-07 03:57:04', NULL, '2024-05-07 03:57:04', 'A');
 
 -- --------------------------------------------------------
 
@@ -6128,7 +6706,9 @@ CREATE TABLE `tbl_siembra` (
 INSERT INTO `tbl_siembra` (`Id_siembra`, `Tipo_siembra`, `Creado_Por`, `Fecha_Creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Estado`) VALUES
 (1, 'Primera', 'Haru', '2024-04-29 06:08:41', 'Haru', '2024-04-29 06:08:41', 'A'),
 (2, 'Postrera', 'Haru', '2024-04-29 06:09:15', 'Haru', '2024-04-29 06:09:15', 'A'),
-(6, 'sdfdsf', 'HARU', '2024-05-01 21:17:33', '', '2024-05-02 02:31:39', 'I');
+(6, 'sdfdsf', 'HARU', '2024-05-01 21:17:33', '', '2024-05-02 02:31:39', 'I'),
+(7, 'ACtiva', 'HARU', '2024-05-06 02:00:07', '', '2024-05-06 02:00:07', 'A'),
+(8, 'SiembreInactiva', 'HARU', '2024-05-06 02:00:41', '', '2024-05-06 02:00:41', 'I');
 
 -- --------------------------------------------------------
 
@@ -6243,7 +6823,7 @@ CREATE TABLE `tbl_tipo_cultivo` (
 --
 
 INSERT INTO `tbl_tipo_cultivo` (`id_tipo_cultivo`, `tipo_cultivo`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Maiz', 'Maiz amarillo', 'Manuel', '2023-12-01 04:18:29', NULL, '2023-11-02 04:18:29', 'ACTIVO'),
+(1, 'Maiz', 'Maiz amarillo', 'Manuel', '2023-12-01 04:18:29', 'HARU', '2024-05-02 21:56:32', 'ACTIVO'),
 (2, 'Cafe', 'Cafe de palo', 'Haru', '2024-04-26 00:30:34', 'Haru', '2024-04-26 00:30:34', 'ACTIVO'),
 (3, 'Frijol', 'Frijol', 'Haru', '2024-04-26 00:31:10', 'Haru', '2024-04-26 00:31:10', 'ACTIVO'),
 (4, 'Palma', 'Palma', 'Manuel', '2023-11-02 05:10:49', 'Manuel', '2024-04-26 00:33:17', 'ACTIVO'),
@@ -6301,7 +6881,7 @@ CREATE TABLE `tbl_tipo_negocios` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('A','I') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -6309,18 +6889,19 @@ CREATE TABLE `tbl_tipo_negocios` (
 --
 
 INSERT INTO `tbl_tipo_negocios` (`id_tipo_negocio`, `tipo_negocio`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Venta de servicio', 'Venta de servicios', 'Kevin', '2023-12-11 09:36:51', 'Kevin', '2023-12-11 09:36:51', ''),
-(2, 'Jornal agricola', 'Jornal agricola', 'Kevin', '2024-04-25 20:57:53', 'Kevin', '2024-04-25 20:57:53', ''),
-(3, 'Corte de café', 'Café', NULL, '2024-04-25 20:57:57', NULL, '2024-04-25 20:57:57', ''),
-(4, 'Jornal no agrícola', 'Jornal no agrícola', NULL, '2024-04-25 20:58:01', NULL, '2024-04-25 20:58:01', ''),
-(5, 'Alquileres', 'Alquileres', NULL, '2024-04-25 20:58:04', NULL, '2024-04-25 20:58:04', ''),
-(6, 'Remesa del exterior', 'Remesa del exterior', NULL, '2024-04-25 20:58:13', NULL, '2024-04-25 20:58:13', ''),
-(7, 'Remesa nacional', 'Remesa nacional', NULL, '2024-04-25 20:58:16', NULL, '2024-04-25 20:58:16', ''),
-(8, 'Bono (10 mil, 3ra edad, escolar)', 'Bono(10 mil, 3ra edad, escolar)', NULL, '2024-04-25 20:59:30', NULL, '2024-04-25 20:59:30', ''),
-(9, 'Salario profesional', 'Salario profesional', NULL, '2024-04-25 20:58:23', NULL, '2024-04-25 20:58:23', ''),
-(10, 'Artesanía', 'Artesanía', NULL, '2024-04-25 20:58:27', NULL, '2024-04-25 20:58:27', ''),
-(11, 'Negocio', 'Negocio', 'Kevin', '2024-04-25 21:01:35', 'Kevin', '2024-04-25 21:01:35', ''),
-(14, 'NegInactivo', 'NegInactivo', 'Kevin', '2024-04-26 01:44:48', 'Kevin', '2024-04-26 01:44:48', '');
+(1, 'Venta de servicio', 'Venta de servicios', 'Kevin', '2024-05-02 17:18:30', 'Kevin', '2024-05-02 17:18:30', 'A'),
+(2, 'Jornal agricola', 'Jornal agricola', 'Kevin', '2024-05-02 17:18:30', 'Kevin', '2024-05-02 17:18:30', 'A'),
+(3, 'Corte de café', 'Café', NULL, '2024-05-02 17:18:30', NULL, '2024-05-02 17:18:30', 'A'),
+(4, 'Jornal no agrícola', 'Jornal no agrícola', NULL, '2024-05-02 17:18:30', NULL, '2024-05-02 17:18:30', 'A'),
+(5, 'Alquileres', 'Alquileres', NULL, '2024-05-02 17:18:30', NULL, '2024-05-02 17:18:30', 'A'),
+(6, 'Remesa del exterior', 'Remesa del exterior', NULL, '2024-05-02 17:18:30', NULL, '2024-05-02 17:18:30', 'A'),
+(7, 'Remesa nacional', 'Remesa nacional', NULL, '2024-05-02 17:18:30', NULL, '2024-05-02 17:18:30', 'A'),
+(8, 'Bono (10 mil, 3ra edad, escolar)', 'Bono(10 mil, 3ra edad, escolar)', NULL, '2024-05-02 17:18:30', NULL, '2024-05-02 17:18:30', 'A'),
+(9, 'Salario profesional', 'Salario profesional', NULL, '2024-05-02 17:18:30', NULL, '2024-05-02 17:18:30', 'A'),
+(10, 'Artesanía', 'Artesanía', NULL, '2024-05-02 17:18:30', NULL, '2024-05-02 17:18:30', 'A'),
+(11, 'Negocio', 'Negocio', 'Kevin', '2024-05-02 17:18:30', 'Kevin', '2024-05-02 17:18:30', 'A'),
+(14, 'NegInactivo', 'NegInactivo', 'Kevin', '2024-05-02 17:24:53', 'HARU', '2024-05-02 17:24:53', 'I'),
+(17, 'TNegocioActivo', 'TNegocioActivo', 'HARU', '2024-05-06 02:11:22', NULL, '2024-05-06 02:11:22', 'A');
 
 --
 -- Disparadores `tbl_tipo_negocios`
@@ -6375,14 +6956,21 @@ CREATE TABLE `tbl_tipo_organizacion` (
 --
 
 INSERT INTO `tbl_tipo_organizacion` (`id_tipo_organizacion`, `tipo_organizacion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Asociación', 'Gobierno', '1', '2024-04-27 03:13:27', '1', '2024-04-27 03:13:27', 'I'),
-(2, 'Cooperativa', 'ONG', 'manu', '2024-04-27 03:13:27', 'manu', '2024-04-27 03:13:27', 'I'),
-(5, 'Caja rural', 'Amigo', 'Kevin', '2024-04-27 03:13:27', 'Kevin', '2024-04-27 03:13:27', 'I'),
-(6, 'Patronato', 'Cooperativa', 'Kevin', '2024-04-27 03:13:27', 'Kevin', '2024-04-27 03:13:27', 'I'),
-(7, 'Junta de agua', 'FAO', 'Kevin', '2024-04-27 03:13:27', 'Kevin', '2024-04-27 03:13:27', 'I'),
-(8, 'ORGACtiva', 'ORGActivo', 'Kevin', '2024-05-02 10:15:40', 'HARU', '2024-05-02 10:15:40', 'A'),
-(9, 'tbl_tipo_organizacion', 'tbl_tipo_organizacion', 'tbl_tipo_organizacion', '2024-04-27 03:12:27', 'tbl_tipo_organizacion', '2024-04-27 03:12:27', 'A'),
-(10, 'Preuena', 'TierrasSana', 'Kevin', '2024-05-02 10:15:57', 'HARU', '2024-05-02 10:15:57', 'A');
+(1, 'Crédito', 'Gobierno', 'Haru', '2024-05-05 06:15:56', 'HARU', '2024-05-05 06:15:56', 'A'),
+(2, 'Capacitación', 'ONG', 'manu', '2024-05-05 06:15:51', 'HARU', '2024-05-05 06:15:51', 'A'),
+(5, 'Sistema de riego', 'Sistema de riego', 'Kevin', '2024-05-05 06:16:00', 'HARU', '2024-05-05 06:16:00', 'A'),
+(6, 'Cosechadoras de agua', 'Cosechadoras de agua', 'Kevin', '2024-05-05 06:16:04', 'HARU', '2024-05-05 06:16:04', 'A'),
+(7, 'Semilla', 'Semilla', 'Kevin', '2024-05-05 06:16:08', 'HARU', '2024-05-05 06:16:08', 'A'),
+(8, 'Asistencia técnica', 'Asistencia técnica', 'Kevin', '2024-05-05 06:12:42', 'HARU', '2024-05-05 06:12:42', 'A'),
+(9, 'Equipo agrícola', 'Equipo agrícola', 'tbl_tipo_organizacion', '2024-05-05 06:12:56', 'HARU', '2024-05-05 06:12:56', 'A'),
+(10, 'Preuena', 'TierrasSana', 'Kevin', '2024-05-02 10:15:57', 'HARU', '2024-05-02 10:15:57', 'A'),
+(12, 'Pie de cría', 'Pie de cría', 'HARU', '2024-05-05 06:13:13', NULL, '2024-05-05 06:13:13', 'A'),
+(13, 'Fertilizante', 'Fertilizante', 'HARU', '2024-05-05 06:13:24', NULL, '2024-05-05 06:13:24', 'A'),
+(14, 'Herramientas de trabajo', 'Herramientas de trabajo', 'HARU', '2024-05-05 06:13:36', NULL, '2024-05-05 06:13:36', 'A'),
+(15, 'Silos', 'Silos', 'HARU', '2024-05-05 06:13:44', NULL, '2024-05-05 06:13:44', 'A'),
+(16, 'Información de precios', 'Información de precios', 'HARU', '2024-05-05 06:13:58', NULL, '2024-05-05 06:13:58', 'A'),
+(17, 'TipoORGActivo', 'TipoORGActivo', 'HARU', '2024-05-06 02:06:09', NULL, '2024-05-06 02:06:09', 'A'),
+(18, 'TipoORGInactiva', 'TipoORGInactiva', 'HARU', '2024-05-06 02:06:25', 'HARU', '2024-05-06 02:06:25', 'I');
 
 --
 -- Disparadores `tbl_tipo_organizacion`
@@ -6447,8 +7035,8 @@ INSERT INTO `tbl_tipo_pecuarios` (`id_tipo_pecuario`, `tipo_pecuario`, `raza_con
 (7, 'Peces', 'n', 'Peces', 'manu', '2023-12-11 01:13:38', 'manu', '2024-04-25 21:14:23', 'A'),
 (8, 'Camarones', 'n', 'Camarones', 'manu', '2023-12-11 01:14:08', 'manu', '2023-12-11 01:14:08', 'A'),
 (9, 'Otros', 'n', 'Otras especies', 'manu', '2023-12-11 01:14:44', 'manu', '2024-04-25 23:43:20', 'I'),
-(11, 'PeActivo', 's', 'PeActivo', 'HARU', '2024-04-26 01:41:07', NULL, '2024-04-26 01:41:07', 'A'),
-(12, '', 's', 'PeInactivo', 'HARU', '2024-04-26 01:41:22', 'HARU', '2024-04-26 01:41:31', 'I');
+(11, 'ActivoPEA', 's', 'ActivoPEA', 'HARU', '2024-04-26 01:41:07', 'HARU', '2024-05-06 02:09:39', 'A'),
+(12, 'PeInactivo', 's', 'PeInactivo', 'HARU', '2024-04-26 01:41:22', 'HARU', '2024-05-02 16:26:03', 'I');
 
 --
 -- Disparadores `tbl_tipo_pecuarios`
@@ -6503,7 +7091,7 @@ CREATE TABLE `tbl_tipo_practicas_productivas` (
 --
 
 INSERT INTO `tbl_tipo_practicas_productivas` (`id_tipo_practica`, `tipo_practica`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Quema', NULL, NULL, '2024-04-27 03:25:15', NULL, '2024-04-27 03:25:15', 'I'),
+(1, 'Quema', 'Quema', 'haru', '2024-05-02 22:20:13', NULL, '2024-05-02 22:20:13', 'I'),
 (2, 'Riega', NULL, NULL, '2024-04-27 03:25:21', NULL, '2024-04-27 03:25:21', 'I'),
 (3, 'Manejo de rastrojo', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
 (4, 'Cero labranzas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
@@ -6542,7 +7130,9 @@ INSERT INTO `tbl_tipo_practicas_productivas` (`id_tipo_practica`, `tipo_practica
 (37, 'Aplicación de vacunas', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
 (38, 'Vitaminas', 'Vitaminas', NULL, '2024-04-25 23:26:06', NULL, '2024-04-25 23:26:06', 'I'),
 (39, 'Preparación de suelo con tracción animal', NULL, NULL, '2023-12-12 17:05:48', NULL, '2023-12-12 17:05:48', 'A'),
-(41, 'PPInactivas', 'PPInactivas', 'Manuel', '2024-04-26 01:50:26', 'Manuel', '2024-04-26 01:50:26', '');
+(41, 'PPInactivas', 'PPInactivas', 'Manuel', '2024-04-26 01:50:26', 'Manuel', '2024-04-26 01:50:26', ''),
+(44, 'PPActivas', 'PPActivas', 'HARU', '2024-05-02 19:54:06', NULL, '2024-05-02 19:54:06', 'A'),
+(45, 'InactivaPP', 'InactivaPP', 'HARU', '2024-05-06 02:14:13', 'HARU', '2024-05-06 02:14:13', 'I');
 
 -- --------------------------------------------------------
 
@@ -6558,7 +7148,7 @@ CREATE TABLE `tbl_tipo_produccion` (
   `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `modificado_por` varchar(255) DEFAULT NULL,
   `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `estado` enum('ACTIVO','INACTIVO','','') DEFAULT NULL
+  `estado` enum('A','I') DEFAULT 'A'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -6566,13 +7156,14 @@ CREATE TABLE `tbl_tipo_produccion` (
 --
 
 INSERT INTO `tbl_tipo_produccion` (`id_tipo_produccion`, `tipo_produccion`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Producción de leche', 'Leche', '1', '2024-04-26 00:25:24', '1', '2024-04-26 00:25:24', 'ACTIVO'),
-(2, 'Producción de carne', 'Carne', 'Kevin', '2024-04-26 00:25:30', 'Kevin', '2024-04-26 00:25:30', 'ACTIVO'),
-(3, 'Producción de derivados de leche', 'Derivados de la leche', 'Kevin', '2024-04-26 00:25:40', 'Kevin', '2024-04-26 00:25:40', 'ACTIVO'),
-(4, 'Producción de huevos', 'Huevos', 'Kevin', '2024-04-26 00:25:49', 'Kevin', '2024-04-26 00:25:49', 'ACTIVO'),
-(5, 'Producción apícola ', 'Apicola', 'manu', '2024-04-26 00:25:57', 'manu', '2024-04-26 00:25:57', 'ACTIVO'),
-(6, 'Producto de Transformación', 'Transformación', 'manu', '2024-04-26 00:26:08', 'manu', '2024-04-26 00:26:08', 'ACTIVO'),
-(12, 'ProInactivo', 'ProInactivo', 'Kevin', '2024-04-26 01:43:26', 'Kevin', '2024-04-26 01:43:26', '');
+(1, 'Producción de leche', 'Leche', 'HARU', '2024-05-02 21:58:50', 'HARU', '2024-05-02 21:58:50', 'A'),
+(2, 'Producción de carne', 'Carne', 'Kevin', '2024-05-02 16:33:42', 'Kevin', '2024-05-02 16:33:42', 'A'),
+(3, 'Producción de derivados de leche', 'Derivados de la leche', 'Kevin', '2024-05-02 16:33:42', 'Kevin', '2024-05-02 16:33:42', 'A'),
+(4, 'Producción de huevos', 'Huevos', 'Kevin', '2024-05-02 16:33:42', 'Kevin', '2024-05-02 16:33:42', 'A'),
+(5, 'Producción apícola ', 'Apicola', 'manu', '2024-05-02 16:33:42', 'manu', '2024-05-02 16:33:42', 'A'),
+(6, 'Producto de Transformación', 'Transformación', 'manu', '2024-05-06 02:10:15', 'HARU', '2024-05-06 02:10:15', 'I'),
+(12, 'ProInactivo', 'ProInactivo', 'Kevin', '2024-05-02 16:33:51', 'Kevin', '2024-05-02 16:33:51', 'I'),
+(13, 'ProActivo', 'TierrasSana1', 'HARU', '2024-05-02 16:38:53', 'HARU', '2024-05-02 16:38:53', 'A');
 
 --
 -- Disparadores `tbl_tipo_produccion`
@@ -6714,12 +7305,13 @@ CREATE TABLE `tbl_toma_decisiones` (
 --
 
 INSERT INTO `tbl_toma_decisiones` (`id_tipo_tomador`, `tomador`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 'Esposo', 'Esposo', 'Daniela', '2024-04-27 03:23:44', 'Daniela', '2024-04-27 03:23:44', 'I'),
-(2, 'Esposa', 'Esposa', 'Daniela', '2024-04-27 03:23:44', 'Daniela', '2024-04-27 03:23:44', 'I'),
-(3, 'Consenso en Familia', 'Consenso en Familia', 'Daniela', '2024-04-25 23:31:05', 'Daniela', '2024-04-25 23:31:05', 'I'),
-(4, 'Un familiar', 'Un familiar toma las deciones', 'Haru', '2024-04-27 03:23:44', 'Haru', '2024-04-27 03:23:44', 'I'),
-(5, 'Un administrador', 'El administrador toma la decision', 'Haru', '2024-04-27 03:23:44', 'Haru', '2024-04-27 03:23:44', 'I'),
-(6, 'TomaDInactivo', 'TomaDInactivo', 'Daniela', '2024-04-27 03:23:23', 'Daniela', '2024-04-27 03:23:23', 'A');
+(1, 'Esposo', 'Esposo', 'Daniela', '2024-05-02 19:47:39', 'HARU', '2024-05-02 19:47:39', 'A'),
+(2, 'Esposa', 'Esposa', 'Daniela', '2024-05-02 19:47:43', 'HARU', '2024-05-02 19:47:43', 'A'),
+(3, 'Consenso en Familia', 'Consenso en Familia', 'Daniela', '2024-05-02 19:47:46', 'HARU', '2024-05-02 19:47:46', 'A'),
+(4, 'Un familiar', 'Un familiar toma las deciones', 'Haru', '2024-05-02 19:47:51', 'HARU', '2024-05-02 19:47:51', 'A'),
+(5, 'Un administrador', 'El administrador toma la decision', 'Haru', '2024-05-02 19:47:56', 'HARU', '2024-05-02 19:47:56', 'A'),
+(6, 'TomaDInactivo', 'TomaDInactivo', 'Daniela', '2024-05-02 19:47:11', 'HARU', '2024-05-02 19:47:11', 'I'),
+(9, 'TomaDActivo', 'TomaDActivo', 'HARU', '2024-05-06 02:13:21', NULL, '2024-05-06 02:13:21', 'A');
 
 --
 -- Disparadores `tbl_toma_decisiones`
@@ -6809,8 +7401,8 @@ CREATE TABLE `tbl_ubicacion_productor` (
 --
 
 INSERT INTO `tbl_ubicacion_productor` (`id_ficha`, `id_productor`, `id_ubicacion`, `Id_Departamento`, `Id_Municipio`, `Id_Aldea`, `Id_Cacerio`, `ubicacion_geografica`, `distancia_parcela_vivienda`, `latitud_parcela`, `longitud_parcela`, `msnm`, `direccion_1`, `direccion_2`, `direccion_3`, `vive_en_finca`, `nombre_finca`, `descripcion`, `creado_por`, `fecha_creacion`, `modificado_por`, `fecha_modificacion`, `estado`) VALUES
-(1, 1, 1, 2, 7, 32, 1, 'Col. Quezada', 0.00, '', '', 0.00, ' Calle Principal', '', '', 'N', '', NULL, 'HARU', '2024-05-02 02:26:32', NULL, '2024-05-02 06:11:32', 'A'),
-(2, 2, 2, 2, 7, 32, 1, 'Col. Kennedy', 0.00, '', '', 0.00, ' Avenida 19 Calle principal', '', '', 'N', '', NULL, 'HARU', '2024-05-02 02:26:32', 'HARU', '2024-05-02 06:11:12', 'A');
+(1, 8, 14, 22, 91, 151, 9, 'PruebaFInalEvaluacion', 12.00, '12', '12', 12.00, ' PruebaFInalEvaluacion', 'PruebaFInalEvaluacion2', 'PruebaFInalEvaluacion3', 'S', 'PruebaFInalEvaluacion', NULL, 'HARU', '2024-05-06 02:18:29', 'HARU', '2024-05-07 04:01:13', 'A'),
+(2, 9, 15, 22, 91, 151, 9, 'PruebaFInalEvaluacion', 12.00, '12', '12', 12.00, ' PruebaFInalEvaluacion', 'PruebaFInalEvaluacion2', 'PruebaFInalEvaluacion3', 'S', 'PruebaFInalEvaluacion', NULL, 'HARU', '2024-05-06 02:18:29', 'HARU', '2024-05-06 02:27:42', 'A');
 
 -- --------------------------------------------------------
 
@@ -6857,8 +7449,8 @@ CREATE TABLE `tbl_unidad_productora` (
 --
 
 INSERT INTO `tbl_unidad_productora` (`Id_Ubicacion`, `Id_Ficha`, `Id_Unidad_Productiva`, `Id_Productor`, `Tipo_De_Manejo`, `Superficie_Produccion`, `Id_Medida_Produccion`, `Superficie_Agricultura`, `Id_Medida_Agricultura`, `rubro_agricultura`, `Superficie_Ganaderia`, `Id_Medida_Ganaderia`, `rubro_ganaderia`, `Superficie_Apicultura`, `Id_Medida_Apicultura`, `Superficie_Forestal`, `Id_Medida_Forestal`, `rubro_forestal`, `Id_Superficie_Acuacultura`, `Superficie_Acuacultura`, `Numero_Estanques`, `Id_Superficie_Agroturismo`, `Superficie_Agroturismo`, `Superficie_Otros`, `Otros_Descripcion`, `Descripcion`, `Creado_Por`, `Fecha_Creacion`, `Modificado_Por`, `Fecha_Modificacion`, `estado`) VALUES
-(1, 1, 1, 1, 'Propia', NULL, 1, 12.00, 1, 'dfsdfsd', 12.00, 1, 'fsdfsdf', 12.00, 1, 12.00, 9, 'sdfsdf', 7, 23.00, 0, 7, 1.00, NULL, 'fdfs', NULL, 'HARU', '2024-05-02 02:27:32', NULL, '2024-05-02 02:27:32', 'A'),
-(2, 2, 2, 2, 'Propia', NULL, 1, 12.00, 1, 'dfsdfsd', 12.00, 1, 'fsdfsdf', 12.00, 1, 12.00, 9, 'sdfsdf', 7, 23.00, 0, 7, 1.00, NULL, 'fdfs', NULL, 'HARU', '2024-05-02 02:27:32', 'HARU', '2024-05-02 02:31:32', 'A');
+(14, 1, 14, 8, 'Propia', NULL, 21, 21.00, 100, 'prueba', 100.00, 21, 'prueba', 100.00, 21, 100.00, 21, 'prueba', 21, 100.00, 100, 21, 100.00, NULL, 'prueba', NULL, 'HARU', '2024-05-06 02:21:59', 'HARU', '2024-05-07 04:02:02', 'A'),
+(15, 2, 15, 9, 'Propia', NULL, 21, 21.00, 100, 'prueba', 100.00, 21, 'prueba', 100.00, 21, 100.00, 21, 'prueba', 21, 100.00, 100, 21, 100.00, NULL, 'prueba', NULL, 'HARU', '2024-05-06 02:21:59', 'HARU', '2024-05-06 02:28:09', 'A');
 
 -- --------------------------------------------------------
 
@@ -6885,8 +7477,8 @@ CREATE TABLE `tbl_venta_pecuario` (
 --
 
 INSERT INTO `tbl_venta_pecuario` (`Id_ficha`, `Id_productor`, `Tipo_pecurio`, `Precio_venta`, `Unidad_medida`, `Mercado`, `Creado_Por`, `Fecha_creacion`, `Actualizado_por`, `Fecha_Actualizacion`, `Estado`) VALUES
-(1, 1, 1, 1299, 1, '3', 'HARU', '2024-05-02 02:28:29', NULL, '2024-05-02 02:28:29', 'A'),
-(2, 2, 1, 1299, 1, '3', 'HARU', '2024-05-02 02:30:49', NULL, '2024-05-02 02:30:49', 'A');
+(2, 9, 11, 100, 21, 'prueba', 'HARU', '2024-05-06 02:28:39', NULL, '2024-05-06 02:28:39', 'A'),
+(1, 8, 11, 100, 21, 'prueba', 'HARU', '2024-05-07 04:02:17', NULL, '2024-05-07 04:02:17', 'A');
 
 -- --------------------------------------------------------
 
@@ -6921,12 +7513,12 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`Id_Usuario`, `id_rol`, `nombre_completo`, `correo`, `usuario`, `contrasena`, `Token`, `Fecha_Vencimiento_Token`, `fecha_creacion`, `Actualizado_Por`, `Fecha_Actualizacion`, `Preguntas_Contestadas`, `Estado`, `id_estado`, `Primera_Vez`, `fecha_vencimiento`, `Intentos_Preguntas`, `Preguntas_Correctas`, `Intentos_Fallidos`) VALUES
-(1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', NULL, '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 'ACTIVO', 1, 'SI', '2023-10-31 06:00:00', NULL, NULL, 0),
+(1, 1, 'manuel', 'manuel@gmail.com', 'manu', '123', '1', NULL, '2023-10-29 01:48:15', 1, '2023-10-30 01:48:15', 1, 'ACTIVO', 1, 'SI', '2023-10-31 06:00:00', NULL, NULL, 1),
 (9, 1, 'MANUEL FIGUEROA', 'manuelfigueroa2818@gmail.com', 'HARU', '$2y$10$zRXi8ImgUMfdkZsNdySI9ewwh2FyTNdzZiFWux.DdA7g/33DnadOW', NULL, NULL, '2023-12-10 14:00:24', 0, '2023-12-10 07:00:24', 0, 'ACTIVO', 1, 'SI', '1970-01-01 07:00:00', NULL, NULL, 0),
 (11, 2, 'MANUEL FIGUEROA BARAHONA', 'mdfigueroa@unah.hn', 'MANUBARA', '$2y$10$UF/ahTJn5okUojk8aTN/uOiuWNJ2AnDdySKNNewLKLaC7WtZORzTu', NULL, NULL, '2023-12-10 22:25:54', 0, '2023-12-10 15:25:54', 0, 'ACTIVO', 1, 'SI', '2024-12-04 22:25:54', NULL, NULL, 0),
 (13, 1, 'Enrique', 'manuelfigueroa2818@gmail.com', 'Enri', '$2y$10$pwhObKfogmDRxnB57iSfr.ux6s2E3HJYB6snkAg8LXmRaxrOAfiK6', NULL, NULL, '2024-02-18 20:26:49', 0, '2024-02-18 20:26:49', 0, 'ACTIVO', 4, 'SI', '2024-02-18 20:26:49', NULL, NULL, NULL),
 (14, 1, 'USUARIO', 'usuario@usuario.com', 'USUARIO', '$2y$10$LVE7hGMrlZWH/HaRI5HBi.LZRKjNwUzXVvBUnEDpvQeZoZi78DTHS', NULL, NULL, '2024-04-29 01:25:52', 0, '2024-04-28 17:25:52', 0, 'ACTIVO', 1, 'SI', '2025-04-24 01:25:52', NULL, NULL, 0),
-(16, 1, 'CARLOS VACA', 'opcional@gmail.com', 'carlos vaca', '$2y$10$lxplkn3DdFl6Rpud.UdPK.dTuY/xFh87NXLAuc5tb/j8FVmuerVGO', NULL, NULL, '2024-05-02 08:28:03', 0, '2024-05-02 08:28:03', 0, 'ACTIVO', 1, 'SI', '2024-05-02 08:28:03', NULL, NULL, NULL);
+(19, 27, 'PRUEBAS DEL SISTEMA', 'manufigue@gmail.com', 'SIstem', '$2y$10$vJsLSh/KcL4QnGYEOxTrb.g4cXnsSiw3zSs2lVitIqZegX4is5t3.', NULL, NULL, '2024-05-02 22:43:12', 0, '2024-05-02 22:43:12', 0, 'ACTIVO', 1, 'SI', '2024-05-02 22:43:12', NULL, NULL, 0);
 
 --
 -- Índices para tablas volcadas
@@ -7393,7 +7985,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `bitacoras`
 --
 ALTER TABLE `bitacoras`
-  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
+  MODIFY `id_bitacora` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=767;
 
 --
 -- AUTO_INCREMENT de la tabla `estado_usuario`
@@ -7405,13 +7997,13 @@ ALTER TABLE `estado_usuario`
 -- AUTO_INCREMENT de la tabla `historial_contrasenas`
 --
 ALTER TABLE `historial_contrasenas`
-  MODIFY `id_historial` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_historial` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `objetos`
 --
 ALTER TABLE `objetos`
-  MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `Id_objetos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT de la tabla `parametros`
@@ -7423,139 +8015,139 @@ ALTER TABLE `parametros`
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `id_permisos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_permisos` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `Id_pregunta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_pregunta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `preguntas_usuario`
 --
 ALTER TABLE `preguntas_usuario`
-  MODIFY `Id_Pregunta_U` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Id_Pregunta_U` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `Id_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `Id_rol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_aldeas`
 --
 ALTER TABLE `tbl_aldeas`
-  MODIFY `Id_Aldea` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+  MODIFY `Id_Aldea` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyos`
 --
 ALTER TABLE `tbl_apoyos`
-  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_apoyo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyos_produccion`
 --
 ALTER TABLE `tbl_apoyos_produccion`
-  MODIFY `id_apoyo_prod` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_apoyo_prod` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_apoyo_actividad_externa`
 --
 ALTER TABLE `tbl_apoyo_actividad_externa`
-  MODIFY `id_apoyo_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_apoyo_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_base_organizacion`
 --
 ALTER TABLE `tbl_base_organizacion`
-  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pertenece_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_cacerios`
 --
 ALTER TABLE `tbl_cacerios`
-  MODIFY `Id_Cacerio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_Cacerio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_composicion`
 --
 ALTER TABLE `tbl_composicion`
-  MODIFY `id_composicion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_composicion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_credito_produccion`
 --
 ALTER TABLE `tbl_credito_produccion`
-  MODIFY `id_credpro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_credpro` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_departamentos`
 --
 ALTER TABLE `tbl_departamentos`
-  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `Id_Departamento` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etnias`
 --
 ALTER TABLE `tbl_etnias`
-  MODIFY `id_etnia` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_etnia` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_etnias_por_productor`
 --
 ALTER TABLE `tbl_etnias_por_productor`
-  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_etnicidad` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_fuentes_credito`
 --
 ALTER TABLE `tbl_fuentes_credito`
-  MODIFY `id_fuente_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_fuente_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_ingreso_familiar`
 --
 ALTER TABLE `tbl_ingreso_familiar`
-  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Ingreso_Familiar` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_manejo_riego`
 --
 ALTER TABLE `tbl_manejo_riego`
-  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Manejo_Riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_medidas_tierra`
 --
 ALTER TABLE `tbl_medidas_tierra`
-  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_medida` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_migracion_familiar`
 --
 ALTER TABLE `tbl_migracion_familiar`
-  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_migracion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_migracion`
 --
 ALTER TABLE `tbl_motivos_migracion`
-  MODIFY `Id_motivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id_motivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_motivos_no_creditos`
 --
 ALTER TABLE `tbl_motivos_no_creditos`
-  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_motivos_no_credito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_municipios`
 --
 ALTER TABLE `tbl_municipios`
-  MODIFY `Id_Municipio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `Id_Municipio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_no_creditos`
@@ -7567,13 +8159,13 @@ ALTER TABLE `tbl_no_creditos`
 -- AUTO_INCREMENT de la tabla `tbl_organizaciones`
 --
 ALTER TABLE `tbl_organizaciones`
-  MODIFY `id_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_organizaciones_por_productor`
 --
 ALTER TABLE `tbl_organizaciones_por_productor`
-  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id_Organizacion_Productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_parametros`
@@ -7585,31 +8177,31 @@ ALTER TABLE `tbl_parametros`
 -- AUTO_INCREMENT de la tabla `tbl_periodicidad`
 --
 ALTER TABLE `tbl_periodicidad`
-  MODIFY `id_periodo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_periodo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_practicas_por_produccion`
 --
 ALTER TABLE `tbl_practicas_por_produccion`
-  MODIFY `Id_Practica_Produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_Practica_Produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_agricola_anterior`
 --
 ALTER TABLE `tbl_produccion_agricola_anterior`
-  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Produccion_Anterior` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_comercializacion`
 --
 ALTER TABLE `tbl_produccion_comercializacion`
-  MODIFY `Id_Produccion_Comercio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Produccion_Comercio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_pecuaria`
 --
 ALTER TABLE `tbl_produccion_pecuaria`
-  MODIFY `Id_Produccion_Pecuaria` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id_Produccion_Pecuaria` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_produccion_vendida`
@@ -7621,31 +8213,31 @@ ALTER TABLE `tbl_produccion_vendida`
 -- AUTO_INCREMENT de la tabla `tbl_productor`
 --
 ALTER TABLE `tbl_productor`
-  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_productor` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_productor_actividad_externa`
 --
 ALTER TABLE `tbl_productor_actividad_externa`
-  MODIFY `id_actividad_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_actividad_ext` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_relevo_organizacion`
 --
 ALTER TABLE `tbl_relevo_organizacion`
-  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Relevo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_siembra`
 --
 ALTER TABLE `tbl_siembra`
-  MODIFY `Id_siembra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id_siembra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyos`
 --
 ALTER TABLE `tbl_tipos_apoyos`
-  MODIFY `id_tipo_apoyos` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_tipo_apoyos` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipos_apoyo_produccion`
@@ -7657,43 +8249,43 @@ ALTER TABLE `tbl_tipos_apoyo_produccion`
 -- AUTO_INCREMENT de la tabla `tbl_tipo_cultivo`
 --
 ALTER TABLE `tbl_tipo_cultivo`
-  MODIFY `id_tipo_cultivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_tipo_cultivo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_negocios`
 --
 ALTER TABLE `tbl_tipo_negocios`
-  MODIFY `id_tipo_negocio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_tipo_negocio` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_organizacion`
 --
 ALTER TABLE `tbl_tipo_organizacion`
-  MODIFY `id_tipo_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_tipo_organizacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_pecuarios`
 --
 ALTER TABLE `tbl_tipo_pecuarios`
-  MODIFY `id_tipo_pecuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_tipo_pecuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_practicas_productivas`
 --
 ALTER TABLE `tbl_tipo_practicas_productivas`
-  MODIFY `id_tipo_practica` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_tipo_practica` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_produccion`
 --
 ALTER TABLE `tbl_tipo_produccion`
-  MODIFY `id_tipo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_tipo_produccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_riego`
 --
 ALTER TABLE `tbl_tipo_riego`
-  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tipo_riego` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_tipo_trabajadores`
@@ -7705,7 +8297,7 @@ ALTER TABLE `tbl_tipo_trabajadores`
 -- AUTO_INCREMENT de la tabla `tbl_toma_decisiones`
 --
 ALTER TABLE `tbl_toma_decisiones`
-  MODIFY `id_tipo_tomador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_tipo_tomador` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_trabajadores_externos`
@@ -7717,19 +8309,19 @@ ALTER TABLE `tbl_trabajadores_externos`
 -- AUTO_INCREMENT de la tabla `tbl_ubicacion_productor`
 --
 ALTER TABLE `tbl_ubicacion_productor`
-  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_ubicacion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_unidad_productora`
 --
 ALTER TABLE `tbl_unidad_productora`
-  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id_Unidad_Productiva` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Id_Usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Restricciones para tablas volcadas

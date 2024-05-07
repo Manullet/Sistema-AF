@@ -5,6 +5,9 @@ include '../php/conexion_be.php';
 $id_usuario = $_POST['id'];
 
 // Preparar la llamada al procedimiento almacenado
+$delpre = "DELETE FROM preguntas_usuario WHERE Id_Usuario = '$id_usuario'";
+$sqldel = mysqli_query($conexion,$delpre);
+
 $sql = "CALL EliminarUsuario(?)";
 $stmt = mysqli_prepare($conexion, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id_usuario);

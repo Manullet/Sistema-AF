@@ -118,9 +118,9 @@ session_start();
                     <th scope="col">Actualizado Por</th>
                     <th scope="col">Fecha Actualizacion</th>
                     <th scope="col">Estado</th>
-                    <?php if ($permiso_insercion == 1) : ?>
+                  
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
-                    <?php endif; ?>
+                   
                 </tr>
             </thead>
             <tbody class="text-center">

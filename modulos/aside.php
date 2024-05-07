@@ -9,7 +9,8 @@ $usuario = $_SESSION['usuario'];
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="padding-top: 20px;">
     <!-- Brand Logo -->
     <a href="bienvenida.php" class="brand-link" style="display: flex; flex-direction: column; align-items: center;">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="dist/img/logo.png" alt="Logo Agricultor" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <p></p>
         <span class="poppins-font-aside mb-2" style="text-align: center;">AGRICULTURA FAMILIAR</span>
     </a>
 
@@ -483,19 +484,92 @@ $usuario = $_SESSION['usuario'];
     </div>
 </aside>
 <!-- /.control-sidebar -->
+
+
+
+
+
+
+
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
-        <h5>Mi Perfil</h5>
-        <a href="modelos\cambiar_contraseña.php">Cambiar Contraseña</a>
-        <br>
-        <a href="" onclick="CargarContenido('vistas/Mantenimiento_preguntasUsuario.php','content-wrapper',<?= $usuario['Id_Usuario'] ?>)">
-            Preguntas de Seguridad de Usuarios</a>
+        <!-- Agregar imagen de perfil -->
+        <div class="text-center mb-3">
+            <img src="dist/img/perfil.png" class="img-circle elevation-2" alt="Imagen de perfil" style="width: 90px; height: 90px;">
+        </div>
+        <li class="center-class-user-aside">
+    <?php
+    // Verifica si el usuario está autenticado
+    if (isset($usuario['usuario'])) {
+        // Muestra el nombre de usuario y el rol con etiquetas HTML y estilos CSS
+        echo "<div class='user-info-aside'>
+                    <span class='welcome-text'>Bienvenido</span>
+                  <span class='user-name'><strong>{$usuario['usuario']}</strong></span>
+              </div>";
+    }
+    ?>
+</li>
+
+        
+<div class="p-3 text-center">
+<div class="mb-3">
+    <a href="modelos\cambiar_contraseña.php" class="btn btn-outline-info">
+        <i class="fas fa-key"></i> Cambiar Contraseña
+    </a>
+</div>
+
+    <div class="mb-3">
+    <a href="" onclick="CargarContenido('vistas/Mantenimiento_preguntasUsuario.php','content-wrapper',<?= $usuario['Id_Usuario'] ?>)" class="btn btn-outline-info">
+        <i class="fas fa-question-circle"></i> Preguntas Seguridad
+    </a>
+</div>
+
+    <li class="nav-item d-none d-sm-inline-block">
+    <a href="/sistema-af/php/cerrar_sesion.php" class="btn btn-outline-danger">
+    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+</a>
+
+        </li>
+</div>
+
     </div>
 </aside>
+
 <script>
     $(".nav-link").on('click', function() {
         $(".nav-link").removeClass('active');
         $(this).addClass('active');
     })
 </script>
+<style>
+        .user-info-aside {
+            color: white; /* color del texto */
+            font-weight: bold; /* texto en negrita */
+            text-align: center;
+        }
+        .user-info-aside span {
+    display: block;
+    margin-bottom: 5px;
+}
+.user-info-aside span:first-child {
+    font-weight: bold;
+}
+.user-info-aside .user-name {
+    font-size: 20px; /* Tamaño de fuente más grande para el nombre de usuario */
+}
+.user-info-aside .welcome-text {
+    font-size: 24px; /* Tamaño de fuente más grande para el texto "Bienvenido" */
+}
+        .role-info {
+            color: white; /* color del texto */
+            font-style: italic; /* texto en cursiva */
+            margin-left: 20px; /* espacio a la izquierda */
+        }
+        .center-class-user-aside {
+           align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+    </style>

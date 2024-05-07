@@ -340,14 +340,14 @@ if(isset($_SESSION['usuario'])) {
 
                         <div class="col">
                             <label for="Nombre_Aldea" class="form-label">Nombre Aldea</label>
-                            <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <input type="text" class="form-control" id="Nombre_Aldea" name="Nombre_Aldea" >
                             <span id="error_message" style="color: red;"></span>
                         </div>
 
 
                         <div class="col">
                             <label for="Descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" pattern="[A-Za-z]+" title="Solo se permiten letras en este campo." oninput="validateInput(this)">
+                            <input type="text" class="form-control" id="Descripcion" name="Descripcion" >
                             <span id="error_message" style="color: red;"></span>
                             </div>
                         </div>
@@ -513,18 +513,7 @@ if(isset($_SESSION['usuario'])) {
 </script>
 
 <!-- Agrega esto al final del archivo HTML que contiene el campo de texto -->
-<script>
-    function validateInput(input) {
-        var regex = /^[A-Za-z]+$/;
-        var error_message = document.getElementById('error_message');
 
-        if (!regex.test(input.value)) {
-            error_message.textContent = 'Solo se permiten letras en este campo.';
-        } else {
-            error_message.textContent = '';
-        }
-    }
-</script>
 
 <!-- JQUERY -->
 <!-- <script src="https://code.jquery.com/jquery-3.4.1.js"

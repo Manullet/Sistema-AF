@@ -10,6 +10,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion = $_POST["descripcion"];
     $Creado_Por = $_SESSION["usuario"]["usuario"];
 
+    $sql_verificar = "SELECT * FROM tbl_etnias WHERE etnia = '$etnia' ";
+    $resultado_verificar = $conexion->query($sql_verificar);
+    if ($resultado_verificar->num_rows > 0) {
+        // Muestra un mensaje de error si ya existe una categoría de cultivo con el mismo nombre
+        echo '
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Ya existe una etnia con el mismo nombre.",
+                        icon: "error",
+                        confirmButtonText: "Cerrar"
+                    }).then(function() {
+                        window.history.back(); // Regresa a la página anterior
+                    });
+                });
+            </script>
+        ';
+    }else {
+
+
     // Llamada al procedimiento almacenado adaptado
     $sql = "CALL InsertarEtnia('$etnia', '$descripcion', '$Creado_Por')";
 
@@ -23,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo '<div class="alert alert-warning text-center">Algunos Campos Estan Vacios</div>';
         }
     }
-    
+}
     mysqli_close($conexion);
 }
 

@@ -58,7 +58,7 @@ if (!empty($jsonData)) {
 
             // Consulta SQL para insertar los datos en la tabla
             $sql = "INSERT INTO tbl_venta_pecuario(Id_ficha,Id_productor,Tipo_pecurio,Precio_venta,Unidad_medida,
-            Mercado,Creado_Por,Fecha_creacion) VALUES($idFicha,$idProductor,$idTipo,$precioVenta, $idMedida,$mercado,  
+            Mercado,Creado_Por,Fecha_creacion) VALUES($idFicha,$idProductor,$idTipo,$precioVenta, $idMedida,'$mercado',  
             '$creado_por', NOW())";
         
             // Ejecutar la consulta

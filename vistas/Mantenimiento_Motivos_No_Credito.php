@@ -84,9 +84,8 @@ if(isset($_SESSION['usuario'])) {
                     <th scope="col" class="hidden">Modificado Por</th>
                     <th scope="col" class="hidden">Fecha Modificacion</th>
 
-                    <?php if ($permiso_insercion == 1) : ?>
                     <th scope="col">Acciones</th> <!-- Added text-center class here -->
-                    <?php endif; ?>
+            
                 </tr>
             </thead>
             <tbody class="text-center">

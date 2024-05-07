@@ -439,7 +439,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Departamento
-                            $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos";
+                            $sql = "SELECT Id_Departamento, Nombre_Departamento FROM tbl_departamentos WHERE Estado='A'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -840,7 +840,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -878,7 +878,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -921,7 +921,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -964,7 +964,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -1003,7 +1003,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -1045,7 +1045,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -1088,7 +1088,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -1139,7 +1139,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -1172,7 +1172,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_tipo_riego, tipo_riego FROM tbl_tipo_riego";
+                            $sql = "SELECT id_tipo_riego, tipo_riego FROM tbl_tipo_riego WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -1226,7 +1226,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_tipo_cultivo, tipo_cultivo FROM tbl_tipo_cultivo";
+                                $sql = "SELECT id_tipo_cultivo, tipo_cultivo FROM tbl_tipo_cultivo WHERE estado='ACTIVO'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1284,7 +1284,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1320,7 +1320,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1357,7 +1357,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1439,7 +1439,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios";
+                                $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios WHERE estado='A'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1519,7 +1519,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios";
+                            $sql = "SELECT id_tipo_pecuario, tipo_pecuario FROM tbl_tipo_pecuarios WHERE estado='A'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -1554,7 +1554,7 @@ function obtenerNumeroFicha($conexion)
                             include '../php/conexion_be.php';
 
                             // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                            $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                             // Ejecutar la consulta
                             $result = mysqli_query($conexion, $sql);
@@ -1630,7 +1630,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_tipo_produccion, tipo_produccion FROM tbl_tipo_produccion";
+                                $sql = "SELECT id_tipo_produccion, tipo_produccion FROM tbl_tipo_produccion WHERE estado='A'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1661,7 +1661,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_periodo, periodo FROM tbl_periodicidad";
+                                $sql = "SELECT id_periodo, periodo FROM tbl_periodicidad WHERE estado='A'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1692,7 +1692,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra";
+                                $sql = "SELECT id_medida, medida FROM tbl_medidas_tierra WHERE estado='ACTIVO'";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1795,7 +1795,7 @@ function obtenerNumeroFicha($conexion)
                                 include '../php/conexion_be.php';
 
                                 // Consulta SQL para obtener los valores disponibles de ID y Nombre de Municipio
-                                $sql = "SELECT id_tipo_negocio, tipo_negocio FROM tbl_tipo_negocios ORDER BY id_tipo_negocio ASC";
+                                $sql = "SELECT id_tipo_negocio, tipo_negocio FROM tbl_tipo_negocios WHERE estado='A' ORDER BY id_tipo_negocio ASC;";
 
                                 // Ejecutar la consulta
                                 $result = mysqli_query($conexion, $sql);
@@ -1820,7 +1820,7 @@ function obtenerNumeroFicha($conexion)
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="cantidadIngreso">Cantidad</label>
-                            <input type="text" class="form-control" id="cantidadIngreso" name="cantidadIngreso" placeholder="Ingrese la cantidad" onkeyup="formatoMoneda(this);">
+                            <input type="text" class="form-control" id="cantidadIngreso" name="cantidadIngreso" placeholder="Ingrese la cantidad">
                         </div>
                     </div>
 

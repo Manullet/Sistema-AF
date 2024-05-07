@@ -2,6 +2,30 @@
 session_start();
 $_SESSION['url'] = 'vistas/Mantenimiento_Ficha.php';
 $_SESSION['content-wrapper'] = 'content-wrapper';
+include "../php/conexion_be.php";
+// Definir permisos predeterminados
+$permiso_insercion = 2;
+$permiso_actualizacion = 2;
+$permiso_eliminacion = 2;
+
+// Verificar si la sesión 'usuario' está definida y no es un array
+if(isset($_SESSION['usuario'])) {
+    $idRolUsuario = $_SESSION['usuario']['id_rol'];
+
+    // Consultar los permisos del usuario para el objeto de usuarios (ID de objeto = 3)
+    $sqlPermisos = "SELECT * FROM permisos WHERE Id_rol = $idRolUsuario AND id_objeto = 10";
+    $resultadoPermisos = $conexion->query($sqlPermisos);
+
+    if ($resultadoPermisos->num_rows > 0) {
+        // Si se encuentran registros de permisos para el usuario y el objeto
+        $filaPermisos = $resultadoPermisos->fetch_assoc();
+        $permiso_insercion= $filaPermisos['permiso_insercion'];
+        $permiso_actualizacion = $filaPermisos['permiso_actualizacion'];
+        $permiso_eliminacion = $filaPermisos['permiso_eliminacion'];
+    } 
+}
+
+
 ?>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,9 +47,11 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
         <div>
             <h1 class="poppins-font mb-2">FICHA</h1>
             <br>
+            <?php if ($permiso_insercion == 1) : ?>
             <a href="#" data-bs-toggle="modal" data-bs-target="#modalForm" class="btn btn-info">
                 <i class="bi bi-plus-square icono-grande"></i> Crear
             </a>
+            <?php endif; ?>
         </div>
 
     </div>
@@ -47,7 +73,7 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
     <div class="table-responsive">
 
 
-        <!--El diseño de la table cuando ya esté todo unido 
+                   <!--El diseño de la table cuando ya esté todo unido 
     <table id="tablax" class="table table-striped table-bordered" style="width:100%"> -->
     <table id="tablax" class="table table-hover">
             <thead class="table-dark text-center" style="background-color: #343A40;">
@@ -88,11 +114,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                             }
                             ?></td>
                         <td>
+                        <?php if ($permiso_insercion == 1) : ?>
                             <button type="button" class="btn btn-editar" data-toggle="modal" data-target="#modalEditar" onclick="abrirModalEditar
                             ('<?= $datos->id_ficha ?>', '<?= $datos->fecha_solicitud ?>', '<?= $datos->anio_solicitud ?>','<?= $datos->fecha_entrevista ?>', '<?= $datos->nombre_encuentrador ?>', '<?= $datos->nombre_encuestador ?>', '<?= $datos->nombre_supervisor ?>',  '<?= $datos->descripcion ?>',  '<?= $datos->estado ?>')">
                                 <i class="bi bi-pencil-square"></i>
                                 
                             </button>
+                            <?php endif; ?>
+                            <?php if ($permiso_insercion == 1) : ?>
                             <form id="deleteForm" method="POST" action="modelos/eliminar_ficha.php" style="display: inline;">
                                 <input type="hidden" name="id_ficha" value="<?= $datos->id_ficha ?>">
                                 <button type="submit" class="btn btn-eliminar">
@@ -100,12 +129,16 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                     
                                 </button>
                             </form>
+                            <?php endif; ?>
+                            <?php if ($permiso_insercion == 1) : ?>
                             <button type="button" class="btn btn-warning" onclick=" CargarContenido('vistas/ver_ficha.php','content-wrapper',<?= $datos->id_ficha ?>)">
                                     <i class="bi bi-eye"></i>
                                     
                                 </button>
+                                <?php endif; ?>
                            
                             <p></p>
+                            <?php if ($permiso_insercion == 1) : ?>
                             <form id="duplicar" method="POST" action="" style="display: inline;">
                                 <input type="hidden" name="id_ficha" id="id_ficha_act" value="<?= $datos->id_ficha ?>">
                                 <button type="button" class="btn btn-primary" onclick="duplicarFicha(<?= $datos->id_ficha ?>)">
@@ -113,12 +146,14 @@ $_SESSION['content-wrapper'] = 'content-wrapper';
                                     Crear Registro para nuevo año
                                 </button>
                             </form>
+                            <?php endif; ?>
                             <p></p>
-                            
+                            <?php if ($permiso_insercion == 1) : ?>
                                 <button type="button" class="btn btn-primary" onclick=" CargarContenido('vistas/editar_ficha.php','content-wrapper',<?= $datos->id_ficha ?>)">
                                     <i class="bi bi-pencil-square"></i>
                                     Editar Ficha
                                 </button>
+                                <?php endif; ?>
                                
                                 
                         </td>
@@ -481,10 +516,6 @@ function obtenerNumeroFicha($conexion)
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js">
     </script>
 
-
-
-
-
 <script>
     $(document).ready(function(){
         $('#tablax').DataTable({
@@ -528,16 +559,5 @@ function obtenerNumeroFicha($conexion)
         });
     });
 </script>
-<script>
-    function validateInput(input) {
-        var regex = /^[A-Za-z]+$/;
-        var error_message = document.getElementById('error_message');
 
-        if (!regex.test(input.value)) {
-            error_message.textContent = 'Solo se permiten letras en este campo.';
-        } else {
-            error_message.textContent = '';
-        }
-    }
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
